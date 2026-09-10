@@ -9,7 +9,26 @@ module.exports = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        sans: ['"SF Pro Display"', '"SF Pro"', '-apple-system', 'BlinkMacSystemFont', '"San Francisco"', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        heading: ['"SF Pro Display"', '"SF Pro"', '-apple-system', 'BlinkMacSystemFont', '"San Francisco"', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        display: ['"SF Pro Display"', '"SF Pro"', '-apple-system', 'BlinkMacSystemFont', '"San Francisco"', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      },
       colors: {
+        techm: {
+          red: "#DE0826",
+          "red-hover": "#BE001D",
+          "red-light": "#FFF1F2",
+          burgundy: "#5C061D",
+          maroon: "#3A0210",
+          navy: "#0B1120",
+          "navy-dark": "#070B14",
+          cream: "#FAF8F5",
+          "cream-alt": "#F4F1EA",
+          slate: "#111827",
+          border: "#E5E7EB",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
