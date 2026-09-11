@@ -27,6 +27,7 @@ type IconName =
   | 'shopping'
   | 'zap'
   | 'phone'
+  | 'email'
   | 'award'
   | 'users'
   | 'check'
@@ -95,6 +96,9 @@ function Icon({ name, className = 'w-4 h-4' }: { name: IconName; className?: str
     ),
     phone: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+    ),
+    email: (
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
     ),
     award: (
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v13m0-13V4m0 4l3-3m-3 3l-3-3m12 7a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -208,50 +212,7 @@ function ImageBox({
 }
 
 // -------------------------------------------------------------
-// 1. Utility Top Bar (Crisp White & Red Theme)
-// -------------------------------------------------------------
-function UtilityBar() {
-  return (
-    <div className="bg-[#F8F9FA] text-gray-700 text-[11px] tracking-wide border-b border-gray-200">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 h-9 flex items-center justify-between">
-        <div className="flex items-center space-x-6">
-          <span className="font-bold text-gray-900 tracking-wider text-[11px] flex items-center space-x-1.5">
-            <span className="w-2 h-2 rounded-sm bg-[#DE0826]" />
-            <span>NORSTAR</span>
-          </span>
-          <div className="hidden sm:flex items-center space-x-4 text-gray-500">
-            <a href="#investors" className="hover:text-[#DE0826] transition-colors">
-              Investors
-            </a>
-            <span className="text-gray-300">|</span>
-            <a href="#media" className="hover:text-[#DE0826] transition-colors">
-              Media
-            </a>
-            <span className="text-gray-300">|</span>
-            <a href="#sustainability" className="hover:text-[#DE0826] transition-colors">
-              Sustainability
-            </a>
-          </div>
-        </div>
-        <div className="flex items-center space-x-6">
-          <button className="flex items-center space-x-1.5 text-gray-600 hover:text-[#DE0826] transition-colors">
-            <Icon name="globe" className="w-3.5 h-3.5 text-[#DE0826]" />
-            <span>Global | EN</span>
-          </button>
-          <a
-            href="#contact"
-            className="text-gray-600 hover:text-[#DE0826] transition-colors font-medium"
-          >
-            Contact
-          </a>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// -------------------------------------------------------------
-// 2. Main Navigation Header (Clean White & Red)
+// 1. Main Navigation Header (Clean White & Red)
 // -------------------------------------------------------------
 interface NavbarProps {
   currentRoute: PageRoute
@@ -1227,18 +1188,6 @@ function ContactPage() {
   const [openAccordion, setOpenAccordion] = useState<number | null>(0)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCountry, setSelectedCountry] = useState<OfficeLocation>(globalOfficesData[0])
-  const [enquiryType, setEnquiryType] = useState('Request for Service')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [organisation, setOrganisation] = useState('')
-  const [jobTitle, setJobTitle] = useState('')
-  const [phone, setPhone] = useState('')
-  const [country, setCountry] = useState('United States')
-  const [message, setMessage] = useState('')
-  const [privacyAgreed, setPrivacyAgreed] = useState(false)
-  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
 
   const toggleAccordion = (index: number) => {
     setOpenAccordion(openAccordion === index ? null : index)
@@ -1248,15 +1197,6 @@ function ContactPage() {
     item.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.cities.some((c) => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
   )
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!privacyAgreed) {
-      alert('Please agree to the Privacy Policy to submit your enquiry.')
-      return
-    }
-    setSubmitted(true)
-  }
 
   return (
     <div className="bg-[#FAF8F5] text-gray-900 min-h-screen font-sans">
@@ -1463,249 +1403,307 @@ function ContactPage() {
         </div>
       </section>
 
-      {/* 4. Full-Width Get In Touch Form (Deep Burgundy Background #4E0519) */}
-      <section id="get-in-touch-form" className="py-20 md:py-28 bg-[#4E0519] text-white">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-            {/* Left: Headline & Response Time Promise */}
-            <div className="lg:col-span-5">
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 font-heading">
-                Get In Touch
-              </h2>
-              <p className="text-base sm:text-lg text-white/80 leading-relaxed max-w-md font-normal mb-8">
-                Need more information?
-                <br />
-                We will take approximately <strong>2 - 3 working days</strong> to respond to your enquiry.
-              </p>
-              <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 max-w-md">
-                <div className="text-xs uppercase tracking-wider font-bold text-red-300 mb-2">
-                  Direct Response Guarantee
+    </div>
+  )
+}
+
+// -------------------------------------------------------------
+// Global Contact Us Section (Featured Before Footer On Every Page)
+// -------------------------------------------------------------
+function ContactUsSection() {
+  const [enquiryType, setEnquiryType] = useState('Request for Service')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [organisation, setOrganisation] = useState('')
+  const [jobTitle, setJobTitle] = useState('')
+  const [phone, setPhone] = useState('')
+  const [country, setCountry] = useState('United States')
+  const [message, setMessage] = useState('')
+  const [privacyAgreed, setPrivacyAgreed] = useState(false)
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!privacyAgreed) {
+      alert('Please agree to the Privacy Policy to submit your enquiry.')
+      return
+    }
+    setSubmitted(true)
+  }
+
+  return (
+    <section id="contact-us-section" className="py-20 md:py-28 bg-[#4E0519] text-white relative overflow-hidden border-t border-red-950">
+      {/* Subtle atmospheric ambient glows */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#DE0826] rounded-full blur-3xl" />
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#DE0826] rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Left: Contact Info & Response Time Promise */}
+          <div className="lg:col-span-5">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 font-heading">
+              Contact Us
+            </h2>
+            <p className="text-base sm:text-lg text-white/85 leading-relaxed max-w-md font-normal mb-8">
+              Ready to accelerate your digital transformation? Share your vision with our global team of solution architects, engineers, and consultants.
+            </p>
+
+            <div className="space-y-4 mb-8">
+              <div className="flex items-center space-x-3 text-sm text-white/90">
+                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                  <Icon name="phone" className="w-4 h-4 text-white" />
                 </div>
-                <p className="text-xs text-white/80 leading-relaxed">
-                  All enterprise submissions are directly routed to the appropriate vertical solution architects and regional directors.
-                </p>
+                <span>+1 (800) 246-8324 / +91 (20) 6601-8100</span>
+              </div>
+              <div className="flex items-center space-x-3 text-sm text-white/90">
+                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                  <Icon name="email" className="w-4 h-4 text-white" />
+                </div>
+                <span>solutions@norstar-digital.com</span>
+              </div>
+              <div className="flex items-center space-x-3 text-sm text-white/90">
+                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                  <Icon name="globe" className="w-4 h-4 text-white" />
+                </div>
+                <span>150+ Delivery Centers Across 90+ Countries</span>
               </div>
             </div>
 
-            {/* Right: The Enterprise Form */}
-            <div className="lg:col-span-7">
-              {submitted ? (
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20 text-center animate-fadeIn">
-                  <div className="w-16 h-16 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mx-auto mb-4 border border-green-500/40">
-                    <Icon name="check" className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-2 font-heading">
-                    Thank You, {firstName || 'Partner'}!
-                  </h3>
-                  <p className="text-sm text-white/80 max-w-md mx-auto mb-6">
-                    Your enquiry regarding <strong>{enquiryType}</strong> has been received. Our sector specialist will reach out within 2-3 business days.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSubmitted(false)
-                      setFirstName('')
-                      setLastName('')
-                      setEmail('')
-                      setMessage('')
-                    }}
-                    className="bg-white text-[#4E0519] font-bold text-xs uppercase tracking-widest px-8 py-3 rounded hover:bg-gray-100 transition-colors"
-                  >
-                    Submit Another Enquiry
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Type of enquiry */}
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-2 font-semibold">
-                      * Type of enquiry
-                    </label>
-                    <select
-                      value={enquiryType}
-                      onChange={(e) => setEnquiryType(e.target.value)}
-                      className="w-full bg-[#3D0313] border-b-2 border-white/40 text-white text-sm py-3 px-2 focus:border-white focus:outline-none rounded-none cursor-pointer"
-                    >
-                      <option value="Request for Service" className="bg-[#3D0313] text-white">Request for Service</option>
-                      <option value="Join Norstar" className="bg-[#3D0313] text-white">Join Norstar (Careers)</option>
-                      <option value="Vendor Registration" className="bg-[#3D0313] text-white">Vendor Registration</option>
-                      <option value="Investor Information" className="bg-[#3D0313] text-white">Investor Information</option>
-                      <option value="Media & Press" className="bg-[#3D0313] text-white">Media & Press</option>
-                      <option value="Other Requests" className="bg-[#3D0313] text-white">Other Requests</option>
-                    </select>
-                  </div>
-
-                  {/* Name Fields */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                        * First Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        placeholder="First Name"
-                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                        * Last Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        placeholder="Last Name"
-                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Email & Organisation */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                        * Email Address
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="corporate.email@domain.com"
-                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                        * Organisation
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={organisation}
-                        onChange={(e) => setOrganisation(e.target.value)}
-                        placeholder="Company / Institution"
-                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Job Title & Phone */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                        Job Title
-                      </label>
-                      <input
-                        type="text"
-                        value={jobTitle}
-                        onChange={(e) => setJobTitle(e.target.value)}
-                        placeholder="e.g. Chief Technology Officer"
-                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+1 (555) 000-0000"
-                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Country */}
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                      * Country
-                    </label>
-                    <select
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      className="w-full bg-[#3D0313] border-b-2 border-white/40 text-white text-sm py-3 px-2 focus:border-white focus:outline-none rounded-none cursor-pointer"
-                    >
-                      <option value="United States" className="bg-[#3D0313] text-white">United States</option>
-                      <option value="United Kingdom" className="bg-[#3D0313] text-white">United Kingdom</option>
-                      <option value="India" className="bg-[#3D0313] text-white">India</option>
-                      <option value="Australia" className="bg-[#3D0313] text-white">Australia</option>
-                      <option value="Germany" className="bg-[#3D0313] text-white">Germany</option>
-                      <option value="Canada" className="bg-[#3D0313] text-white">Canada</option>
-                      <option value="Singapore" className="bg-[#3D0313] text-white">Singapore</option>
-                      <option value="United Arab Emirates" className="bg-[#3D0313] text-white">United Arab Emirates</option>
-                      <option value="Other" className="bg-[#3D0313] text-white">Other Country</option>
-                    </select>
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
-                      * Message
-                    </label>
-                    <textarea
-                      required
-                      rows={4}
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Share your requirements or questions with our enterprise team..."
-                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none resize-none"
-                    />
-                  </div>
-
-                  {/* Checkboxes */}
-                  <div className="space-y-3 pt-2">
-                    <label className="flex items-start space-x-3 cursor-pointer select-none text-xs text-white/90">
-                      <input
-                        type="checkbox"
-                        checked={privacyAgreed}
-                        onChange={(e) => setPrivacyAgreed(e.target.checked)}
-                        className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0"
-                      />
-                      <span>
-                        By clicking Submit, you agree to our{' '}
-                        <a href="#privacy" className="underline hover:text-red-200">
-                          Privacy Policy
-                        </a>
-                        .
-                      </span>
-                    </label>
-
-                    <label className="flex items-start space-x-3 cursor-pointer select-none text-xs text-white/90">
-                      <input
-                        type="checkbox"
-                        checked={newsletterSubscribed}
-                        onChange={(e) => setNewsletterSubscribed(e.target.checked)}
-                        className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0"
-                      />
-                      <span>
-                        Subscribe to receive the latest updates on events, news and thought leadership from Norstar.
-                      </span>
-                    </label>
-                  </div>
-
-                  {/* Submit Button */}
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      className="border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-10 py-3.5 hover:bg-white hover:text-[#4E0519] transition-all duration-200 cursor-pointer bg-transparent"
-                    >
-                      SUBMIT
-                    </button>
-                  </div>
-                </form>
-              )}
+            <div className="p-6 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 max-w-md shadow-sm">
+              <div className="text-xs uppercase tracking-wider font-bold text-red-300 mb-2">
+                Direct Response Guarantee
+              </div>
+              <p className="text-xs text-white/80 leading-relaxed">
+                All submissions are directly routed to the appropriate sector practice leaders. Expect a tailored response within <strong>24 to 48 hours</strong>.
+              </p>
             </div>
           </div>
+
+          {/* Right: The Enterprise Form */}
+          <div className="lg:col-span-7">
+            {submitted ? (
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-10 border border-white/20 text-center animate-fadeIn shadow-xl">
+                <div className="w-16 h-16 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mx-auto mb-4 border border-green-500/40">
+                  <Icon name="check" className="w-8 h-8" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2 font-heading">
+                  Thank You, {firstName || 'Partner'}!
+                </h3>
+                <p className="text-sm text-white/80 max-w-md mx-auto mb-6">
+                  Your enquiry regarding <strong>{enquiryType}</strong> has been received. Our sector specialist will reach out within 24-48 business hours.
+                </p>
+                <button
+                  onClick={() => {
+                    setSubmitted(false)
+                    setFirstName('')
+                    setLastName('')
+                    setEmail('')
+                    setMessage('')
+                    setOrganisation('')
+                    setJobTitle('')
+                    setPhone('')
+                  }}
+                  className="bg-white text-[#4E0519] font-bold text-xs uppercase tracking-widest px-8 py-3 rounded hover:bg-gray-100 transition-colors cursor-pointer border-0"
+                >
+                  Submit Another Enquiry
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Type of enquiry */}
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-white/80 mb-2 font-semibold">
+                    * Type of enquiry
+                  </label>
+                  <select
+                    value={enquiryType}
+                    onChange={(e) => setEnquiryType(e.target.value)}
+                    className="w-full bg-[#3D0313] border-b-2 border-white/40 text-white text-sm py-3 px-2 focus:border-white focus:outline-none rounded-none cursor-pointer"
+                  >
+                    <option value="Request for Service" className="bg-[#3D0313] text-white">Request for Service</option>
+                    <option value="Join Norstar" className="bg-[#3D0313] text-white">Join Norstar (Careers)</option>
+                    <option value="Vendor Registration" className="bg-[#3D0313] text-white">Vendor Registration</option>
+                    <option value="Investor Information" className="bg-[#3D0313] text-white">Investor Information</option>
+                    <option value="Media & Press" className="bg-[#3D0313] text-white">Media & Press</option>
+                    <option value="Other Requests" className="bg-[#3D0313] text-white">Other Requests</option>
+                  </select>
+                </div>
+
+                {/* Name Fields */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      * First Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="First Name"
+                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      * Last Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Last Name"
+                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Email & Organisation */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      * Email Address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="corporate.email@domain.com"
+                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      * Organisation
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={organisation}
+                      onChange={(e) => setOrganisation(e.target.value)}
+                      placeholder="Company / Institution"
+                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Job Title & Phone */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      Job Title
+                    </label>
+                    <input
+                      type="text"
+                      value={jobTitle}
+                      onChange={(e) => setJobTitle(e.target.value)}
+                      placeholder="e.g. Chief Technology Officer"
+                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="+1 (555) 000-0000"
+                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Country */}
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                    * Country
+                  </label>
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="w-full bg-[#3D0313] border-b-2 border-white/40 text-white text-sm py-3 px-2 focus:border-white focus:outline-none rounded-none cursor-pointer"
+                  >
+                    <option value="United States" className="bg-[#3D0313] text-white">United States</option>
+                    <option value="United Kingdom" className="bg-[#3D0313] text-white">United Kingdom</option>
+                    <option value="India" className="bg-[#3D0313] text-white">India</option>
+                    <option value="Australia" className="bg-[#3D0313] text-white">Australia</option>
+                    <option value="Germany" className="bg-[#3D0313] text-white">Germany</option>
+                    <option value="Canada" className="bg-[#3D0313] text-white">Canada</option>
+                    <option value="Singapore" className="bg-[#3D0313] text-white">Singapore</option>
+                    <option value="United Arab Emirates" className="bg-[#3D0313] text-white">United Arab Emirates</option>
+                    <option value="Other" className="bg-[#3D0313] text-white">Other Country</option>
+                  </select>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                    * Message
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Share your requirements or questions with our enterprise team..."
+                    className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2.5 focus:border-white focus:outline-none resize-none"
+                  />
+                </div>
+
+                {/* Checkboxes */}
+                <div className="space-y-3 pt-2">
+                  <label className="flex items-start space-x-3 cursor-pointer select-none text-xs text-white/90">
+                    <input
+                      type="checkbox"
+                      checked={privacyAgreed}
+                      onChange={(e) => setPrivacyAgreed(e.target.checked)}
+                      className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0"
+                    />
+                    <span>
+                      By clicking Submit, you agree to our{' '}
+                      <a href="#privacy" className="underline hover:text-red-200">
+                        Privacy Policy
+                      </a>
+                      .
+                    </span>
+                  </label>
+
+                  <label className="flex items-start space-x-3 cursor-pointer select-none text-xs text-white/90">
+                    <input
+                      type="checkbox"
+                      checked={newsletterSubscribed}
+                      onChange={(e) => setNewsletterSubscribed(e.target.checked)}
+                      className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0"
+                    />
+                    <span>
+                      Subscribe to receive the latest updates on events, news and thought leadership from Norstar.
+                    </span>
+                  </label>
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    className="border-2 border-white text-white font-bold text-xs uppercase tracking-widest px-10 py-3.5 hover:bg-white hover:text-[#4E0519] transition-all duration-200 cursor-pointer bg-transparent"
+                  >
+                    SUBMIT ENQUIRY
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   )
 }
 
@@ -1912,9 +1910,6 @@ function CareersPage() {
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
             <div>
-              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-red-50 border border-red-200 rounded-full text-[11px] font-bold tracking-widest text-[#DE0826] uppercase mb-3">
-                <span>[ OPPORTUNITIES AT NORSTAR ]</span>
-              </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 font-heading">
                 Explore Open Positions
               </h2>
@@ -2256,9 +2251,6 @@ function InsightsPage() {
             {/* Right: Article Copy */}
             <div className="lg:col-span-6 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-3">
-                  News
-                </span>
                 <h2
                   onClick={() => setNewsModalOpen(true)}
                   className="text-2xl sm:text-3xl font-extrabold text-gray-950 leading-snug hover:text-[#DE0826] transition-colors cursor-pointer mb-4"
@@ -2322,9 +2314,6 @@ function InsightsPage() {
             {/* Left: Article Copy */}
             <div className="lg:col-span-6 order-2 lg:order-1 flex flex-col justify-between">
               <div>
-                <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-3">
-                  Views
-                </span>
                 <h3
                   onClick={() => setViewsModalOpen(true)}
                   className="text-2xl sm:text-3xl font-extrabold text-gray-950 leading-snug hover:text-[#DE0826] transition-colors cursor-pointer mb-4"
@@ -2741,9 +2730,6 @@ function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Title & Intro */}
             <div className="lg:col-span-6 pr-0 lg:pr-6">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-red-50 border border-red-200 rounded-full text-[11px] font-bold tracking-widest text-[#DE0826] uppercase mb-4">
-                <span>[ SECTOR SPECIALIZATION ]</span>
-              </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                 Industries
               </h1>
@@ -2844,9 +2830,6 @@ function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities
       <section className="py-20 bg-white border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-red-50 border border-red-200 rounded-full text-[11px] font-bold tracking-widest text-[#DE0826] uppercase mb-4">
-              <span>[ WHERE HORIZONS BLUR ]</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 mb-4">
               Cross-Industry Convergence in Action
             </h2>
@@ -3426,10 +3409,6 @@ function AboutUsPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-white rounded-full border border-red-200 text-[#DE0826] text-xs font-bold tracking-wider uppercase mb-4 shadow-xs">
-                <span>DIGITAL CHANGEMAKERS</span>
-              </div>
-
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                 About <span className="text-[#DE0826]">Us</span>
               </h1>
@@ -3523,9 +3502,6 @@ function AboutUsPage() {
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6">
-              <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-3">
-                OUR PURPOSE & VALUES
-              </span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                 Driven by the spirit of <span className="text-[#DE0826]">Rise</span>
               </h2>
@@ -3574,9 +3550,6 @@ function AboutUsPage() {
       <section id="timeline" className="py-20 md:py-28 bg-white border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-2">
-              MILESTONES OF TRANSFORMATION
-            </span>
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-950">
               Our Journey Since <span className="text-[#DE0826]">1986</span>
             </h2>
@@ -3661,7 +3634,6 @@ function AboutUsPage() {
 // -------------------------------------------------------------
 const heroSlides = [
   {
-    eyebrow: 'SONIC IDENTITY & ARTIFICIAL INTELLIGENCE',
     title: 'Introducing Norstar T!ng',
     subtitle:
       'Amplifying Human Ingenuity with Sound and Artificial Intelligence. Experience our new sonic identity marking the next phase of enterprise transformation.',
@@ -3670,7 +3642,6 @@ const heroSlides = [
     image: '/images/home_hero.jpg',
   },
   {
-    eyebrow: 'ENTERPRISE EXCELLENCE',
     title: 'Scale at Speed™',
     subtitle:
       'Delivering transformative scale at unparalleled speed across 90+ countries with digital consulting, cloud architectures, and autonomous workflows.',
@@ -3679,7 +3650,6 @@ const heroSlides = [
     image: '/images/home_racing.jpg',
   },
   {
-    eyebrow: 'ALL SIGNAL. NO NOISE.',
     title: 'Sovereign AI for Tomorrow',
     subtitle:
       'Why open ecosystem collaboration beats closed control. Discover how visionary leaders are navigating technological sovereignty.',
@@ -3722,24 +3692,10 @@ function HeroSection() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M-100 200 C300 100, 600 350, 1000 180 C1300 80, 1500 250, 1600 300"
-            stroke="#DE0826"
-            strokeWidth="1.5"
-            strokeOpacity="0.12"
-            fill="none"
-          />
-          <path
-            d="M-100 280 C350 200, 700 420, 1100 240 C1400 140, 1550 320, 1600 350"
-            stroke="#DE0826"
-            strokeWidth="1"
-            strokeOpacity="0.08"
-            fill="none"
-          />
-          <circle cx="950" cy="220" r="180" fill="url(#acousticGlow)" />
+          <circle cx="950" cy="220" r="220" fill="url(#acousticGlow)" />
           <defs>
             <radialGradient id="acousticGlow" cx="0.5" cy="0.5" r="0.5">
-              <stop stopColor="#DE0826" stopOpacity="0.06" />
+              <stop stopColor="#DE0826" stopOpacity="0.08" />
               <stop offset="1" stopColor="#DE0826" stopOpacity="0" />
             </radialGradient>
           </defs>
@@ -3747,7 +3703,7 @@ function HeroSection() {
       </div>
 
       <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 py-16 md:py-24 min-h-[560px] lg:min-h-[620px] flex flex-col justify-between z-20">
-        <div className="relative overflow-hidden w-full">
+        <div className="relative overflow-hidden w-full py-2">
           <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -3755,14 +3711,10 @@ function HeroSection() {
             {heroSlides.map((slide, idx) => (
               <div
                 key={slide.title}
-                className="w-full flex-shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+                className="w-full flex-shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center overflow-hidden px-1 py-2"
+                aria-hidden={currentSlide !== idx}
               >
                 <div className="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-8">
-                  <div className="inline-flex items-center space-x-2.5 px-3 py-1 bg-white rounded-full border border-red-200 text-[#DE0826] text-[11px] font-bold tracking-wider uppercase mb-6 shadow-sm">
-                    <span className="w-2 h-2 rounded-full bg-[#DE0826] animate-pulse" />
-                    <span>{slide.eyebrow}</span>
-                  </div>
-
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-[1.08]">
                     {slide.title}
                   </h1>
@@ -3788,9 +3740,9 @@ function HeroSection() {
                   </div>
                 </div>
 
-                <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                  <div className="w-full max-w-md relative">
-                    <div className="relative rounded-2xl overflow-hidden border-2 border-red-100 bg-white shadow-2xl p-6">
+                <div className="lg:col-span-5 flex justify-center lg:justify-end pr-2">
+                  <div className="w-full max-w-md relative p-1">
+                    <div className="relative rounded-2xl overflow-hidden border-2 border-red-100 bg-white shadow-xl p-6">
                       <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4 text-xs">
                         <span className="font-bold text-gray-800">{slide.badge}</span>
                         <span className="text-[#DE0826] font-bold font-mono">0{idx + 1} / 03</span>
@@ -3869,10 +3821,6 @@ function BrandPromiseSection() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           <div className="lg:col-span-6">
-            <div className="inline-flex items-center space-x-2 text-[#DE0826] text-xs font-bold tracking-wider uppercase mb-3">
-              <span>NORSTAR RACING & ENTERPRISE</span>
-            </div>
-
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
               with Nor<span className="text-[#DE0826]">star</span>
               <span className="text-[#DE0826] ml-1 text-2xl font-light">★</span>
@@ -4098,9 +4046,6 @@ function LatestThinkingSection() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-gray-200">
           <div>
-            <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-2">
-              THOUGHT LEADERSHIP & INSIGHTS
-            </span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
               Latest Thinking
             </h2>
@@ -4277,9 +4222,6 @@ function WhatsNewSection() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-1">
-              PRESS & ANNOUNCEMENTS
-            </span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
               What's New
             </h2>
@@ -4364,9 +4306,6 @@ function CapabilitiesOverviewSection({ onExploreMore }: { onExploreMore: () => v
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-6">
-            <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-2">
-              WHAT WE DO
-            </span>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-8">
               Capabilities
             </h2>
@@ -4510,9 +4449,6 @@ function IndustriesSection({ onExploreMore }: { onExploreMore?: () => void }) {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-2">
-              SECTOR DEPTH
-            </span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
               Expertise Across Industries
             </h2>
@@ -4655,9 +4591,6 @@ function SuccessStoriesSection() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-2">
-              PROVEN RESULTS
-            </span>
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
               Success Stories
             </h2>
@@ -4761,10 +4694,6 @@ function LimitlessTogetherSection() {
           </div>
 
           <div className="lg:col-span-6">
-            <span className="text-xs font-bold text-[#DE0826] tracking-wider uppercase block mb-3">
-              CULTURE & CAREERS
-            </span>
-
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
               Limitless Together
             </h2>
@@ -4980,10 +4909,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans text-gray-900 antialiased selection:bg-[#DE0826] selection:text-white">
-      {/* 1. Top Utility Navigation Bar */}
-      <UtilityBar />
-
-      {/* 2. Primary Navigation Bar with Page Toggle */}
+      {/* Primary Navigation Bar with Page Toggle */}
       <Navbar currentRoute={route} onRouteChange={handleRouteChange} />
 
       {/* Main Content Area: Home, About Us, or Capabilities */}
@@ -5035,6 +4961,9 @@ export default function App() {
             <LimitlessTogetherSection />
           </>
         )}
+
+        {/* Global Contact Us Section (featured in every page at footer section) */}
+        <ContactUsSection />
       </main>
 
       {/* 13. Enterprise Footer */}
