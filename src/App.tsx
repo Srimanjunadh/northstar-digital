@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Configuration for image placeholder mode
 const TEMP_IMAGE_SRC = '/temp-image.png'
@@ -212,211 +212,1369 @@ function ImageBox({
 }
 
 // -------------------------------------------------------------
-// 1. Main Navigation Header (Clean White & Red)
+// -------------------------------------------------------------
+// Site Search Directory (Intelligent Search Index)
+// -------------------------------------------------------------
+interface SearchResultItem {
+  title: string
+  category: string
+  route: PageRoute
+  description: string
+  keywords: string[]
+}
+
+const siteSearchIndex: SearchResultItem[] = [
+  {
+    title: 'Careers & Job Opportunities',
+    category: 'Careers',
+    route: 'careers',
+    description: 'Explore rewarding careers and leadership pathways across 90+ countries with Tech Mahindra.',
+    keywords: ['job', 'jobs', 'career', 'careers', 'hiring', 'openings', 'work', 'join', 'culture', 'vacancies'],
+  },
+  {
+    title: 'The TechM Way & Diversity Culture',
+    category: 'Careers',
+    route: 'careers',
+    description: 'Our culture of freedom to explore, innovate, and rise together as limitless innovators.',
+    keywords: ['culture', 'techm way', 'diversity', 'inclusion', 'people', 'careers', 'growth'],
+  },
+  {
+    title: 'About Tech Mahindra & Leadership',
+    category: 'About Us',
+    route: 'about',
+    description: 'Corporate overview, executive leadership, Mahindra Group heritage, and sustainability initiatives.',
+    keywords: ['mahindra', 'about', 'company', 'leadership', 'executives', 'brand', 'sustainability', 'heritage'],
+  },
+  {
+    title: 'Scale at Speed™ & Corporate Brand',
+    category: 'About Us',
+    route: 'about',
+    description: 'Our brand promise to help global enterprises scale at speed with agile, AI-first technologies.',
+    keywords: ['mahindra', 'brand', 'scale at speed', 'promise', 'about', 'partner ecosystem'],
+  },
+  {
+    title: 'Global Office Locations & Directory',
+    category: 'Contact Us',
+    route: 'contact',
+    description: 'Browse 33+ country offices, addresses, direct contacts, and global delivery centers worldwide.',
+    keywords: ['location', 'locations', 'office', 'offices', 'address', 'global', 'cities', 'where', 'dallas', 'london', 'headquarters'],
+  },
+  {
+    title: 'Contact Us & Service Enquiries',
+    category: 'Contact Us',
+    route: 'contact',
+    description: 'Get in touch with our solutions experts for service requests, vendor registration, or investor inquiries.',
+    keywords: ['contact', 'email', 'phone', 'reach', 'enquiry', 'service request', 'touch', 'support', 'help'],
+  },
+  {
+    title: 'Enterprise Digital Applications',
+    category: 'Capabilities',
+    route: 'capabilities',
+    description: 'SAP, ServiceNow, Oracle, Microsoft Business Applications, Salesforce, and Pega ecosystems.',
+    keywords: ['application', 'applications', 'enterprise applications', 'sap', 'servicenow', 'oracle', 'salesforce', 'pega', 'microsoft'],
+  },
+  {
+    title: 'Agentic Development & Legacy Modernization',
+    category: 'Capabilities',
+    route: 'capabilities',
+    description: 'Autonomous AI agents and intelligent code generation to modernize enterprise legacy architectures.',
+    keywords: ['applications', 'modernization', 'agentic', 'development', 'software', 'cloud', 'devops', 'legacy'],
+  },
+  {
+    title: 'Artificial Intelligence & Cognitive Solutions',
+    category: 'Capabilities',
+    route: 'capabilities',
+    description: 'AI Delivered Right: Enterprise generative AI, cognitive architectures, and agentic workflows.',
+    keywords: ['ai', 'artificial intelligence', 'genai', 'machine learning', 'cognitive', 'capabilities', 'makers lab'],
+  },
+  {
+    title: 'Digital Core & Cloud Infrastructure',
+    category: 'Capabilities',
+    route: 'capabilities',
+    description: 'Cloud consulting, hybrid infrastructure, 5G network services, and cyber security protection.',
+    keywords: ['cloud', 'infrastructure', 'network', 'cyber security', 'telecom', 'core', 'services'],
+  },
+  {
+    title: 'Communications & Telecom Solutions',
+    category: 'Industries',
+    route: 'industries',
+    description: 'Next-generation network transformation, OSS/BSS modernization, 5G rollout, and telco AI.',
+    keywords: ['telecom', 'communications', 'network', '5g', 'oss', 'bss', 'telco', 'industries'],
+  },
+  {
+    title: 'Banking, Financial Services & Insurance (BFSI)',
+    category: 'Industries',
+    route: 'industries',
+    description: 'Digital core banking, payment modernizations, fraud detection, and regulatory compliance.',
+    keywords: ['banking', 'finance', 'financial', 'insurance', 'bfsi', 'fintech', 'industries'],
+  },
+  {
+    title: 'Retail & Consumer Goods',
+    category: 'Industries',
+    route: 'industries',
+    description: 'Store of the Future: omnichannel commerce, smart supply chains, and AI merchandising.',
+    keywords: ['retail', 'consumer goods', 'store of the future', 'ecommerce', 'supply chain', 'industries'],
+  },
+  {
+    title: 'Case Studies, Analyst Insights & Events',
+    category: 'Insights',
+    route: 'insights',
+    description: 'Explore research reports, earnings announcements, client case studies, and Dreamforce 2026 highlights.',
+    keywords: ['insights', 'case study', 'case studies', 'analyst', 'report', 'white paper', 'press release', 'news', 'events'],
+  },
+]
+
+// -------------------------------------------------------------
+// 1. Main Navigation Header with Full Mega-Menu System & Search
+// Matching Tech Mahindra reference screenshots exactly
 // -------------------------------------------------------------
 interface NavbarProps {
   currentRoute: PageRoute
   onRouteChange: (route: PageRoute) => void
 }
 
+type MegaMenuTab = 'about' | 'capabilities' | 'industries' | 'insights' | 'careers' | null
+
 function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [openMenu, setOpenMenu] = useState<MegaMenuTab>(null)
+  const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
+      setScrolled(window.scrollY > 15)
     }
-    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Auto-focus search input when opened
+  useEffect(() => {
+    if (searchOpen) {
+      setTimeout(() => {
+        searchInputRef.current?.focus()
+      }, 60)
+    }
+  }, [searchOpen])
+
+  // Escape key closes search and menus
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSearchOpen(false)
+        setOpenMenu(null)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  const handleNavClick = (route: PageRoute) => {
+    setOpenMenu(null)
+    setSearchOpen(false)
+    setMobileOpen(false)
+    onRouteChange(route)
+  }
+
+  const handleMenuHover = (tab: MegaMenuTab) => {
+    setSearchOpen(false)
+    setOpenMenu(tab)
+  }
+
+  const closeMenu = () => {
+    setOpenMenu(null)
+  }
+
+  const filteredResults = siteSearchIndex.filter((item) => {
+    if (!searchQuery.trim()) return false
+    const q = searchQuery.toLowerCase().trim()
+    return (
+      item.title.toLowerCase().includes(q) ||
+      item.category.toLowerCase().includes(q) ||
+      item.description.toLowerCase().includes(q) ||
+      item.keywords.some((k) => k.toLowerCase().includes(q))
+    )
+  })
+
+  const handleSearchSubmit = () => {
+    if (!searchQuery.trim()) return
+    if (filteredResults.length > 0) {
+      const top = filteredResults[0]
+      setSearchOpen(false)
+      onRouteChange(top.route)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  const handlePopularTagClick = (_tag: string, route: PageRoute) => {
+    setSearchOpen(false)
+    onRouteChange(route)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-md py-3 text-gray-900 border-b border-gray-100'
-          : 'bg-white py-4 text-gray-900 border-b border-gray-100'
-      }`}
-    >
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Brand Logo in Red & Black */}
-        <button
-          onClick={() => onRouteChange('home')}
-          className="flex items-center space-x-3 group cursor-pointer border-0 bg-transparent text-left"
-        >
-          <div className="w-8 h-8 bg-[#DE0826] rounded flex items-center justify-center p-1.5 shadow-sm group-hover:bg-[#BE001D] transition-colors">
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
-              <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" />
-            </svg>
+    <>
+      <header
+        onMouseLeave={closeMenu}
+        className={`fixed top-0 inset-x-0 w-full z-50 bg-white transition-all duration-200 border-b border-gray-200 ${
+          scrolled ? 'shadow-md py-2.5' : 'py-3.5'
+        }`}
+      >
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between">
+          {/* Brand Logo with Red Geometric Emblem (Name collapses when scrolled) */}
+          <button
+            onClick={() => handleNavClick('home')}
+            className="flex items-center group cursor-pointer border-0 bg-transparent text-left py-1"
+          >
+            <div className="flex items-center">
+              {/* Red Emblem */}
+              <svg
+                viewBox="0 0 32 32"
+                className="w-8 h-7 sm:w-9 sm:h-8 fill-[#DE0826] transition-transform duration-300 group-hover:scale-105 shrink-0"
+              >
+                <polygon points="0,10 32,0 32,22 0,32" />
+              </svg>
+
+              {/* Brand Name Text: Fades out and collapses when scrolled down */}
+              <div
+                className={`flex flex-col leading-none select-none transition-all duration-300 ease-in-out origin-left ${
+                  scrolled
+                    ? 'max-w-0 opacity-0 -translate-x-3 pointer-events-none overflow-hidden m-0'
+                    : 'max-w-[160px] opacity-100 translate-x-0 ml-2.5 sm:ml-3 overflow-visible'
+                }`}
+              >
+                <span className="font-extrabold text-sm tracking-tight text-gray-950 uppercase leading-none">
+                  Nor<span className="text-[#DE0826]">star</span>
+                </span>
+                <span className="text-[9px] font-bold tracking-widest text-gray-400 uppercase mt-0.5 leading-none">
+                  Digital
+                </span>
+              </div>
+            </div>
+          </button>
+
+          {/* Desktop Navigation Links with Mega-Menu Hover Triggers */}
+          <nav className="hidden lg:flex items-center space-x-8 text-[13px] font-bold tracking-wider text-gray-900 uppercase">
+            {/* ABOUT US */}
+            <div
+              className="relative py-3"
+              onMouseEnter={() => handleMenuHover('about')}
+            >
+              <button
+                onClick={() => handleNavClick('about')}
+                className={`transition-colors cursor-pointer border-0 bg-transparent uppercase pb-1 ${
+                  openMenu === 'about' || (openMenu === null && currentRoute === 'about')
+                    ? 'text-gray-950 font-extrabold border-b-2 border-gray-950'
+                    : 'text-gray-700 hover:text-gray-950'
+                }`}
+              >
+                About Us
+              </button>
+            </div>
+
+            {/* CAPABILITIES */}
+            <div
+              className="relative py-3"
+              onMouseEnter={() => handleMenuHover('capabilities')}
+            >
+              <button
+                onClick={() => handleNavClick('capabilities')}
+                className={`transition-colors cursor-pointer border-0 bg-transparent uppercase pb-1 ${
+                  openMenu === 'capabilities' ||
+                  (openMenu === null && currentRoute === 'capabilities')
+                    ? 'text-gray-950 font-extrabold border-b-2 border-gray-950'
+                    : 'text-gray-700 hover:text-gray-950'
+                }`}
+              >
+                Capabilities
+              </button>
+            </div>
+
+            {/* INDUSTRIES */}
+            <div
+              className="relative py-3"
+              onMouseEnter={() => handleMenuHover('industries')}
+            >
+              <button
+                onClick={() => handleNavClick('industries')}
+                className={`transition-colors cursor-pointer border-0 bg-transparent uppercase pb-1 ${
+                  openMenu === 'industries' ||
+                  (openMenu === null && currentRoute === 'industries')
+                    ? 'text-gray-950 font-extrabold border-b-2 border-gray-950'
+                    : 'text-gray-700 hover:text-gray-950'
+                }`}
+              >
+                Industries
+              </button>
+            </div>
+
+            {/* INSIGHTS */}
+            <div
+              className="relative py-3"
+              onMouseEnter={() => handleMenuHover('insights')}
+            >
+              <button
+                onClick={() => handleNavClick('insights')}
+                className={`transition-colors cursor-pointer border-0 bg-transparent uppercase pb-1 ${
+                  openMenu === 'insights' ||
+                  (openMenu === null && currentRoute === 'insights')
+                    ? 'text-gray-950 font-extrabold border-b-2 border-gray-950'
+                    : 'text-gray-700 hover:text-gray-950'
+                }`}
+              >
+                Insights
+              </button>
+            </div>
+
+            {/* CAREERS */}
+            <div
+              className="relative py-3"
+              onMouseEnter={() => handleMenuHover('careers')}
+            >
+              <button
+                onClick={() => handleNavClick('careers')}
+                className={`transition-colors cursor-pointer border-0 bg-transparent uppercase pb-1 ${
+                  openMenu === 'careers' ||
+                  (openMenu === null && currentRoute === 'careers')
+                    ? 'text-gray-950 font-extrabold border-b-2 border-gray-950'
+                    : 'text-gray-700 hover:text-gray-950'
+                }`}
+              >
+                Careers
+              </button>
+            </div>
+
+            {/* CONTACT US - Direct Separate Page Link (No Mega-Menu Dropdown) */}
+            <div
+              className="relative py-3"
+              onMouseEnter={() => {
+                setOpenMenu(null)
+                setSearchOpen(false)
+              }}
+            >
+              <button
+                onClick={() => handleNavClick('contact')}
+                className={`transition-colors cursor-pointer border-0 bg-transparent uppercase pb-1 ${
+                  currentRoute === 'contact'
+                    ? 'text-gray-950 font-extrabold border-b-2 border-gray-950'
+                    : 'text-gray-700 hover:text-[#DE0826]'
+                }`}
+              >
+                Contact Us
+              </button>
+            </div>
+          </nav>
+
+          {/* Right Action Icons (Search & Region Selector matching screenshots) */}
+          <div className="flex items-center space-x-4">
+            {/* Search Toggle Icon */}
+            <button
+              onClick={() => {
+                setOpenMenu(null)
+                setSearchOpen(!searchOpen)
+              }}
+              aria-label="Search"
+              className={`p-1.5 transition-colors cursor-pointer bg-transparent border-0 ${
+                searchOpen ? 'text-[#DE0826]' : 'text-gray-700 hover:text-gray-950'
+              }`}
+            >
+              <Icon name="search" className="w-4 h-4" />
+            </button>
+
+            <span className="text-gray-300 font-light hidden sm:inline select-none">|</span>
+
+            <div className="hidden sm:flex items-center space-x-1.5 border border-gray-200 rounded px-2.5 py-1 text-xs text-gray-700 hover:border-gray-400 cursor-pointer bg-gray-50/50">
+              <Icon name="globe" className="w-3.5 h-3.5 text-gray-600" />
+              <span className="text-[#DE0826] text-[10px]">▼</span>
+            </div>
+
+            {/* Mobile Hamburger Toggle */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-2 text-gray-700 hover:text-[#DE0826]"
+              aria-label="Toggle navigation"
+            >
+              <Icon name={mobileOpen ? 'close' : 'menu'} className="w-6 h-6" />
+            </button>
           </div>
-          <div className="flex flex-col">
-            <span className="font-extrabold tracking-tight text-xl leading-none text-gray-950 font-heading">
-              Nor<span className="text-[#DE0826]">star</span>
-            </span>
-            <span className="text-[9px] tracking-widest text-gray-400 font-semibold uppercase">
-              Digital
-            </span>
-          </div>
-        </button>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-8 text-[13px] font-semibold tracking-wide text-gray-800">
-          <button
-            onClick={() => onRouteChange('about')}
-            className={`relative py-2 transition-colors cursor-pointer border-0 bg-transparent ${
-              currentRoute === 'about'
-                ? 'text-[#DE0826] font-bold'
-                : 'text-gray-800 hover:text-[#DE0826]'
-            }`}
-          >
-            About Us
-            {currentRoute === 'about' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#DE0826]" />
-            )}
-          </button>
-
-          <button
-            onClick={() => onRouteChange('capabilities')}
-            className={`relative py-2 transition-colors cursor-pointer border-0 bg-transparent ${
-              currentRoute === 'capabilities'
-                ? 'text-[#DE0826] font-bold'
-                : 'text-gray-800 hover:text-[#DE0826]'
-            }`}
-          >
-            Capabilities
-            {currentRoute === 'capabilities' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#DE0826]" />
-            )}
-          </button>
-
-          <button
-            onClick={() => onRouteChange('industries')}
-            className={`relative py-2 transition-colors cursor-pointer border-0 bg-transparent ${
-              currentRoute === 'industries'
-                ? 'text-[#DE0826] font-bold'
-                : 'text-gray-800 hover:text-[#DE0826]'
-            }`}
-          >
-            Industries
-            {currentRoute === 'industries' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#DE0826]" />
-            )}
-          </button>
-
-          <button
-            onClick={() => onRouteChange('insights')}
-            className={`relative py-2 transition-colors cursor-pointer border-0 bg-transparent ${
-              currentRoute === 'insights'
-                ? 'text-[#DE0826] font-bold'
-                : 'text-gray-800 hover:text-[#DE0826]'
-            }`}
-          >
-            Insights
-            {currentRoute === 'insights' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#DE0826]" />
-            )}
-          </button>
-
-          <button
-            onClick={() => onRouteChange('careers')}
-            className={`relative py-2 transition-colors cursor-pointer border-0 bg-transparent ${
-              currentRoute === 'careers'
-                ? 'text-[#DE0826] font-bold'
-                : 'text-gray-800 hover:text-[#DE0826]'
-            }`}
-          >
-            Careers
-            {currentRoute === 'careers' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#DE0826]" />
-            )}
-          </button>
-
-          <button
-            onClick={() => onRouteChange('contact')}
-            className={`relative py-2 transition-colors cursor-pointer border-0 bg-transparent ${
-              currentRoute === 'contact'
-                ? 'text-[#DE0826] font-bold'
-                : 'text-gray-800 hover:text-[#DE0826]'
-            }`}
-          >
-            Contact Us
-            {currentRoute === 'contact' && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#DE0826]" />
-            )}
-          </button>
-        </nav>
-
-        {/* Actions in White & Red */}
-        <div className="flex items-center space-x-5">
-          <button
-            aria-label="Search"
-            className="p-2 text-gray-600 hover:text-[#DE0826] transition-colors"
-          >
-            <Icon name="search" className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => onRouteChange('contact')}
-            className="hidden sm:inline-flex items-center space-x-2 bg-[#DE0826] text-white text-[12px] font-bold px-5 py-2.5 rounded transition-all duration-200 hover:bg-[#BE001D] shadow-sm hover:shadow-md cursor-pointer border-0"
-          >
-            <span>Let's Talk</span>
-            <Icon name="arrow-right" className="w-3.5 h-3.5" />
-          </button>
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 text-gray-700 hover:text-[#DE0826]"
-            aria-label="Toggle navigation"
-          >
-            <Icon name={mobileOpen ? 'close' : 'menu'} className="w-6 h-6" />
-          </button>
         </div>
-      </div>
 
-      {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[60px] bg-white border-b border-gray-200 shadow-2xl p-6 transition-all z-50">
-          <div className="flex flex-col space-y-4 text-base font-medium text-gray-800">
-            <button
-              onClick={() => {
-                onRouteChange('about')
-                setMobileOpen(false)
-              }}
-              className="py-2 border-b border-gray-100 flex items-center justify-between text-left hover:text-[#DE0826]"
-            >
-              <span>About Us</span>
-              <Icon name="chevron-right" className="w-4 h-4 text-gray-400" />
-            </button>
-            <button
-              onClick={() => {
-                onRouteChange('capabilities')
-                setMobileOpen(false)
-              }}
-              className="py-2 border-b border-gray-100 flex items-center justify-between text-left hover:text-[#DE0826]"
-            >
-              <span>Capabilities</span>
-              <Icon name="chevron-right" className="w-4 h-4 text-gray-400" />
-            </button>
-            <button
-              onClick={() => {
-                onRouteChange('home')
-                setMobileOpen(false)
-              }}
-              className="py-2 border-b border-gray-100 flex items-center justify-between text-left hover:text-[#DE0826]"
-            >
-              <span>Home</span>
-              <Icon name="chevron-right" className="w-4 h-4 text-gray-400" />
-            </button>
-            <a
-              href="#contact"
-              onClick={() => setMobileOpen(false)}
-              className="mt-4 bg-[#DE0826] text-white py-3 rounded text-center font-bold text-sm"
-            >
-              Let's Talk
-            </a>
+        {/* ========================================================= */}
+        {/* SEARCH OVERLAY PANEL (Matching Reference Screenshot) */}
+        {/* ========================================================= */}
+        {searchOpen && (
+          <div className="absolute left-0 right-0 top-full bg-white border-t border-gray-200 shadow-2xl z-50 animate-fadeIn">
+            <div className="max-w-[1050px] mx-auto px-6 sm:px-12 pt-12 pb-14">
+              {/* Search Bar Row with Solid Bottom Border Line */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSearchSubmit()
+                }}
+                className="relative flex items-center border-b border-gray-900 pb-3"
+              >
+                {/* Thin Outline Magnifying Glass */}
+                <div className="text-gray-800 pr-4 pl-1 shrink-0">
+                  <svg
+                    className="w-7 h-7 sm:w-8 sm:h-8"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </div>
+
+                {/* Search Text Input */}
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search"
+                  className="w-full bg-transparent text-2xl sm:text-3xl md:text-4xl text-gray-900 placeholder-gray-400 font-light focus:outline-none tracking-normal"
+                />
+
+                {/* Submit Arrow (Thin Right Arrow) */}
+                <button
+                  type="submit"
+                  aria-label="Submit Search"
+                  className="text-gray-800 hover:text-[#DE0826] transition-colors p-1 cursor-pointer bg-transparent border-0 shrink-0 ml-2"
+                >
+                  <svg
+                    className="w-6 h-6 sm:w-7 sm:h-7"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="13 6 19 12 13 18" />
+                  </svg>
+                </button>
+              </form>
+
+              {/* POPULAR SEARCHES Framed Section */}
+              <div className="mt-10 sm:mt-12 relative border border-[#EACDCD] rounded-none p-6 sm:p-7 pt-6">
+                {/* Header Badge breaking top border */}
+                <span className="absolute -top-2.5 left-5 bg-white px-2.5 text-[11px] font-extrabold uppercase tracking-wider text-[#7A0019]">
+                  POPULAR SEARCHES
+                </span>
+
+                {/* 4 Popular Search Buttons */}
+                <div className="flex flex-wrap items-center gap-3.5 sm:gap-5">
+                  {[
+                    { label: 'Jobs', route: 'careers' as PageRoute },
+                    { label: 'Mahindra', route: 'about' as PageRoute },
+                    { label: 'Locations', route: 'contact' as PageRoute },
+                    { label: 'Applications', route: 'capabilities' as PageRoute },
+                  ].map((tag) => (
+                    <button
+                      key={tag.label}
+                      type="button"
+                      onClick={() => handlePopularTagClick(tag.label, tag.route)}
+                      className="inline-flex items-center bg-white border border-gray-300 hover:border-gray-900 hover:shadow-xs px-6 py-2.5 sm:px-7 sm:py-3 transition-all cursor-pointer text-gray-900 text-sm sm:text-base font-normal group"
+                    >
+                      <span>{tag.label}</span>
+                      <span className="ml-2 text-[#DE0826] text-xs font-semibold transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                        ↗
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Live Interactive Search Results */}
+              {searchQuery.trim().length > 0 && (
+                <div className="mt-6 pt-6 border-t border-gray-100 animate-fadeIn">
+                  <div className="text-xs uppercase font-bold text-gray-500 tracking-wider mb-3">
+                    Matching Results ({filteredResults.length})
+                  </div>
+                  {filteredResults.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[260px] overflow-y-auto pr-2">
+                      {filteredResults.map((res, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => {
+                            setSearchOpen(false)
+                            onRouteChange(res.route)
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+                          }}
+                          className="p-3.5 rounded border border-gray-200 hover:border-[#DE0826] hover:bg-gray-50/70 transition-all cursor-pointer flex flex-col justify-between group"
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-[11px] font-extrabold text-[#DE0826] uppercase tracking-wider">
+                              {res.category}
+                            </span>
+                            <span className="text-xs text-gray-400 group-hover:text-[#DE0826] group-hover:translate-x-0.5 transition-transform">
+                              →
+                            </span>
+                          </div>
+                          <h5 className="text-sm font-bold text-gray-950 group-hover:text-[#DE0826] transition-colors">
+                            {res.title}
+                          </h5>
+                          <p className="text-xs text-gray-600 line-clamp-2 mt-1">
+                            {res.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="py-6 text-center text-sm text-gray-500">
+                      No direct matches found for "{searchQuery}". Try selecting one of the popular searches above.
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* ========================================================= */}
+        {/* DESKTOP MEGA-MENUS CONTAINER */}
+        {/* ========================================================= */}
+        {openMenu && (
+          <div
+            className="hidden lg:block absolute left-0 right-0 top-full bg-white border-t border-gray-200 shadow-2xl z-50 animate-fadeIn"
+            onMouseEnter={() => setOpenMenu(openMenu)}
+            onMouseLeave={closeMenu}
+          >
+            {/* 1. ABOUT US MEGA-MENU */}
+            {openMenu === 'about' && (
+              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10">
+                <div className="grid grid-cols-12 gap-10 items-start">
+                  {/* Left Column: Heading */}
+                  <div className="col-span-2">
+                    <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
+                      About Us
+                    </h3>
+                  </div>
+
+                  {/* Middle Column 1: Corporate Overview */}
+                  <div className="col-span-3">
+                    <h4 className="font-bold text-[14px] text-gray-950 mb-3.5">
+                      Corporate Overview
+                    </h4>
+                    <ul className="space-y-2 text-[13px] text-gray-700">
+                      {[
+                        'Leadership',
+                        'Our Brand',
+                        'Sustainability',
+                        'Recognition',
+                        'Customer Speak',
+                        'Partners Ecosystem',
+                        'Portfolio Companies',
+                      ].map((item) => (
+                        <li key={item}>
+                          <button
+                            onClick={() => handleNavClick('about')}
+                            className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
+                          >
+                            {item}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Middle Column 2: News, IR, Citizenship, Centricity */}
+                  <div className="col-span-4 space-y-4">
+                    <div>
+                      <button
+                        onClick={() => handleNavClick('about')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                      >
+                        News
+                      </button>
+                    </div>
+
+                    <div>
+                      <button
+                        onClick={() => handleNavClick('about')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                      >
+                        Investor Relations
+                      </button>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
+                        Corporate Citizenship
+                      </h4>
+                      <ul className="space-y-1.5 text-[13px] text-gray-700">
+                        {[
+                          'Tech Mahindra Foundation',
+                          'Mahindra Educational Institutions',
+                          'Individual Social Responsibility',
+                        ].map((item) => (
+                          <li key={item}>
+                            <button
+                              onClick={() => handleNavClick('about')}
+                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
+                            >
+                              {item}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <button
+                        onClick={() => handleNavClick('about')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                      >
+                        Customer Centricity
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Right Column: 2 Featured Cards */}
+                  <div className="col-span-3 flex flex-col space-y-4">
+                    {/* Card 1: Scale at Speed */}
+                    <div
+                      onClick={() => handleNavClick('about')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/home_racing.jpg"
+                        alt="Scale at Speed"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          Our Promise
+                        </span>
+                        <div>
+                          <h5 className="text-sm font-bold text-white leading-tight">
+                            Scale at Speed™
+                          </h5>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                            LEARN MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2: AI Delivered Right */}
+                    <div
+                      onClick={() => handleNavClick('about')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/thinking_ribbon.jpg"
+                        alt="AI Delivered Right"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          AI Delivered Right
+                        </span>
+                        <div>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-2 inline-block group-hover:underline">
+                            LEARN MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 2. CAPABILITIES MEGA-MENU */}
+            {openMenu === 'capabilities' && (
+              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10 space-y-8">
+                {/* Top Section: Our Services */}
+                <div className="grid grid-cols-12 gap-10 items-start">
+                  {/* Left Column: Heading */}
+                  <div className="col-span-2">
+                    <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
+                      Our Services
+                    </h3>
+                  </div>
+
+                  {/* Middle Column 1: TechM Consulting, Application Services, Digital Core */}
+                  <div className="col-span-3 space-y-4">
+                    <div>
+                      <button
+                        onClick={() => handleNavClick('capabilities')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-3.5"
+                      >
+                        TechM Consulting
+                      </button>
+                    </div>
+
+                    <div>
+                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
+                        Application Services
+                      </h4>
+                      <ul className="space-y-1.5 text-[13px] text-gray-700">
+                        {[
+                          'Agentic Development and Modernization Services',
+                          'Intelligent Automation',
+                          'Testing Services',
+                          'Performance Engineering',
+                        ].map((item) => (
+                          <li key={item}>
+                            <button
+                              onClick={() => handleNavClick('capabilities')}
+                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal leading-snug"
+                            >
+                              {item}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-1">
+                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
+                        Digital Core Services
+                      </h4>
+                      <ul className="space-y-1.5 text-[13px] text-gray-700">
+                        {[
+                          'Cloud & Infrastructure Services',
+                          'Cloud Consulting',
+                          'Network Services',
+                          'Cyber Security',
+                        ].map((item) => (
+                          <li key={item}>
+                            <button
+                              onClick={() => handleNavClick('capabilities')}
+                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
+                            >
+                              {item}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Middle Column 2: Engineering, Data Analytics, AI, Digital Enterprise */}
+                  <div className="col-span-4 space-y-3">
+                    <button
+                      onClick={() => handleNavClick('capabilities')}
+                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                    >
+                      Engineering Services
+                    </button>
+
+                    <button
+                      onClick={() => handleNavClick('capabilities')}
+                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                    >
+                      Data Analytics
+                    </button>
+
+                    <button
+                      onClick={() => handleNavClick('capabilities')}
+                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                    >
+                      Artificial Intelligence
+                    </button>
+
+                    <div className="pt-2">
+                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
+                        Digital Enterprise Applications
+                      </h4>
+                      <ul className="space-y-1 text-[13px] text-gray-700">
+                        {[
+                          'Microsoft Business Applications',
+                          'Enterprise Digital Solutions',
+                          'SAP',
+                          'ServiceNow',
+                          'Oracle',
+                          'Salesforce',
+                          'Pega',
+                        ].map((item) => (
+                          <li key={item}>
+                            <button
+                              onClick={() => handleNavClick('capabilities')}
+                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
+                            >
+                              {item}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Middle Column 3: BPS, Experience, Integrated, Sustainability */}
+                  <div className="col-span-3 space-y-4">
+                    <button
+                      onClick={() => handleNavClick('capabilities')}
+                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                    >
+                      Business Process Services
+                    </button>
+
+                    <button
+                      onClick={() => handleNavClick('capabilities')}
+                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                    >
+                      Experience Services
+                    </button>
+
+                    <div>
+                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
+                        Integrated Offerings
+                      </h4>
+                      <button
+                        onClick={() => handleNavClick('capabilities')}
+                        className="text-[13px] text-gray-700 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block font-normal"
+                      >
+                        Global Capability Centers
+                      </button>
+                    </div>
+
+                    <div>
+                      <button
+                        onClick={() => handleNavClick('capabilities')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                      >
+                        Sustainability Services
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Section: Spotlight */}
+                <div className="pt-6 border-t border-gray-100 grid grid-cols-12 gap-10 items-center">
+                  <div className="col-span-2">
+                    <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
+                      Spotlight
+                    </h3>
+                  </div>
+
+                  <div className="col-span-3">
+                    <button
+                      onClick={() => handleNavClick('capabilities')}
+                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                    >
+                      Products & Platforms
+                    </button>
+                    <div className="mt-2">
+                      <button
+                        onClick={() => handleNavClick('capabilities')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                      >
+                        Scale at Speed™
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="col-span-4">
+                    <button
+                      onClick={() => handleNavClick('capabilities')}
+                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                    >
+                      Innovation, R&D - Makers Lab
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 3. INDUSTRIES MEGA-MENU */}
+            {openMenu === 'industries' && (
+              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10">
+                <div className="grid grid-cols-12 gap-10 items-start">
+                  {/* Left Column: Heading */}
+                  <div className="col-span-2">
+                    <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
+                      Industries
+                    </h3>
+                  </div>
+
+                  {/* Middle Column 1: Financial to Insurance */}
+                  <div className="col-span-3">
+                    <ul className="space-y-3 text-[14px] font-bold text-gray-950">
+                      {[
+                        'Banking & Financial Services',
+                        'Communications',
+                        'Education',
+                        'Energy & Utilities',
+                        'Healthcare & Life Sciences',
+                        'Hi Tech',
+                        'Insurance',
+                      ].map((item) => (
+                        <li key={item}>
+                          <button
+                            onClick={() => handleNavClick('industries')}
+                            className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                          >
+                            {item}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Middle Column 2: Manufacturing to Travel */}
+                  <div className="col-span-4">
+                    <ul className="space-y-3 text-[14px] font-bold text-gray-950">
+                      {[
+                        'Manufacturing',
+                        'Media & Entertainment',
+                        'Oil & Gas',
+                        'Private Equity',
+                        'Professional Services',
+                        'Retail & Consumer Goods',
+                        'Travel, Transportation, Logistics & Hospitality',
+                      ].map((item) => (
+                        <li key={item}>
+                          <button
+                            onClick={() => handleNavClick('industries')}
+                            className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                          >
+                            {item}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Right Column: 2 Featured Cards */}
+                  <div className="col-span-3 flex flex-col space-y-4">
+                    {/* Card 1: Store of the Future */}
+                    <div
+                      onClick={() => handleNavClick('industries')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/ind_retail.jpg"
+                        alt="Store of the Future"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          Featured Report
+                        </span>
+                        <div>
+                          <h5 className="text-sm font-bold text-white leading-tight">
+                            Store of the Future: Research Report
+                          </h5>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                            READ MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2: MIT Tech Review */}
+                    <div
+                      onClick={() => handleNavClick('industries')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/cap_engineering.jpg"
+                        alt="Product Development with AI"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          Featured White Paper
+                        </span>
+                        <div>
+                          <h5 className="text-xs font-bold text-white leading-snug">
+                            Product Development with AI and Sustainability: TechM x MIT Technology Review Report
+                          </h5>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                            READ MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 4. INSIGHTS MEGA-MENU */}
+            {openMenu === 'insights' && (
+              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10">
+                <div className="grid grid-cols-12 gap-10 items-start">
+                  {/* Left Column: Heading */}
+                  <div className="col-span-2">
+                    <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
+                      Insights
+                    </h3>
+                  </div>
+
+                  {/* Middle Column: Links List */}
+                  <div className="col-span-7">
+                    <ul className="space-y-3.5 text-[14px] font-bold text-gray-950">
+                      {['Case Studies', 'Views', 'Analyst Insights', 'News', 'Events'].map(
+                        (item) => (
+                          <li key={item}>
+                            <button
+                              onClick={() => handleNavClick('insights')}
+                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                            >
+                              {item}
+                            </button>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
+
+                  {/* Right Column: 2 Featured Cards */}
+                  <div className="col-span-3 flex flex-col space-y-4">
+                    {/* Card 1: Press Release */}
+                    <div
+                      onClick={() => handleNavClick('insights')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/insights_hero.jpg"
+                        alt="Q1 EBIT Press Release"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          Featured Press Release
+                        </span>
+                        <div>
+                          <h5 className="text-xs font-bold text-white leading-snug">
+                            Tech Mahindra Q1 FY27 EBIT rises to ₹2,264 crores, up 53.3% YoY; New deal-wins at USD 1,078 Mn - up 33% YoY
+                          </h5>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                            READ MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2: Dreamforce Event */}
+                    <div
+                      onClick={() => handleNavClick('insights')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/event_dreamforce.jpg"
+                        alt="Dreamforce 2026"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          Featured Event
+                        </span>
+                        <div>
+                          <h5 className="text-xs font-bold text-white leading-snug">
+                            Tech Mahindra at Dreamforce 2026: Turning AI into a Co-Worker
+                          </h5>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                            READ MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 5. CAREERS MEGA-MENU */}
+            {openMenu === 'careers' && (
+              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10">
+                <div className="grid grid-cols-12 gap-10 items-start">
+                  {/* Left Column: Heading */}
+                  <div className="col-span-2">
+                    <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
+                      Careers
+                    </h3>
+                  </div>
+
+                  {/* Middle Column: Links List */}
+                  <div className="col-span-7">
+                    <ul className="space-y-3.5 text-[14px] font-bold text-gray-950">
+                      {['The TechM Way', 'Diversity & Inclusion', 'Join Us'].map((item) => (
+                        <li key={item}>
+                          <button
+                            onClick={() => handleNavClick('careers')}
+                            className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                          >
+                            {item}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Right Column: 2 Featured Cards */}
+                  <div className="col-span-3 flex flex-col space-y-4">
+                    {/* Card 1: Rubicon Case Study */}
+                    <div
+                      onClick={() => handleNavClick('careers')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/story_racing.jpg"
+                        alt="Rubicon 2.0"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          Featured Case Study
+                        </span>
+                        <div>
+                          <h5 className="text-sm font-bold text-white leading-tight">
+                            Outpacing Change with Rubicon 2.0
+                          </h5>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                            READ MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2: Stockmann Case Study */}
+                    <div
+                      onClick={() => handleNavClick('careers')}
+                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                    >
+                      <img
+                        src="/images/case_ribbon.jpg"
+                        alt="Stockmann Case Study"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
+                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                          Featured Case Study
+                        </span>
+                        <div>
+                          <h5 className="text-xs font-bold text-white leading-snug">
+                            Stockmann Cuts Supplier Onboarding from Weeks to Hours with PIM-First Automation
+                          </h5>
+                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                            READ MORE
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Mobile Drawer */}
+        {mobileOpen && (
+          <div className="lg:hidden fixed inset-x-0 top-[56px] bottom-0 bg-white overflow-y-auto p-6 z-50 animate-fadeIn">
+            <div className="flex flex-col space-y-4 text-base font-semibold text-gray-800">
+              {/* Home */}
+              <button
+                onClick={() => handleNavClick('home')}
+                className="py-2.5 border-b border-gray-100 flex items-center justify-between text-left hover:text-[#DE0826]"
+              >
+                <span>Home</span>
+                <Icon name="chevron-right" className="w-4 h-4 text-gray-400" />
+              </button>
+
+              {/* About Us Accordion */}
+              <div className="border-b border-gray-100 pb-2">
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={() => handleNavClick('about')}
+                    className="py-2 font-bold text-left hover:text-[#DE0826] flex-grow"
+                  >
+                    About Us
+                  </button>
+                  <button
+                    onClick={() =>
+                      setMobileSubmenu(mobileSubmenu === 'about' ? null : 'about')
+                    }
+                    className="p-2 text-gray-400"
+                  >
+                    <Icon
+                      name={mobileSubmenu === 'about' ? 'close' : 'chevron-right'}
+                      className="w-4 h-4"
+                    />
+                  </button>
+                </div>
+                {mobileSubmenu === 'about' && (
+                  <div className="pl-4 py-2 space-y-2 text-sm text-gray-600 font-normal">
+                    <div className="font-semibold text-gray-900">Corporate Overview</div>
+                    {['Leadership', 'Our Brand', 'Sustainability', 'Recognition'].map((i) => (
+                      <div
+                        key={i}
+                        onClick={() => handleNavClick('about')}
+                        className="cursor-pointer hover:text-[#DE0826]"
+                      >
+                        {i}
+                      </div>
+                    ))}
+                    <div className="font-semibold text-gray-900 pt-2">Corporate Citizenship</div>
+                    <div
+                      onClick={() => handleNavClick('about')}
+                      className="cursor-pointer hover:text-[#DE0826]"
+                    >
+                      Tech Mahindra Foundation
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Capabilities Accordion */}
+              <div className="border-b border-gray-100 pb-2">
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={() => handleNavClick('capabilities')}
+                    className="py-2 font-bold text-left hover:text-[#DE0826] flex-grow"
+                  >
+                    Capabilities
+                  </button>
+                  <button
+                    onClick={() =>
+                      setMobileSubmenu(
+                        mobileSubmenu === 'capabilities' ? null : 'capabilities'
+                      )
+                    }
+                    className="p-2 text-gray-400"
+                  >
+                    <Icon
+                      name={
+                        mobileSubmenu === 'capabilities' ? 'close' : 'chevron-right'
+                      }
+                      className="w-4 h-4"
+                    />
+                  </button>
+                </div>
+                {mobileSubmenu === 'capabilities' && (
+                  <div className="pl-4 py-2 space-y-2 text-sm text-gray-600 font-normal">
+                    <div className="font-semibold text-gray-900">Our Services</div>
+                    {[
+                      'TechM Consulting',
+                      'Application Services',
+                      'Digital Core Services',
+                      'Engineering Services',
+                      'Artificial Intelligence',
+                      'Business Process Services',
+                    ].map((i) => (
+                      <div
+                        key={i}
+                        onClick={() => handleNavClick('capabilities')}
+                        className="cursor-pointer hover:text-[#DE0826]"
+                      >
+                        {i}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Industries Accordion */}
+              <div className="border-b border-gray-100 pb-2">
+                <div className="flex items-center justify-between">
+                  <button
+                    onClick={() => handleNavClick('industries')}
+                    className="py-2 font-bold text-left hover:text-[#DE0826] flex-grow"
+                  >
+                    Industries
+                  </button>
+                  <button
+                    onClick={() =>
+                      setMobileSubmenu(
+                        mobileSubmenu === 'industries' ? null : 'industries'
+                      )
+                    }
+                    className="p-2 text-gray-400"
+                  >
+                    <Icon
+                      name={
+                        mobileSubmenu === 'industries' ? 'close' : 'chevron-right'
+                      }
+                      className="w-4 h-4"
+                    />
+                  </button>
+                </div>
+                {mobileSubmenu === 'industries' && (
+                  <div className="pl-4 py-2 space-y-2 text-sm text-gray-600 font-normal">
+                    {[
+                      'Banking & Financial Services',
+                      'Communications',
+                      'Healthcare & Life Sciences',
+                      'Hi Tech',
+                      'Manufacturing',
+                      'Retail & Consumer Goods',
+                    ].map((i) => (
+                      <div
+                        key={i}
+                        onClick={() => handleNavClick('industries')}
+                        className="cursor-pointer hover:text-[#DE0826]"
+                      >
+                        {i}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Insights */}
+              <button
+                onClick={() => handleNavClick('insights')}
+                className="py-2.5 border-b border-gray-100 flex items-center justify-between text-left hover:text-[#DE0826]"
+              >
+                <span>Insights</span>
+                <Icon name="chevron-right" className="w-4 h-4 text-gray-400" />
+              </button>
+
+              {/* Careers */}
+              <button
+                onClick={() => handleNavClick('careers')}
+                className="py-2.5 border-b border-gray-100 flex items-center justify-between text-left hover:text-[#DE0826]"
+              >
+                <span>Careers</span>
+                <Icon name="chevron-right" className="w-4 h-4 text-gray-400" />
+              </button>
+
+              {/* Contact Us - Separate Page Action */}
+              <button
+                onClick={() => handleNavClick('contact')}
+                className="mt-6 bg-[#DE0826] hover:bg-[#BE001D] text-white py-3 rounded text-center font-bold text-sm shadow-md"
+              >
+                Contact Us
+              </button>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Spacer to preserve content flow behind fixed navbar */}
+      <div
+        className={`w-full transition-all duration-200 ${
+          scrolled ? 'h-[54px] sm:h-[58px]' : 'h-[62px] sm:h-[66px]'
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* Dimmed backdrop when mega menu or search is open */}
+      {(openMenu || searchOpen) && (
+        <div
+          onClick={() => {
+            closeMenu()
+            setSearchOpen(false)
+          }}
+          className="fixed inset-0 top-[60px] bg-black/40 backdrop-blur-[2px] z-40 transition-opacity cursor-pointer"
+        />
       )}
-    </header>
+    </>
   )
 }
 
@@ -1057,22 +2215,22 @@ const globalOfficesData: OfficeLocation[] = [
     country: 'United States',
     cities: [
       {
-        name: 'Dallas Headquarters',
+        name: 'Dallas Corporate Headquarters',
         address: '6000 Connection Drive, Irving, TX 75039',
         phone: '+1 (800) 246-8324',
-        email: 'usa@norstar-digital.com',
+        email: 'usa@techmahindra.com',
       },
       {
-        name: 'San Jose Innovation Lab',
+        name: 'San Jose Innovation Center',
         address: '2880 Zanker Road, Suite 203, San Jose, CA 95134',
         phone: '+1 (408) 555-0199',
-        email: 'sanjose@norstar-digital.com',
+        email: 'sanjose@techmahindra.com',
       },
       {
         name: 'New York Financial Hub',
         address: '1350 Avenue of the Americas, Floor 22, New York, NY 10019',
         phone: '+1 (212) 555-0182',
-        email: 'nyc@norstar-digital.com',
+        email: 'nyc@techmahindra.com',
       },
     ],
   },
@@ -1083,13 +2241,13 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Sydney Regional Office',
         address: 'Level 14, 100 Mount Street, North Sydney, NSW 2060',
         phone: '+61 2 8000 1234',
-        email: 'australia@norstar-digital.com',
+        email: 'australia@techmahindra.com',
       },
       {
         name: 'Melbourne Delivery Hub',
         address: 'Level 22, 500 Collins Street, Melbourne, VIC 3000',
         phone: '+61 3 9000 5678',
-        email: 'melbourne@norstar-digital.com',
+        email: 'melbourne@techmahindra.com',
       },
     ],
   },
@@ -1100,7 +2258,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Vienna Client Center',
         address: 'Am Belvedere 10, 1100 Wien, Austria',
         phone: '+43 1 234 5678',
-        email: 'vienna@norstar-digital.com',
+        email: 'vienna@techmahindra.com',
       },
     ],
   },
@@ -1111,7 +2269,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Manama Regional Hub',
         address: 'Bahrain Financial Harbour, West Tower, Manama',
         phone: '+973 1700 0000',
-        email: 'me@norstar-digital.com',
+        email: 'me@techmahindra.com',
       },
     ],
   },
@@ -1122,7 +2280,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Brussels Office',
         address: 'Avenue Louise 523, 1050 Bruxelles, Belgium',
         phone: '+32 2 555 1234',
-        email: 'belgium@norstar-digital.com',
+        email: 'belgium@techmahindra.com',
       },
     ],
   },
@@ -1133,24 +2291,84 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'São Paulo Tech Hub',
         address: 'Av. Paulista, 1374 - Bela Vista, São Paulo - SP',
         phone: '+55 11 3000 0000',
-        email: 'latam@norstar-digital.com',
+        email: 'latam@techmahindra.com',
       },
     ],
   },
   {
-    country: 'United Kingdom',
+    country: 'Bulgaria',
     cities: [
       {
-        name: 'London Corporate Office',
-        address: '25 Canada Square, Floor 33, Canary Wharf, London E14 5LB',
-        phone: '+44 20 7000 8000',
-        email: 'uk@norstar-digital.com',
+        name: 'Sofia Delivery Center',
+        address: 'Megapark, 115G Tsarigradsko Shosse Blvd, Sofia',
+        phone: '+359 2 800 0000',
+        email: 'sofia@techmahindra.com',
       },
+    ],
+  },
+  {
+    country: 'Canada',
+    cities: [
       {
-        name: 'Milton Keynes Tech Campus',
-        address: 'Exchange House, 450 Midsummer Blvd, Milton Keynes MK9 2EA',
-        phone: '+44 1908 555 000',
-        email: 'mk@norstar-digital.com',
+        name: 'Toronto Innovation Hub',
+        address: '200 Bay Street, Suite 2900, Toronto, ON M5J 2J2',
+        phone: '+1 (416) 800-1200',
+        email: 'canada@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'China',
+    cities: [
+      {
+        name: 'Shanghai Client Center',
+        address: 'Unit 1801, 18F, Plaza 66, Nanjing West Road, Shanghai',
+        phone: '+86 21 6000 0000',
+        email: 'china@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Denmark',
+    cities: [
+      {
+        name: 'Copenhagen Office',
+        address: 'Tuborg Havnevej 18, 2900 Hellerup, Denmark',
+        phone: '+45 39 00 00 00',
+        email: 'nordics@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Finland',
+    cities: [
+      {
+        name: 'Helsinki Hub',
+        address: 'Keilaranta 1, 02150 Espoo, Finland',
+        phone: '+358 9 800 0000',
+        email: 'nordics@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'France',
+    cities: [
+      {
+        name: 'Paris Hub',
+        address: 'Tour Ariane, 5 Place de la Pyramide, 92088 Paris La Défense',
+        phone: '+33 1 40 00 00 00',
+        email: 'france@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Germany',
+    cities: [
+      {
+        name: 'Munich Digital Center',
+        address: 'Parkstadt Schwabing, Walter-Gropius-Straße 23, 80807 München',
+        phone: '+49 89 2000 0000',
+        email: 'germany@techmahindra.com',
       },
     ],
   },
@@ -1161,13 +2379,151 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Pune Global Campus',
         address: 'Rajiv Gandhi Infotech Park, Phase 3, Hinjawadi, Pune 411057',
         phone: '+91 20 6601 8100',
-        email: 'india@norstar-digital.com',
+        email: 'india@techmahindra.com',
       },
       {
-        name: 'Bengaluru AI Center',
+        name: 'Bengaluru AI & Engineering Center',
         address: 'Electronics City Phase 1, Hosur Road, Bengaluru 560100',
         phone: '+91 80 4000 2000',
-        email: 'blr@norstar-digital.com',
+        email: 'blr@techmahindra.com',
+      },
+      {
+        name: 'Hyderabad Technology Hub',
+        address: 'Infocity, Madhapur, Hyderabad 500081',
+        phone: '+91 40 6636 1000',
+        email: 'hyd@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Ireland',
+    cities: [
+      {
+        name: 'Dublin European Centre',
+        address: 'Grand Canal Dock, Dublin 2, Ireland',
+        phone: '+353 1 600 0000',
+        email: 'ireland@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Italy',
+    cities: [
+      {
+        name: 'Milan Office',
+        address: 'Via Turati 29, 20121 Milano MI, Italy',
+        phone: '+39 02 8000 0000',
+        email: 'italy@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Japan',
+    cities: [
+      {
+        name: 'Tokyo Client Hub',
+        address: 'Roppongi Hills Mori Tower, 6-10-1 Roppongi, Minato-ku, Tokyo',
+        phone: '+81 3 5000 0000',
+        email: 'japan@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Malaysia',
+    cities: [
+      {
+        name: 'Kuala Lumpur Tech Center',
+        address: 'Menara Maxis, Kuala Lumpur City Centre, 50088 Kuala Lumpur',
+        phone: '+60 3 2000 0000',
+        email: 'apac@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Mexico',
+    cities: [
+      {
+        name: 'Mexico City Hub',
+        address: 'Paseo de la Reforma 222, Juárez, Cuauhtémoc, 06600 Ciudad de México',
+        phone: '+52 55 5000 0000',
+        email: 'latam@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Netherlands',
+    cities: [
+      {
+        name: 'Amsterdam Hub',
+        address: 'Gustav Mahlerplein 2, 1082 MA Amsterdam',
+        phone: '+31 20 800 0000',
+        email: 'benelux@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'New Zealand',
+    cities: [
+      {
+        name: 'Auckland Office',
+        address: 'Level 21, ANZ Centre, 23-29 Albert St, Auckland 1010',
+        phone: '+64 9 900 0000',
+        email: 'anz@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Norway',
+    cities: [
+      {
+        name: 'Oslo Delivery Hub',
+        address: 'Karenslyst Allé 11, 0278 Oslo, Norway',
+        phone: '+47 22 00 00 00',
+        email: 'nordics@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Philippines',
+    cities: [
+      {
+        name: 'Manila BPO Center',
+        address: 'Bonifacio Global City, Taguig, Metro Manila',
+        phone: '+63 2 800 0000',
+        email: 'apac@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Poland',
+    cities: [
+      {
+        name: 'Warsaw Delivery Center',
+        address: 'Rondo Daszyńskiego 1, 00-843 Warszawa',
+        phone: '+48 22 500 0000',
+        email: 'poland@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Qatar',
+    cities: [
+      {
+        name: 'Doha Business Hub',
+        address: 'Tornado Tower, West Bay, Doha, Qatar',
+        phone: '+974 4400 0000',
+        email: 'me@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Saudi Arabia',
+    cities: [
+      {
+        name: 'Riyadh Regional Office',
+        address: 'King Fahd Road, Al Olaya, Riyadh 12213',
+        phone: '+966 11 400 0000',
+        email: 'ksa@techmahindra.com',
       },
     ],
   },
@@ -1178,184 +2534,278 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'APAC Headquarters',
         address: '1 Changi Business Park Crescent, Plaza 8, Singapore 486025',
         phone: '+65 6000 1000',
-        email: 'apac@norstar-digital.com',
+        email: 'apac@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'South Africa',
+    cities: [
+      {
+        name: 'Johannesburg Center',
+        address: 'Sandton City Office Tower, 5th St, Sandhurst, Sandton',
+        phone: '+27 11 700 0000',
+        email: 'africa@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Spain',
+    cities: [
+      {
+        name: 'Madrid Office',
+        address: 'Paseo de la Castellana 95, 28046 Madrid',
+        phone: '+34 91 700 0000',
+        email: 'spain@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Sweden',
+    cities: [
+      {
+        name: 'Stockholm Nordic HQ',
+        address: 'Mäster Samuelsgatan 42, 111 57 Stockholm',
+        phone: '+46 8 500 0000',
+        email: 'nordics@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'Switzerland',
+    cities: [
+      {
+        name: 'Zurich Office',
+        address: 'Gotthardstrasse 26, 8002 Zürich',
+        phone: '+41 44 200 0000',
+        email: 'swiss@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'United Arab Emirates',
+    cities: [
+      {
+        name: 'Dubai Internet City Hub',
+        address: 'Building 14, Dubai Internet City, Dubai',
+        phone: '+971 4 390 0000',
+        email: 'me@techmahindra.com',
+      },
+    ],
+  },
+  {
+    country: 'United Kingdom',
+    cities: [
+      {
+        name: 'London Corporate Office',
+        address: '25 Canada Square, Floor 33, Canary Wharf, London E14 5LB',
+        phone: '+44 20 7000 8000',
+        email: 'uk@techmahindra.com',
+      },
+      {
+        name: 'Milton Keynes Tech Campus',
+        address: 'Exchange House, 450 Midsummer Blvd, Milton Keynes MK9 2EA',
+        phone: '+44 1908 555 000',
+        email: 'mk@techmahindra.com',
       },
     ],
   },
 ]
 
 function ContactPage() {
-  const [openAccordion, setOpenAccordion] = useState<number | null>(0)
+  const [openAccordion, setOpenAccordion] = useState<number | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCountry, setSelectedCountry] = useState<OfficeLocation>(globalOfficesData[0])
+  const [chatBubbleOpen, setChatBubbleOpen] = useState(true)
+
+  // Form State
+  const [enquiryType, setEnquiryType] = useState('Request for Service')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [organisation, setOrganisation] = useState('')
+  const [jobTitle, setJobTitle] = useState('')
+  const [phone, setPhone] = useState('')
+  const [country, setCountry] = useState('United States')
+  const [message, setMessage] = useState('')
+  const [privacyAgreed, setPrivacyAgreed] = useState(false)
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   const toggleAccordion = (index: number) => {
     setOpenAccordion(openAccordion === index ? null : index)
   }
 
-  const filteredOffices = globalOfficesData.filter((item) =>
-    item.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.cities.some((c) => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredOffices = globalOfficesData.filter(
+    (item) =>
+      item.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.cities.some((c) => c.name.toLowerCase().includes(searchQuery.toLowerCase()))
   )
 
-  return (
-    <div className="bg-[#FAF8F5] text-gray-900 min-h-screen font-sans">
-      {/* 1. Hero Banner ("Contact Us") */}
-      <section className="relative bg-[#FAF8F5] bg-pinstripes border-b border-gray-200 overflow-hidden py-14 md:py-20">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          {/* Breadcrumb */}
-          <div className="flex items-center space-x-2 text-xs font-semibold text-gray-500 mb-6 uppercase tracking-wider">
-            <span className="hover:text-[#DE0826] cursor-pointer">Home</span>
-            <span>/</span>
-            <span className="text-[#DE0826]">Contact Us</span>
-          </div>
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!privacyAgreed) {
+      alert('Please agree to our Privacy Policy to submit your enquiry.')
+      return
+    }
+    setSubmitted(true)
+  }
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-4 leading-tight font-heading">
+  const contactAccordionItems = [
+    {
+      title: 'Request for Service',
+      description:
+        'Partner with Tech Mahindra to co-create AI-first enterprise architectures, modernize legacy workloads, or accelerate digital transformation across telecom, financial, cloud, and engineering domains.',
+      enquiryType: 'Request for Service',
+      contact: 'solutions@techmahindra.com | +1 (800) 246-8324',
+    },
+    {
+      title: 'Join Tech Mahindra',
+      description:
+        'Explore rewarding careers and leadership pathways across 90+ countries. Rise to new heights with our collaborative global workforce of over 150,000 innovators.',
+      enquiryType: 'Join Tech Mahindra',
+      contact: 'careers@techmahindra.com',
+    },
+    {
+      title: 'Vendor Registration',
+      description:
+        'Join our world-class supply chain. We welcome innovative technology, cloud, and hardware vendors committed to sustainability, ethics, and quality engineering.',
+      enquiryType: 'Vendor Registration',
+      contact: 'procurement@techmahindra.com',
+    },
+    {
+      title: 'Investor Information',
+      description:
+        'Access financial earnings, SEC and regulatory filings, ESG sustainability reports, shareholder governance, and analyst transcripts.',
+      enquiryType: 'Investor Information',
+      contact: 'investor.relations@techmahindra.com',
+    },
+    {
+      title: 'Other Requests',
+      description:
+        'For global media, public relations, keynote appearances, corporate citizenship partnerships, and general queries.',
+      enquiryType: 'Other Requests',
+      contact: 'media.enquiries@techmahindra.com',
+    },
+  ]
+
+  return (
+    <div className="bg-[#EFECE6] text-gray-900 min-h-screen font-sans">
+      {/* 1. Header & 5-Item Expandable Accordion (Matching Screenshot Top) */}
+      <section className="bg-[#EFECE6] pt-14 pb-20 px-6 md:px-12 border-b border-gray-300">
+        <div className="max-w-[1440px] mx-auto">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-3 font-heading">
             Contact Us
           </h1>
-          <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-normal">
+          <p className="text-sm sm:text-base text-gray-700 font-normal mb-12">
             We would love to hear from you!
           </p>
-        </div>
-      </section>
 
-      {/* 2. 5-Item Accordion Section */}
-      <section className="py-16 md:py-20 bg-[#EBE7DF] border-b border-gray-200">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="space-y-4 max-w-4xl mx-auto">
-            {[
-              {
-                title: 'Request for Service',
-                description:
-                  'Accelerate your digital transformation, modernize legacy core systems, or co-create AI-first enterprise architectures with Norstar specialized engineering teams.',
-                cta: 'Initiate Service Inquiry',
-                contact: 'solutions@norstar-digital.com | +1 (800) 246-8324',
-              },
-              {
-                title: 'Join Norstar',
-                description:
-                  'Explore high-impact career pathways across 90+ global delivery hubs. Discover how you can Rise to new heights with our collaborative global innovators.',
-                cta: 'Explore Open Positions',
-                contact: 'careers@norstar-digital.com',
-              },
-              {
-                title: 'Vendor Registration',
-                description:
-                  'Partner with us as an accredited technology, hardware, or cloud supplier. We value innovative partners who share our commitment to sustainability and zero-defect delivery.',
-                cta: 'Access Vendor Onboarding Portal',
-                contact: 'procurement@norstar-digital.com',
-              },
-              {
-                title: 'Investor Information',
-                description:
-                  'Access quarterly financial earnings, annual reports, shareholder governance filings, ESG sustainability disclosures, and investor relations briefings.',
-                cta: 'View Investor Releases',
-                contact: 'investors@norstar-digital.com',
-              },
-              {
-                title: 'Other Requests',
-                description:
-                  'For global media inquiries, press interviews, keynote speaker requests, analyst relations, or Corporate Social Responsibility community partnerships.',
-                cta: 'Submit General Inquiry',
-                contact: 'press@norstar-digital.com',
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="border-b border-gray-400/60 pb-4 transition-colors"
-              >
-                <button
-                  onClick={() => toggleAccordion(idx)}
-                  className="w-full flex items-center justify-between py-4 text-left group cursor-pointer border-0 bg-transparent"
-                >
-                  <span className="text-xl sm:text-2xl font-bold text-gray-950 group-hover:text-[#DE0826] transition-colors font-heading">
-                    {item.title}
-                  </span>
-                  <span className="text-2xl text-gray-700 group-hover:text-[#DE0826] transition-colors font-light">
-                    {openAccordion === idx ? '−' : '+'}
-                  </span>
-                </button>
-                {openAccordion === idx && (
-                  <div className="pt-2 pb-6 text-gray-700 text-sm sm:text-base leading-relaxed animate-fadeIn">
-                    <p className="mb-4">{item.description}</p>
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-white/70 rounded-lg border border-gray-300">
-                      <span className="text-xs font-semibold text-gray-600">
-                        Direct Channel: <strong className="text-gray-950">{item.contact}</strong>
-                      </span>
-                      <button
-                        onClick={() => {
-                          const el = document.getElementById('get-in-touch-form')
-                          if (el) el.scrollIntoView({ behavior: 'smooth' })
-                        }}
-                        className="bg-[#DE0826] text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded hover:bg-[#BE001D] transition-colors cursor-pointer border-0 shrink-0"
-                      >
-                        {item.cta}
-                      </button>
+          {/* 5 Full-Width Accordion Rows with Horizontal Lines */}
+          <div className="border-t border-gray-300/80">
+            {contactAccordionItems.map((item, idx) => {
+              const isOpen = openAccordion === idx
+              return (
+                <div key={idx} className="border-b border-gray-300/80 transition-colors">
+                  <button
+                    onClick={() => toggleAccordion(idx)}
+                    className="w-full flex items-center justify-between py-6 text-left group cursor-pointer border-0 bg-transparent"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-950 group-hover:text-[#DE0826] transition-colors font-heading">
+                      {item.title}
+                    </span>
+                    <span className="text-2xl font-light text-gray-800 group-hover:text-[#DE0826] transition-colors pr-2">
+                      {isOpen ? '−' : '+'}
+                    </span>
+                  </button>
+
+                  {isOpen && (
+                    <div className="pb-8 pt-2 text-gray-700 text-sm sm:text-base leading-relaxed animate-fadeIn max-w-4xl">
+                      <p className="mb-4 text-gray-800">{item.description}</p>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-white/80 rounded border border-gray-300">
+                        <span className="text-xs font-semibold text-gray-700">
+                          Direct Contact: <strong className="text-gray-950">{item.contact}</strong>
+                        </span>
+                        <button
+                          onClick={() => {
+                            setEnquiryType(item.enquiryType)
+                            const el = document.getElementById('contact-form-section')
+                            if (el) el.scrollIntoView({ behavior: 'smooth' })
+                          }}
+                          className="bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded transition-colors cursor-pointer border-0 shrink-0"
+                        >
+                          Submit Inquiry Below
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      {/* 3. Norstar's Global Offices Section */}
-      <section className="py-20 md:py-28 bg-[#FAF8F5] border-b border-gray-200">
+      {/* 2. Global Offices & World Map (Matching Screenshot Middle) */}
+      <section className="py-16 md:py-24 bg-[#EFECE6] border-b border-gray-300">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left: Office Search & Country Directory */}
             <div className="lg:col-span-5">
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 mb-6 font-heading">
-                Norstar's Global Offices
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-6 font-heading">
+                Tech Mahindra's Offices
               </h2>
 
-              {/* Search bar */}
+              {/* Search bar with magnifying glass on the right */}
               <div className="relative mb-6">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by city or country..."
-                  className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm bg-white border border-gray-300 rounded focus:border-[#DE0826] focus:outline-none shadow-xs"
+                  placeholder="Search by office location"
+                  className="w-full pl-4 pr-10 py-3 text-xs sm:text-sm bg-transparent border-b-2 border-gray-400 text-gray-900 placeholder-gray-500 focus:border-gray-950 focus:outline-none"
                 />
-                <div className="absolute left-3 top-3.5 text-gray-400">
+                <div className="absolute right-3 top-3.5 text-gray-600 pointer-events-none">
                   <Icon name="search" className="w-4 h-4" />
                 </div>
               </div>
 
-              {/* Interactive Country List */}
-              <div className="max-h-[380px] overflow-y-auto pr-2 space-y-1.5 border border-gray-200 rounded-lg p-2 bg-white">
-                {filteredOffices.map((office) => (
-                  <button
-                    key={office.country}
-                    onClick={() => setSelectedCountry(office)}
-                    className={`w-full text-left px-4 py-3 rounded text-xs sm:text-sm font-semibold transition-all cursor-pointer border-0 flex items-center justify-between ${
-                      selectedCountry.country === office.country
-                        ? 'bg-red-50 text-[#DE0826] font-bold'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-[#DE0826]'
-                    }`}
-                  >
-                    <span>{office.country}</span>
-                    <span className="text-xs text-gray-400">
-                      {office.cities.length} {office.cities.length === 1 ? 'hub' : 'hubs'}
-                    </span>
-                  </button>
-                ))}
+              {/* Scrollable Country List matching screenshot */}
+              <div className="max-h-[340px] overflow-y-auto pr-2 space-y-1 divide-y divide-gray-200/60">
+                {filteredOffices.map((office) => {
+                  const isSelected = selectedCountry.country === office.country
+                  return (
+                    <button
+                      key={office.country}
+                      onClick={() => setSelectedCountry(office)}
+                      className={`w-full text-left py-2.5 px-2 transition-colors cursor-pointer border-0 bg-transparent flex items-center justify-between text-sm ${
+                        isSelected
+                          ? 'text-[#DE0826] font-extrabold'
+                          : 'text-gray-800 hover:text-gray-950 font-normal'
+                      }`}
+                    >
+                      <span>{office.country}</span>
+                      {isSelected && (
+                        <span className="w-2 h-2 rounded-full bg-[#DE0826]" />
+                      )}
+                    </button>
+                  )
+                })}
               </div>
 
-              {/* Selected Office Details Card */}
+              {/* Selected Country Facilities Card */}
               {selectedCountry && (
-                <div className="mt-6 p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
-                  <div className="text-xs uppercase tracking-wider font-bold text-[#DE0826] mb-2">
-                    {selectedCountry.country} Facilities
+                <div className="mt-6 p-5 bg-white/90 rounded border border-gray-300/80 shadow-xs">
+                  <div className="text-xs uppercase tracking-wider font-bold text-[#DE0826] mb-3">
+                    {selectedCountry.country} Office Locations ({selectedCountry.cities.length})
                   </div>
-                  <div className="space-y-4">
+                  <div className="space-y-3.5">
                     {selectedCountry.cities.map((city, cIdx) => (
                       <div key={cIdx} className="border-b border-gray-100 pb-3 last:border-b-0 last:pb-0">
-                        <div className="font-bold text-sm text-gray-950">{city.name}</div>
+                        <div className="font-bold text-xs sm:text-sm text-gray-950">{city.name}</div>
                         <div className="text-xs text-gray-600 mt-0.5">{city.address}</div>
-                        <div className="text-xs text-[#DE0826] mt-1 font-semibold">
+                        <div className="text-xs text-gray-700 mt-1">
                           📞 {city.phone} • ✉️ {city.email}
                         </div>
                       </div>
@@ -1365,44 +2815,327 @@ function ContactPage() {
               )}
             </div>
 
-            {/* Right: World Map Visual matching screenshot */}
+            {/* Right: Pinned World Map */}
             <div className="lg:col-span-7">
-              <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-300 group">
+              <div className="relative rounded overflow-hidden shadow-md border border-gray-300 bg-white group">
                 <img
                   src="/images/contact_world_map.jpg"
-                  alt="Norstar Global Office Network"
-                  className="w-full aspect-[16/10] object-cover group-hover:scale-105 transition-transform duration-700"
+                  alt="Tech Mahindra Global Offices Map"
+                  className="w-full aspect-[16/10] object-cover"
                 />
-                {/* Overlay Badge Bar */}
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-6 flex flex-wrap items-center justify-between gap-4 text-white">
-                  <div>
-                    <div className="text-xl sm:text-2xl font-extrabold font-mono text-[#DE0826]">
-                      90+ Countries
-                    </div>
-                    <div className="text-[11px] uppercase tracking-wider text-gray-300">
-                      Global Client Delivery Footprint
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-xl sm:text-2xl font-extrabold font-mono text-white">
-                      150+ Hubs
-                    </div>
-                    <div className="text-[11px] uppercase tracking-wider text-gray-300">
-                      CoEs & Engineering Centers
-                    </div>
-                  </div>
+
+                {/* Regional Pin Callouts Over World Map */}
+                <div className="absolute top-[28%] left-[22%] -translate-x-1/2 -translate-y-1/2 flex items-center space-x-1.5 bg-[#DE0826] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
+                  <span>North America</span>
+                </div>
+                <div className="absolute top-[24%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex items-center space-x-1.5 bg-[#DE0826] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
+                  <span>Europe</span>
+                </div>
+                <div className="absolute top-[42%] left-[55%] -translate-x-1/2 -translate-y-1/2 flex items-center space-x-1.5 bg-[#DE0826] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
+                  <span>Middle East</span>
+                </div>
+                <div className="absolute top-[45%] left-[70%] -translate-x-1/2 -translate-y-1/2 flex items-center space-x-1.5 bg-[#DE0826] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
+                  <span>Asia</span>
+                </div>
+                <div className="absolute top-[52%] left-[48%] -translate-x-1/2 -translate-y-1/2 flex items-center space-x-1.5 bg-[#DE0826] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
+                  <span>Africa</span>
+                </div>
+                <div className="absolute top-[68%] left-[84%] -translate-x-1/2 -translate-y-1/2 flex items-center space-x-1.5 bg-[#DE0826] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
+                  <span>Australia</span>
+                </div>
+                <div className="absolute top-[62%] left-[30%] -translate-x-1/2 -translate-y-1/2 flex items-center space-x-1.5 bg-[#DE0826] text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
+                  <span>Latin America</span>
                 </div>
               </div>
 
-              {/* Compliance / Regulatory Notice matching screenshot footer bar */}
-              <p className="text-[11px] text-gray-500 mt-4 leading-relaxed font-normal">
-                Global delivery centers comply with ISO 27001, SOC 2 Type II, HIPAA, and regional sovereign cloud data mandates. For facility security clearances and scheduled client visits, contact regional reception directly.
-              </p>
+              {/* Office Scale Stats Bar */}
+              <div className="mt-4 flex flex-wrap items-center justify-between text-xs text-gray-600 font-medium px-1">
+                <span>✓ 90+ Countries Worldwide</span>
+                <span>✓ 150+ Development & Delivery Hubs</span>
+                <span>✓ 24/7 Global Managed Support</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Hiring & Recruitment Fraud Disclaimer Banner (Matching Screenshot Strip) */}
+          <div className="mt-12 p-4 bg-[#E5E0D5] border border-gray-300 rounded text-[11px] text-gray-700 leading-relaxed font-normal">
+            <strong>Disclaimer:</strong> Beware of fraudulent persons / agencies falsely claiming to be hiring on behalf of Tech Mahindra. Tech Mahindra does not ask for money or any deposit from candidates for any employment opportunity. Tech Mahindra shall not be held liable for any loss or damage incurred as a result of dealings with such fraudulent entities.
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Deep Crimson "Get In Touch" Section (Matching Screenshot Form) */}
+      <section
+        id="contact-form-section"
+        className="py-20 md:py-28 bg-[#520018] text-white relative overflow-hidden"
+      >
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            {/* Left Column: Title */}
+            <div className="lg:col-span-4">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-heading">
+                Get In Touch
+              </h2>
+            </div>
+
+            {/* Right Column: Information & Form */}
+            <div className="lg:col-span-8">
+              <div className="mb-8">
+                <h4 className="text-base font-bold text-white mb-1">
+                  Need more information?
+                </h4>
+                <p className="text-xs sm:text-sm text-white/80 font-normal">
+                  We will take approximately 2-3 working days to respond to your enquiry.
+                </p>
+              </div>
+
+              {submitted ? (
+                <div className="bg-white/10 backdrop-blur-md rounded p-8 border border-white/20 text-center animate-fadeIn">
+                  <div className="w-14 h-14 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mx-auto mb-4 border border-green-500/40">
+                    <Icon name="check" className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2 font-heading">
+                    Thank You, {firstName || 'Partner'}!
+                  </h3>
+                  <p className="text-sm text-white/80 max-w-md mx-auto mb-6">
+                    Your enquiry regarding <strong>{enquiryType}</strong> has been received. Our team will contact you within 2-3 working days.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false)
+                      setFirstName('')
+                      setLastName('')
+                      setEmail('')
+                      setMessage('')
+                      setOrganisation('')
+                      setJobTitle('')
+                      setPhone('')
+                    }}
+                    className="border border-white text-white font-bold text-xs uppercase tracking-widest px-8 py-3 bg-transparent hover:bg-white/10 transition-colors cursor-pointer"
+                  >
+                    Submit Another Enquiry
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleFormSubmit} className="space-y-7">
+                  {/* Type of enquiry */}
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-2 font-semibold">
+                      * Type of enquiry
+                    </label>
+                    <select
+                      value={enquiryType}
+                      onChange={(e) => setEnquiryType(e.target.value)}
+                      className="w-full bg-transparent border-b border-white/40 text-white text-sm py-2.5 px-0 focus:border-white focus:outline-none cursor-pointer"
+                    >
+                      <option value="Request for Service" className="bg-[#520018] text-white">
+                        Select an enquiry type
+                      </option>
+                      <option value="Request for Service" className="bg-[#520018] text-white">
+                        Request for Service
+                      </option>
+                      <option value="Join Tech Mahindra" className="bg-[#520018] text-white">
+                        Join Tech Mahindra (Careers)
+                      </option>
+                      <option value="Vendor Registration" className="bg-[#520018] text-white">
+                        Vendor Registration
+                      </option>
+                      <option value="Investor Information" className="bg-[#520018] text-white">
+                        Investor Information
+                      </option>
+                      <option value="Other Requests" className="bg-[#520018] text-white">
+                        Other Requests
+                      </option>
+                    </select>
+                  </div>
+
+                  {/* Name Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                        * First Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2 focus:border-white focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                        * Last Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2 focus:border-white focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email & Organization Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                        * Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2 focus:border-white focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                        * Organization
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={organisation}
+                        onChange={(e) => setOrganisation(e.target.value)}
+                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2 focus:border-white focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Job Title & Phone Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                        Job Title
+                      </label>
+                      <input
+                        type="text"
+                        value={jobTitle}
+                        onChange={(e) => setJobTitle(e.target.value)}
+                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2 focus:border-white focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2 focus:border-white focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Country */}
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      * Country
+                    </label>
+                    <select
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      className="w-full bg-transparent border-b border-white/40 text-white text-sm py-2.5 px-0 focus:border-white focus:outline-none cursor-pointer"
+                    >
+                      <option value="United States" className="bg-[#520018] text-white">
+                        Select Country
+                      </option>
+                      {globalOfficesData.map((o) => (
+                        <option key={o.country} value={o.country} className="bg-[#520018] text-white">
+                          {o.country}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider text-white/80 mb-1 font-semibold">
+                      * Message
+                    </label>
+                    <textarea
+                      required
+                      rows={3}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="w-full bg-transparent border-b border-white/40 text-white placeholder-white/40 text-sm py-2 focus:border-white focus:outline-none resize-y"
+                    />
+                  </div>
+
+                  {/* Consent Checkboxes */}
+                  <div className="space-y-3 pt-2 text-xs text-white/90">
+                    <label className="flex items-start space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={privacyAgreed}
+                        onChange={(e) => setPrivacyAgreed(e.target.checked)}
+                        className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0 cursor-pointer"
+                      />
+                      <span>
+                        By clicking Submit, you agree to our{' '}
+                        <a href="#privacy" className="underline hover:text-white">
+                          Privacy Policy
+                        </a>.
+                      </span>
+                    </label>
+
+                    <label className="flex items-start space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={newsletterSubscribed}
+                        onChange={(e) => setNewsletterSubscribed(e.target.checked)}
+                        className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0 cursor-pointer"
+                      />
+                      <span>
+                        Subscribe to receive the latest updates on events, news and thought leadership from Tech Mahindra.
+                      </span>
+                    </label>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      className="border border-white text-white font-bold text-xs uppercase tracking-widest px-10 py-3.5 bg-transparent hover:bg-white/15 transition-all duration-300 cursor-pointer"
+                    >
+                      SUBMIT
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>
       </section>
 
+      {/* Floating Inquiry Assistant Widget (Matching Screenshot Bottom Right) */}
+      <div className="fixed bottom-6 right-6 z-40 flex items-end space-x-3 select-none">
+        {chatBubbleOpen && (
+          <div className="bg-white rounded p-3.5 shadow-2xl border border-gray-200 max-w-xs text-xs text-gray-800 leading-relaxed animate-fadeIn relative">
+            <button
+              onClick={() => setChatBubbleOpen(false)}
+              className="absolute top-1.5 right-1.5 text-gray-400 hover:text-gray-600 p-0.5"
+              aria-label="Close message"
+            >
+              ×
+            </button>
+            <p>
+              Hello! Thank you for visiting our Contact Us page. How may we help submit your inquiry to Tech Mahindra?
+            </p>
+          </div>
+        )}
+        <button
+          onClick={() => setChatBubbleOpen(!chatBubbleOpen)}
+          aria-label="Contact Assistant"
+          className="w-12 h-12 rounded-full bg-[#DE0826] hover:bg-[#BE001D] text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 cursor-pointer border-0"
+        >
+          <Icon name="email" className="w-5 h-5" />
+        </button>
+      </div>
     </div>
   )
 }
@@ -3630,358 +5363,671 @@ function AboutUsPage() {
 }
 
 // -------------------------------------------------------------
-// 3. Hero Section (Home)
+// 3. Hero Section (Home) - Full-Bleed Automated & Manual Slider
 // -------------------------------------------------------------
-const heroSlides = [
+interface HeroSlideData {
+  title: string
+  subtitle: string
+  cta: string
+  badge: string
+  image: string
+  route: PageRoute
+}
+
+const heroSlides: HeroSlideData[] = [
   {
-    title: 'Introducing Norstar T!ng',
+    title: 'Zero Gravity Telco Architecture™',
     subtitle:
-      'Amplifying Human Ingenuity with Sound and Artificial Intelligence. Experience our new sonic identity marking the next phase of enterprise transformation.',
-    cta: 'Explore Norstar T!ng',
-    badge: 'Sonic Launch',
-    image: '/images/home_hero.jpg',
+      "Our latest research uncovers what's preventing AI from scaling across telecom operations and how operators can build a path to trusted autonomy.",
+    cta: 'KNOW MORE',
+    badge: 'Research & AI',
+    image: '/images/hero_telco_glass.jpg',
+    route: 'insights',
   },
   {
     title: 'Scale at Speed™',
     subtitle:
       'Delivering transformative scale at unparalleled speed across 90+ countries with digital consulting, cloud architectures, and autonomous workflows.',
-    cta: 'Discover Scale at Speed',
+    cta: 'KNOW MORE',
     badge: 'Core Promise',
     image: '/images/home_racing.jpg',
+    route: 'about',
   },
   {
-    title: 'Sovereign AI for Tomorrow',
+    title: 'Autonomous AI for Enterprise',
     subtitle:
-      'Why open ecosystem collaboration beats closed control. Discover how visionary leaders are navigating technological sovereignty.',
-    cta: 'Listen to Podcast',
-    badge: 'S/N Series',
-    image: '/images/insights_cyber.jpg',
+      'Pioneering sovereign cognitive intelligence, custom LLM fine-tuning, and responsible AI governance designed to accelerate enterprise productivity.',
+    cta: 'KNOW MORE',
+    badge: 'Cognitive AI',
+    image: '/images/insights_quantum.jpg',
+    route: 'capabilities',
+  },
+  {
+    title: 'Cloud & Modern Network Core',
+    subtitle:
+      'Empowering telecom and enterprise innovators with zero-downtime multi-cloud migrations, Open RAN virtualization, and autonomous network ops.',
+    cta: 'KNOW MORE',
+    badge: 'Next-Gen Telco',
+    image: '/images/cap_hero.jpg',
+    route: 'capabilities',
+  },
+  {
+    title: 'Introducing Norstar T!ng',
+    subtitle:
+      'Amplifying human ingenuity with sound and artificial intelligence. Experience our new sonic identity marking the next phase of enterprise transformation.',
+    cta: 'KNOW MORE',
+    badge: 'Sonic Launch',
+    image: '/images/home_hero.jpg',
+    route: 'insights',
   },
 ]
 
-function HeroSection() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
+interface HeroSectionProps {
+  onRouteChange?: (route: PageRoute) => void
+}
 
-  useEffect(() => {
-    if (isPaused) return
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
-    }, 5500)
-    return () => clearInterval(timer)
-  }, [isPaused])
+function HeroSection({ onRouteChange }: HeroSectionProps) {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [prevSlideIndex, setPrevSlideIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+
+  const minSwipeDistance = 50
+
+  const goToSlide = (nextIndex: number) => {
+    if (nextIndex === currentSlide) return
+    setPrevSlideIndex(currentSlide)
+    setCurrentSlide(nextIndex)
+  }
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+    goToSlide((currentSlide + 1) % heroSlides.length)
   }
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)
+    goToSlide((currentSlide - 1 + heroSlides.length) % heroSlides.length)
+  }
+
+  // Automatic slide rotation every 5 seconds, paused on hover
+  useEffect(() => {
+    if (isPaused) return
+    const timer = setInterval(() => {
+      setPrevSlideIndex(currentSlide)
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [isPaused, currentSlide])
+
+  // Keyboard navigation support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        document.activeElement?.tagName === 'INPUT' ||
+        document.activeElement?.tagName === 'TEXTAREA'
+      ) {
+        return
+      }
+      if (e.key === 'ArrowLeft') {
+        prevSlide()
+      } else if (e.key === 'ArrowRight') {
+        nextSlide()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currentSlide])
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    if (distance > minSwipeDistance) {
+      nextSlide()
+    } else if (distance < -minSwipeDistance) {
+      prevSlide()
+    }
+  }
+
+  const handleCtaClick = (route: PageRoute) => {
+    if (onRouteChange) {
+      onRouteChange(route)
+    } else {
+      window.location.hash = `#/${route}`
+    }
   }
 
   return (
     <section
-      className="relative bg-[#F4F5F7] text-gray-900 overflow-hidden border-b border-gray-200"
+      className="relative w-full overflow-hidden bg-neutral-900 lg:h-[calc(100vh-66px)] min-h-[480px] lg:min-h-[540px] lg:max-h-[850px] flex items-center select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      aria-roledescription="carousel"
+      aria-label="Hero Featured Slideshow"
     >
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <svg
-          className="w-full h-full object-cover"
-          viewBox="0 0 1440 600"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      {/* Background Images - Direct crossfade without black dip */}
+      {heroSlides.map((slide, idx) => {
+        const isActive = currentSlide === idx
+        const isPrev = prevSlideIndex === idx
+
+        return (
+          <div
+            key={slide.image}
+            className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ease-in-out ${
+              isActive
+                ? 'opacity-100 z-10'
+                : isPrev
+                ? 'opacity-100 z-0'
+                : 'opacity-0 z-0'
+            }`}
+            aria-hidden={!isActive}
+          >
+            <img
+              src={slide.image}
+              alt={slide.title}
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        )
+      })}
+
+      {/* Static single gradient overlay - stays perfectly consistent with zero flash or darkening */}
+      <div className="absolute inset-0 z-15 bg-gradient-to-r from-black/80 via-black/40 to-black/15 pointer-events-none" />
+
+      {/* Main Slide Content: Left Aligned */}
+      <div className="relative z-20 max-w-[1440px] w-full mx-auto px-6 sm:px-10 md:px-16 lg:px-20 py-8 sm:py-12 flex items-center h-full">
+        {heroSlides.map((slide, idx) => {
+          const isActive = currentSlide === idx
+          return (
+            <div
+              key={slide.title}
+              className={`transition-opacity duration-500 ease-in-out max-w-3xl pr-6 sm:pr-12 md:pr-24 ${
+                isActive
+                  ? 'opacity-100 relative z-20 pointer-events-auto'
+                  : 'opacity-0 absolute inset-x-6 sm:inset-x-10 md:inset-x-16 lg:inset-x-20 pointer-events-none'
+              }`}
+              aria-hidden={!isActive}
+            >
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12]">
+                {slide.title}
+              </h1>
+
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-gray-200/90 leading-relaxed font-normal max-w-2xl">
+                {slide.subtitle}
+              </p>
+
+              <div className="mt-6 sm:mt-8">
+                <button
+                  onClick={() => handleCtaClick(slide.route)}
+                  className="inline-block border border-white/70 hover:border-white text-white uppercase text-xs sm:text-sm font-semibold tracking-wider px-7 py-3 bg-black/20 hover:bg-white/15 transition-all duration-300 backdrop-blur-xs cursor-pointer"
+                >
+                  {slide.cta}
+                </button>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Right Edge: Vertical Slide Dash Indicators (Matching Screenshot) */}
+      <div
+        className="absolute right-6 sm:right-10 md:right-14 top-1/2 -translate-y-1/2 z-30 flex flex-col items-end space-y-3.5"
+        aria-label="Slide Selection Indicators"
+      >
+        {heroSlides.map((slide, idx) => {
+          const isActive = currentSlide === idx
+          return (
+            <button
+              key={slide.title}
+              onClick={() => goToSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}: ${slide.title}`}
+              className="group py-1 px-1 flex items-center justify-end cursor-pointer bg-transparent border-0 focus:outline-none"
+            >
+              <span
+                className={`block h-[2px] transition-all duration-300 rounded-xs ${
+                  isActive
+                    ? 'w-9 sm:w-10 bg-white shadow-[0_0_8px_rgba(255,255,255,0.7)]'
+                    : 'w-4 sm:w-5 bg-white/40 group-hover:bg-white/80 group-hover:w-7'
+                }`}
+              />
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Bottom Right: Manual Navigation Controls (< | >) */}
+      <div className="absolute bottom-5 sm:bottom-7 md:bottom-8 right-6 sm:right-10 md:right-14 z-30 flex items-center space-x-3.5 select-none">
+        <button
+          onClick={prevSlide}
+          aria-label="Previous Slide"
+          className="p-1.5 text-white/70 hover:text-white transition-colors cursor-pointer bg-transparent border-0 flex items-center justify-center group focus:outline-none"
         >
-          <circle cx="950" cy="220" r="220" fill="url(#acousticGlow)" />
+          <Icon
+            name="chevron-left"
+            className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:-translate-x-0.5"
+          />
+        </button>
+
+        <span className="text-white/30 text-sm sm:text-base font-extralight select-none">
+          |
+        </span>
+
+        <button
+          onClick={nextSlide}
+          aria-label="Next Slide"
+          className="p-1.5 text-white/70 hover:text-white transition-colors cursor-pointer bg-transparent border-0 flex items-center justify-center group focus:outline-none"
+        >
+          <Icon
+            name="chevron-right"
+            className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-0.5"
+          />
+        </button>
+      </div>
+
+      {/* Subtle bottom edge separator line */}
+      <div className="absolute bottom-0 inset-x-0 h-[1px] bg-white/10 z-20 pointer-events-none" />
+    </section>
+  )
+}
+
+// -------------------------------------------------------------
+// 4. "Scale at Speed™ with Tech Mahindra" Feature Section
+// Matching Reference Screenshot media_1789187339971.png Exactly
+// -------------------------------------------------------------
+interface BrandPromiseSectionProps {
+  onRouteChange?: (route: PageRoute) => void
+}
+
+function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
+  return (
+    <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden lg:h-[calc(100vh-66px)] lg:min-h-[540px] lg:max-h-[850px] flex items-center">
+      {/* Background Subtle Isometric Wireframe Pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-45 z-0">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="acousticGlow" cx="0.5" cy="0.5" r="0.5">
-              <stop stopColor="#DE0826" stopOpacity="0.08" />
-              <stop offset="1" stopColor="#DE0826" stopOpacity="0" />
-            </radialGradient>
+            <pattern
+              id="techm-iso-grid"
+              width="100"
+              height="173.2"
+              patternUnits="userSpaceOnUse"
+            >
+              {/* Isometric rhombuses & vertical guides matching reference */}
+              <path
+                d="M50,0 L100,28.87 L100,86.6 L50,115.47 L0,86.6 L0,28.87 Z"
+                fill="none"
+                stroke="#CFC8B6"
+                strokeWidth="0.8"
+              />
+              <path
+                d="M50,173.2 L100,144.33 L100,86.6 L50,57.73 L0,86.6 L0,144.33 Z"
+                fill="none"
+                stroke="#CFC8B6"
+                strokeWidth="0.8"
+              />
+              <line x1="50" y1="0" x2="50" y2="173.2" stroke="#CFC8B6" strokeWidth="0.5" />
+              <line x1="0" y1="28.87" x2="100" y2="86.6" stroke="#CFC8B6" strokeWidth="0.5" />
+              <line x1="0" y1="86.6" x2="100" y2="28.87" stroke="#CFC8B6" strokeWidth="0.5" />
+              <line x1="0" y1="144.33" x2="100" y2="86.6" stroke="#CFC8B6" strokeWidth="0.5" />
+              <line x1="0" y1="86.6" x2="100" y2="144.33" stroke="#CFC8B6" strokeWidth="0.5" />
+            </pattern>
           </defs>
+          <rect width="100%" height="100%" fill="url(#techm-iso-grid)" />
         </svg>
       </div>
 
-      <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 py-16 md:py-24 min-h-[560px] lg:min-h-[620px] flex flex-col justify-between z-20">
-        <div className="relative overflow-hidden w-full py-2">
-          <div
-            className="flex transition-transform duration-700 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {heroSlides.map((slide, idx) => (
-              <div
-                key={slide.title}
-                className="w-full flex-shrink-0 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center overflow-hidden px-1 py-2"
-                aria-hidden={currentSlide !== idx}
+      {/* Main Content & Angled Graphic Layout */}
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-12 lg:px-16 py-12 sm:py-16 lg:py-0 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+          {/* Left Text Content */}
+          <div className="lg:col-span-6 max-w-xl">
+            {/* Header: Scale at Speed™ in Red */}
+            <h2 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-[#DE0826] tracking-tight leading-none font-heading">
+              Scale at Speed<sup className="text-xl sm:text-2xl font-bold align-top ml-1">™</sup>
+            </h2>
+
+            {/* Subheader: with Norstar Digital */}
+            <h3 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold text-gray-950 tracking-tight mt-1.5 sm:mt-2.5 leading-tight font-heading">
+              with Nor<span className="text-[#DE0826]">star</span> Digital
+            </h3>
+
+            {/* Description Text: Tailored original value proposition */}
+            <p className="text-gray-700 text-sm sm:text-base lg:text-[16px] leading-relaxed mt-5 sm:mt-6 mb-8 sm:mb-10 font-normal">
+              Empowering forward-thinking enterprises to accelerate digital evolution, build intelligent architectures, and achieve lasting operational agility at unprecedented speed.
+            </p>
+
+            {/* Action Buttons: EXPLORE SOLUTIONS & OUR BRAND STORY */}
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                onClick={() => onRouteChange?.('capabilities')}
+                className="bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-extrabold uppercase tracking-widest px-8 py-3.5 transition-all shadow-xs cursor-pointer border-0"
               >
-                <div className="lg:col-span-7 flex flex-col items-start pr-0 lg:pr-8">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-[1.08]">
-                    {slide.title}
-                  </h1>
+                EXPLORE SOLUTIONS
+              </button>
+              <button
+                onClick={() => onRouteChange?.('about')}
+                className="bg-transparent hover:bg-[#DE0826]/5 text-[#DE0826] border border-[#DE0826] text-xs font-extrabold uppercase tracking-widest px-7 py-3.5 transition-all cursor-pointer"
+              >
+                OUR BRAND STORY
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                  <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-xl leading-relaxed font-normal">
-                    {slide.subtitle}
-                  </p>
+      {/* Desktop Angled Formula Racing Car Graphic on the Right */}
+      <div
+        className="hidden lg:block absolute right-0 top-0 bottom-0 w-[50%] xl:w-[51%] h-full z-10 pointer-events-none"
+        style={{
+          clipPath: 'polygon(0 38%, 68% 0, 100% 0, 100% 100%, 0 100%)',
+        }}
+      >
+        <img
+          src="/images/scale_at_speed_racing.jpg"
+          alt="Scale at Speed - Norstar High Velocity Digital Innovation"
+          className="w-full h-full object-cover object-center pointer-events-auto"
+        />
+      </div>
 
-                  <div className="flex flex-wrap items-center gap-4">
-                    <a
-                      href="#about"
-                      className="inline-flex items-center space-x-3 bg-[#DE0826] hover:bg-[#BE001D] text-white text-[13px] font-bold px-7 py-3.5 rounded transition-all shadow-md hover:shadow-lg"
-                    >
-                      <span>{slide.cta}</span>
-                      <Icon name="arrow-right" className="w-4 h-4" />
-                    </a>
-                    <a
-                      href="#capabilities"
-                      className="inline-flex items-center space-x-2 px-6 py-3.5 bg-white border border-gray-300 hover:border-[#DE0826] text-gray-800 hover:text-[#DE0826] text-[13px] font-semibold rounded transition-all shadow-sm"
-                    >
-                      <span>Learn More</span>
-                    </a>
-                  </div>
-                </div>
+      {/* Mobile Responsive Racing Graphic (displays below text on smaller screens) */}
+      <div
+        className="lg:hidden w-full aspect-[16/10] overflow-hidden relative z-10"
+        style={{
+          clipPath: 'polygon(0 18%, 65% 0, 100% 0, 100% 100%, 0 100%)',
+        }}
+      >
+        <img
+          src="/images/scale_at_speed_racing.jpg"
+          alt="Scale at Speed - Norstar High Velocity Digital Innovation"
+          className="w-full h-full object-cover object-center"
+        />
+      </div>
+    </section>
+  )
+}
 
-                <div className="lg:col-span-5 flex justify-center lg:justify-end pr-2">
-                  <div className="w-full max-w-md relative p-1">
-                    <div className="relative rounded-2xl overflow-hidden border-2 border-red-100 bg-white shadow-xl p-6">
-                      <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4 text-xs">
-                        <span className="font-bold text-gray-800">{slide.badge}</span>
-                        <span className="text-[#DE0826] font-bold font-mono">0{idx + 1} / 03</span>
-                      </div>
+// -------------------------------------------------------------
+// 5. Podcast Spotlight Section ("S/N: All Signal. No Noise.")
+// Exact Match to Reference Screenshot media_1789188177811.png
+// -------------------------------------------------------------
+function PodcastSection() {
+  const [showModal, setShowModal] = useState(false)
 
-                      <ImageBox
-                        label={`Hero Visual • ${slide.title}`}
-                        aspectRatio="aspect-[4/3]"
-                        dark={false}
-                        imageSrc={slide.image}
-                      />
+  return (
+    <section className="relative bg-[#08072B] text-white overflow-hidden border-b border-neutral-800 lg:h-[calc(100vh-66px)] lg:min-h-[540px] lg:max-h-[850px] flex items-center">
+      {/* 1. Large 3D Isometric Hexagon Wireframe Grid */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id="podcast-hex-grid"
+              width="140"
+              height="242.48"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M70,0 L140,40.41 L140,121.24 L70,161.65 L0,121.24 L0,40.41 Z"
+                fill="none"
+                stroke="#561230"
+                strokeWidth="1"
+                strokeOpacity="0.5"
+              />
+              <path
+                d="M70,242.48 L140,202.07 L140,121.24 L70,80.83 L0,121.24 L0,202.07 Z"
+                fill="none"
+                stroke="#561230"
+                strokeWidth="1"
+                strokeOpacity="0.5"
+              />
+              <line x1="70" y1="0" x2="70" y2="80.83" stroke="#561230" strokeWidth="1" strokeOpacity="0.5" />
+              <line x1="70" y1="161.65" x2="70" y2="242.48" stroke="#561230" strokeWidth="1" strokeOpacity="0.5" />
+              <line x1="0" y1="121.24" x2="70" y2="161.65" stroke="#561230" strokeWidth="1" strokeOpacity="0.5" />
+              <line x1="140" y1="121.24" x2="70" y2="161.65" stroke="#561230" strokeWidth="1" strokeOpacity="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#podcast-hex-grid)" />
+        </svg>
+      </div>
 
-                      <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
-                        <div className="flex items-center space-x-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#DE0826] inline-block animate-ping" />
-                          <span className="font-medium text-gray-700">Interactive Acoustic Stage</span>
-                        </div>
-                        <span className="text-[#DE0826] font-semibold">Norstar Sonic</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      {/* 2. Crimson Wedge on the Right with Vertical Pinstripe Overlay */}
+      <div
+        className="hidden lg:block absolute right-0 top-0 bottom-0 w-[53%] pointer-events-none z-0"
+        style={{
+          backgroundColor: '#5F0229',
+          clipPath: 'polygon(16% 40%, 100% 0%, 100% 100%, 0% 100%)',
+        }}
+      >
+        {/* Vertical Pinstripe Grid Lines matching reference */}
+        <div
+          className="absolute inset-0 w-full h-full opacity-20"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(to right, transparent, transparent 11px, rgba(235, 40, 70, 0.5) 11px, rgba(235, 40, 70, 0.5) 12px)',
+          }}
+        />
+      </div>
+
+      {/* 3. Animated Audio Equalizer Soundwave Graphic Behind Right Speaker */}
+      <div className="hidden lg:flex absolute right-0 top-[59%] -translate-y-1/2 w-[48%] h-12 pointer-events-none z-[1] items-center justify-end pr-6">
+        <div className="relative flex items-center h-10 overflow-visible">
+          {/* Flowing Dashed Signal Line with Traveling Pulse */}
+          <div className="relative w-28 h-[2px] mr-3 overflow-hidden flex items-center">
+            <svg className="w-full h-2 overflow-visible" viewBox="0 0 112 2" fill="none">
+              <line
+                x1="0"
+                y1="1"
+                x2="112"
+                y2="1"
+                stroke="#DE0826"
+                strokeWidth="2"
+                strokeDasharray="6 6"
+                style={{ animation: 'signalDashFlow 1.2s linear infinite' }}
+              />
+            </svg>
+            {/* Gliding Signal Pulse Dot */}
+            <div
+              className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#DE0826]"
+              style={{ animation: 'signalPacketGlide 2.2s linear infinite' }}
+            />
+          </div>
+
+          {/* Dynamic Equalizer Bars with Traveling Wave Motion */}
+          <div className="flex items-center space-x-[3.5px] h-10">
+            {[
+              3, 4, 5, 6, 5, 4, 4, 5, 6, 8, 10, 14, 18, 22, 26, 28, 24, 18, 14, 10,
+              8, 6, 8, 10, 14, 18, 20, 22, 18, 14, 10, 8, 6, 5, 4, 3
+            ].map((height, idx) => (
+              <div
+                key={idx}
+                className="w-[4.5px] bg-[#DE0826] rounded-full"
+                style={{
+                  height: `${height}px`,
+                  transformOrigin: 'center',
+                  animation: `signalBarWave 1.25s ease-in-out ${(idx * 0.045).toFixed(2)}s infinite alternate`,
+                }}
+              />
             ))}
           </div>
         </div>
+      </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center space-x-3">
-            <span className="font-mono text-xs font-bold text-[#DE0826]">0{currentSlide + 1}</span>
-            <div className="flex space-x-2">
-              {heroSlides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentSlide(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === i
-                      ? 'w-10 bg-[#DE0826]'
-                      : 'w-4 bg-gray-300 hover:bg-gray-400'
-                  }`}
-                />
-              ))}
+      {/* 4. Cutout Studio Portraits of Executives Standing Directly Over Canvas */}
+      <div className="hidden lg:flex absolute right-4 xl:right-10 bottom-0 h-full w-[54%] pointer-events-none z-[2] items-end justify-end">
+        <img
+          src="/images/executives_duo_final.png"
+          alt="Dr. Marcus Vance and Vikram Choudhury in Discussion"
+          className="h-[90%] max-h-[470px] w-auto object-contain object-bottom select-none"
+        />
+      </div>
+
+      {/* 5. Precision Slanted Parallelogram Nameplates */}
+      <div className="hidden lg:flex absolute bottom-5 right-6 xl:right-12 z-20 space-x-3 items-end">
+        {/* Left Speaker Badge: Dr. Marcus Vance */}
+        <div
+          className="relative bg-[#EDE7DF] text-left shadow-2xl overflow-hidden cursor-default transition-transform hover:-translate-y-0.5"
+          style={{
+            clipPath: 'polygon(18px 0, 100% 0, calc(100% - 18px) 100%, 0 100%)',
+            width: '235px',
+          }}
+        >
+          {/* Slanted red left stripe */}
+          <div className="absolute left-0 top-0 bottom-0 w-2 bg-[#DE0826]" />
+          <div className="pl-6 pr-4 py-3">
+            <div className="font-extrabold text-[12.5px] uppercase text-[#5B0C23] tracking-tight font-heading leading-tight">
+              DR. MARCUS VANCE
             </div>
-            <span className="font-mono text-xs text-gray-400 font-bold">03</span>
+            <div className="text-[10.5px] text-[#2D3748] leading-tight mt-1 font-medium">
+              Group Chief Strategy and<br />Transformation Officer, Nexus Global
+            </div>
           </div>
+        </div>
 
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={prevSlide}
-              aria-label="Previous Slide"
-              className="w-10 h-10 rounded-full border border-gray-300 bg-white hover:border-[#DE0826] hover:text-[#DE0826] flex items-center justify-center text-gray-700 transition-colors shadow-sm"
-            >
-              <Icon name="chevron-left" className="w-4 h-4" />
-            </button>
-            <button
-              onClick={nextSlide}
-              aria-label="Next Slide"
-              className="w-10 h-10 rounded-full border border-gray-300 bg-white hover:border-[#DE0826] hover:text-[#DE0826] flex items-center justify-center text-gray-700 transition-colors shadow-sm"
-            >
-              <Icon name="chevron-right" className="w-4 h-4" />
-            </button>
+        {/* Right Speaker Badge: Vikram Choudhury */}
+        <div
+          className="relative bg-[#EDE7DF] text-left shadow-2xl overflow-hidden cursor-default transition-transform hover:-translate-y-0.5"
+          style={{
+            clipPath: 'polygon(18px 0, 100% 0, calc(100% - 18px) 100%, 0 100%)',
+            width: '235px',
+          }}
+        >
+          {/* Slanted red left stripe */}
+          <div className="absolute left-0 top-0 bottom-0 w-2 bg-[#DE0826]" />
+          <div className="pl-6 pr-4 py-3">
+            <div className="font-extrabold text-[12.5px] uppercase text-[#5B0C23] tracking-tight font-heading leading-tight">
+              VIKRAM CHOUDHURY
+            </div>
+            <div className="text-[10.5px] text-[#2D3748] leading-tight mt-1 font-medium">
+              Chief Transformation Officer, Norstar<br />Digital
+            </div>
           </div>
         </div>
       </div>
-    </section>
-  )
-}
 
-// -------------------------------------------------------------
-// 4. "with Norstar" Split Feature Section
-// -------------------------------------------------------------
-function BrandPromiseSection() {
-  return (
-    <section className="py-20 md:py-24 bg-[#FAF8F5] border-b border-neutral-200">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          <div className="lg:col-span-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-              with Nor<span className="text-[#DE0826]">star</span>
-              <span className="text-[#DE0826] ml-1 text-2xl font-light">★</span>
-            </h2>
+      {/* 6. Subtle Scroll Indicator at Bottom Right */}
+      <div className="hidden lg:flex absolute bottom-4 right-3 w-6 h-6 rounded-full bg-black/40 border border-white/20 text-white/70 items-center justify-center text-[10px] z-30 select-none">
+        ↑
+      </div>
 
-            <p className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
-              From the racetrack of the ABB FIA Formula E World Championship to the boardroom of Fortune 500 enterprises, we co-innovate with ambitious organizations to push technological boundaries, optimize operational efficiency, and deliver sustainable speed.
-            </p>
-
-            <p className="text-gray-600 text-sm leading-relaxed mb-8">
-              Leveraging race-grade real-time telemetry, advanced engineering simulations, and AI-powered digital twins, we translate high-stakes performance into enterprise-grade scale.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <a
-                href="#capabilities"
-                className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3 rounded transition-all shadow-sm"
-              >
-                <span>Explore Solutions</span>
-                <Icon name="arrow-right" className="w-3.5 h-3.5" />
-              </a>
-              <a
-                href="#success-stories"
-                className="inline-flex items-center space-x-2 text-gray-900 hover:text-[#DE0826] text-xs font-bold px-4 py-3 transition-colors"
-              >
-                <span>Watch the Video</span>
-                <Icon name="chevron-right" className="w-3.5 h-3.5 text-[#DE0826]" />
-              </a>
-            </div>
+      {/* 7. Main Left Column Container */}
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-12 lg:px-16 py-12 sm:py-16 lg:py-0 relative z-10">
+        <div className="max-w-xl">
+          {/* Podcast Brand Logo: S/N All Signal No Noise */}
+          <div className="flex flex-col mb-7 select-none">
+            <span className="text-4xl sm:text-5xl font-extrabold text-[#DE0826] tracking-tight leading-none font-heading">
+              S/N
+            </span>
+            <span className="text-xs sm:text-[13px] text-white/90 font-medium tracking-wide mt-2 leading-tight">
+              All Signal<br />No Noise
+            </span>
           </div>
 
-          <div className="lg:col-span-6">
-            <div className="relative rounded-2xl overflow-hidden bg-white p-3 shadow-xl border-2 border-red-50 hover:border-red-200 transition-all">
-              <ImageBox
-                label="Norstar High Velocity Enterprise"
-                aspectRatio="aspect-[16/10]"
-                dark={false}
-                imageSrc="/images/home_racing.jpg"
+          {/* Podcast Pill Badge with Microphone */}
+          <div className="inline-flex items-center space-x-2 bg-[#181D33] border border-white/10 text-white px-3 py-1.5 rounded mb-6">
+            <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+              <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            </svg>
+            <span className="tracking-widest uppercase text-[11px] font-bold">PODCAST</span>
+          </div>
+
+          {/* Episode Title exactly matching typography & accent */}
+          <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-bold text-white tracking-tight leading-[1.12] mb-8 font-heading">
+            Sovereign AI: Why<br />
+            Collaboration<br />
+            <span className="text-[#DE0826]">Beats</span> Control
+          </h2>
+
+          {/* CTA Button: Watch Full Episode */}
+          <button
+            onClick={() => setShowModal(true)}
+            className="inline-flex items-center space-x-3 bg-[#DE0826] hover:bg-[#C2051E] text-white text-xs font-extrabold uppercase tracking-widest px-7 py-3.5 rounded-[3px] transition-all shadow-xl cursor-pointer border-0 group"
+          >
+            <span className="w-5 h-5 rounded-full bg-white text-[#DE0826] flex items-center justify-center text-[10px] pl-0.5 group-hover:scale-110 transition-transform">
+              ▶
+            </span>
+            <span>WATCH FULL EPISODE</span>
+          </button>
+        </div>
+
+        {/* Mobile/Tablet Fallback: Speakers & Badges below text */}
+        <div className="block lg:hidden mt-10 relative">
+          <img
+            src="/images/executives_duo_final.png"
+            alt="Executive Leaders in Discussion"
+            className="w-full max-w-[500px] mx-auto h-auto object-contain"
+          />
+          <div className="flex flex-col sm:flex-row gap-3 mt-4 justify-center">
+            <div className="bg-[#EDE7DF] p-3 border-l-4 border-[#DE0826] shadow-md text-left">
+              <div className="font-extrabold text-xs uppercase text-[#5B0C23]">
+                DR. MARCUS VANCE
+              </div>
+              <div className="text-[10px] text-[#2D3748] mt-0.5 font-medium">
+                Group Chief Strategy & Transformation Officer, Nexus Global
+              </div>
+            </div>
+            <div className="bg-[#EDE7DF] p-3 border-l-4 border-[#DE0826] shadow-md text-left">
+              <div className="font-extrabold text-xs uppercase text-[#5B0C23]">
+                VIKRAM CHOUDHURY
+              </div>
+              <div className="text-[10px] text-[#2D3748] mt-0.5 font-medium">
+                Chief Transformation Officer, Norstar Digital
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Episode Playback Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-2xl bg-[#0B0F19] border border-white/20 rounded-xl overflow-hidden shadow-2xl p-6 sm:p-8">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 cursor-pointer bg-transparent border-0 text-lg"
+              aria-label="Close video modal"
+            >
+              ✕
+            </button>
+            <div className="flex items-center space-x-2 text-[#DE0826] text-xs font-bold uppercase tracking-wider mb-2">
+              <span>S/N PODCAST EPISODE</span>
+              <span>•</span>
+              <span>32 MIN</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-4">
+              Sovereign AI: Why Collaboration Beats Control
+            </h3>
+            <div className="relative aspect-video bg-black rounded-lg overflow-hidden flex items-center justify-center border border-white/10 mb-6">
+              <img
+                src="/images/executives_duo_final.png"
+                alt="Episode Video Preview"
+                className="w-full h-full object-contain opacity-70 bg-[#08072B]"
               />
-              <div className="p-4 bg-white flex items-center justify-between border-t border-gray-100">
-                <div>
-                  <span className="text-xs font-bold text-gray-900 block">
-                    Zero Emission • Maximum Velocity
-                  </span>
-                  <span className="text-[11px] text-gray-500">
-                    Gen3 Racing Simulator & AI Telemetry Stack
-                  </span>
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30">
+                <div className="w-16 h-16 rounded-full bg-[#DE0826] text-white flex items-center justify-center text-xl shadow-2xl pl-1 animate-pulse">
+                  ▶
                 </div>
-                <div className="flex items-center space-x-1.5 text-xs text-[#DE0826] font-bold">
-                  <Icon name="activity" className="w-4 h-4" />
-                  <span>320 km/h Peak</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// -------------------------------------------------------------
-// 5. Podcast Spotlight ("S/N: All Signal. No Noise.")
-// -------------------------------------------------------------
-function PodcastSection() {
-  return (
-    <section className="relative bg-[#1E060D] text-white overflow-hidden py-16 md:py-20">
-      <div className="absolute inset-0 pointer-events-none opacity-30">
-        <div className="absolute -right-20 -bottom-20 w-[600px] h-[600px] bg-[#DE0826]/40 rounded-full blur-3xl" />
-        <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-[#5C061D]/50 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative max-w-[1440px] mx-auto px-6 md:px-12 z-10">
-        <div className="bg-gradient-to-r from-[#2B0813] to-[#4D0819] rounded-3xl p-8 md:p-14 border-2 border-red-500/20 shadow-2xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7">
-              <div className="flex items-center space-x-3 mb-4">
-                <span className="px-3 py-1 bg-[#DE0826] text-white text-[11px] font-mono font-bold rounded">
-                  S/N 01
-                </span>
-                <span className="px-3 py-1 bg-white/10 text-white text-[11px] font-semibold rounded tracking-wider uppercase border border-white/20">
-                  PODCAST
+                <span className="text-xs text-white/90 font-mono mt-3">
+                  Streaming HD episode audio & video...
                 </span>
               </div>
-
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-4 leading-snug">
-                Sovereign AI: Why Collaboration{' '}
-                <span className="text-[#DE0826] underline decoration-2 decoration-[#DE0826] underline-offset-4">
-                  Beats
-                </span>{' '}
-                Control
-              </h2>
-
-              <p className="text-gray-200 text-sm sm:text-base leading-relaxed mb-8 max-w-xl">
-                Tune into the inaugural episode of <em>S/N: All Signal. No Noise.</em> where industry pioneers explore why locking into closed stacks creates fragility, and why ecosystem collaboration delivers true sovereignty in the AI era.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-6">
-                <button
-                  onClick={() => alert('Playing S/N Podcast Episode 01: Sovereign AI')}
-                  className="inline-flex items-center space-x-3 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3.5 rounded-full transition-all shadow-lg hover:scale-105"
-                >
-                  <Icon name="play" className="w-4 h-4 fill-current" />
-                  <span>Listen to Episode</span>
-                </button>
-
-                <div className="flex items-end space-x-1.5 h-6">
-                  <span className="w-1.5 bg-[#DE0826] rounded-full animate-wave-1" />
-                  <span className="w-1.5 bg-white rounded-full animate-wave-2" />
-                  <span className="w-1.5 bg-[#DE0826] rounded-full animate-wave-3" />
-                  <span className="w-1.5 bg-white rounded-full animate-wave-4" />
-                  <span className="w-1.5 bg-[#DE0826] rounded-full animate-wave-5" />
-                </div>
-                <span className="text-xs text-white/70 font-mono">24:18 Episode</span>
-              </div>
             </div>
-
-            <div className="lg:col-span-5">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                <div className="text-xs font-mono text-white/80 uppercase tracking-wider mb-4 text-center font-bold">
-                  Featured Leaders in Discussion
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col items-center text-center p-3 rounded-xl bg-black/20 border border-white/10">
-                    <ImageBox
-                      label="Rainer Deutschmann"
-                      aspectRatio="aspect-square"
-                      dark={true}
-                      className="w-20 h-20 rounded-full mb-3"
-                      imageSrc="/images/podcast_rainer.jpg"
-                    />
-                    <span className="text-xs font-bold text-white leading-tight">
-                      Dr. Rainer Deutschmann
-                    </span>
-                    <span className="text-[10px] text-white/70 mt-1">
-                      Group Strategy & Transformation Officer, Axiata
-                    </span>
-                  </div>
-
-                  <div className="flex flex-col items-center text-center p-3 rounded-xl bg-black/20 border border-white/10">
-                    <ImageBox
-                      label="Amol Phadke"
-                      aspectRatio="aspect-square"
-                      dark={true}
-                      className="w-20 h-20 rounded-full mb-3"
-                      imageSrc="/images/podcast_amol.jpg"
-                    />
-                    <span className="text-xs font-bold text-white leading-tight">
-                      Amol Phadke
-                    </span>
-                    <span className="text-[10px] text-white/70 mt-1">
-                      Chief Transformation Officer, Norstar
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+              Dr. Marcus Vance and Vikram Choudhury discuss navigating Sovereign AI architectures, data residency, and why ecosystem collaboration yields far greater strategic velocity than closed control frameworks.
+            </p>
           </div>
         </div>
-      </div>
+      )}
     </section>
   )
 }
@@ -3989,111 +6035,171 @@ function PodcastSection() {
 // -------------------------------------------------------------
 // 6. "Latest Thinking" Section
 // -------------------------------------------------------------
-const thinkingArticles = [
-  {
-    id: 1,
-    category: 'Supply Chain • AI',
-    title: 'Future-Ready Supply Chains: Next Horizon in Autonomous Operations',
-    readTime: '6 min read',
-    tall: true,
-    image: '/images/thinking_robot.jpg',
-  },
-  {
-    id: 2,
-    category: 'BFSI • Generative AI',
-    title: 'GenAI in Insurance: Claims, Fraud, and Platform Modernization',
-    readTime: '4 min read',
-    tall: false,
-    image: '/images/thinking_ribbon.jpg',
-  },
-  {
-    id: 3,
-    category: 'Energy • Automation',
-    title: 'Agentic AI in Oil and Gas: Autonomous Engineering at Scale',
-    readTime: '5 min read',
-    tall: false,
-    image: '/images/case_consult.jpg',
-  },
-  {
-    id: 4,
-    category: 'Cloud • Healthcare',
-    title: 'From Silos to Cloud: Hybrid Model for Healthcare SaaS',
-    readTime: '4 min read',
-    tall: false,
-    image: '/images/thinking_cubes.jpg',
-  },
-  {
-    id: 5,
-    category: 'Aerospace • Digital',
-    title: "Engineering Tomorrow's Aerospace and Autonomous Systems",
-    readTime: '5 min read',
-    tall: false,
-    image: '/images/cap_hero.jpg',
-  },
-  {
-    id: 6,
-    category: 'Leadership & Culture',
-    title: 'The Human Factor: Leadership in the Age of Intelligent Automation',
-    readTime: '7 min read',
-    tall: false,
-    image: '/images/careers_diversity.jpg',
-  },
-]
+// -------------------------------------------------------------
+// 6. "Latest Thinking" Section
+// Asymmetric 3-Column Bento Grid Matching Reference media_1789191273812.png
+// -------------------------------------------------------------
+const thinkingColumns = {
+  col1: [
+    {
+      id: 'ai-adoption',
+      badge: 'ARTICLE | ARTIFICIAL INTELLIGENCE',
+      title: 'From AI Adoption to AI Advantage',
+      image: '/images/thinking_robot.jpg',
+      tall: true,
+    },
+    {
+      id: 'invisible-ai',
+      badge: 'ARTICLE | ARTIFICIAL INTELLIGENCE',
+      title: 'Invisible AI: Enabling Frictionless Customer Experiences in Europe',
+      image: '/images/thinking_spheres.jpg',
+      tall: false,
+    },
+  ],
+  col2: [
+    {
+      id: 'open-banking',
+      badge: 'ARTICLE | BANKING AND FINANCIAL SERVICES',
+      title: 'Open Banking at an Inflection Point: Why Banks Must Act Now',
+      image: '/images/thinking_open_banking.jpg',
+      tall: false,
+    },
+    {
+      id: 'security-by-design',
+      badge: 'PERSPECTIVE | CYBER SECURITY',
+      title: 'Security by Design: A New Model for Trust and Growth',
+      image: '/images/thinking_ribbon.jpg',
+      tall: false,
+    },
+    {
+      id: 'prepaid-growth',
+      badge: 'PERSPECTIVE | TELECOM & NETWORKS',
+      title: 'Bold Moves in Prepaid: A New Growth Path for Developed Markets',
+      image: '/images/thinking_mobile_calling.jpg',
+      tall: false,
+    },
+  ],
+  col3: [
+    {
+      id: 'agentic-ai-energy',
+      badge: 'CASE STUDY | ENERGY & UTILITIES',
+      title: 'Agentic AI for Oil and Gas Upstream Operations',
+      image: '/images/thinking_energy_engineer.jpg',
+      tall: false,
+    },
+    {
+      id: 'autonomous-enterprise',
+      badge: 'REPORT | ARTIFICIAL INTELLIGENCE',
+      title: 'Engineering Autonomous Enterprise',
+      image: '/images/thinking_cubes.jpg',
+      tall: true,
+    },
+  ],
+}
 
 function LatestThinkingSection() {
   return (
-    <section id="latest-thinking" className="py-20 md:py-28 bg-white">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-gray-200">
+    <section id="latest-thinking" className="py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-start justify-between mb-8 sm:mb-10 lg:mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-gray-950 font-heading">
               Latest Thinking
             </h2>
           </div>
-          <p className="text-gray-600 text-sm md:text-base max-w-md mt-4 md:mt-0">
-            Insights, trends, and strategic perspectives from across the globe to help you navigate tomorrow with confidence.
+          <p className="text-gray-700 text-xs sm:text-sm lg:text-[14px] leading-relaxed max-w-md mt-3 md:mt-0 font-normal">
+            Read what we're thinking. Research that uncovers what's next. Perspectives that challenge the status quo. Ideas that help you move your business.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {thinkingArticles.map((article) => (
-            <article
-              key={article.id}
-              className={`group bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#DE0826] hover:shadow-lg transition-all duration-300 flex flex-col justify-between ${
-                article.tall ? 'md:row-span-2' : ''
-              }`}
-            >
-              <div>
-                <ImageBox
-                  label={`Insight 0${article.id} • ${article.category}`}
-                  aspectRatio={article.tall ? 'aspect-[4/3] md:aspect-[4/4]' : 'aspect-[16/9]'}
-                  dark={false}
-                  imageSrc={article.image}
+        {/* 3-Column Asymmetric Grid Architecture Matching Reference */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {/* Column 1: Tall Card (Top) + Landscape Card (Bottom) */}
+          <div className="flex flex-col gap-5 lg:gap-6">
+            {thinkingColumns.col1.map((card) => (
+              <div
+                key={card.id}
+                className={`relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-xl transition-all duration-300 ${
+                  card.tall
+                    ? 'h-[320px] sm:h-[360px] lg:h-[415px]'
+                    : 'h-[180px] sm:h-[190px] lg:h-[195px]'
+                }`}
+              >
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-
-                <div className="p-6">
-                  <div className="flex items-center justify-between text-xs text-gray-500 mb-3 font-medium">
-                    <span className="text-[#DE0826] font-bold uppercase tracking-wider">
-                      {article.category}
-                    </span>
-                    <span>{article.readTime}</span>
-                  </div>
-
-                  <h3 className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-[#DE0826] transition-colors line-clamp-2">
-                    {article.title}
+                <div className="absolute top-3.5 left-3.5 z-20">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-black/65 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
+                    {card.badge}
+                  </span>
+                </div>
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-4 sm:p-5 lg:p-6 pointer-events-none">
+                  <h3 className="text-white font-bold text-sm sm:text-base lg:text-[17px] leading-snug group-hover:text-red-300 transition-colors">
+                    {card.title}
                   </h3>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div className="px-6 pb-6 pt-0 flex items-center justify-between text-xs font-bold text-gray-800 group-hover:text-[#DE0826]">
-                <span>Read Article</span>
-                <Icon
-                  name="arrow-right"
-                  className="w-4 h-4 transform group-hover:translate-x-1 transition-transform text-[#DE0826]"
+          {/* Column 2: 3 Landscape Cards Stacked Vertically */}
+          <div className="flex flex-col gap-5 lg:gap-6">
+            {thinkingColumns.col2.map((card) => (
+              <div
+                key={card.id}
+                className="relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-xl transition-all duration-300 h-[180px] sm:h-[190px] lg:h-[195px]"
+              >
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
+                <div className="absolute top-3.5 left-3.5 z-20">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-black/65 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
+                    {card.badge}
+                  </span>
+                </div>
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-4 sm:p-5 lg:p-6 pointer-events-none">
+                  <h3 className="text-white font-bold text-sm sm:text-base lg:text-[17px] leading-snug group-hover:text-red-300 transition-colors">
+                    {card.title}
+                  </h3>
+                </div>
               </div>
-            </article>
-          ))}
+            ))}
+          </div>
+
+          {/* Column 3: Landscape Card (Top) + Tall Card (Bottom) */}
+          <div className="flex flex-col gap-5 lg:gap-6 md:col-span-2 lg:col-span-1">
+            {thinkingColumns.col3.map((card) => (
+              <div
+                key={card.id}
+                className={`relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-xl transition-all duration-300 ${
+                  card.tall
+                    ? 'h-[320px] sm:h-[360px] lg:h-[415px]'
+                    : 'h-[180px] sm:h-[190px] lg:h-[195px]'
+                }`}
+              >
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute top-3.5 left-3.5 z-20">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-black/65 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
+                    {card.badge}
+                  </span>
+                </div>
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-4 sm:p-5 lg:p-6 pointer-events-none">
+                  <h3 className="text-white font-bold text-sm sm:text-base lg:text-[17px] leading-snug group-hover:text-red-300 transition-colors">
+                    {card.title}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -4103,111 +6209,262 @@ function LatestThinkingSection() {
 // -------------------------------------------------------------
 // 7. "the Big Thinkers" Full-Width Banner
 // -------------------------------------------------------------
+// -------------------------------------------------------------
+// 7. "The Big Thinkers" Section
+// Matching Reference UI media_1789194494834.png with Cutout Leader
+// -------------------------------------------------------------
 function BigThinkersSection() {
+  const [showModal, setShowModal] = useState(false)
+
   return (
-    <section className="bg-gradient-to-r from-[#5C061D] via-[#7F0E2A] to-[#5C061D] text-white py-16 md:py-20 relative overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7">
-            <div className="inline-block px-3.5 py-1.5 bg-black/40 rounded text-xs font-serif italic text-white tracking-wide mb-6 border border-white/20">
-              the <span className="font-bold font-sans not-italic text-white">Big</span> Thinkers
-              <span className="text-[10px] ml-2 font-mono text-white/80">
-                • In partnership with WSJ
-              </span>
+    <section className="relative bg-[#5A0322] text-white overflow-hidden border-b border-neutral-800 lg:h-[calc(100vh-66px)] lg:min-h-[540px] lg:max-h-[850px] flex items-center">
+      {/* 1. Diagonal Red Pinstripe Lines on the Right Side (Behind Speaker) */}
+      <div
+        className="hidden lg:block absolute right-0 top-0 bottom-0 w-[58%] xl:w-[55%] pointer-events-none z-0"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(-25deg, transparent, transparent 13px, rgba(222, 8, 38, 0.42) 13px, rgba(222, 8, 38, 0.42) 14px)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 100%)',
+        }}
+      />
+
+      {/* 2. Transparent Executive Cutout Image on the Right */}
+      <div className="hidden lg:flex absolute right-6 xl:right-16 bottom-0 h-full w-[48%] xl:w-[44%] pointer-events-none z-[2] items-end justify-center">
+        <img
+          src="/images/big_thinker_executive.png"
+          alt="Executive Leader - The Big Thinkers"
+          className="h-[92%] max-h-[520px] w-auto object-contain object-bottom select-none drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)]"
+        />
+      </div>
+
+      {/* 3. Subtle Scroll Indicator at Bottom Right */}
+      <div className="hidden lg:flex absolute bottom-4 right-3 w-6 h-6 rounded-full bg-black/40 border border-white/20 text-white/70 items-center justify-center text-[10px] z-30 select-none">
+        ↑
+      </div>
+
+      {/* 4. Left Column Content Container */}
+      <div className="max-w-[1440px] w-full mx-auto px-6 sm:px-12 lg:px-16 py-12 sm:py-16 lg:py-0 relative z-10">
+        <div className="max-w-xl">
+          {/* Logo: The Big Thinkers */}
+          <div className="flex flex-col mb-7 select-none">
+            <div className="flex items-baseline space-x-1 text-2xl sm:text-3xl lg:text-[32px] font-bold font-heading leading-none">
+              <span className="text-white">The</span>
+              <span className="text-[#DE0826]">Big</span>
             </div>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-              Businesses' Next Competitive Advantage — Data Discipline
-            </h2>
-
-            <p className="text-white/90 text-base md:text-lg mb-8 max-w-xl leading-relaxed">
-              "Data only becomes valuable when it informs better, faster decision-making. High-performing enterprises are moving beyond data volume to data rigor."
-            </p>
-
-            <div className="flex items-center space-x-4 mb-8">
-              <div className="w-10 h-1 bg-white" />
-              <div>
-                <span className="font-bold text-sm block text-white">
-                  Babu Kuttala
-                </span>
-                <span className="text-xs text-white/80">
-                  Chief Data & Analytics Officer, ABB
-                </span>
-              </div>
+            <div className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-white font-heading leading-tight tracking-tight">
+              Thinkers
             </div>
-
-            <a
-              href="#latest-thinking"
-              className="inline-flex items-center space-x-2 bg-white text-[#DE0826] hover:bg-neutral-100 text-xs font-bold px-7 py-3.5 rounded transition-all shadow-lg"
-            >
-              <span>Read WSJ Feature</span>
-              <Icon name="external" className="w-3.5 h-3.5" />
-            </a>
           </div>
 
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="w-full max-w-sm bg-white/10 rounded-2xl p-4 border border-white/20 backdrop-blur-sm">
-              <ImageBox
-                label="Executive Spotlight • Babu Kuttala (ABB)"
-                aspectRatio="aspect-[4/5]"
-                dark={true}
-                imageSrc="/images/spotlight_babu.jpg"
+          {/* Headline Matching Cadence & Structure */}
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-white tracking-tight leading-[1.14] mb-8 font-heading">
+            Businesses' Next<br />
+            Competitive Advantage—<br />
+            Data Discipline
+          </h2>
+
+          {/* Speaker Identity: Horizontal White Line + Name & Title */}
+          <div className="flex items-center mb-9">
+            {/* Horizontal White Line */}
+            <div className="w-20 sm:w-28 h-[1.5px] bg-white mr-5 shrink-0 opacity-90" />
+
+            {/* Name and Designation */}
+            <div className="flex flex-col">
+              <span className="text-lg sm:text-xl font-bold text-white font-heading leading-snug">
+                Edara Deepak Chowdary
+              </span>
+              <span className="text-xs sm:text-[13px] text-[#E06380] font-medium tracking-wide mt-0.5 leading-snug">
+                Chief Technology & AI Officer, Norstar Digital
+              </span>
+            </div>
+          </div>
+
+          {/* Rectangular Solid Red READ MORE Button */}
+          <div>
+            <button
+              onClick={() => setShowModal(true)}
+              className="bg-[#DE0826] hover:bg-[#C2051E] text-white text-xs font-extrabold uppercase tracking-widest px-8 py-3.5 rounded-[2px] transition-all shadow-md cursor-pointer border-0 inline-block"
+            >
+              READ MORE
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile/Tablet Fallback: Portrait below text */}
+        <div className="block lg:hidden mt-10 relative">
+          <img
+            src="/images/big_thinker_executive.png"
+            alt="Executive Leader - The Big Thinkers"
+            className="w-full max-w-[340px] mx-auto h-auto object-contain drop-shadow-xl"
+          />
+        </div>
+      </div>
+
+      {/* Interactive Modal for READ MORE */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-2xl bg-[#1A030A] border border-[#DE0826]/40 rounded-xl overflow-hidden shadow-2xl p-6 sm:p-8">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 cursor-pointer bg-transparent border-0 text-lg"
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+            <div className="flex items-center space-x-2 text-[#DE0826] text-xs font-bold uppercase tracking-wider mb-2">
+              <span>THE BIG THINKERS EXECUTIVE SERIES</span>
+              <span>•</span>
+              <span>EXCLUSIVE PERSPECTIVE</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-4">
+              Businesses' Next Competitive Advantage — Data Discipline
+            </h3>
+            <div className="flex items-center space-x-4 mb-6 pb-4 border-b border-white/10">
+              <img
+                src="/images/big_thinker_executive.png"
+                alt="Edara Deepak Chowdary"
+                className="w-14 h-14 rounded-full object-cover border border-[#DE0826]"
               />
-              <div className="mt-3 text-center text-xs font-semibold text-white/80">
-                The Big Thinkers Executive Series
+              <div>
+                <h4 className="font-bold text-white text-sm">Edara Deepak Chowdary</h4>
+                <p className="text-xs text-[#E06380]">
+                  Chief Technology & AI Officer, Norstar Digital
+                </p>
               </div>
+            </div>
+            <div className="text-xs sm:text-sm text-gray-200 leading-relaxed space-y-3">
+              <p>
+                "In an era where every enterprise has access to vast foundation models, true competitive differentiation is not about model size—it is about data discipline, rigor in data pipelines, and the agility to execute autonomously."
+              </p>
+              <p>
+                "Organizations that succeed at scale treat data as an operational currency, ensuring governance, provenance, and low-latency integration across the entire hybrid cloud ecosystem."
+              </p>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   )
 }
 
 // -------------------------------------------------------------
-// 8. "What's New" Interactive Sliding Carousel
+// 8. "What's New" Interactive Carousel (Exact Reference Replica)
 // -------------------------------------------------------------
-const whatsNewItems = [
+interface WhatsNewItem {
+  id: number
+  type: string
+  date: string
+  title: string
+  image: string
+  subtitle?: string
+  paragraphs?: string[]
+  quote?: string
+  quoteAuthor?: string
+}
+
+const whatsNewItems: WhatsNewItem[] = [
   {
     id: 1,
-    tag: 'Alliances & Smart Factory',
-    title: 'Norstar and AVEVA Join Hands to Deliver Next-Gen Smart Factory Solutions',
-    date: 'April 2026',
-    image: '/images/whatsnew_coiled.jpg',
+    type: 'News',
+    date: 'August 04, 2026',
+    title: 'Norstar Digital Wins Global AI Cloud Innovation Award at DTW Ignite 2026',
+    image: '/images/whatsnew_architectural_fins.jpg',
+    subtitle: 'Recognized for pioneering autonomous hybrid cloud orchestrations and cognitive network fabrics.',
+    paragraphs: [
+      'At the DTW Ignite 2026 Summit in Copenhagen, Norstar Digital was honored with the prestigious Catalyst Innovation Award for its breakthrough Autonomous Cloud Mesh architecture, engineered in collaboration with leading tier-1 telecommunications carriers.',
+      'The award acknowledges Norstar Digital’s leadership in deploying self-healing agentic workflows that reduce multi-cloud network latency by 45% while driving sub-millisecond automated workload balancing.',
+    ],
+    quote: 'This recognition highlights our sustained focus on turning enterprise cloud networks into intelligent, autonomous cognitive ecosystems.',
+    quoteAuthor: 'Edara Deepak Chowdary, Chief Technology & AI Officer',
   },
   {
     id: 2,
-    tag: 'Quantum & AI',
-    title: 'Strategic Alliance with Quantum Computing Pioneer to Boost Enterprise AI',
-    date: 'March 2026',
-    image: '/images/whatsnew_mesh.jpg',
+    type: 'News',
+    date: 'July 29, 2026',
+    title: 'Norstar Digital Recognized by DWP UK as a Disability Confident Service Provider',
+    image: '/images/whatsnew_inclusive_exec.jpg',
+    subtitle: 'Securing the highest level of UK government accreditation for accessible workplaces and inclusive engineering.',
+    paragraphs: [
+      'The Department for Work and Pensions (DWP) UK has formally accredited Norstar Digital as a Disability Confident Leader, recognizing its pioneering workplace policies, adaptive software engineering laboratories, and inclusive leadership development programs.',
+      'Through ergonomic physical work hubs and AI-powered assistive workstation tools, Norstar enables team members across all global centers to lead complex technological transformations without physical or sensory barriers.',
+    ],
+    quote: 'True innovation flourishes when every perspective is valued and empowered to drive transformative impact.',
+    quoteAuthor: 'Global People & Culture Council, Norstar Digital',
   },
   {
     id: 3,
-    tag: 'Cloud Modernization',
-    title: 'Leading Global Bank Selects Norstar for End-to-End Core Cloud Migration',
-    date: 'March 2026',
-    image: '/images/whatsnew_wave.jpg',
+    type: 'Press Release',
+    date: 'July 28, 2026',
+    title: 'Norstar Digital Launches Engineering Experience Centre to Turn Ideas into Impact',
+    image: '/images/whatsnew_warehouse_conveyor.jpg',
+    subtitle: 'State-of-the-art 50,000 sq ft facility empowers enterprises to test physical AI and autonomous sortation at scale.',
+    paragraphs: [
+      'Norstar Digital today announced the formal inauguration of its flagship Autonomous Logistics Experience Centre. The facility features operational high-speed conveyor lines, autonomous mobile robots (AMRs), and computer-vision quality inspection cells.',
+      'Global retail and manufacturing enterprises can now rapidly prototype digital twin simulations and deploy real-time edge AI models to maximize supply chain throughput and prevent fulfillment bottlenecks.',
+    ],
+    quote: 'We are bridging the gap between algorithmic models and tangible, physical supply chain execution.',
+    quoteAuthor: 'Dr. Marcus Vance, Global Head of AI Platforms',
   },
   {
     id: 4,
-    tag: '5G Telco Labs',
-    title: 'Next-Gen 5G Telco Cloud Innovation Lab Launched with Leading Tier-1 Carrier',
-    date: 'February 2026',
-    image: '/images/event_semicon.jpg',
+    type: 'News',
+    date: 'July 15, 2026',
+    title: 'Norstar and NVIDIA Collaborate on Sovereign Enterprise LLM Computing Stacks',
+    image: '/images/insights_quantum.jpg',
+    subtitle: 'Turnkey private accelerated compute infrastructure for regulated financial and government institutions.',
+    paragraphs: [
+      'Norstar Digital and NVIDIA have announced an expanded strategic collaboration to deploy sovereign AI infrastructure clusters that ensure complete data provenance and regulatory compliance.',
+      'The co-engineered platform integrates Norstar’s enterprise governance mesh with high-performance GPU nodes, empowering institutions to run private LLMs with absolute data isolation.',
+    ],
   },
   {
     id: 5,
-    tag: 'Sustainability & ESG',
-    title: 'Norstar Recognized as Global Leader in Corporate Sustainability by CDP',
-    date: 'January 2026',
-    image: '/images/event_dreamforce.jpg',
+    type: 'Press Release',
+    date: 'July 02, 2026',
+    title: 'Norstar Digital Achieves 100% Renewable Energy Milestone Across Global Cloud Hubs',
+    image: '/images/ind_energy.jpg',
+    subtitle: 'Advancing corporate sustainability goals with carbon-neutral hyperscale compute hubs.',
+    paragraphs: [
+      'Demonstrating leadership in eco-conscious technology architectures, Norstar Digital confirmed that 100% of the energy consumed across its managed datacenters now stems from certified wind, solar, and hydro generation.',
+      'Algorithmic load-shifting technology also directs carbon-intensive AI model training tasks to regions with active renewable energy surpluses.',
+    ],
+  },
+  {
+    id: 6,
+    type: 'Press Release',
+    date: 'June 18, 2026',
+    title: 'Norstar Launches Agentic Core Banking Modernization Suite with Tier-1 Financials',
+    image: '/images/ind_banking.jpg',
+    subtitle: 'Autonomous code-transformation agents accelerate mainframe migration timelines by 60%.',
+    paragraphs: [
+      'Norstar Digital has unveiled its next-generation Core Modernization Framework for tier-1 financial institutions. Utilizing autonomous code-reasoning agents, the platform decompiles legacy monolithic codebases into containerized microservices.',
+      'The suite is already running in production across two premier retail banking networks, handling over 14 million daily transactions seamlessly.',
+    ],
   },
 ]
 
 function WhatsNewSection() {
   const [slideIndex, setSlideIndex] = useState(0)
-  const maxSlides = whatsNewItems.length - 2
+  const [itemsPerView, setItemsPerView] = useState(3)
+  const [selectedItem, setSelectedItem] = useState<WhatsNewItem | null>(null)
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerView(1)
+      } else if (window.innerWidth < 1024) {
+        setItemsPerView(2)
+      } else {
+        setItemsPerView(3)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const maxSlides = Math.max(0, whatsNewItems.length - itemsPerView)
 
   const next = () => {
     setSlideIndex((prev) => (prev < maxSlides ? prev + 1 : 0))
@@ -4218,71 +6475,130 @@ function WhatsNewSection() {
   }
 
   return (
-    <section className="py-20 md:py-24 bg-[#FAF8F5] border-b border-neutral-200">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="flex items-end justify-between mb-10">
+    <section className="relative w-full bg-[#F6F2EA] border-b border-[#E8E2D5] overflow-hidden lg:h-[calc(100vh-66px)] lg:min-h-[540px] lg:max-h-[850px] flex items-center">
+      {/* 1. Subtle Corporate Isometric Diamond Grid Pattern matching Section 2 */}
+      <div className="absolute inset-0 pointer-events-none opacity-45 overflow-hidden">
+        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="whatsnew-iso-grid" width="100" height="173.2" patternUnits="userSpaceOnUse">
+              <path
+                d="M50,0 L100,28.87 L100,86.6 L50,115.47 L0,86.6 L0,28.87 Z"
+                fill="none"
+                stroke="#D1C9B7"
+                strokeWidth="0.8"
+              />
+              <path
+                d="M50,173.2 L100,144.33 L100,86.6 L50,57.73 L0,86.6 L0,144.33 Z"
+                fill="none"
+                stroke="#D1C9B7"
+                strokeWidth="0.8"
+              />
+              <line x1="50" y1="0" x2="50" y2="173.2" stroke="#D1C9B7" strokeWidth="0.5" />
+              <line x1="0" y1="28.87" x2="100" y2="86.6" stroke="#D1C9B7" strokeWidth="0.5" />
+              <line x1="0" y1="86.6" x2="100" y2="28.87" stroke="#D1C9B7" strokeWidth="0.5" />
+              <line x1="0" y1="144.33" x2="100" y2="86.6" stroke="#D1C9B7" strokeWidth="0.5" />
+              <line x1="0" y1="86.6" x2="100" y2="144.33" stroke="#D1C9B7" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#whatsnew-iso-grid)" />
+        </svg>
+      </div>
+
+      {/* 2. Main Container */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16 py-10 sm:py-14 lg:py-0 relative z-10">
+        {/* Section Header: Title & Subtitle on Left, Pill Arrows on Right */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
+            <h2 className="text-4xl sm:text-[44px] lg:text-[48px] font-bold text-[#141414] font-outfit tracking-[-0.02em] leading-tight">
               What's New
             </h2>
+            <p className="text-[14px] sm:text-[15px] lg:text-[16px] text-[#2C2A29] font-outfit mt-2 sm:mt-2.5 font-normal tracking-[-0.01em]">
+              Stay connected with our latest updates, press releases, and upcoming events.
+            </p>
           </div>
 
-          <div className="flex items-center space-x-2">
+          {/* Stadium/Pill Carousel Arrows matching exact reference shape & style */}
+          <div className="flex items-center space-x-3 shrink-0 self-end sm:self-auto">
             <button
               onClick={prev}
               aria-label="Previous News"
-              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-sm"
+              className="w-[52px] h-[28px] sm:w-[58px] sm:h-[32px] rounded-full bg-[#26221C] hover:bg-[#DE0826] transition-all duration-200 flex items-center justify-center text-white cursor-pointer border-0 shadow-xs active:scale-95"
             >
-              <Icon name="chevron-left" className="w-4 h-4" />
+              <svg
+                className="w-4 h-4 sm:w-[18px] sm:h-[18px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
             </button>
             <button
               onClick={next}
               aria-label="Next News"
-              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-sm"
+              className="w-[52px] h-[28px] sm:w-[58px] sm:h-[32px] rounded-full bg-[#26221C] hover:bg-[#DE0826] transition-all duration-200 flex items-center justify-center text-white cursor-pointer border-0 shadow-xs active:scale-95"
             >
-              <Icon name="chevron-right" className="w-4 h-4" />
+              <svg
+                className="w-4 h-4 sm:w-[18px] sm:h-[18px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
             </button>
           </div>
         </div>
 
-        <div className="overflow-hidden">
+        {/* 3. Cards Slider */}
+        <div className="overflow-hidden -mx-3">
           <div
-            className="flex transition-transform duration-500 ease-out -mx-3"
-            style={{ transform: `translateX(-${slideIndex * 33.333}%)` }}
+            className="flex transition-transform duration-500 ease-out"
+            style={{
+              transform: `translateX(-${slideIndex * (100 / itemsPerView)}%)`,
+            }}
           >
             {whatsNewItems.map((item) => (
               <div
                 key={item.id}
-                className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
+                className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
               >
-                <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#DE0826] hover:shadow-md transition-all duration-200 h-full flex flex-col justify-between">
-                  <div>
-                    <ImageBox
-                      label={`News 0${item.id} • ${item.tag}`}
-                      aspectRatio="aspect-[16/10]"
-                      dark={false}
-                      imageSrc={item.image}
-                    />
+                <div
+                  onClick={() => setSelectedItem(item)}
+                  className="group relative aspect-square w-full rounded-[2px] overflow-hidden cursor-pointer shadow-md bg-neutral-900 border-0"
+                >
+                  {/* Full Card Background Image */}
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
 
-                    <div className="p-6">
-                      <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-                        <span className="font-bold text-[#DE0826]">{item.tag}</span>
-                        <span>{item.date}</span>
-                      </div>
-                      <h3 className="text-base font-bold text-gray-900 line-clamp-3 leading-snug hover:text-[#DE0826] transition-colors">
-                        {item.title}
-                      </h3>
+                  {/* Dark Vignette Overlay matching reference */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 via-60% to-transparent pointer-events-none" />
+
+                  {/* Top-Left Category & Date Pill Badge */}
+                  <div className="absolute top-4 left-4 z-10">
+                    <div className="bg-[#1C1C1C]/75 backdrop-blur-md px-3 py-1.5 rounded-[2px] inline-flex items-center text-[12px] sm:text-[13px] font-medium text-white/95 font-outfit tracking-wide shadow-sm border border-white/10">
+                      <span>{item.type}</span>
+                      <span className="mx-2 text-white/40 font-light">|</span>
+                      <span className="text-white/85">{item.date}</span>
                     </div>
                   </div>
 
-                  <div className="px-6 pb-6 pt-2">
-                    <a
-                      href="#news"
-                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#DE0826] hover:underline"
-                    >
-                      <span>Read Announcement</span>
-                      <Icon name="arrow-right" className="w-3 h-3" />
-                    </a>
+                  {/* Bottom Headline matching reference font, weight, and size */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 lg:p-7 z-10">
+                    <h3 className="text-[18px] sm:text-[20px] lg:text-[21px] xl:text-[22px] font-bold text-white font-outfit leading-[1.25] tracking-tight group-hover:text-[#F3475E] transition-colors duration-200 line-clamp-3">
+                      {item.title}
+                    </h3>
                   </div>
                 </div>
               </div>
@@ -4290,6 +6606,66 @@ function WhatsNewSection() {
           </div>
         </div>
       </div>
+
+      {/* 4. Interactive Full Story Modal */}
+      {selectedItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-2xl bg-[#141414] border border-white/20 rounded-xl overflow-hidden shadow-2xl p-6 sm:p-8 text-white max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setSelectedItem(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 cursor-pointer bg-transparent border-0 text-lg"
+              aria-label="Close modal"
+            >
+              ✕
+            </button>
+
+            {/* Modal Badge */}
+            <div className="inline-flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-[#DE0826] mb-3">
+              <span>{selectedItem.type}</span>
+              <span>•</span>
+              <span className="text-gray-400">{selectedItem.date}</span>
+            </div>
+
+            {/* Modal Title */}
+            <h3 className="text-xl sm:text-2xl font-bold font-outfit text-white mb-4 leading-snug">
+              {selectedItem.title}
+            </h3>
+
+            {/* Modal Image */}
+            <div className="w-full h-52 sm:h-64 rounded-lg overflow-hidden mb-6">
+              <img
+                src={selectedItem.image}
+                alt={selectedItem.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Modal Subtitle & Paragraphs */}
+            {selectedItem.subtitle && (
+              <p className="text-sm sm:text-base font-semibold text-gray-200 mb-4 font-outfit leading-relaxed">
+                {selectedItem.subtitle}
+              </p>
+            )}
+
+            <div className="text-xs sm:text-sm text-gray-300 space-y-3 leading-relaxed font-sans">
+              {selectedItem.paragraphs?.map((p, idx) => (
+                <p key={idx}>{p}</p>
+              ))}
+            </div>
+
+            {selectedItem.quote && (
+              <div className="mt-6 p-4 rounded-lg bg-white/5 border-l-4 border-[#DE0826]">
+                <p className="italic text-sm text-gray-200">"{selectedItem.quote}"</p>
+                {selectedItem.quoteAuthor && (
+                  <p className="text-xs text-[#E06380] font-semibold mt-2">
+                    — {selectedItem.quoteAuthor}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
@@ -4750,16 +7126,22 @@ function Footer({ onRouteChange }: FooterProps) {
           <div className="md:col-span-4">
             <button
               onClick={() => onRouteChange('home')}
-              className="flex items-center space-x-3 mb-4 bg-transparent border-0 p-0 cursor-pointer text-left"
+              className="flex items-center space-x-2.5 mb-4 bg-transparent border-0 p-0 cursor-pointer text-left group"
             >
-              <div className="w-8 h-8 bg-[#DE0826] rounded flex items-center justify-center p-1.5 shadow-sm">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
-                  <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" />
-                </svg>
+              <svg
+                viewBox="0 0 32 32"
+                className="w-8 h-7 fill-[#DE0826] transition-transform group-hover:scale-105"
+              >
+                <polygon points="0,10 32,0 32,22 0,32" />
+              </svg>
+              <div className="flex flex-col leading-none select-none">
+                <span className="font-extrabold text-base tracking-tight text-white uppercase leading-tight">
+                  Nor<span className="text-[#DE0826]">star</span>
+                </span>
+                <span className="text-[9px] font-bold tracking-widest text-gray-400 uppercase mt-0.5 leading-tight">
+                  Digital
+                </span>
               </div>
-              <span className="font-extrabold text-white tracking-tight text-lg font-sans">
-                Nor<span className="text-[#DE0826]">star</span>
-              </span>
             </button>
             <p className="text-gray-400 text-xs leading-relaxed max-w-sm mb-4">
               Scale at Speed™ — Co-innovating with global organizations to enable transformative digital scale.
@@ -4928,11 +7310,11 @@ export default function App() {
           <AboutUsPage />
         ) : (
           <>
-            {/* 3. Hero Section (White/Silver 3D with Red Accents) */}
-            <HeroSection />
+            {/* 3. Hero Section (Full-Bleed Automated & Manual Slider) */}
+            <HeroSection onRouteChange={handleRouteChange} />
 
-            {/* 4. Brand Promise ("with Norstar") */}
-            <BrandPromiseSection />
+            {/* 4. Brand Promise ("Scale at Speed™ with Tech Mahindra") */}
+            <BrandPromiseSection onRouteChange={handleRouteChange} />
 
             {/* 5. Podcast Spotlight Banner ("S/N") */}
             <PodcastSection />
@@ -4962,8 +7344,8 @@ export default function App() {
           </>
         )}
 
-        {/* Global Contact Us Section (featured in every page at footer section) */}
-        <ContactUsSection />
+        {/* Global Contact Us Section (featured in non-contact pages at footer section) */}
+        {route !== 'contact' && <ContactUsSection />}
       </main>
 
       {/* 13. Enterprise Footer */}
