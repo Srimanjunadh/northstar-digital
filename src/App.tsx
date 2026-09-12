@@ -6097,7 +6097,28 @@ const thinkingColumns = {
   ],
 }
 
+const allThinkingCards = [
+  thinkingColumns.col1[0], // From AI Adoption to AI Advantage
+  thinkingColumns.col2[0], // Open Banking at an Inflection Point
+  thinkingColumns.col3[0], // Agentic AI for Oil and Gas Upstream Operations
+  thinkingColumns.col2[1], // Security by Design: A New Model for Trust and Growth
+  thinkingColumns.col1[1], // Invisible AI: Enabling Frictionless Customer Experiences
+  thinkingColumns.col2[2], // Bold Moves in Prepaid
+  thinkingColumns.col3[1], // Engineering Autonomous Enterprise
+]
+
 function LatestThinkingSection() {
+  const [activeMobileCard, setActiveMobileCard] = useState(0)
+  const mobileScrollRef = useRef<HTMLDivElement>(null)
+
+  const handleMobileScroll = () => {
+    if (!mobileScrollRef.current) return
+    const { scrollLeft, clientWidth } = mobileScrollRef.current
+    const cardWidth = clientWidth * 0.84 + 16
+    const index = Math.round(scrollLeft / cardWidth)
+    setActiveMobileCard(Math.max(0, Math.min(index, allThinkingCards.length - 1)))
+  }
+
   return (
     <section id="latest-thinking" className="py-16 sm:py-20 lg:py-24 bg-white border-b border-gray-100">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-16">
@@ -6113,8 +6134,8 @@ function LatestThinkingSection() {
           </p>
         </div>
 
-        {/* 3-Column Asymmetric Grid Architecture Matching Reference */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+        {/* 1. Desktop & Tablet: Asymmetric 3-Column Bento Grid Architecture (md and up) */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {/* Column 1: Tall Card (Top) + Landscape Card (Bottom) */}
           <div className="flex flex-col gap-5 lg:gap-6">
             {thinkingColumns.col1.map((card) => (
@@ -6199,6 +6220,56 @@ function LatestThinkingSection() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* 2. Mobile View: Horizontal Side-Scrolling Carousel (Only visible on mobile < md) */}
+        <div className="block md:hidden">
+          <div
+            ref={mobileScrollRef}
+            onScroll={handleMobileScroll}
+            className="flex overflow-x-auto gap-4 pb-4 pt-1 -mx-6 px-6 scroll-smooth snap-x snap-mandatory hide-scrollbar"
+            style={{ WebkitOverflowScrolling: 'touch' }}
+          >
+            {allThinkingCards.map((card) => (
+              <div
+                key={card.id}
+                className="relative flex-shrink-0 w-[84vw] max-w-[320px] h-[360px] rounded-[2px] overflow-hidden group cursor-pointer bg-neutral-950 shadow-md snap-start"
+              >
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute top-3.5 left-3.5 z-20">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-black/65 backdrop-blur-xs border border-white/20 text-white text-[9px] font-bold tracking-widest uppercase select-none">
+                    {card.badge}
+                  </span>
+                </div>
+                <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-5 pointer-events-none">
+                  <h3 className="text-white font-bold text-[16px] leading-snug group-hover:text-red-300 transition-colors">
+                    {card.title}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile Swipe Indicators & Insight Counter */}
+          <div className="flex items-center justify-between mt-3 px-1 text-xs text-gray-500">
+            <div className="flex items-center space-x-1.5">
+              {allThinkingCards.map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    idx === activeMobileCard ? 'w-5 bg-[#DE0826]' : 'w-1.5 bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-[11px] font-medium text-gray-400">
+              {activeMobileCard + 1} / {allThinkingCards.length}
+            </span>
           </div>
         </div>
       </div>
