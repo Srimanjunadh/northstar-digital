@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { AboutUsPage, type AboutSubpage } from './AboutPages'
 
 // Configuration for image placeholder mode
 const TEMP_IMAGE_SRC = '/temp-image.png'
@@ -330,7 +331,8 @@ const siteSearchIndex: SearchResultItem[] = [
 // -------------------------------------------------------------
 interface NavbarProps {
   currentRoute: PageRoute
-  onRouteChange: (route: PageRoute) => void
+  activeAboutSubpage?: AboutSubpage
+  onRouteChange: (route: PageRoute, subpage?: AboutSubpage) => void
 }
 
 type MegaMenuTab = 'about' | 'capabilities' | 'industries' | 'insights' | 'careers' | null
@@ -374,11 +376,11 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  const handleNavClick = (route: PageRoute) => {
+  const handleNavClick = (route: PageRoute, subpage?: AboutSubpage) => {
     setOpenMenu(null)
     setSearchOpen(false)
     setMobileOpen(false)
-    onRouteChange(route)
+    onRouteChange(route, subpage)
   }
 
   const handleMenuHover = (tab: MegaMenuTab) => {
@@ -763,25 +765,28 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
                   {/* Middle Column 1: Corporate Overview */}
                   <div className="col-span-3">
-                    <h4 className="font-bold text-[14px] text-gray-950 mb-3.5">
+                    <button
+                      onClick={() => handleNavClick('about', 'overview')}
+                      className="font-bold text-[14px] text-gray-950 mb-3.5 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                    >
                       Corporate Overview
-                    </h4>
+                    </button>
                     <ul className="space-y-2 text-[13px] text-gray-700">
                       {[
-                        'Leadership',
-                        'Our Brand',
-                        'Sustainability',
-                        'Recognition',
-                        'Customer Speak',
-                        'Partners Ecosystem',
-                        'Portfolio Companies',
+                        { label: 'Leadership', subpage: 'leadership' as AboutSubpage },
+                        { label: 'Our Brand', subpage: 'brand' as AboutSubpage },
+                        { label: 'Sustainability', subpage: 'sustainability' as AboutSubpage },
+                        { label: 'Recognition', subpage: 'recognition' as AboutSubpage },
+                        { label: 'Customer Speak', subpage: 'customer-speak' as AboutSubpage },
+                        { label: 'Partners Ecosystem', subpage: 'partners' as AboutSubpage },
+                        { label: 'Portfolio Companies', subpage: 'portfolio' as AboutSubpage },
                       ].map((item) => (
-                        <li key={item}>
+                        <li key={item.label}>
                           <button
-                            onClick={() => handleNavClick('about')}
+                            onClick={() => handleNavClick('about', item.subpage)}
                             className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
                           >
-                            {item}
+                            {item.label}
                           </button>
                         </li>
                       ))}
@@ -792,7 +797,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                   <div className="col-span-4 space-y-4">
                     <div>
                       <button
-                        onClick={() => handleNavClick('about')}
+                        onClick={() => handleNavClick('about', 'news')}
                         className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                       >
                         News
@@ -801,7 +806,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
                     <div>
                       <button
-                        onClick={() => handleNavClick('about')}
+                        onClick={() => handleNavClick('about', 'investors')}
                         className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                       >
                         Investor Relations
@@ -809,9 +814,12 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                     </div>
 
                     <div>
-                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
+                      <button
+                        onClick={() => handleNavClick('about', 'citizenship')}
+                        className="font-bold text-[14px] text-gray-950 mb-2 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                      >
                         Corporate Citizenship
-                      </h4>
+                      </button>
                       <ul className="space-y-1.5 text-[13px] text-gray-700">
                         {[
                           'Tech Mahindra Foundation',
@@ -820,7 +828,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                         ].map((item) => (
                           <li key={item}>
                             <button
-                              onClick={() => handleNavClick('about')}
+                              onClick={() => handleNavClick('about', 'citizenship')}
                               className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
                             >
                               {item}
@@ -832,7 +840,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
                     <div>
                       <button
-                        onClick={() => handleNavClick('about')}
+                        onClick={() => handleNavClick('about', 'centricity')}
                         className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                       >
                         Customer Centricity
@@ -844,7 +852,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                   <div className="col-span-3 flex flex-col space-y-4">
                     {/* Card 1: Scale at Speed */}
                     <div
-                      onClick={() => handleNavClick('about')}
+                      onClick={() => handleNavClick('about', 'brand')}
                       className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
@@ -869,7 +877,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
                     {/* Card 2: AI Delivered Right */}
                     <div
-                      onClick={() => handleNavClick('about')}
+                      onClick={() => handleNavClick('capabilities')}
                       className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
@@ -1410,22 +1418,58 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                 </div>
                 {mobileSubmenu === 'about' && (
                   <div className="pl-4 py-2 space-y-2 text-sm text-gray-600 font-normal">
-                    <div className="font-semibold text-gray-900">Corporate Overview</div>
-                    {['Leadership', 'Our Brand', 'Sustainability', 'Recognition'].map((i) => (
+                    <div
+                      onClick={() => handleNavClick('about', 'overview')}
+                      className="font-semibold text-gray-900 cursor-pointer hover:text-[#DE0826]"
+                    >
+                      Corporate Overview
+                    </div>
+                    {[
+                      { label: 'Leadership', subpage: 'leadership' as AboutSubpage },
+                      { label: 'Our Brand', subpage: 'brand' as AboutSubpage },
+                      { label: 'Sustainability', subpage: 'sustainability' as AboutSubpage },
+                      { label: 'Recognition', subpage: 'recognition' as AboutSubpage },
+                      { label: 'Customer Speak', subpage: 'customer-speak' as AboutSubpage },
+                      { label: 'Partners Ecosystem', subpage: 'partners' as AboutSubpage },
+                      { label: 'Portfolio Companies', subpage: 'portfolio' as AboutSubpage },
+                    ].map((i) => (
                       <div
-                        key={i}
-                        onClick={() => handleNavClick('about')}
+                        key={i.label}
+                        onClick={() => handleNavClick('about', i.subpage)}
                         className="cursor-pointer hover:text-[#DE0826]"
                       >
-                        {i}
+                        {i.label}
                       </div>
                     ))}
-                    <div className="font-semibold text-gray-900 pt-2">Corporate Citizenship</div>
                     <div
-                      onClick={() => handleNavClick('about')}
+                      onClick={() => handleNavClick('about', 'citizenship')}
+                      className="font-semibold text-gray-900 pt-2 cursor-pointer hover:text-[#DE0826]"
+                    >
+                      Corporate Citizenship
+                    </div>
+                    <div
+                      onClick={() => handleNavClick('about', 'citizenship')}
                       className="cursor-pointer hover:text-[#DE0826]"
                     >
                       Tech Mahindra Foundation
+                    </div>
+                    <div
+                      onClick={() => handleNavClick('about', 'centricity')}
+                      className="font-semibold text-gray-900 pt-2 cursor-pointer hover:text-[#DE0826]"
+                    >
+                      Customer Centricity
+                    </div>
+                    <div
+                      onClick={() => handleNavClick('about', 'news')}
+                      className="cursor-pointer hover:text-[#DE0826]"
+                    >
+                      News & Press
+                    </div>
+                    <div
+                      onClick={() => handleNavClick('about', 'investors')}
+                      className="cursor-pointer hover:text-[#DE0826]"
+                    >
+                      Investor Relations
                     </div>
                   </div>
                 )}
@@ -5059,308 +5103,8 @@ function CapabilitiesPage() {
 
 // -------------------------------------------------------------
 // ABOUT US PAGE IMPLEMENTATION
+// (Imported from ./AboutPages with full subpages system)
 // -------------------------------------------------------------
-const timelineData = [
-  {
-    year: '1986',
-    title: 'Incorporation & Joint Venture',
-    description:
-      'Incorporated on October 24, 1986, as Norstar Telecom, a pioneering enterprise technology venture delivering specialized software services.',
-    tag: 'Foundation',
-  },
-  {
-    year: '1993',
-    title: 'Global Expansion & Software Center',
-    description:
-      'Established first offshore development center outside Mumbai in Pune, initiating software export services to European telecom giants.',
-    tag: 'Expansion',
-  },
-  {
-    year: '2001',
-    title: 'SEI-CMM Level 5 Certification',
-    description:
-      'Assessed at SEI-CMM Level 5, marking benchmark quality in enterprise software processes and telecom systems engineering.',
-    tag: 'Quality Benchmark',
-  },
-  {
-    year: '2006',
-    title: 'Global Expansion & IPO',
-    description:
-      'Transitioned to Norstar Limited and launched landmark Initial Public Offering (IPO), widely oversubscribed.',
-    tag: 'Public Listing',
-  },
-  {
-    year: '2009',
-    title: 'Strategic Satyam Acquisition',
-    description:
-      'Executed landmark strategic acquisitions, transforming Norstar into a top-tier digital systems integrator.',
-    tag: 'Mega Acquisition',
-  },
-  {
-    year: '2013',
-    title: 'Historic Merger Completion',
-    description:
-      'Consolidation completed, creating a unified global IT powerhouse of 84,000+ professionals.',
-    tag: 'Unified Scale',
-  },
-  {
-    year: '2017',
-    title: 'Launch of NXT.NOW™ Framework',
-    description:
-      'Unveiled the NXT.NOW™ framework focusing on explosive growth in Cloud, 5G, Artificial Intelligence, and Experience Engineering.',
-    tag: 'Next-Gen Strategy',
-  },
-  {
-    year: '2021',
-    title: '$5 Billion Revenue & Net-Zero Pledge',
-    description:
-      'Crossed the USD $5.1 Billion revenue milestone; recognized on the CDP Climate A List and Dow Jones Sustainability Emerging Markets Index.',
-    tag: 'Global Sustainability',
-  },
-  {
-    year: '2024 - 2026',
-    title: 'Scale at Speed™ & Sovereign AI',
-    description:
-      'Under the leadership of MD & CEO Mohit Joshi, launched the Scale at Speed™ era, cutting-edge Agentic AI platforms, and the new sonic identity Norstar T!ng.',
-    tag: 'Current Era',
-  },
-]
-
-function AboutUsPage() {
-  const [selectedTimelineIndex, setSelectedTimelineIndex] = useState(0)
-  const currentTimeline = timelineData[selectedTimelineIndex]
-
-  return (
-    <div className="bg-white text-gray-900">
-      <section className="relative bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
-            <a href="#/home" className="hover:text-[#DE0826]">Home</a>
-            <span>/</span>
-            <span className="text-[#DE0826] font-bold">About Us</span>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-7">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                About <span className="text-[#DE0826]">Us</span>
-              </h1>
-
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal mb-8 max-w-xl">
-                We are digital changemakers – here to disrupt old ideas, blaze new trails, and help enterprises transform and scale at speed.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4">
-                <a
-                  href="#timeline"
-                  className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3.5 rounded transition-all shadow-md"
-                >
-                  <span>Explore Our Journey</span>
-                  <Icon name="arrow-right" className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href="#leadership"
-                  className="inline-flex items-center space-x-2 bg-white border border-gray-300 hover:border-[#DE0826] text-gray-800 hover:text-[#DE0826] text-xs font-bold px-6 py-3.5 rounded transition-all shadow-xs"
-                >
-                  <span>Meet Leadership</span>
-                </a>
-              </div>
-            </div>
-
-            <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden bg-white p-3 shadow-xl border-2 border-red-50">
-                <ImageBox
-                  label="Norstar Global Headquarters"
-                  aspectRatio="aspect-[16/10]"
-                  dark={false}
-                  imageSrc="/images/about_hq.jpg"
-                />
-                <div className="p-3 bg-white text-xs font-semibold text-gray-600 flex items-center justify-between">
-                  <span>Pune • Hyderabad • Dallas • London</span>
-                  <span className="text-[#DE0826]">Est. 1986</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-12 border-b border-gray-200">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-100">
-            <div className="px-4">
-              <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">
-                145K+
-              </div>
-              <div className="text-xs md:text-sm font-semibold text-gray-800">
-                Global Associates
-              </div>
-              <div className="text-[11px] text-gray-500 mt-1">Diverse Minds & Innovators</div>
-            </div>
-
-            <div className="px-4">
-              <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">
-                90+
-              </div>
-              <div className="text-xs md:text-sm font-semibold text-gray-800">
-                Countries Operative
-              </div>
-              <div className="text-[11px] text-gray-500 mt-1">Worldwide Footprint</div>
-            </div>
-
-            <div className="px-4">
-              <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">
-                1,100+
-              </div>
-              <div className="text-xs md:text-sm font-semibold text-gray-800">
-                Global Clients
-              </div>
-              <div className="text-[11px] text-gray-500 mt-1">Fortune 500 Leaders</div>
-            </div>
-
-            <div className="px-4">
-              <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">
-                $6.5B+
-              </div>
-              <div className="text-xs md:text-sm font-semibold text-gray-800">
-                USD Annual Revenue
-              </div>
-              <div className="text-[11px] text-gray-500 mt-1">Norstar Enterprise Scale</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-[#FAF8F5] border-b border-gray-200">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6">
-              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                Driven by the spirit of <span className="text-[#DE0826]">Rise</span>
-              </h2>
-              <p className="text-gray-700 text-base leading-relaxed mb-6">
-                As a global enterprise technology powerhouse, our purpose is to drive positive change in the lives of our communities, partners, and employees. We believe that when technology pairs with human ingenuity, barriers dissolve.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-                <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-                  <div className="w-8 h-8 rounded bg-red-50 text-[#DE0826] flex items-center justify-center font-bold text-xs mb-3">
-                    01
-                  </div>
-                  <h4 className="font-bold text-sm text-gray-900 mb-1">Accept No Limits</h4>
-                  <p className="text-xs text-gray-600">Question the status quo and think beyond conventional boundaries.</p>
-                </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-                  <div className="w-8 h-8 rounded bg-red-50 text-[#DE0826] flex items-center justify-center font-bold text-xs mb-3">
-                    02
-                  </div>
-                  <h4 className="font-bold text-sm text-gray-900 mb-1">Alternative Thinking</h4>
-                  <p className="text-xs text-gray-600">Innovate fearlessly with fresh angles and digital agility.</p>
-                </div>
-                <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-xs">
-                  <div className="w-8 h-8 rounded bg-red-50 text-[#DE0826] flex items-center justify-center font-bold text-xs mb-3">
-                    03
-                  </div>
-                  <h4 className="font-bold text-sm text-gray-900 mb-1">Positive Change</h4>
-                  <p className="text-xs text-gray-600">Deliver sustainable impact for people, planet, and progress.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6">
-              <div className="relative rounded-2xl overflow-hidden bg-white p-3 shadow-xl border-2 border-red-50">
-                <ImageBox
-                  label="The Rise Movement • Empowering Growth"
-                  aspectRatio="aspect-[16/10]"
-                  dark={false}
-                  imageSrc="/images/careers_purpose.jpg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="timeline" className="py-20 md:py-28 bg-white border-b border-gray-200">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-950">
-              Our Journey Since <span className="text-[#DE0826]">1986</span>
-            </h2>
-            <p className="text-gray-600 text-sm md:text-base mt-3">
-              Explore the pivotal moments that shaped Norstar from an Indian telecommunications joint venture into a global digital transformation titan.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 flex flex-col items-center justify-center">
-              <div className="relative w-72 h-72 sm:w-80 sm:h-80 rounded-full border-4 border-red-100 flex flex-col items-center justify-center bg-gradient-to-b from-[#FAF8F5] to-white shadow-2xl p-8 text-center group">
-                <div className="absolute inset-0 rounded-full border-4 border-t-[#DE0826] border-r-transparent border-b-transparent border-l-transparent animate-spin duration-10000" />
-                
-                <span className="text-xs font-mono font-bold text-gray-400 uppercase tracking-widest mb-1">
-                  HISTORICAL ERA
-                </span>
-                
-                <div className="text-6xl sm:text-7xl font-extrabold text-[#DE0826] tracking-tighter my-2 drop-shadow-xs">
-                  {currentTimeline.year}
-                </div>
-
-                <span className="px-3 py-1 bg-red-50 text-[#DE0826] font-bold text-xs rounded-full border border-red-200 uppercase tracking-wider">
-                  {currentTimeline.tag}
-                </span>
-
-                <div className="mt-4 text-xs text-gray-500 font-mono">
-                  Milestone 0{selectedTimelineIndex + 1} of 0{timelineData.length}
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-7">
-              <div className="bg-[#FAF8F5] rounded-2xl p-8 border-2 border-red-100 shadow-md mb-8">
-                <div className="flex items-center space-x-3 mb-3">
-                  <span className="px-3 py-0.5 bg-[#DE0826] text-white text-xs font-bold rounded">
-                    {currentTimeline.year}
-                  </span>
-                  <span className="text-xs font-bold text-gray-600 uppercase tracking-wider">
-                    {currentTimeline.tag}
-                  </span>
-                </div>
-
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  {currentTimeline.title}
-                </h3>
-
-                <p className="text-gray-700 text-base leading-relaxed">
-                  {currentTimeline.description}
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                  Select Year:
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {timelineData.map((item, idx) => (
-                    <button
-                      key={item.year}
-                      onClick={() => setSelectedTimelineIndex(idx)}
-                      className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                        selectedTimelineIndex === idx
-                          ? 'bg-[#DE0826] text-white shadow-sm scale-105'
-                          : 'bg-white text-gray-700 border border-gray-200 hover:border-[#DE0826] hover:text-[#DE0826]'
-                      }`}
-                    >
-                      {item.year}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  )
-}
 
 // -------------------------------------------------------------
 // 3. Hero Section (Home) - Full-Bleed Automated & Manual Slider
@@ -6343,7 +6087,7 @@ function BigThinkersSection() {
             {/* Name and Designation */}
             <div className="flex flex-col">
               <span className="text-lg sm:text-xl font-bold text-white font-heading leading-snug">
-                Edara Deepak Chowdary
+                Marcus Chen
               </span>
               <span className="text-xs sm:text-[13px] text-[#E06380] font-medium tracking-wide mt-0.5 leading-snug">
                 Chief Technology & AI Officer, Norstar Digital
@@ -6394,11 +6138,11 @@ function BigThinkersSection() {
             <div className="flex items-center space-x-4 mb-6 pb-4 border-b border-white/10">
               <img
                 src="/images/big_thinker_executive.png"
-                alt="Edara Deepak Chowdary"
-                className="w-14 h-14 rounded-full object-cover border border-[#DE0826]"
+                alt="Marcus Chen"
+                className="w-14 h-14 rounded-full object-cover object-top border border-[#DE0826]"
               />
               <div>
-                <h4 className="font-bold text-white text-sm">Edara Deepak Chowdary</h4>
+                <h4 className="font-bold text-white text-sm">Marcus Chen</h4>
                 <p className="text-xs text-[#E06380]">
                   Chief Technology & AI Officer, Norstar Digital
                 </p>
@@ -6447,7 +6191,7 @@ const whatsNewItems: WhatsNewItem[] = [
       'The award acknowledges Norstar Digital’s leadership in deploying self-healing agentic workflows that reduce multi-cloud network latency by 45% while driving sub-millisecond automated workload balancing.',
     ],
     quote: 'This recognition highlights our sustained focus on turning enterprise cloud networks into intelligent, autonomous cognitive ecosystems.',
-    quoteAuthor: 'Edara Deepak Chowdary, Chief Technology & AI Officer',
+    quoteAuthor: 'Marcus Chen, Chief Technology & AI Officer',
   },
   {
     id: 2,
@@ -6515,10 +6259,18 @@ const whatsNewItems: WhatsNewItem[] = [
   },
 ]
 
+const extendedWhatsNew = [...whatsNewItems, ...whatsNewItems, ...whatsNewItems]
+
 function WhatsNewSection() {
-  const [slideIndex, setSlideIndex] = useState(0)
+  const baseCount = whatsNewItems.length
+  const [currentIndex, setCurrentIndex] = useState(baseCount)
+  const [isTransitioning, setIsTransitioning] = useState(true)
   const [itemsPerView, setItemsPerView] = useState(3)
   const [selectedItem, setSelectedItem] = useState<WhatsNewItem | null>(null)
+  const [isHovered, setIsHovered] = useState(false)
+
+  const isAnimatingRef = useRef(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const handleResize = () => {
@@ -6535,15 +6287,65 @@ function WhatsNewSection() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const maxSlides = Math.max(0, whatsNewItems.length - itemsPerView)
+  const handleTransitionEnd = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+    isAnimatingRef.current = false
+    setCurrentIndex((curr) => {
+      if (curr >= 2 * baseCount) {
+        setIsTransitioning(false)
+        return curr - baseCount
+      }
+      if (curr < baseCount) {
+        setIsTransitioning(false)
+        return curr + baseCount
+      }
+      return curr
+    })
+  }, [baseCount])
 
-  const next = () => {
-    setSlideIndex((prev) => (prev < maxSlides ? prev + 1 : 0))
-  }
+  useEffect(() => {
+    if (!isTransitioning) {
+      const raf1 = requestAnimationFrame(() => {
+        const raf2 = requestAnimationFrame(() => {
+          setIsTransitioning(true)
+        })
+        return () => cancelAnimationFrame(raf2)
+      })
+      return () => cancelAnimationFrame(raf1)
+    }
+  }, [isTransitioning])
 
-  const prev = () => {
-    setSlideIndex((prev) => (prev > 0 ? prev - 1 : maxSlides))
-  }
+  const next = useCallback(() => {
+    if (isAnimatingRef.current || !isTransitioning) return
+    isAnimatingRef.current = true
+    setCurrentIndex((prev) => prev + 1)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      handleTransitionEnd()
+    }, 650)
+  }, [isTransitioning, handleTransitionEnd])
+
+  const prev = useCallback(() => {
+    if (isAnimatingRef.current || !isTransitioning) return
+    isAnimatingRef.current = true
+    setCurrentIndex((prev) => prev - 1)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      handleTransitionEnd()
+    }, 650)
+  }, [isTransitioning, handleTransitionEnd])
+
+  // Automatic slide rotation every 5 seconds in one continuous forward flow, paused on hover or modal open
+  useEffect(() => {
+    if (isHovered || selectedItem !== null) return
+    const timer = setInterval(() => {
+      next()
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [isHovered, selectedItem, next])
 
   return (
     <section className="relative w-full bg-[#F6F2EA] border-b border-[#E8E2D5] overflow-hidden lg:h-[calc(100vh-66px)] lg:min-h-[540px] lg:max-h-[850px] flex items-center">
@@ -6630,16 +6432,26 @@ function WhatsNewSection() {
         </div>
 
         {/* 3. Cards Slider */}
-        <div className="overflow-hidden -mx-3">
+        <div
+          className="overflow-hidden -mx-3"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+        >
           <div
-            className="flex transition-transform duration-500 ease-out"
+            className="flex"
             style={{
-              transform: `translateX(-${slideIndex * (100 / itemsPerView)}%)`,
+              transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`,
+              transition: isTransitioning
+                ? 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)'
+                : 'none',
             }}
+            onTransitionEnd={handleTransitionEnd}
           >
-            {whatsNewItems.map((item) => (
+            {extendedWhatsNew.map((item, idx) => (
               <div
-                key={item.id}
+                key={`${item.id}-${idx}`}
                 className="w-full sm:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
               >
                 <div
@@ -6744,97 +6556,111 @@ function WhatsNewSection() {
 // -------------------------------------------------------------
 // 9. "Capabilities" (Home Section - Overview)
 // -------------------------------------------------------------
+interface HomeCapabilityItem {
+  title: string
+  image: string
+}
+
+const homeCapabilitiesList: HomeCapabilityItem[] = [
+  {
+    title: 'Artificial Intelligence',
+    image: '/images/cap_ribbon_ai.jpg',
+  },
+  {
+    title: 'Cloud and Infrastructure Services',
+    image: '/images/cap_ribbon_cloud.jpg',
+  },
+  {
+    title: 'Digital Enterprise Applications',
+    image: '/images/cap_ribbon_digital.jpg',
+  },
+  {
+    title: 'Business Process Services',
+    image: '/images/cap_ribbon_bps.jpg',
+  },
+  {
+    title: 'Engineering Services',
+    image: '/images/cap_ribbon_eng.jpg',
+  },
+  {
+    title: 'TechM Consulting',
+    image: '/images/cap_ribbon_consulting.jpg',
+  },
+  {
+    title: 'Experience Services',
+    image: '/images/cap_ribbon_exp.jpg',
+  },
+  {
+    title: 'Network Services',
+    image: '/images/cap_ribbon_net.jpg',
+  },
+]
+
 function CapabilitiesOverviewSection({ onExploreMore }: { onExploreMore: () => void }) {
   const [activeCapability, setActiveCapability] = useState(0)
-  const current = allCapabilitiesList[activeCapability]
+  const current = homeCapabilitiesList[activeCapability]
 
   return (
-    <section id="capabilities" className="py-20 md:py-28 bg-[#38020E] text-white">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <section id="capabilities" className="py-20 md:py-28 bg-[#5F0229] text-white">
+      <div className="max-w-[1360px] mx-auto px-6 md:px-12 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          {/* Left Column: Title & Clean Typography List */}
           <div className="lg:col-span-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-8 sm:mb-10 font-outfit">
               Capabilities
             </h2>
 
-            <div className="divide-y divide-white/10 border-y border-white/10">
-              {allCapabilitiesList.slice(0, 8).map((cap, idx) => (
-                <button
-                  key={cap.title}
-                  onClick={() => setActiveCapability(idx)}
-                  onMouseEnter={() => setActiveCapability(idx)}
-                  className={`w-full py-4 text-left flex items-center justify-between transition-all duration-200 group ${
-                    activeCapability === idx
-                      ? 'text-white font-bold pl-3 border-l-4 border-[#DE0826] bg-white/5'
-                      : 'text-gray-400 hover:text-white font-medium hover:pl-2'
-                  }`}
-                >
-                  <span className="text-base sm:text-lg">{cap.title}</span>
-                  <Icon
-                    name="chevron-right"
-                    className={`w-4 h-4 transition-transform ${
-                      activeCapability === idx
-                        ? 'text-[#DE0826] translate-x-1'
-                        : 'text-gray-600 group-hover:text-gray-300'
+            <div className="space-y-3.5 sm:space-y-4">
+              {homeCapabilitiesList.map((cap, idx) => {
+                const isActive = activeCapability === idx
+                return (
+                  <div
+                    key={cap.title}
+                    onMouseEnter={() => setActiveCapability(idx)}
+                    onClick={() => setActiveCapability(idx)}
+                    className={`cursor-pointer transition-all duration-200 select-none py-1 flex items-center group ${
+                      isActive
+                        ? 'text-white font-bold pl-3.5 border-l-[3px] border-[#DE0826]'
+                        : 'text-white/60 hover:text-white font-medium pl-3.5 border-l-[3px] border-transparent'
                     }`}
-                  />
-                </button>
-              ))}
+                  >
+                    <span className="text-lg sm:text-xl md:text-[22px] tracking-tight transition-transform duration-200 group-hover:translate-x-1">
+                      {cap.title}
+                    </span>
+                  </div>
+                )
+              })}
             </div>
 
-            <div className="mt-8">
+            <div className="mt-10 sm:mt-12">
               <button
                 onClick={onExploreMore}
-                className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3.5 rounded transition-all shadow-md"
+                className="inline-flex items-center space-x-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-semibold px-5 py-2.5 rounded transition-all shadow-md group"
               >
-                <span>View All Capabilities Matrix</span>
-                <Icon name="arrow-right" className="w-3.5 h-3.5" />
+                <span>Explore All Capabilities</span>
+                <Icon name="arrow-right" className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </button>
             </div>
           </div>
 
-          <div className="lg:col-span-6 lg:sticky lg:top-28">
-            <div className="bg-black/30 rounded-2xl p-8 border border-white/15 backdrop-blur-md">
-              <div className="text-xs font-mono text-[#DE0826] font-bold uppercase tracking-wider mb-2">
-                CAPABILITY 0{activeCapability + 1}
-              </div>
+          {/* Right Column: Subtitle Text & Square Artwork Showcase */}
+          <div className="lg:col-span-6 lg:pt-2 flex flex-col items-start">
+            <p className="text-white/85 text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 max-w-xl font-normal">
+              We bring the solutions and platforms that actually move the needle. Better customer experiences. Real business outcomes. Transformation that happens at the pace your business demands.
+            </p>
 
-              <h3 className="text-2xl font-bold text-white mb-4">
-                {current.title}
-              </h3>
-
-              <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                {current.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-8">
-                {current.services.map((item) => (
-                  <span
-                    key={item}
-                    className="px-3 py-1 bg-white/10 text-white/90 text-xs rounded font-medium border border-white/10"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              <ImageBox
-                label={`Graphic • ${current.title}`}
-                aspectRatio="aspect-[16/9]"
-                dark={true}
-                className="rounded-xl border border-white/15"
-                imageSrc={current.image}
+            {/* Square/Rectangular Artwork (Matching reference screenshot exactly: NO circle) */}
+            <div
+              onClick={onExploreMore}
+              className="relative w-full max-w-[420px] aspect-square overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.65)] border border-white/15 bg-black/30 cursor-pointer group"
+              title={`Explore ${current.title}`}
+            >
+              <img
+                key={current.image}
+                src={current.image}
+                alt={current.title}
+                className="w-full h-full object-cover animate-fadeIn transition-transform duration-500 ease-out group-hover:scale-105"
               />
-
-              <div className="mt-6 flex justify-end">
-                <button
-                  onClick={onExploreMore}
-                  className="inline-flex items-center space-x-2 text-xs font-bold text-[#DE0826] hover:text-red-300 uppercase tracking-wider bg-transparent border-0 cursor-pointer"
-                >
-                  <span>Explore in Detail</span>
-                  <Icon name="arrow-right" className="w-3.5 h-3.5" />
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -6844,129 +6670,412 @@ function CapabilitiesOverviewSection({ onExploreMore }: { onExploreMore: () => v
 }
 
 // -------------------------------------------------------------
-// 10. "Expertise Across Industries"
+// 10. "Expertise Across Industries" (Reference-Matched Infinite Carousel)
 // -------------------------------------------------------------
-const industryList = [
-  {
-    icon: 'chart',
-    title: 'Banking & Financial Services (BFSI)',
-    desc: 'Powering cloud core banking, fraud detection with AI, Open Banking, and algorithmic risk mitigation for premier financial institutions.',
-  },
-  {
-    icon: 'phone',
-    title: 'Communications & Media',
-    desc: 'Engineering autonomous 5G networks, cloud-native telecom stacks, and hyper-personalized digital streaming experiences.',
-  },
-  {
-    icon: 'heart',
-    title: 'Healthcare & Life Sciences',
-    desc: 'Connecting patient health journeys, accelerating clinical trials, and ensuring robust HIPAA compliance through resilient cloud infrastructures.',
-  },
-  {
-    icon: 'factory',
-    title: 'Manufacturing & High-Tech',
-    desc: 'Architecting Smart Factory 4.0, digital twin predictive maintenance, and agile global supply chain orchestration.',
-  },
-  {
-    icon: 'shopping',
-    title: 'Retail & Consumer Goods (CPG)',
-    desc: 'Delivering unified omnichannel commerce, automated inventory intelligence, and next-generation customer loyalty platforms.',
-  },
-  {
-    icon: 'zap',
-    title: 'Energy & Utilities',
-    desc: 'Driving smart grid modernization, carbon footprint accounting, renewable energy optimization, and predictive asset management.',
-  },
+interface IndustryCarouselCard {
+  id: string
+  title: string
+  iconType: string
+}
+
+const industriesCarouselData: IndustryCarouselCard[] = [
+  { id: 'insurance', title: 'INSURANCE', iconType: 'insurance' },
+  { id: 'manufacturing', title: 'MANUFACTURING', iconType: 'manufacturing' },
+  { id: 'media', title: 'MEDIA & ENTERTAINMENT', iconType: 'media' },
+  { id: 'oil-gas', title: 'OIL & GAS', iconType: 'oil-gas' },
+  { id: 'private-equity', title: 'PRIVATE EQUITY', iconType: 'private-equity' },
+  { id: 'banking', title: 'BANKING & FINANCIAL', iconType: 'banking' },
+  { id: 'telecom', title: 'TELECOMMUNICATIONS', iconType: 'telecom' },
+  { id: 'healthcare', title: 'HEALTHCARE & LIFE SCIENCES', iconType: 'healthcare' },
+  { id: 'retail', title: 'RETAIL & CONSUMER GOODS', iconType: 'retail' },
+  { id: 'automotive', title: 'AUTOMOTIVE & MOBILITY', iconType: 'automotive' },
+  { id: 'logistics', title: 'TRAVEL & LOGISTICS', iconType: 'logistics' },
+  { id: 'energy', title: 'ENERGY & UTILITIES', iconType: 'energy' },
+  { id: 'hi-tech', title: 'HI-TECH & SOFTWARE', iconType: 'hi-tech' },
+  { id: 'public-sector', title: 'PUBLIC SECTOR', iconType: 'public-sector' },
 ]
 
+function IndustryLineIcon({ type }: { type: string }) {
+  switch (type) {
+    case 'insurance':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path
+            d="M10 12V28C10 40 18 48 28 51C38 48 46 40 46 28V12H10Z"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16 18V28C16 37 21.5 43.5 28 46C34.5 43.5 40 37 40 28V18H16Z"
+            fill="url(#industry-red-hatch)"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )
+    case 'manufacturing':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          {/* Two tapering towers on left */}
+          <path d="M12 36L14 18H18L20 36" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M22 36L24 18H28L30 36" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Slanted roof building on right filled with red hatch */}
+          <path d="M30 26L46 14V36H30V26Z" fill="url(#industry-red-hatch)" strokeWidth="1.5" strokeLinejoin="round" />
+          {/* Base building */}
+          <rect x="8" y="36" width="40" height="12" strokeWidth="1.75" />
+          {/* Door on right */}
+          <rect x="40" y="40" width="4" height="8" strokeWidth="1.5" fill="white" />
+        </svg>
+      )
+    case 'media':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          {/* Screen outline open at bottom */}
+          <path d="M18 40H8V14H48V40H38" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Upright triangle play shape filled with red hatch */}
+          <polygon points="28,24 20,40 36,40" fill="url(#industry-red-hatch)" strokeWidth="1.5" strokeLinejoin="round" />
+        </svg>
+      )
+    case 'oil-gas':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          {/* Ground line */}
+          <line x1="6" y1="46" x2="44" y2="46" strokeWidth="1.75" strokeLinecap="round" />
+          {/* Silo tank with curved top filled with red hatch */}
+          <path d="M14 46V16C14 12 18 10 24 10C30 10 34 12 34 16V46H14Z" fill="url(#industry-red-hatch)" strokeWidth="1.75" strokeLinejoin="round" />
+          {/* Horizontal ring line on tank */}
+          <line x1="14" y1="18" x2="34" y2="18" strokeWidth="1.5" />
+          {/* Pipeline to the right */}
+          <path d="M34 20H42V36H38" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 'private-equity':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          {/* 3 ascending bar chart columns with 3D tops */}
+          <path d="M10 44V34L14 30L18 34V44H10Z" fill="url(#industry-red-hatch)" strokeWidth="1.5" strokeLinejoin="round" />
+          <line x1="14" y1="30" x2="14" y2="44" strokeWidth="1.25" />
+          <path d="M20 44V26L24 22L28 26V44H20Z" fill="url(#industry-red-hatch)" strokeWidth="1.5" strokeLinejoin="round" />
+          <line x1="24" y1="22" x2="24" y2="44" strokeWidth="1.25" />
+          <path d="M30 44V18L34 14L38 18V44H30Z" fill="url(#industry-red-hatch)" strokeWidth="1.5" strokeLinejoin="round" />
+          <line x1="34" y1="14" x2="34" y2="44" strokeWidth="1.25" />
+          {/* Trendline with arrow */}
+          <path d="M8 22L16 16L24 20L34 10M34 10H27M34 10V17" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )
+    case 'banking':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path d="M8 20L28 8L48 20H8Z" fill="url(#industry-red-hatch)" strokeWidth="1.75" strokeLinejoin="round" />
+          <line x1="6" y1="20" x2="50" y2="20" strokeWidth="1.75" />
+          <line x1="13" y1="20" x2="13" y2="38" strokeWidth="2" />
+          <line x1="23" y1="20" x2="23" y2="38" strokeWidth="2" />
+          <line x1="33" y1="20" x2="33" y2="38" strokeWidth="2" />
+          <line x1="43" y1="20" x2="43" y2="38" strokeWidth="2" />
+          <rect x="6" y="38" width="44" height="6" strokeWidth="1.75" />
+          <line x1="4" y1="44" x2="52" y2="44" strokeWidth="1.75" />
+        </svg>
+      )
+    case 'telecom':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path d="M28 10V46M20 46L28 14L36 46" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="28" cy="10" r="3" fill="url(#industry-red-hatch)" strokeWidth="1.5" />
+          <path d="M18 18C14 22 14 30 18 34" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M38 18C42 22 42 30 38 34" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M12 12C6 20 6 36 12 42" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M44 12C50 20 50 36 44 42" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      )
+    case 'healthcare':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path
+            d="M22 10H34V20H44V32H34V42H22V32H12V20H22V10Z"
+            fill="url(#industry-red-hatch)"
+            strokeWidth="1.75"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M10 46H18L23 38L29 52L34 42L39 46H46"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )
+    case 'retail':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path
+            d="M12 18L16 46H40L44 18H12Z"
+            fill="url(#industry-red-hatch)"
+            strokeWidth="1.75"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M20 20V12C20 7.5 23.5 4 28 4C32.5 4 36 7.5 36 12V20"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+          />
+        </svg>
+      )
+    case 'automotive':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path
+            d="M8 34L14 22H34L44 30H50C51 30 52 31 52 33V38H6V34Z"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16 22L20 30H34L32 22H16Z"
+            fill="url(#industry-red-hatch)"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <circle cx="16" cy="40" r="4.5" strokeWidth="1.75" fill="white" />
+          <circle cx="42" cy="40" r="4.5" strokeWidth="1.75" fill="white" />
+        </svg>
+      )
+    case 'logistics':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path
+            d="M28 8L32 22L48 27L46 32L32 28L30 40L36 44L34 48L28 46L22 48L20 44L26 40L24 28L10 32L8 27L24 22L28 8Z"
+            fill="url(#industry-red-hatch)"
+            strokeWidth="1.75"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )
+    case 'energy':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path d="M28 24V48M24 48H32" strokeWidth="1.75" strokeLinecap="round" />
+          <path
+            d="M28 24L18 12C20 10 24 12 28 24ZM28 24L38 18C40 20 38 24 28 24ZM28 24L30 36C28 38 26 36 28 24Z"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <polygon
+            points="42,12 34,24 40,24 36,36 48,20 40,20"
+            fill="url(#industry-red-hatch)"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )
+    case 'hi-tech':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <rect x="16" y="16" width="24" height="24" rx="2" fill="url(#industry-red-hatch)" strokeWidth="1.75" />
+          <rect x="22" y="22" width="12" height="12" strokeWidth="1.5" fill="white" />
+          <line x1="20" y1="10" x2="20" y2="16" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="28" y1="10" x2="28" y2="16" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="36" y1="10" x2="36" y2="16" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="20" y1="40" x2="20" y2="46" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="28" y1="40" x2="28" y2="46" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="36" y1="40" x2="36" y2="46" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="10" y1="20" x2="16" y2="20" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="10" y1="28" x2="16" y2="28" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="10" y1="36" x2="16" y2="36" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="40" y1="20" x2="46" y2="20" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="40" y1="28" x2="46" y2="28" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="40" y1="36" x2="46" y2="36" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      )
+    case 'public-sector':
+      return (
+        <svg viewBox="0 0 56 56" className="w-11 h-11 stroke-[#111827]" fill="none">
+          <path d="M28 10C20 10 16 16 16 22H40C40 16 36 10 28 10Z" fill="url(#industry-red-hatch)" strokeWidth="1.75" />
+          <line x1="28" y1="6" x2="28" y2="10" strokeWidth="1.75" />
+          <rect x="12" y="22" width="32" height="4" strokeWidth="1.5" />
+          <line x1="18" y1="26" x2="18" y2="38" strokeWidth="2" />
+          <line x1="24" y1="26" x2="24" y2="38" strokeWidth="2" />
+          <line x1="32" y1="26" x2="32" y2="38" strokeWidth="2" />
+          <line x1="38" y1="26" x2="38" y2="38" strokeWidth="2" />
+          <rect x="10" y="38" width="36" height="5" strokeWidth="1.75" />
+          <line x1="6" y1="43" x2="50" y2="43" strokeWidth="1.75" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
 function IndustriesSection({ onExploreMore }: { onExploreMore?: () => void }) {
-  const [industrySlide, setIndustrySlide] = useState(0)
-  const maxSlide = industryList.length - 3
+  // Triple items list for infinite seamless wrap
+  const extendedIndustries = [
+    ...industriesCarouselData,
+    ...industriesCarouselData,
+    ...industriesCarouselData,
+  ]
+
+  const [currentIndex, setCurrentIndex] = useState(industriesCarouselData.length)
+  const [isTransitioning, setIsTransitioning] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+  const [itemsPerView, setItemsPerView] = useState(5)
+
+  // Dynamically adapt cards visible per viewport
+  useEffect(() => {
+    const handleResize = () => {
+      if (typeof window === 'undefined') return
+      if (window.innerWidth < 640) setItemsPerView(1.25)
+      else if (window.innerWidth < 768) setItemsPerView(2)
+      else if (window.innerWidth < 1024) setItemsPerView(3)
+      else if (window.innerWidth < 1280) setItemsPerView(4)
+      else setItemsPerView(5)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Auto-advance sliding smoothly from right to left every 2.8s when not hovered
+  useEffect(() => {
+    if (isHovered) return
+    const interval = setInterval(() => {
+      setIsTransitioning(true)
+      setCurrentIndex((prev) => prev + 1)
+    }, 2800)
+    return () => clearInterval(interval)
+  }, [isHovered])
+
+  // Seamless reset on boundary transition end (infinite marquee effect)
+  const handleTransitionEnd = () => {
+    if (currentIndex >= industriesCarouselData.length * 2) {
+      setIsTransitioning(false)
+      setCurrentIndex(currentIndex - industriesCarouselData.length)
+    } else if (currentIndex < industriesCarouselData.length) {
+      setIsTransitioning(false)
+      setCurrentIndex(currentIndex + industriesCarouselData.length)
+    }
+  }
 
   const next = () => {
-    setIndustrySlide((prev) => (prev < maxSlide ? prev + 1 : 0))
+    setIsTransitioning(true)
+    setCurrentIndex((prev) => prev + 1)
   }
 
   const prev = () => {
-    setIndustrySlide((prev) => (prev > 0 ? prev - 1 : maxSlide))
+    setIsTransitioning(true)
+    setCurrentIndex((prev) => prev - 1)
   }
 
   return (
-    <section id="industries" className="py-20 md:py-28 bg-pinstripes border-b border-neutral-200">
+    <section id="industries" className="py-20 md:py-28 bg-pinstripes border-b border-neutral-200 overflow-hidden relative">
+      {/* Global Pattern Definition for Red Diagonal Hatching */}
+      <svg className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
+        <defs>
+          <pattern
+            id="industry-red-hatch"
+            width="6"
+            height="6"
+            patternTransform="rotate(45 0 0)"
+            patternUnits="userSpaceOnUse"
+          >
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#DE0826" strokeWidth="1.25" />
+          </pattern>
+        </defs>
+      </svg>
+
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        {/* Section Header with Left Text and Top-Right Pill Controls */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-950 font-outfit">
               Expertise Across Industries
             </h2>
-            <p className="text-gray-600 text-sm mt-2 max-w-lg">
-              Tailored digital solutions built on decades of domain mastery and technological leadership.
+            <p className="text-gray-700 text-sm sm:text-base mt-3 max-w-2xl font-normal leading-relaxed">
+              Our expertise spans 14 industries, including banking, insurance, telecommunications, media, entertainment, distribution, and retail.
             </p>
           </div>
 
-          <div className="flex items-center space-x-3 mt-4 md:mt-0">
-            {onExploreMore && (
-              <button
-                onClick={onExploreMore}
-                className="inline-flex items-center space-x-2 text-xs font-bold text-[#DE0826] hover:text-[#BE001D] border border-red-200 hover:border-[#DE0826] bg-red-50 hover:bg-red-100 px-4 py-2.5 rounded transition-all cursor-pointer"
-              >
-                <span>View All 14 Industries</span>
-                <Icon name="arrow-right" className="w-3.5 h-3.5" />
-              </button>
-            )}
+          {/* Top-Right Capsule/Pill Arrow Controls matching reference screenshot */}
+          <div className="flex items-center space-x-2.5 mt-6 md:mt-0">
             <button
               onClick={prev}
               aria-label="Previous Industry"
-              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-sm"
+              className="w-11 h-8 rounded-full bg-[#181818] hover:bg-[#DE0826] flex items-center justify-center text-white transition-colors duration-200 shadow-sm cursor-pointer"
             >
-              <Icon name="chevron-left" className="w-4 h-4" />
+              <Icon name="arrow-right" className="w-3.5 h-3.5 rotate-180" />
             </button>
             <button
               onClick={next}
               aria-label="Next Industry"
-              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-sm"
+              className="w-11 h-8 rounded-full bg-[#181818] hover:bg-[#DE0826] flex items-center justify-center text-white transition-colors duration-200 shadow-sm cursor-pointer"
             >
-              <Icon name="chevron-right" className="w-4 h-4" />
+              <Icon name="arrow-right" className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
-        <div className="overflow-hidden">
+        {/* Carousel Container with Overflow Clipping */}
+        <div
+          className="overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <div
-            className="flex transition-transform duration-500 ease-out -mx-3"
-            style={{ transform: `translateX(-${industrySlide * 33.333}%)` }}
+            className="flex -mx-2 sm:-mx-2.5 will-change-transform"
+            style={{
+              transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`,
+              transition: isTransitioning
+                ? 'transform 700ms cubic-bezier(0.25, 1, 0.5, 1)'
+                : 'none',
+            }}
+            onTransitionEnd={handleTransitionEnd}
           >
-            {industryList.map((ind) => (
+            {extendedIndustries.map((item, idx) => (
               <div
-                key={ind.title}
-                className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
+                key={`${item.id}-${idx}`}
+                className="flex-shrink-0 px-2 sm:px-2.5"
+                style={{ width: `${100 / itemsPerView}%` }}
               >
-                <div className="bg-white rounded-xl border border-gray-200/90 p-8 shadow-sm hover:shadow-md hover:border-[#DE0826] transition-all duration-200 h-full flex flex-col justify-between group">
-                  <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 h-12 rounded-lg bg-red-50 text-[#DE0826] flex items-center justify-center group-hover:bg-[#DE0826] group-hover:text-white transition-colors shadow-xs">
-                        <Icon name={ind.icon as IconName} className="w-6 h-6" />
-                      </div>
-                      <span className="text-xs font-mono text-gray-400 font-semibold">
-                        {ind.title.split(' ')[0]}
-                      </span>
-                    </div>
+                <div
+                  onClick={onExploreMore}
+                  className="group relative bg-white rounded-[2px] p-6 sm:p-7 border border-gray-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full min-h-[300px] sm:min-h-[320px] flex flex-col justify-between cursor-pointer select-none overflow-hidden"
+                >
+                  {/* Subtle 45-degree faint red lines at bottom-right corner */}
+                  <svg
+                    className="absolute bottom-0 right-0 w-36 h-28 pointer-events-none overflow-hidden"
+                    viewBox="0 0 144 112"
+                    fill="none"
+                  >
+                    <path
+                      d="M0 112L144 40M16 112L144 48M32 112L144 56M48 112L144 64M64 112L144 72M80 112L144 80M96 112L144 88M112 112L144 96M128 112L144 104"
+                      stroke="#DE0826"
+                      strokeOpacity="0.22"
+                      strokeWidth="1"
+                    />
+                  </svg>
 
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-[#DE0826] transition-colors leading-snug">
-                      {ind.title}
-                    </h3>
-
-                    <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
-                      {ind.desc}
-                    </p>
+                  {/* Top: Icon with red diagonal hatch lines */}
+                  <div className="relative z-10">
+                    <IndustryLineIcon type={item.iconType} />
                   </div>
 
-                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
-                    <span className="text-xs font-bold text-gray-700 group-hover:text-[#DE0826]">
-                      Explore Sector
-                    </span>
-                    <div className="w-8 h-8 rounded-full bg-[#DE0826] text-white flex items-center justify-center shadow-xs">
-                      <Icon name="arrow-right" className="w-3.5 h-3.5" />
+                  {/* Middle: Uppercase bold title matching reference */}
+                  <div className="relative z-10 my-6">
+                    <h3 className="text-[13px] sm:text-[14px] font-bold tracking-wider uppercase text-gray-950 font-outfit leading-snug">
+                      {item.title}
+                    </h3>
+                  </div>
+
+                  {/* Bottom: Hover Button Reveal (Circle smoothly expands into a generous red pill with text) */}
+                  <div className="relative z-10 flex items-center justify-start">
+                    <div className="h-9 w-9 group-hover:w-36 sm:group-hover:w-[150px] rounded-full bg-[#DE0826] text-white flex items-center justify-center group-hover:justify-between px-2.5 group-hover:px-4 transition-all duration-300 ease-out overflow-hidden shadow-xs cursor-pointer">
+                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 max-w-0 group-hover:max-w-[85px] overflow-hidden transition-all duration-300 font-outfit leading-none">
+                        Explore
+                      </span>
+                      <Icon
+                        name="arrow-right"
+                        className="w-3.5 h-3.5 shrink-0 transition-transform duration-300 group-hover:translate-x-0.5"
+                      />
                     </div>
                   </div>
                 </div>
@@ -7021,17 +7130,92 @@ const successStories = [
   },
 ]
 
+const extendedSuccessStories = [...successStories, ...successStories, ...successStories]
+
 function SuccessStoriesSection() {
-  const [storyIndex, setStoryIndex] = useState(0)
-  const maxStory = successStories.length - 2
+  const baseCount = successStories.length
+  const [currentIndex, setCurrentIndex] = useState(baseCount)
+  const [isTransitioning, setIsTransitioning] = useState(true)
+  const [itemsPerView, setItemsPerView] = useState(3)
+  const [isHovered, setIsHovered] = useState(false)
 
-  const next = () => {
-    setStoryIndex((prev) => (prev < maxStory ? prev + 1 : 0))
-  }
+  const isAnimatingRef = useRef(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const prev = () => {
-    setStoryIndex((prev) => (prev > 0 ? prev - 1 : maxStory))
-  }
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setItemsPerView(1)
+      } else if (window.innerWidth < 1024) {
+        setItemsPerView(2)
+      } else {
+        setItemsPerView(3)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const handleTransitionEnd = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+    isAnimatingRef.current = false
+    setCurrentIndex((curr) => {
+      if (curr >= 2 * baseCount) {
+        setIsTransitioning(false)
+        return curr - baseCount
+      }
+      if (curr < baseCount) {
+        setIsTransitioning(false)
+        return curr + baseCount
+      }
+      return curr
+    })
+  }, [baseCount])
+
+  useEffect(() => {
+    if (!isTransitioning) {
+      const raf1 = requestAnimationFrame(() => {
+        const raf2 = requestAnimationFrame(() => {
+          setIsTransitioning(true)
+        })
+        return () => cancelAnimationFrame(raf2)
+      })
+      return () => cancelAnimationFrame(raf1)
+    }
+  }, [isTransitioning])
+
+  const next = useCallback(() => {
+    if (isAnimatingRef.current || !isTransitioning) return
+    isAnimatingRef.current = true
+    setCurrentIndex((prev) => prev + 1)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      handleTransitionEnd()
+    }, 650)
+  }, [isTransitioning, handleTransitionEnd])
+
+  const prev = useCallback(() => {
+    if (isAnimatingRef.current || !isTransitioning) return
+    isAnimatingRef.current = true
+    setCurrentIndex((prev) => prev - 1)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
+      handleTransitionEnd()
+    }, 650)
+  }, [isTransitioning, handleTransitionEnd])
+
+  // Automatic slide rotation every 5 seconds in one continuous forward flow, paused on hover
+  useEffect(() => {
+    if (isHovered) return
+    const timer = setInterval(() => {
+      next()
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [isHovered, next])
 
   return (
     <section id="success-stories" className="py-20 md:py-28 bg-white border-b border-neutral-200">
@@ -7064,14 +7248,26 @@ function SuccessStoriesSection() {
           </div>
         </div>
 
-        <div className="overflow-hidden">
+        <div
+          className="overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
+        >
           <div
-            className="flex transition-transform duration-500 ease-out -mx-3"
-            style={{ transform: `translateX(-${storyIndex * 33.333}%)` }}
+            className="flex -mx-3"
+            style={{
+              transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`,
+              transition: isTransitioning
+                ? 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)'
+                : 'none',
+            }}
+            onTransitionEnd={handleTransitionEnd}
           >
-            {successStories.map((story) => (
+            {extendedSuccessStories.map((story, idx) => (
               <div
-                key={story.id}
+                key={`${story.id}-${idx}`}
                 className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
               >
                 <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#DE0826] hover:shadow-lg transition-all duration-200 h-full flex flex-col justify-between group">
@@ -7304,35 +7500,46 @@ function Footer({ onRouteChange }: FooterProps) {
 // Main Application Component with Page Routing
 // -------------------------------------------------------------
 export default function App() {
-  const [route, setRoute] = useState<PageRoute>(() => {
+  const parseHash = () => {
     const hash = window.location.hash
-    if (hash.includes('contact')) return 'contact'
-    if (hash.includes('careers')) return 'careers'
-    if (hash.includes('insights')) return 'insights'
-    if (hash.includes('industries')) return 'industries'
-    if (hash.includes('capabilities')) return 'capabilities'
-    if (hash.includes('about')) return 'about'
-    return 'home'
-  })
+    if (hash.includes('contact')) return { route: 'contact' as PageRoute, subpage: 'overview' as AboutSubpage }
+    if (hash.includes('careers')) return { route: 'careers' as PageRoute, subpage: 'overview' as AboutSubpage }
+    if (hash.includes('insights')) return { route: 'insights' as PageRoute, subpage: 'overview' as AboutSubpage }
+    if (hash.includes('industries')) return { route: 'industries' as PageRoute, subpage: 'overview' as AboutSubpage }
+    if (hash.includes('capabilities')) return { route: 'capabilities' as PageRoute, subpage: 'overview' as AboutSubpage }
+    if (hash.includes('about')) {
+      const parts = hash.split('/')
+      const sub = parts[2]?.replace(/[?#].*$/, '') as AboutSubpage
+      const validSubpages: AboutSubpage[] = [
+        'overview',
+        'leadership',
+        'brand',
+        'sustainability',
+        'recognition',
+        'customer-speak',
+        'partners',
+        'portfolio',
+        'citizenship',
+        'centricity',
+        'news',
+        'investors',
+      ]
+      if (validSubpages.includes(sub)) {
+        return { route: 'about' as PageRoute, subpage: sub }
+      }
+      return { route: 'about' as PageRoute, subpage: 'overview' as AboutSubpage }
+    }
+    return { route: 'home' as PageRoute, subpage: 'overview' as AboutSubpage }
+  }
+
+  const [route, setRoute] = useState<PageRoute>(() => parseHash().route)
+  const [aboutSubpage, setAboutSubpage] = useState<AboutSubpage>(() => parseHash().subpage)
 
   useEffect(() => {
     const handleHash = () => {
-      const hash = window.location.hash
-      if (hash.includes('contact')) {
-        setRoute('contact')
-      } else if (hash.includes('careers')) {
-        setRoute('careers')
-      } else if (hash.includes('insights')) {
-        setRoute('insights')
-      } else if (hash.includes('industries')) {
-        setRoute('industries')
-      } else if (hash.includes('capabilities')) {
-        setRoute('capabilities')
-      } else if (hash.includes('about')) {
-        setRoute('about')
-      } else {
-        setRoute('home')
-      }
+      const { route: newRoute, subpage: newSubpage } = parseHash()
+      setRoute(newRoute)
+      setAboutSubpage(newSubpage)
       window.scrollTo(0, 0)
     }
 
@@ -7340,9 +7547,13 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHash)
   }, [])
 
-  const handleRouteChange = (newRoute: PageRoute) => {
+  const handleRouteChange = (newRoute: PageRoute, subpage?: AboutSubpage) => {
     setRoute(newRoute)
-    if (newRoute === 'contact') {
+    if (newRoute === 'about') {
+      const targetSub = subpage || 'overview'
+      setAboutSubpage(targetSub)
+      window.location.hash = `#/about/${targetSub}`
+    } else if (newRoute === 'contact') {
       window.location.hash = '#/contact'
     } else if (newRoute === 'careers') {
       window.location.hash = '#/careers'
@@ -7352,8 +7563,6 @@ export default function App() {
       window.location.hash = '#/industries'
     } else if (newRoute === 'capabilities') {
       window.location.hash = '#/capabilities'
-    } else if (newRoute === 'about') {
-      window.location.hash = '#/about'
     } else {
       window.location.hash = '#/home'
     }
@@ -7363,7 +7572,11 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans text-gray-900 antialiased selection:bg-[#DE0826] selection:text-white">
       {/* Primary Navigation Bar with Page Toggle */}
-      <Navbar currentRoute={route} onRouteChange={handleRouteChange} />
+      <Navbar
+        currentRoute={route}
+        activeAboutSubpage={aboutSubpage}
+        onRouteChange={handleRouteChange}
+      />
 
       {/* Main Content Area: Home, About Us, or Capabilities */}
       <main className="flex-grow">
@@ -7378,7 +7591,11 @@ export default function App() {
         ) : route === 'capabilities' ? (
           <CapabilitiesPage />
         ) : route === 'about' ? (
-          <AboutUsPage />
+          <AboutUsPage
+            activeSubpage={aboutSubpage}
+            onSelectSubpage={(sub) => handleRouteChange('about', sub)}
+            onNavigateRoute={handleRouteChange}
+          />
         ) : (
           <>
             {/* 3. Hero Section (Full-Bleed Automated & Manual Slider) */}
