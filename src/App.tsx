@@ -4581,9 +4581,6 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
                   alt="Cyber Resilience Fabric"
                   className="w-full aspect-[16/9] object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute top-3 left-3 px-3 py-1 bg-[#DE0826] text-white text-[11px] font-bold uppercase tracking-wider rounded">
-                  Featured News
-                </div>
               </div>
             </div>
 
@@ -4853,9 +4850,6 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
               >
                 <Icon name="close" className="w-5 h-5" />
               </button>
-              <div className="absolute bottom-4 left-4 px-3 py-1 bg-[#DE0826] text-white text-xs font-bold rounded">
-                {selectedCase.category}
-              </div>
             </div>
             <div className="p-6 sm:p-8">
               <h3 className="text-xl sm:text-2xl font-extrabold text-gray-950 mb-3 leading-snug">

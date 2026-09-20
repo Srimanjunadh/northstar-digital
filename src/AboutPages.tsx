@@ -540,9 +540,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Executive Governance
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Visionary <span className="text-[#DE0826]">Leadership</span>
                 </h1>
@@ -728,9 +725,6 @@ export function AboutUsPage({
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 <div className="lg:col-span-7">
-                  <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                    Brand Philosophy
-                  </div>
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                     Powered by the Spirit of <span className="text-[#DE0826]">Rise</span>
                   </h1>
@@ -875,9 +869,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Environmental, Social & Governance
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Sustainable <span className="text-[#DE0826]">Enterprise</span> by Design
                 </h1>
@@ -1019,9 +1010,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Analyst & Industry Accolades
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Global <span className="text-[#DE0826]">Recognition</span>
                 </h1>
@@ -1178,9 +1166,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Client Advocacy & Trust
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Customer <span className="text-[#DE0826]">Speak</span>
                 </h1>
@@ -1307,9 +1292,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Strategic Alliances
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Partners <span className="text-[#DE0826]">Ecosystem</span>
                 </h1>
@@ -1440,9 +1422,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Specialized Ecosystem
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Portfolio <span className="text-[#DE0826]">Companies</span>
                 </h1>
@@ -1556,9 +1535,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Social Impact & Foundation
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Corporate <span className="text-[#DE0826]">Citizenship</span>
                 </h1>
@@ -1699,9 +1675,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Customer Centricity Office
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Customer <span className="text-[#DE0826]">Centricity</span>
                 </h1>
@@ -1788,9 +1761,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Press Releases & Media Center
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   News & <span className="text-[#DE0826]">Press</span>
                 </h1>
@@ -1875,9 +1845,6 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                  Shareholder Center
-                </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
                   Investor <span className="text-[#DE0826]">Relations</span>
                 </h1>
