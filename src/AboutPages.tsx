@@ -154,6 +154,44 @@ const timelineData = [
   },
 ]
 
+// Subtle Isometric Wireframe Pattern matching Homepage BrandPromiseSection
+function IsoGridPattern({ id = 'about-iso-pattern', opacity = 'opacity-45' }: { id?: string; opacity?: string }) {
+  return (
+    <div className={`absolute inset-0 pointer-events-none ${opacity} z-0`}>
+      <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern
+            id={id}
+            width="100"
+            height="173.2"
+            patternUnits="userSpaceOnUse"
+          >
+            {/* Isometric rhombuses & vertical guides matching reference */}
+            <path
+              d="M50,0 L100,28.87 L100,86.6 L50,115.47 L0,86.6 L0,28.87 Z"
+              fill="none"
+              stroke="#CFC8B6"
+              strokeWidth="0.8"
+            />
+            <path
+              d="M50,173.2 L100,144.33 L100,86.6 L50,57.73 L0,86.6 L0,144.33 Z"
+              fill="none"
+              stroke="#CFC8B6"
+              strokeWidth="0.8"
+            />
+            <line x1="50" y1="0" x2="50" y2="173.2" stroke="#CFC8B6" strokeWidth="0.5" />
+            <line x1="0" y1="28.87" x2="100" y2="86.6" stroke="#CFC8B6" strokeWidth="0.5" />
+            <line x1="0" y1="86.6" x2="100" y2="28.87" stroke="#CFC8B6" strokeWidth="0.5" />
+            <line x1="0" y1="144.33" x2="100" y2="86.6" stroke="#CFC8B6" strokeWidth="0.5" />
+            <line x1="0" y1="86.6" x2="100" y2="144.33" stroke="#CFC8B6" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#${id})`} />
+      </svg>
+    </div>
+  )
+}
+
 // Navigation tab items configuration
 const subpageTabs: { id: AboutSubpage; label: string }[] = [
   { id: 'overview', label: 'Corporate Overview' },
@@ -217,63 +255,60 @@ export function AboutUsPage({
       {/* ------------------------------------------------------------- */}
       {activeSubpage === 'overview' && (
         <div className="animate-fadeIn">
-          {/* Hero Banner */}
-          <section className="relative bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-              <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
-                <a href="#/home" className="hover:text-[#DE0826]">Home</a>
-                <span>/</span>
-                <span className="text-gray-600">About Us</span>
-                <span>/</span>
+          {/* Hero Banner - Full-Bleed Photographic Background (Matching Home Page Hero) */}
+          <section className="relative w-full overflow-hidden bg-neutral-950 min-h-[520px] lg:min-h-[580px] lg:h-[calc(100vh-140px)] lg:max-h-[800px] flex items-center select-none border-b border-white/10">
+            {/* Full-bleed background image */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+              <img
+                src="/images/about_hq.jpg"
+                alt="Norstar Global Headquarters Tech Campus"
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
+
+            {/* Gradient overlay for superior contrast and readability */}
+            <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/65 to-black/35 pointer-events-none" />
+
+            {/* Main content */}
+            <div className="relative z-20 max-w-[1440px] w-full mx-auto px-6 sm:px-10 md:px-16 lg:px-20 py-16 flex flex-col justify-center h-full">
+              {/* Breadcrumb */}
+              <div className="flex items-center space-x-2 text-xs text-gray-300 mb-6 font-medium tracking-wide">
+                <a href="#/home" className="hover:text-white transition-colors">Home</a>
+                <span className="text-gray-500">/</span>
+                <span className="text-gray-300">About Us</span>
+                <span className="text-gray-500">/</span>
                 <span className="text-[#DE0826] font-bold">Corporate Overview</span>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-                <div className="lg:col-span-7">
-                  <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
-                    Enterprise Overview
-                  </div>
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                    Scale at <span className="text-[#DE0826]">Speed™</span>
-                  </h1>
-                  <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal mb-8 max-w-2xl">
-                    We are digital changemakers – here to disrupt old ideas, blaze new trails, and help Global 2000 enterprises transform and scale with unparalleled agility.
-                  </p>
+              <div className="max-w-3xl">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
+                  Scale at <span className="text-[#DE0826]">Speed™</span>
+                </h1>
 
-                  <div className="flex flex-wrap items-center gap-4">
-                    <button
-                      onClick={() => onSelectSubpage('leadership')}
-                      className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3.5 rounded transition-all shadow-md cursor-pointer"
-                    >
-                      <span>Meet Our Leadership</span>
-                      <SubIcon name="arrow-right" className="w-3.5 h-3.5" />
-                    </button>
-                    <button
-                      onClick={() => onSelectSubpage('brand')}
-                      className="inline-flex items-center space-x-2 bg-white border border-gray-300 hover:border-[#DE0826] text-gray-800 hover:text-[#DE0826] text-xs font-bold px-6 py-3.5 rounded transition-all shadow-xs cursor-pointer"
-                    >
-                      <span>Our Brand & Rise</span>
-                    </button>
-                  </div>
-                </div>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-200/90 leading-relaxed font-normal mb-8 max-w-2xl">
+                  We are digital changemakers – here to disrupt old ideas, blaze new trails, and help Global 2000 enterprises transform and scale with unparalleled agility.
+                </p>
 
-                <div className="lg:col-span-5">
-                  <div className="relative rounded-2xl overflow-hidden bg-white p-3 shadow-xl border-2 border-red-50">
-                    <div className="aspect-[16/10] overflow-hidden rounded-xl">
-                      <img
-                        src="/images/about_hq.jpg"
-                        alt="Norstar Global Headquarters"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-3 bg-white text-xs font-semibold text-gray-600 flex items-center justify-between">
-                      <span>Global Headquarters • Tech Campus</span>
-                      <span className="text-[#DE0826] font-bold">Est. 1986</span>
-                    </div>
-                  </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <button
+                    onClick={() => onSelectSubpage('leadership')}
+                    className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs sm:text-sm font-bold px-7 py-3.5 rounded transition-all shadow-lg hover:shadow-red-600/30 cursor-pointer"
+                  >
+                    <span>Meet Our Leadership</span>
+                    <SubIcon name="arrow-right" className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => onSelectSubpage('brand')}
+                    className="inline-flex items-center space-x-2 border border-white/70 hover:border-white text-white uppercase text-xs sm:text-sm font-semibold tracking-wider px-7 py-3.5 bg-black/30 hover:bg-white/15 transition-all duration-300 backdrop-blur-xs rounded cursor-pointer"
+                  >
+                    <span>Our Brand & Rise</span>
+                  </button>
                 </div>
               </div>
             </div>
+
+            {/* Subtle bottom border line */}
+            <div className="absolute bottom-0 inset-x-0 h-[1px] bg-white/10 z-20 pointer-events-none" />
           </section>
 
           {/* Key Enterprise Scale Statistics */}
@@ -493,8 +528,9 @@ export function AboutUsPage({
       {activeSubpage === 'leadership' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-leadership-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -555,48 +591,56 @@ export function AboutUsPage({
                     name: 'Anand Mahindra',
                     role: 'Chairman, Mahindra Group',
                     image: '/images/exec_speaker_left.png',
+                    objectPos: 'object-top',
                     desc: 'Visionary industrialist leading the Mahindra Group into global innovation, sustainability, and the Rise movement.',
                   },
                   {
                     name: 'Mohit Joshi',
                     role: 'MD & Chief Executive Officer',
                     image: '/images/big_thinker_executive.png',
+                    objectPos: 'object-top',
                     desc: 'Transformative technology leader spearheading Norstar’s Scale at Speed™ era and generative AI operations.',
                   },
                   {
                     name: 'Rohit Anand',
                     role: 'Chief Financial Officer',
                     image: '/images/exec_speaker_right.png',
+                    objectPos: 'object-top',
                     desc: 'Oversees global capital allocation, shareholder value creation, financial discipline, and M&A integration.',
                   },
                   {
                     name: 'Atul Soneja',
                     role: 'Chief Operating Officer',
                     image: '/images/careers_purpose.jpg',
+                    objectPos: 'object-center',
                     desc: 'Drives end-to-end delivery rigor, global service lines, enterprise agility, and large deal transformations.',
                   },
                   {
                     name: 'Richard Lobo',
                     role: 'Chief People Officer',
                     image: '/images/careers_diversity.jpg',
+                    objectPos: 'object-center',
                     desc: 'Champions talent architecture, culture of learning, global diversity, and organizational effectiveness.',
                   },
                   {
                     name: 'Peeyush Dubey',
                     role: 'Chief Marketing Officer',
                     image: '/images/thinking_ribbon.jpg',
+                    objectPos: 'object-center',
                     desc: 'Leads global brand positioning, sonic identity, demand generation, and analyst relations worldwide.',
                   },
                   {
                     name: 'Harshvendra Soin',
                     role: 'Global Strategic Advisor',
                     image: '/images/case_consult.jpg',
+                    objectPos: 'object-center',
                     desc: 'Advises on strategic partnerships, leadership development, and individual social responsibility.',
                   },
                   {
                     name: 'Biren Sen',
                     role: 'Chief Delivery Officer',
                     image: '/images/cap_hero.jpg',
+                    objectPos: 'object-center',
                     desc: 'Directs global delivery centers across Americas, EMEA, and APAC with zero-defect execution standards.',
                   },
                 ].map((exec) => (
@@ -604,11 +648,11 @@ export function AboutUsPage({
                     key={exec.name}
                     className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-xs hover:shadow-lg hover:border-[#DE0826] transition-all group flex flex-col"
                   >
-                    <div className="aspect-[4/3] bg-gray-100 overflow-hidden relative">
+                    <div className="aspect-[4/3] bg-gradient-to-b from-gray-100 to-gray-200 overflow-hidden relative">
                       <img
                         src={exec.image}
                         alt={exec.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className={`w-full h-full object-cover ${exec.objectPos || 'object-top'} origin-top group-hover:scale-105 transition-transform duration-500`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
@@ -671,8 +715,9 @@ export function AboutUsPage({
       {activeSubpage === 'brand' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-brand-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -818,8 +863,9 @@ export function AboutUsPage({
       {activeSubpage === 'sustainability' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-sustainability-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -829,11 +875,11 @@ export function AboutUsPage({
               </div>
 
               <div className="max-w-3xl">
-                <div className="inline-block px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold rounded uppercase tracking-wider mb-4">
+                <div className="inline-block px-3 py-1 bg-red-50 border border-red-200 text-[#DE0826] text-xs font-bold rounded uppercase tracking-wider mb-4">
                   Environmental, Social & Governance
                 </div>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                  Sustainable <span className="text-emerald-600">Enterprise</span> by Design
+                  Sustainable <span className="text-[#DE0826]">Enterprise</span> by Design
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal">
                   Committed to achieving Net Zero by 2035 — 15 years ahead of the Paris Agreement. We empower clients and campuses with responsible green technologies, circular resource cycles, and ethical governance.
@@ -846,46 +892,46 @@ export function AboutUsPage({
           <section className="bg-white py-12 border-b border-gray-200">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="p-6 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-start space-x-4">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                <div className="p-6 bg-red-50/30 rounded-xl border border-red-100 flex items-start space-x-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#DE0826] text-white flex items-center justify-center shrink-0">
                     <SubIcon name="award" className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="text-2xl font-extrabold text-gray-950">CDP 'A' List</div>
-                    <div className="text-xs font-semibold text-emerald-700">Top 2% Globally</div>
+                    <div className="text-xs font-semibold text-[#DE0826]">Top 2% Globally</div>
                     <p className="text-[11px] text-gray-600 mt-1">Recognized for leadership in climate transparency.</p>
                   </div>
                 </div>
 
-                <div className="p-6 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-start space-x-4">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                <div className="p-6 bg-red-50/30 rounded-xl border border-red-100 flex items-start space-x-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#DE0826] text-white flex items-center justify-center shrink-0">
                     <SubIcon name="zap" className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="text-2xl font-extrabold text-gray-950">Net Zero 2035</div>
-                    <div className="text-xs font-semibold text-emerald-700">15 Yrs Ahead</div>
+                    <div className="text-xs font-semibold text-[#DE0826]">15 Yrs Ahead</div>
                     <p className="text-[11px] text-gray-600 mt-1">Aggressive decarbonization across Scope 1, 2, and 3.</p>
                   </div>
                 </div>
 
-                <div className="p-6 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-start space-x-4">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                <div className="p-6 bg-red-50/30 rounded-xl border border-red-100 flex items-start space-x-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#DE0826] text-white flex items-center justify-center shrink-0">
                     <SubIcon name="globe" className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="text-2xl font-extrabold text-gray-950">50%+ Green</div>
-                    <div className="text-xs font-semibold text-emerald-700">Renewable Energy</div>
+                    <div className="text-xs font-semibold text-[#DE0826]">Renewable Energy</div>
                     <p className="text-[11px] text-gray-600 mt-1">Sourced from on-campus solar and long-term PPAs.</p>
                   </div>
                 </div>
 
-                <div className="p-6 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-start space-x-4">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                <div className="p-6 bg-red-50/30 rounded-xl border border-red-100 flex items-start space-x-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#DE0826] text-white flex items-center justify-center shrink-0">
                     <SubIcon name="shield" className="w-5 h-5" />
                   </div>
                   <div>
                     <div className="text-2xl font-extrabold text-gray-950">DJSI Emerging</div>
-                    <div className="text-xs font-semibold text-emerald-700">Sustainability Index</div>
+                    <div className="text-xs font-semibold text-[#DE0826]">Sustainability Index</div>
                     <p className="text-[11px] text-gray-600 mt-1">Consistently ranked in the Dow Jones ESG indices.</p>
                   </div>
                 </div>
@@ -907,7 +953,7 @@ export function AboutUsPage({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="p-8 bg-white rounded-2xl border border-gray-200 shadow-xs">
-                  <div className="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">
+                  <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">
                     01. Environment
                   </div>
                   <h3 className="text-xl font-bold text-gray-950 mb-3">
@@ -918,18 +964,18 @@ export function AboutUsPage({
                   </p>
                   <ul className="space-y-2 text-xs text-gray-700">
                     <li className="flex items-center space-x-2">
-                      <SubIcon name="check" className="w-3.5 h-3.5 text-emerald-600" />
+                      <SubIcon name="check" className="w-3.5 h-3.5 text-[#DE0826]" />
                       <span>Eco-designed software architecture</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <SubIcon name="check" className="w-3.5 h-3.5 text-emerald-600" />
+                      <SubIcon name="check" className="w-3.5 h-3.5 text-[#DE0826]" />
                       <span>Zero-waste-to-landfill certified facilities</span>
                     </li>
                   </ul>
                 </div>
 
                 <div className="p-8 bg-white rounded-2xl border border-gray-200 shadow-xs">
-                  <div className="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">
+                  <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">
                     02. Circular Economy
                   </div>
                   <h3 className="text-xl font-bold text-gray-950 mb-3">
@@ -940,11 +986,11 @@ export function AboutUsPage({
                   </p>
                   <ul className="space-y-2 text-xs text-gray-700">
                     <li className="flex items-center space-x-2">
-                      <SubIcon name="check" className="w-3.5 h-3.5 text-emerald-600" />
+                      <SubIcon name="check" className="w-3.5 h-3.5 text-[#DE0826]" />
                       <span>Net water-positive campus infrastructure</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <SubIcon name="check" className="w-3.5 h-3.5 text-emerald-600" />
+                      <SubIcon name="check" className="w-3.5 h-3.5 text-[#DE0826]" />
                       <span>Elimination of single-use plastics</span>
                     </li>
                   </ul>
@@ -961,8 +1007,9 @@ export function AboutUsPage({
       {activeSubpage === 'recognition' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-recognition-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -1119,8 +1166,9 @@ export function AboutUsPage({
       {activeSubpage === 'customer-speak' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-customer-speak-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -1247,8 +1295,9 @@ export function AboutUsPage({
       {activeSubpage === 'partners' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-partners-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -1379,8 +1428,9 @@ export function AboutUsPage({
       {activeSubpage === 'portfolio' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-portfolio-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -1494,8 +1544,9 @@ export function AboutUsPage({
       {activeSubpage === 'citizenship' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-citizenship-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -1636,8 +1687,9 @@ export function AboutUsPage({
       {activeSubpage === 'centricity' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-centricity-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -1724,8 +1776,9 @@ export function AboutUsPage({
       {activeSubpage === 'news' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-news-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>
@@ -1810,8 +1863,9 @@ export function AboutUsPage({
       {activeSubpage === 'investors' && (
         <div className="animate-fadeIn">
           {/* Header Banner */}
-          <section className="bg-[#FAF8F5] border-b border-gray-200 py-16 md:py-20">
-            <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <section className="relative bg-[#FAF7F2] border-b border-[#EAE5D9] overflow-hidden py-16 md:py-20">
+            <IsoGridPattern id="about-investors-grid" />
+            <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
               <div className="flex items-center space-x-2 text-xs text-gray-500 mb-6 font-medium">
                 <a href="#/home" className="hover:text-[#DE0826]">Home</a>
                 <span>/</span>

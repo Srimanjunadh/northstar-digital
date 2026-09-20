@@ -4,7 +4,7 @@ import { AboutUsPage, type AboutSubpage } from './AboutPages'
 // Configuration for image placeholder mode
 const TEMP_IMAGE_SRC = '/temp-image.png'
 
-type PageRoute = 'home' | 'about' | 'capabilities' | 'industries' | 'insights' | 'careers' | 'contact'
+type PageRoute = 'home' | 'about' | 'capabilities' | 'industries' | 'insights' | 'careers' | 'contact' | 'case-study'
 
 type IconName =
   | 'arrow-right'
@@ -332,7 +332,7 @@ const siteSearchIndex: SearchResultItem[] = [
 interface NavbarProps {
   currentRoute: PageRoute
   activeAboutSubpage?: AboutSubpage
-  onRouteChange: (route: PageRoute, subpage?: AboutSubpage) => void
+  onRouteChange: (route: PageRoute, subpage?: AboutSubpage, targetItem?: string) => void
 }
 
 type MegaMenuTab = 'about' | 'capabilities' | 'industries' | 'insights' | 'careers' | null
@@ -376,11 +376,11 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  const handleNavClick = (route: PageRoute, subpage?: AboutSubpage) => {
+  const handleNavClick = (route: PageRoute, subpage?: AboutSubpage, targetItem?: string) => {
     setOpenMenu(null)
     setSearchOpen(false)
     setMobileOpen(false)
-    onRouteChange(route, subpage)
+    onRouteChange(route, subpage, targetItem)
   }
 
   const handleMenuHover = (tab: MegaMenuTab) => {
@@ -905,193 +905,215 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
             {openMenu === 'capabilities' && (
               <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10 space-y-8">
                 {/* Top Section: Our Services */}
-                <div className="grid grid-cols-12 gap-10 items-start">
+                <div className="grid grid-cols-12 gap-8 lg:gap-12 items-start">
                   {/* Left Column: Heading */}
-                  <div className="col-span-2">
+                  <div className="col-span-12 lg:col-span-3">
                     <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
                       Our Services
                     </h3>
                   </div>
 
-                  {/* Middle Column 1: TechM Consulting, Application Services, Digital Core */}
-                  <div className="col-span-3 space-y-4">
-                    <div>
-                      <button
-                        onClick={() => handleNavClick('capabilities')}
-                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-3.5"
-                      >
-                        TechM Consulting
-                      </button>
+                  {/* 3 Equal Columns */}
+                  <div className="col-span-12 lg:col-span-9 grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-10">
+                    {/* Column 1: Consulting & Applications */}
+                    <div className="space-y-4">
+                      <div>
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'TechM Consulting')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-3"
+                        >
+                          TechM Consulting
+                        </button>
+                      </div>
+
+                      <div>
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Application Services')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-2"
+                        >
+                          Application Services
+                        </button>
+                        <ul className="space-y-1.5 text-[13px] text-gray-700">
+                          {[
+                            'Agentic Development and Modernization Services',
+                            'Intelligent Automation',
+                            'Testing Services',
+                            'Performance Engineering',
+                          ].map((item) => (
+                            <li key={item}>
+                              <button
+                                onClick={() => handleNavClick('capabilities', undefined, item)}
+                                className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal leading-snug"
+                              >
+                                {item}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="pt-2 space-y-3">
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Experience Services')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                        >
+                          Experience Services
+                        </button>
+
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Sustainability Services')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                        >
+                          Sustainability Services
+                        </button>
+                      </div>
                     </div>
 
-                    <div>
-                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
-                        Application Services
-                      </h4>
-                      <ul className="space-y-1.5 text-[13px] text-gray-700">
-                        {[
-                          'Agentic Development and Modernization Services',
-                          'Intelligent Automation',
-                          'Testing Services',
-                          'Performance Engineering',
-                        ].map((item) => (
-                          <li key={item}>
-                            <button
-                              onClick={() => handleNavClick('capabilities')}
-                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal leading-snug"
-                            >
-                              {item}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
+                    {/* Column 2: Digital Core, AI & Engineering */}
+                    <div className="space-y-4">
+                      <div>
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Digital Core Services')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-2"
+                        >
+                          Digital Core Services
+                        </button>
+                        <ul className="space-y-1.5 text-[13px] text-gray-700">
+                          {[
+                            'Cloud & Infrastructure Services',
+                            'Cloud Consulting',
+                            'Network Services',
+                            'Cyber Security',
+                          ].map((item) => (
+                            <li key={item}>
+                              <button
+                                onClick={() => handleNavClick('capabilities', undefined, item)}
+                                className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
+                              >
+                                {item}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="pt-2 space-y-3">
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Artificial Intelligence')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                        >
+                          Artificial Intelligence
+                        </button>
+
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Data Analytics')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                        >
+                          Data Analytics
+                        </button>
+
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Engineering Services')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                        >
+                          Engineering Services
+                        </button>
+                      </div>
                     </div>
 
-                    <div className="pt-1">
-                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
-                        Digital Core Services
-                      </h4>
-                      <ul className="space-y-1.5 text-[13px] text-gray-700">
-                        {[
-                          'Cloud & Infrastructure Services',
-                          'Cloud Consulting',
-                          'Network Services',
-                          'Cyber Security',
-                        ].map((item) => (
-                          <li key={item}>
-                            <button
-                              onClick={() => handleNavClick('capabilities')}
-                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
-                            >
-                              {item}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                    {/* Column 3: Digital Enterprise Applications & Integrated Offerings */}
+                    <div className="space-y-4">
+                      <div>
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Digital Enterprise Applications')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-2"
+                        >
+                          Digital Enterprise Applications
+                        </button>
+                        <ul className="space-y-1 text-[13px] text-gray-700">
+                          {[
+                            'Microsoft Business Applications',
+                            'Enterprise Digital Solutions',
+                            'SAP',
+                            'ServiceNow',
+                            'Oracle',
+                            'Salesforce',
+                            'Pega',
+                          ].map((item) => (
+                            <li key={item}>
+                              <button
+                                onClick={() => handleNavClick('capabilities', undefined, item)}
+                                className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
+                              >
+                                {item}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
 
-                  {/* Middle Column 2: Engineering, Data Analytics, AI, Digital Enterprise */}
-                  <div className="col-span-4 space-y-3">
-                    <button
-                      onClick={() => handleNavClick('capabilities')}
-                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
-                    >
-                      Engineering Services
-                    </button>
+                      <div className="pt-2 space-y-3">
+                        <button
+                          onClick={() => handleNavClick('capabilities', undefined, 'Business Process Services')}
+                          className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                        >
+                          Business Process Services
+                        </button>
 
-                    <button
-                      onClick={() => handleNavClick('capabilities')}
-                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
-                    >
-                      Data Analytics
-                    </button>
-
-                    <button
-                      onClick={() => handleNavClick('capabilities')}
-                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
-                    >
-                      Artificial Intelligence
-                    </button>
-
-                    <div className="pt-2">
-                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
-                        Digital Enterprise Applications
-                      </h4>
-                      <ul className="space-y-1 text-[13px] text-gray-700">
-                        {[
-                          'Microsoft Business Applications',
-                          'Enterprise Digital Solutions',
-                          'SAP',
-                          'ServiceNow',
-                          'Oracle',
-                          'Salesforce',
-                          'Pega',
-                        ].map((item) => (
-                          <li key={item}>
-                            <button
-                              onClick={() => handleNavClick('capabilities')}
-                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left font-normal"
-                            >
-                              {item}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Middle Column 3: BPS, Experience, Integrated, Sustainability */}
-                  <div className="col-span-3 space-y-4">
-                    <button
-                      onClick={() => handleNavClick('capabilities')}
-                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
-                    >
-                      Business Process Services
-                    </button>
-
-                    <button
-                      onClick={() => handleNavClick('capabilities')}
-                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
-                    >
-                      Experience Services
-                    </button>
-
-                    <div>
-                      <h4 className="font-bold text-[14px] text-gray-950 mb-2">
-                        Integrated Offerings
-                      </h4>
-                      <button
-                        onClick={() => handleNavClick('capabilities')}
-                        className="text-[13px] text-gray-700 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block font-normal"
-                      >
-                        Global Capability Centers
-                      </button>
-                    </div>
-
-                    <div>
-                      <button
-                        onClick={() => handleNavClick('capabilities')}
-                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
-                      >
-                        Sustainability Services
-                      </button>
+                        <div>
+                          <button
+                            onClick={() => handleNavClick('capabilities', undefined, 'Integrated Offerings')}
+                            className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-1"
+                          >
+                            Integrated Offerings
+                          </button>
+                          <button
+                            onClick={() => handleNavClick('capabilities', undefined, 'Global Capability Centers')}
+                            className="text-[13px] text-gray-700 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block font-normal"
+                          >
+                            Global Capability Centers
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom Section: Spotlight */}
-                <div className="pt-6 border-t border-gray-100 grid grid-cols-12 gap-10 items-center">
-                  <div className="col-span-2">
+                <div className="pt-6 border-t border-gray-100 grid grid-cols-12 gap-8 lg:gap-12 items-center">
+                  <div className="col-span-12 lg:col-span-3">
                     <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
                       Spotlight
                     </h3>
                   </div>
 
-                  <div className="col-span-3">
-                    <button
-                      onClick={() => handleNavClick('capabilities')}
-                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                    >
-                      Products & Platforms
-                    </button>
-                    <div className="mt-2">
+                  <div className="col-span-12 lg:col-span-9 grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-10">
+                    <div>
                       <button
-                        onClick={() => handleNavClick('capabilities')}
+                        onClick={() => handleNavClick('capabilities', undefined, 'Products & Platforms')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                      >
+                        Products & Platforms
+                      </button>
+                    </div>
+
+                    <div>
+                      <button
+                        onClick={() => handleNavClick('capabilities', undefined, 'Innovation, R&D - Makers Lab')}
+                        className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
+                      >
+                        Innovation, R&D - Makers Lab
+                      </button>
+                    </div>
+
+                    <div>
+                      <button
+                        onClick={() => handleNavClick('capabilities', undefined, 'Scale at Speed™')}
                         className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                       >
                         Scale at Speed™
                       </button>
                     </div>
-                  </div>
-
-                  <div className="col-span-4">
-                    <button
-                      onClick={() => handleNavClick('capabilities')}
-                      className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
-                    >
-                      Innovation, R&D - Makers Lab
-                    </button>
                   </div>
                 </div>
               </div>
@@ -1122,7 +1144,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                       ].map((item) => (
                         <li key={item}>
                           <button
-                            onClick={() => handleNavClick('industries')}
+                            onClick={() => handleNavClick('industries', undefined, item)}
                             className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
                           >
                             {item}
@@ -1146,7 +1168,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                       ].map((item) => (
                         <li key={item}>
                           <button
-                            onClick={() => handleNavClick('industries')}
+                            onClick={() => handleNavClick('industries', undefined, item)}
                             className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
                           >
                             {item}
@@ -1160,7 +1182,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                   <div className="col-span-3 flex flex-col space-y-4">
                     {/* Card 1: Store of the Future */}
                     <div
-                      onClick={() => handleNavClick('industries')}
+                      onClick={() => handleNavClick('industries', undefined, 'Retail & Consumer Goods')}
                       className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
@@ -1185,7 +1207,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
                     {/* Card 2: MIT Tech Review */}
                     <div
-                      onClick={() => handleNavClick('industries')}
+                      onClick={() => handleNavClick('industries', undefined, 'Hi Tech')}
                       className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
@@ -1214,54 +1236,64 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
             {/* 4. INSIGHTS MEGA-MENU */}
             {openMenu === 'insights' && (
-              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10">
-                <div className="grid grid-cols-12 gap-10 items-start">
+              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-7">
+                <div className="grid grid-cols-12 gap-8 lg:gap-10 items-start">
                   {/* Left Column: Heading */}
-                  <div className="col-span-2">
+                  <div className="col-span-12 lg:col-span-2">
                     <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
                       Insights
                     </h3>
                   </div>
 
-                  {/* Middle Column: Links List */}
-                  <div className="col-span-7">
-                    <ul className="space-y-3.5 text-[14px] font-bold text-gray-950">
-                      {['Case Studies', 'Views', 'Analyst Insights', 'News', 'Events'].map(
-                        (item) => (
-                          <li key={item}>
-                            <button
-                              onClick={() => handleNavClick('insights')}
-                              className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
-                            >
-                              {item}
-                            </button>
-                          </li>
-                        )
-                      )}
+                  {/* Middle Column: Links in 2 Columns (2 to 3 rows) */}
+                  <div className="col-span-12 lg:col-span-5 grid grid-cols-2 gap-6 text-[14px] font-bold text-gray-950">
+                    <ul className="space-y-3.5">
+                      {['Case Studies', 'Views', 'Analyst Insights'].map((item) => (
+                        <li key={item}>
+                          <button
+                            onClick={() => handleNavClick('insights', undefined, item)}
+                            className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                          >
+                            {item}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                    <ul className="space-y-3.5">
+                      {['News', 'Events'].map((item) => (
+                        <li key={item}>
+                          <button
+                            onClick={() => handleNavClick('insights', undefined, item)}
+                            className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
+                          >
+                            {item}
+                          </button>
+                        </li>
+                      ))}
                     </ul>
                   </div>
 
-                  {/* Right Column: 2 Featured Cards */}
-                  <div className="col-span-3 flex flex-col space-y-4">
+                  {/* Right Column: 2 Featured Cards Side-by-Side (Decreased Size) */}
+                  <div className="col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Card 1: Press Release */}
                     <div
-                      onClick={() => handleNavClick('insights')}
-                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                      onClick={() => handleNavClick('insights', undefined, 'News')}
+                      className="relative h-[130px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
                         src="/images/insights_hero.jpg"
                         alt="Q1 EBIT Press Release"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
-                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-3.5 flex flex-col justify-between">
+                        <span className="text-[10px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start uppercase tracking-wider">
                           Featured Press Release
                         </span>
                         <div>
-                          <h5 className="text-xs font-bold text-white leading-snug">
-                            Tech Mahindra Q1 FY27 EBIT rises to ₹2,264 crores, up 53.3% YoY; New deal-wins at USD 1,078 Mn - up 33% YoY
+                          <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
+                            Tech Mahindra Q1 FY27 EBIT rises to ₹2,264 crores, up 53.3% YoY; deal-wins at USD 1,078 Mn
                           </h5>
-                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                          <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
                           </span>
                         </div>
@@ -1270,23 +1302,23 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
                     {/* Card 2: Dreamforce Event */}
                     <div
-                      onClick={() => handleNavClick('insights')}
-                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                      onClick={() => handleNavClick('insights', undefined, 'Events')}
+                      className="relative h-[130px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
                         src="/images/event_dreamforce.jpg"
                         alt="Dreamforce 2026"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
-                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-3.5 flex flex-col justify-between">
+                        <span className="text-[10px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start uppercase tracking-wider">
                           Featured Event
                         </span>
                         <div>
-                          <h5 className="text-xs font-bold text-white leading-snug">
+                          <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
                             Tech Mahindra at Dreamforce 2026: Turning AI into a Co-Worker
                           </h5>
-                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                          <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
                           </span>
                         </div>
@@ -1299,22 +1331,22 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
             {/* 5. CAREERS MEGA-MENU */}
             {openMenu === 'careers' && (
-              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-10">
-                <div className="grid grid-cols-12 gap-10 items-start">
+              <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-7">
+                <div className="grid grid-cols-12 gap-8 lg:gap-10 items-start">
                   {/* Left Column: Heading */}
-                  <div className="col-span-2">
+                  <div className="col-span-12 lg:col-span-2">
                     <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
                       Careers
                     </h3>
                   </div>
 
                   {/* Middle Column: Links List */}
-                  <div className="col-span-7">
+                  <div className="col-span-12 lg:col-span-5">
                     <ul className="space-y-3.5 text-[14px] font-bold text-gray-950">
                       {['The TechM Way', 'Diversity & Inclusion', 'Join Us'].map((item) => (
                         <li key={item}>
                           <button
-                            onClick={() => handleNavClick('careers')}
+                            onClick={() => handleNavClick('careers', undefined, item)}
                             className="hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block"
                           >
                             {item}
@@ -1324,27 +1356,27 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                     </ul>
                   </div>
 
-                  {/* Right Column: 2 Featured Cards */}
-                  <div className="col-span-3 flex flex-col space-y-4">
+                  {/* Right Column: 2 Featured Cards Side-by-Side (Decreased Size) */}
+                  <div className="col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Card 1: Rubicon Case Study */}
                     <div
                       onClick={() => handleNavClick('careers')}
-                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                      className="relative h-[130px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
                         src="/images/story_racing.jpg"
                         alt="Rubicon 2.0"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
-                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-3.5 flex flex-col justify-between">
+                        <span className="text-[10px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start uppercase tracking-wider">
                           Featured Case Study
                         </span>
                         <div>
-                          <h5 className="text-sm font-bold text-white leading-tight">
+                          <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
                             Outpacing Change with Rubicon 2.0
                           </h5>
-                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                          <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
                           </span>
                         </div>
@@ -1354,22 +1386,22 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                     {/* Card 2: Stockmann Case Study */}
                     <div
                       onClick={() => handleNavClick('careers')}
-                      className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
+                      className="relative h-[130px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
                         src="/images/case_ribbon.jpg"
                         alt="Stockmann Case Study"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-4 flex flex-col justify-between">
-                        <span className="text-[11px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-3.5 flex flex-col justify-between">
+                        <span className="text-[10px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start uppercase tracking-wider">
                           Featured Case Study
                         </span>
                         <div>
-                          <h5 className="text-xs font-bold text-white leading-snug">
-                            Stockmann Cuts Supplier Onboarding from Weeks to Hours with PIM-First Automation
+                          <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
+                            Stockmann Cuts Supplier Onboarding from Weeks to Hours
                           </h5>
-                          <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
+                          <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
                           </span>
                         </div>
@@ -1506,14 +1538,22 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                     {[
                       'TechM Consulting',
                       'Application Services',
+                      'Experience Services',
+                      'Sustainability Services',
                       'Digital Core Services',
-                      'Engineering Services',
                       'Artificial Intelligence',
+                      'Data Analytics',
+                      'Engineering Services',
+                      'Digital Enterprise Applications',
                       'Business Process Services',
+                      'Integrated Offerings',
+                      'Products & Platforms',
+                      'Innovation, R&D - Makers Lab',
+                      'Scale at Speed™',
                     ].map((i) => (
                       <div
                         key={i}
-                        onClick={() => handleNavClick('capabilities')}
+                        onClick={() => handleNavClick('capabilities', undefined, i)}
                         className="cursor-pointer hover:text-[#DE0826]"
                       >
                         {i}
@@ -1553,14 +1593,22 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                     {[
                       'Banking & Financial Services',
                       'Communications',
+                      'Education',
+                      'Energy & Utilities',
                       'Healthcare & Life Sciences',
                       'Hi Tech',
+                      'Insurance',
                       'Manufacturing',
+                      'Media & Entertainment',
+                      'Oil & Gas',
+                      'Private Equity',
+                      'Professional Services',
                       'Retail & Consumer Goods',
+                      'Travel, Transportation, Logistics & Hospitality',
                     ].map((i) => (
                       <div
                         key={i}
-                        onClick={() => handleNavClick('industries')}
+                        onClick={() => handleNavClick('industries', undefined, i)}
                         className="cursor-pointer hover:text-[#DE0826]"
                       >
                         {i}
@@ -1688,7 +1736,7 @@ const allCapabilitiesList: CapabilityItem[] = [
   },
   {
     id: 4,
-    title: 'Cloud and Infrastructure Services',
+    title: 'Cloud & Infrastructure Services',
     category: 'Hybrid & Multi-Cloud Platforms',
     gradient: 'from-[#4C1D95] via-[#2E1065] to-[#1E1B4B]',
     iconType: 'floating-spheres',
@@ -1784,6 +1832,391 @@ const allCapabilitiesList: CapabilityItem[] = [
   },
 ]
 
+export const allExtendedCapabilities: CapabilityItem[] = [
+  ...allCapabilitiesList,
+  {
+    id: 101,
+    title: 'TechM Consulting',
+    category: 'Strategic Advisory & Enterprise Architecture',
+    gradient: 'from-[#DE0826] via-[#9B113B] to-[#4A081A]',
+    iconType: 'magenta-mesh',
+    image: '/images/case_consult.jpg',
+    description:
+      'Architecting end-to-end enterprise digital transformations, business model innovation, C-suite advisory, and organizational agility designed to unlock exponential shareholder value.',
+    services: [
+      'Digital Business Strategy & Transformation Roadmaps',
+      'Enterprise Architecture & Cloud Advisory',
+      'Agile Operating Model & Workforce Redesign',
+      'Technology Due Diligence & M&A Synergy Integration',
+    ],
+  },
+  {
+    id: 102,
+    title: 'Application Services',
+    category: 'Modern Software & Microservices Engineering',
+    gradient: 'from-[#1E40AF] via-[#1D4ED8] to-[#172554]',
+    iconType: 'blue-streak',
+    image: '/images/cap_agentic.jpg',
+    description:
+      'Full-lifecycle software engineering, cloud-native modernization, intelligent test automation, and autonomous SDLC acceleration across mission-critical enterprise systems.',
+    services: [
+      'Agentic Software Development & Automated Refactoring',
+      'Composable Microservices Architecture Migration',
+      'Autonomous DevOps & Continuous Delivery Pipelines',
+      'Legacy Modernization & Technical Debt Elimination',
+    ],
+  },
+  {
+    id: 103,
+    title: 'Intelligent Automation',
+    category: 'Cognitive RPA & Autonomous Operations',
+    gradient: 'from-[#0284C7] via-[#0369A1] to-[#075985]',
+    iconType: 'floating-spheres',
+    image: '/images/cap_ai.jpg',
+    description:
+      'Unifying robotic process automation (RPA), generative AI, document intelligence, and autonomous bots to streamline high-volume operations and eliminate manual friction.',
+    services: [
+      'Enterprise Robotic Process Automation (RPA)',
+      'Cognitive Document Intelligence & Vision Extraction',
+      'Autonomous Workflow Decisioning & Exception Handling',
+      'Process Mining, Task Discovery & Optimization',
+    ],
+  },
+  {
+    id: 104,
+    title: 'Performance Engineering',
+    category: 'Scalability, Chaos & Reliability Engineering',
+    gradient: 'from-[#4338CA] via-[#3730A3] to-[#312E81]',
+    iconType: 'indigo-crescent',
+    image: '/images/cap_testing.jpg',
+    description:
+      'Maximizing high-throughput scalability, chaos resilience, latency reduction, and 24/7 mission-critical uptime for high-volume consumer and financial platforms.',
+    services: [
+      'High-Throughput Concurrency & Load Stress Testing',
+      'Chaos Engineering & Fault Injection Simulation',
+      'Full-Stack Telemetry, APM & Observability Optimization',
+      'Cloud-Native FinOps & Compute Resource Tuning',
+    ],
+  },
+  {
+    id: 105,
+    title: 'Sustainability Services',
+    category: 'ESG Engineering & Green Computing',
+    gradient: 'from-[#DE0826] via-[#B91C1C] to-[#7F1D1D]',
+    iconType: 'green-ribbon',
+    image: '/images/ind_energy.jpg',
+    description:
+      'Accelerating enterprise Net Zero trajectories through green cloud software optimization, algorithmic carbon accounting platforms, and circular asset lifecycle management.',
+    services: [
+      'Green Cloud Computing & Algorithmic Carbon Optimization',
+      'Enterprise ESG Reporting & Scope 1/2/3 Analytics',
+      'Circular Asset Management & E-Waste Elimination',
+      'Clean Energy Grid & Campus Microgrid Integration',
+    ],
+  },
+  {
+    id: 106,
+    title: 'Digital Core Services',
+    category: 'Cloud, Infrastructure & Cyber Resilience',
+    gradient: 'from-[#4C1D95] via-[#3B0764] to-[#1E1B4B]',
+    iconType: 'floating-spheres',
+    image: '/images/cap_cloud.jpg',
+    description:
+      'Building hyper-resilient, hybrid multi-cloud foundations, automated software-defined networks, and proactive zero-trust cyber defense for modern digital enterprises.',
+    services: [
+      'Hybrid & Multi-Cloud Infrastructure Modernization',
+      'Cloud Strategy, Architecture & Advisory Consulting',
+      'Software-Defined Network Services (SD-WAN & SASE)',
+      'Enterprise Cyber Security & Proactive SOC Defense',
+    ],
+  },
+  {
+    id: 107,
+    title: 'Cloud Consulting',
+    category: 'Cloud Strategy, Migration & FinOps',
+    gradient: 'from-[#2563EB] via-[#1D4ED8] to-[#1E40AF]',
+    iconType: 'floating-spheres',
+    image: '/images/cap_cloud.jpg',
+    description:
+      'Independent advisory guiding multi-cloud adoption, zero-trust cloud architecture, containerization, and FinOps cloud spend governance across AWS, Azure, and Google Cloud.',
+    services: [
+      'Multi-Cloud Readiness & Zero-Downtime Migration',
+      'Automated FinOps & Cost Governance Frameworks',
+      'Enterprise Kubernetes & Container Orchestration',
+      'Cloud Governance, Risk & Regulatory Compliance',
+    ],
+  },
+  {
+    id: 108,
+    title: 'Cyber Security',
+    category: 'Zero-Trust Defense & Threat Resilience',
+    gradient: 'from-[#7F1D1D] via-[#450A0A] to-[#1C1917]',
+    iconType: 'turbine-blade',
+    image: '/images/cap_testing.jpg',
+    description:
+      'Comprehensive enterprise defense incorporating 24/7 autonomous SOC monitoring, zero-trust network access, cloud security posture defense, and cyber risk management.',
+    services: [
+      'Zero-Trust Architecture & Identity Access Management (IAM)',
+      '24/7 Managed Detection & Response (MDR & SOC)',
+      'Cloud Security Posture Management (CSPM & CNAPP)',
+      'Threat Intelligence & Autonomous Incident Recovery',
+    ],
+  },
+  {
+    id: 109,
+    title: 'Data Analytics',
+    category: 'Enterprise Data Mesh & Real-Time Insights',
+    gradient: 'from-[#0D9488] via-[#0F766E] to-[#115E59]',
+    iconType: 'geometric-lavender',
+    image: '/images/cap_digital.jpg',
+    description:
+      'Modernizing legacy data silos into intelligent data meshes, real-time streaming pipelines, self-service visual analytics, and AI-ready enterprise data foundations.',
+    services: [
+      'Modern Data Lakehouse & Snowflake Architecture',
+      'Real-Time Streaming & Kafka Event Pipelines',
+      'Self-Service BI & Visual Analytics Dashboards',
+      'Data Governance, Lineage & Quality Automation',
+    ],
+  },
+  {
+    id: 110,
+    title: 'Microsoft Business Applications',
+    category: 'Dynamics 365, Power Platform & Copilot',
+    gradient: 'from-[#0078D4] via-[#106EBE] to-[#004578]',
+    iconType: 'geometric-lavender',
+    image: '/images/cap_digital.jpg',
+    description:
+      'Enterprise implementation and bespoke solution engineering across Microsoft Dynamics 365, Power Platform low-code automation, and Azure Copilot extensions.',
+    services: [
+      'Dynamics 365 Finance, Supply Chain & CRM Modernization',
+      'Power Apps & Power Automate Workflow Automation',
+      'Microsoft Copilot Enterprise Integration & Extension',
+      'Azure Data & Power BI Business Intelligence Fabric',
+    ],
+  },
+  {
+    id: 111,
+    title: 'Enterprise Digital Solutions',
+    category: 'Composable Architectures & API Ecosystems',
+    gradient: 'from-[#6D28D9] via-[#5B21B6] to-[#4C1D95]',
+    iconType: 'geometric-lavender',
+    image: '/images/cap_digital.jpg',
+    description:
+      'Delivering end-to-end digital engineering, bespoke enterprise portals, headless commerce journeys, and API-first business integration.',
+    services: [
+      'API-First Integration & Microservices Ecosystems',
+      'B2B/B2C Enterprise Portals & Native Mobile Apps',
+      'Headless Omnichannel Digital Commerce Platforms',
+      'Legacy Decoupling & Modern Web Engineering',
+    ],
+  },
+  {
+    id: 112,
+    title: 'SAP',
+    category: 'S/4HANA & Clean Core Transformation',
+    gradient: 'from-[#0A6ED1] via-[#0854A0] to-[#043363]',
+    iconType: 'geometric-lavender',
+    image: '/images/cap_digital.jpg',
+    description:
+      'Guiding global enterprises through RISE with SAP, S/4HANA Cloud migrations, clean core architectures, and AI-infused supply chain planning.',
+    services: [
+      'RISE with SAP & S/4HANA Cloud Migration',
+      'SAP Business Technology Platform (BTP) Innovation',
+      'SAP Ariba, SuccessFactors & Concur Integration',
+      'Clean Core Customization & Automated Regression',
+    ],
+  },
+  {
+    id: 113,
+    title: 'ServiceNow',
+    category: 'Enterprise Workflow Orchestration',
+    gradient: 'from-[#293E40] via-[#1B292B] to-[#032D42]',
+    iconType: 'architectural-fan',
+    image: '/images/cap_bps.jpg',
+    description:
+      'Transforming enterprise service operations with ServiceNow IT Service Management (ITSM), HR Service Delivery, Customer Workflows, and Now Assist AI.',
+    services: [
+      'ITSM, ITOM & ITAM Enterprise Deployment',
+      'Now Assist Generative AI Automation',
+      'Customer Service Management (CSM) Workflows',
+      'HR Service Delivery & Unified Employee Portals',
+    ],
+  },
+  {
+    id: 114,
+    title: 'Oracle',
+    category: 'ERP, SCM & Autonomous Database',
+    gradient: 'from-[#C74634] via-[#A82B1B] to-[#801B0E]',
+    iconType: 'geometric-lavender',
+    image: '/images/cap_digital.jpg',
+    description:
+      'Modernizing mission-critical financial backbones with Oracle Fusion Cloud ERP, HCM, Supply Chain Management, and Autonomous Database platforms.',
+    services: [
+      'Oracle Fusion Cloud ERP & EPM Financials',
+      'Oracle HCM Talent Architecture & Global Payroll',
+      'Oracle Supply Chain Management (SCM) & Logistics',
+      'Oracle Cloud Infrastructure (OCI) High-Speed Migration',
+    ],
+  },
+  {
+    id: 115,
+    title: 'Salesforce',
+    category: 'Agentforce, Data Cloud & Customer 360',
+    gradient: 'from-[#00A1E0] via-[#0081B4] to-[#032D42]',
+    iconType: 'green-ribbon',
+    image: '/images/cap_experience.jpg',
+    description:
+      'Empowering sales, service, and marketing teams with Salesforce Data Cloud, Agentforce autonomous agents, Einstein 1 AI, and Service Cloud.',
+    services: [
+      'Salesforce Data Cloud & Einstein 1 AI Modernization',
+      'Agentforce Autonomous Customer Service Agents',
+      'Sales & Service Cloud Modernization at Global Scale',
+      'Marketing Cloud Omnichannel Engagement Journeys',
+    ],
+  },
+  {
+    id: 116,
+    title: 'Pega',
+    category: 'Low-Code & Real-Time Decisioning',
+    gradient: 'from-[#002B49] via-[#001D31] to-[#00101C]',
+    iconType: 'blue-streak',
+    image: '/images/cap_agentic.jpg',
+    description:
+      'Maximizing customer lifetime value and operating efficiency with Pegasystems 1:1 Customer Engagement, Customer Decision Hub, and low-code case management.',
+    services: [
+      'Pega Customer Decision Hub (CDH) Optimization',
+      '1:1 Real-Time Next-Best-Action Decisioning Engines',
+      'Pega Infinity Low-Code Case Management',
+      'Intelligent KYC & Omnichannel Onboarding Automation',
+    ],
+  },
+  {
+    id: 117,
+    title: 'Integrated Offerings',
+    category: 'End-to-End Enterprise Convergence',
+    gradient: 'from-[#9B113B] via-[#7B0D2E] to-[#4A081A]',
+    iconType: 'magenta-mesh',
+    image: '/images/cap_hero_mesh.jpg',
+    description:
+      'Combining deep domain expertise, proprietary IP, strategic hyperscaler alliances, and GCC frameworks into unified turnkey business solutions.',
+    services: [
+      'Global Capability Centers (GCC) Setup & Scale',
+      'Industry Convergence Turnkey Platforms',
+      'End-to-End IT-OT Integrated Operations',
+      'Multi-Tower Managed Transformation Services',
+    ],
+  },
+  {
+    id: 118,
+    title: 'Global Capability Centers',
+    category: 'GCC-as-a-Service & Turnkey Innovation',
+    gradient: 'from-[#1E3A8A] via-[#172554] to-[#0F172A]',
+    iconType: 'blue-streak',
+    image: '/images/about_hq.jpg',
+    description:
+      'Enabling Fortune 500 multinationals to design, incubate, scale, and operate world-class Global Capability Centers across premier global talent hubs.',
+    services: [
+      'Turnkey GCC Incubation & BOT (Build-Operate-Transfer)',
+      'Talent Architecture & Deep Tech Centers of Excellence',
+      'Regulatory, Real Estate & Operational Compliance',
+      'Digital Core & AI Lab Integration for Global Scale',
+    ],
+  },
+  {
+    id: 119,
+    title: 'Products & Platforms',
+    category: 'Proprietary IP & SaaS Solutions',
+    gradient: 'from-[#DE0826] via-[#B91C1C] to-[#881337]',
+    iconType: 'magenta-mesh',
+    image: '/images/cap_hero.jpg',
+    description:
+      'Award-winning suite of industry-specific software products, AI platforms, telecom network orchestrators, and digital customer engagement tools.',
+    services: [
+      'netOps AI Network Orchestration Platform',
+      'Cognitive Operations & Smart Ticketing Fabric',
+      'Sovereign AI Foundation Platforms',
+      'Industry 4.0 IoT Edge Orchestration Engines',
+    ],
+  },
+  {
+    id: 120,
+    title: 'Innovation, R&D - Makers Lab',
+    category: 'Applied Research, Quantum & Edge AI',
+    gradient: 'from-[#7C3AED] via-[#5B21B6] to-[#2E1065]',
+    iconType: 'geometric-lavender',
+    image: '/images/cap_wave.jpg',
+    description:
+      'Our dedicated R&D innovation engine pioneering breakthrough applications in quantum computing, neuromorphic hardware, generative design, and spatial web.',
+    services: [
+      'Quantum Computing & Post-Quantum Cryptography',
+      'Applied Generative AI & Sovereign LLM Research',
+      'Edge AI, Robotics & Sensor Convergence',
+      'Metaverse, Spatial UX & Industrial Digital Twins',
+    ],
+  },
+  {
+    id: 121,
+    title: 'Scale at Speed™',
+    category: 'Next-Generation Operating Model',
+    gradient: 'from-[#DE0826] via-[#B91C1C] to-[#450A0A]',
+    iconType: 'magenta-mesh',
+    image: '/images/home_racing.jpg',
+    description:
+      'Our defining strategic promise: fusing agility with enterprise scale to turn emerging innovations into measurable business outcomes at accelerated speed.',
+    services: [
+      'Rapid Prototype-to-Production Velocity',
+      'Composable Architecture Frameworks',
+      'Autonomous Delivery Automation',
+      'Continuous Value Realization Metrics',
+    ],
+  },
+]
+
+export function getCapabilityByName(query: string): CapabilityItem | null {
+  if (!query) return null
+  const qTrim = query.trim().toLowerCase()
+
+  // 1. Direct exact match (case-insensitive)
+  const exact = allExtendedCapabilities.find((item) => item.title.trim().toLowerCase() === qTrim)
+  if (exact) return exact
+
+  // 2. Normalized match ('&' converted to 'and', non-alphanumerics removed)
+  const norm = (str: string) => str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, '')
+  const qNorm = norm(query)
+
+  const exactNorm = allExtendedCapabilities.find((item) => norm(item.title) === qNorm)
+  if (exactNorm) return exactNorm
+
+  // 3. Substring matching
+  const prefixMatch = allExtendedCapabilities.find((item) => norm(item.title).startsWith(qNorm) || qNorm.startsWith(norm(item.title)))
+  if (prefixMatch) return prefixMatch
+
+  const found = allExtendedCapabilities.find((item) => {
+    const itemNorm = norm(item.title)
+    return itemNorm.includes(qNorm) || qNorm.includes(itemNorm)
+  })
+  if (found) return found
+
+  // 4. Keyword fallbacks mapped to exact original titles
+  if (qNorm.includes('consult')) return allExtendedCapabilities.find((c) => c.title === 'TechM Consulting') || null
+  if (qNorm.includes('sap')) return allExtendedCapabilities.find((c) => c.title === 'SAP') || null
+  if (qNorm.includes('salesforce')) return allExtendedCapabilities.find((c) => c.title === 'Salesforce') || null
+  if (qNorm.includes('servicenow')) return allExtendedCapabilities.find((c) => c.title === 'ServiceNow') || null
+  if (qNorm.includes('oracle')) return allExtendedCapabilities.find((c) => c.title === 'Oracle') || null
+  if (qNorm.includes('pega')) return allExtendedCapabilities.find((c) => c.title === 'Pega') || null
+  if (qNorm.includes('microsoft')) return allExtendedCapabilities.find((c) => c.title === 'Microsoft Business Applications') || null
+  if (qNorm.includes('cyber') || qNorm.includes('security')) return allExtendedCapabilities.find((c) => c.title === 'Cyber Security') || null
+  if (qNorm.includes('cloud')) return allExtendedCapabilities.find((c) => c.title === 'Cloud & Infrastructure Services') || null
+  if (qNorm.includes('ai') || qNorm.includes('intelligence')) return allExtendedCapabilities.find((c) => c.title === 'Artificial Intelligence') || null
+  if (qNorm.includes('data') || qNorm.includes('analytics')) return allExtendedCapabilities.find((c) => c.title === 'Data Analytics') || null
+  if (qNorm.includes('auto')) return allExtendedCapabilities.find((c) => c.title === 'Intelligent Automation') || null
+  if (qNorm.includes('gcc') || qNorm.includes('global')) return allExtendedCapabilities.find((c) => c.title === 'Global Capability Centers') || null
+  if (qNorm.includes('maker') || qNorm.includes('rd') || qNorm.includes('lab')) return allExtendedCapabilities.find((c) => c.title === 'Innovation, R&D - Makers Lab') || null
+  if (qNorm.includes('scale') || qNorm.includes('speed')) return allExtendedCapabilities.find((c) => c.title === 'Scale at Speed™') || null
+
+  return allExtendedCapabilities[0] || null
+}
+
 
 // -------------------------------------------------------------
 // Industries Page Implementation (Matching Norstar Reference)
@@ -1807,7 +2240,7 @@ interface IndustryItem {
 const allIndustriesList: IndustryItem[] = [
   {
     id: 'banking-financial',
-    name: 'Banking and Financial Services',
+    name: 'Banking & Financial Services',
     category: 'financial',
     categoryLabel: 'Financial Services & Capital Markets',
     tagline: 'Next-Gen Core Banking & Digital Finance Platforms',
@@ -1870,7 +2303,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'energy-utilities',
-    name: 'Energy and Utilities',
+    name: 'Energy & Utilities',
     category: 'industrial',
     categoryLabel: 'Energy & Industrial',
     tagline: 'Smart Grids, Distributed Energy & Net-Zero ESG',
@@ -1891,7 +2324,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'healthcare-life-sciences',
-    name: 'Healthcare and Life Sciences',
+    name: 'Healthcare & Life Sciences',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
     tagline: 'Connected IoMT, AI Diagnostics & Clinical Trials',
@@ -1912,7 +2345,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'hi-tech',
-    name: 'Hi-Tech',
+    name: 'Hi Tech',
     category: 'tech',
     categoryLabel: 'Communications & Hi-Tech',
     tagline: 'Semiconductor VLSI, Embedded Systems & Cloud SaaS',
@@ -1933,7 +2366,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'insurance-technology',
-    name: 'Insurance Technology and Services',
+    name: 'Insurance',
     category: 'financial',
     categoryLabel: 'Financial Services & Capital Markets',
     tagline: 'Autonomous Claims, AI Underwriting & Digital InsurTech',
@@ -1975,7 +2408,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'media-entertainment',
-    name: 'Media and Entertainment',
+    name: 'Media & Entertainment',
     category: 'tech',
     categoryLabel: 'Communications & Hi-Tech',
     tagline: 'Cloud Media Supply Chains, AI Video & OTT Streaming',
@@ -1996,7 +2429,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'oil-gas',
-    name: 'Oil and Gas',
+    name: 'Oil & Gas',
     category: 'industrial',
     categoryLabel: 'Energy & Industrial',
     tagline: 'Digital Oilfields, Pipeline IoT & Decarbonization',
@@ -2059,7 +2492,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'retail-consumer-goods',
-    name: 'Retail and Consumer Goods',
+    name: 'Retail & Consumer Goods',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
     tagline: 'Composable Omnichannel Commerce & AI Demand Sensing',
@@ -2080,7 +2513,7 @@ const allIndustriesList: IndustryItem[] = [
   },
   {
     id: 'travel-transportation',
-    name: 'Travel, Transportation, Logistics, and Hospitality',
+    name: 'Travel, Transportation, Logistics & Hospitality',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
     tagline: 'Smart Passenger Systems, Fleet Telematics & Dynamic Logistics',
@@ -2101,6 +2534,49 @@ const allIndustriesList: IndustryItem[] = [
   },
 ]
 
+export function getIndustryByName(query: string): IndustryItem | null {
+  if (!query) return null
+  const qTrim = query.trim().toLowerCase()
+
+  // 1. Direct exact match
+  const exact = allIndustriesList.find((item) => item.name.trim().toLowerCase() === qTrim)
+  if (exact) return exact
+
+  // 2. Normalized match ('&' converted to 'and', non-alphanumerics removed)
+  const norm = (str: string) => str.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, '')
+  const qNorm = norm(query)
+
+  const exactNorm = allIndustriesList.find((item) => norm(item.name) === qNorm)
+  if (exactNorm) return exactNorm
+
+  // 3. Substring matching
+  const prefixMatch = allIndustriesList.find((item) => norm(item.name).startsWith(qNorm) || qNorm.startsWith(norm(item.name)))
+  if (prefixMatch) return prefixMatch
+
+  const found = allIndustriesList.find((item) => {
+    const itemNorm = norm(item.name)
+    return itemNorm.includes(qNorm) || qNorm.includes(itemNorm)
+  })
+  if (found) return found
+
+  // 4. Keyword fallbacks
+  if (qNorm.includes('bank') || qNorm.includes('finan')) return allIndustriesList.find((i) => i.id === 'banking-financial') || null
+  if (qNorm.includes('comm') || qNorm.includes('telecom') || qNorm.includes('telco')) return allIndustriesList.find((i) => i.id === 'communications') || null
+  if (qNorm.includes('edu')) return allIndustriesList.find((i) => i.id === 'education') || null
+  if (qNorm.includes('energy') || qNorm.includes('util')) return allIndustriesList.find((i) => i.id === 'energy-utilities') || null
+  if (qNorm.includes('health') || qNorm.includes('life')) return allIndustriesList.find((i) => i.id === 'healthcare-life-sciences') || null
+  if (qNorm.includes('hitech') || qNorm.includes('tech')) return allIndustriesList.find((i) => i.id === 'hi-tech') || null
+  if (qNorm.includes('insur')) return allIndustriesList.find((i) => i.id === 'insurance-technology') || null
+  if (qNorm.includes('manuf')) return allIndustriesList.find((i) => i.id === 'manufacturing') || null
+  if (qNorm.includes('media') || qNorm.includes('entertain')) return allIndustriesList.find((i) => i.id === 'media-entertainment') || null
+  if (qNorm.includes('oil') || qNorm.includes('gas')) return allIndustriesList.find((i) => i.id === 'oil-gas') || null
+  if (qNorm.includes('equity') || qNorm.includes('pe')) return allIndustriesList.find((i) => i.id === 'private-equity') || null
+  if (qNorm.includes('prof') || qNorm.includes('service')) return allIndustriesList.find((i) => i.id === 'professional-services') || null
+  if (qNorm.includes('retail') || qNorm.includes('consum')) return allIndustriesList.find((i) => i.id === 'retail-consumer-goods') || null
+  if (qNorm.includes('travel') || qNorm.includes('logist') || qNorm.includes('trans') || qNorm.includes('hospital')) return allIndustriesList.find((i) => i.id === 'travel-transportation') || null
+
+  return allIndustriesList[0] || null
+}
 
 // -------------------------------------------------------------
 // Insights Page Implementation (Matching Tech Mahindra Reference)
@@ -3484,7 +3960,12 @@ function ContactUsSection() {
   )
 }
 
-function CareersPage() {
+interface CareersPageProps {
+  targetCareer?: string | null
+  onClearTarget?: () => void
+}
+
+function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
   const [selectedRole, setSelectedRole] = useState<JobRole | null>(null)
   const [applyModalOpen, setApplyModalOpen] = useState(false)
   const [appliedRole, setAppliedRole] = useState<string>('')
@@ -3493,6 +3974,22 @@ function CareersPage() {
   const [diversityModalOpen, setDiversityModalOpen] = useState(false)
   const [alumniModalOpen, setAlumniModalOpen] = useState(false)
   const [roleSearch, setRoleSearch] = useState('')
+
+  useEffect(() => {
+    if (targetCareer) {
+      const clean = targetCareer.toLowerCase()
+      if (clean.includes('way') || clean.includes('purpose') || clean.includes('culture')) {
+        setPurposeModalOpen(true)
+      } else if (clean.includes('divers') || clean.includes('inclus')) {
+        setDiversityModalOpen(true)
+      } else if (clean.includes('join') || clean.includes('role') || clean.includes('job') || clean.includes('apply')) {
+        setTimeout(() => {
+          const el = document.getElementById('open-roles-section')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }, 80)
+      }
+    }
+  }, [targetCareer])
 
   const filteredRoles = openRolesList.filter((role) => {
     return (
@@ -3957,7 +4454,12 @@ function CareersPage() {
   )
 }
 
-function InsightsPage() {
+interface InsightsPageProps {
+  targetInsight?: string | null
+  onClearTarget?: () => void
+}
+
+function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
   const [selectedCase, setSelectedCase] = useState<CaseStudyItem | null>(null)
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
   const [newsModalOpen, setNewsModalOpen] = useState(false)
@@ -3965,50 +4467,110 @@ function InsightsPage() {
   const [regModalOpen, setRegModalOpen] = useState(false)
   const [regSubmitted, setRegSubmitted] = useState(false)
 
+  useEffect(() => {
+    if (targetInsight) {
+      const clean = targetInsight.toLowerCase()
+      if (clean.includes('news') || clean.includes('press')) {
+        setNewsModalOpen(true)
+      } else if (clean.includes('view') || clean.includes('analyst')) {
+        setViewsModalOpen(true)
+      } else if (clean.includes('event')) {
+        setTimeout(() => {
+          const el = document.getElementById('upcoming-events')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }, 80)
+      } else if (clean.includes('case')) {
+        setTimeout(() => {
+          const el = document.getElementById('insights-case-studies')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }, 80)
+      }
+    }
+  }, [targetInsight])
+
   return (
     <div className="bg-[#FAF8F5] text-gray-900 min-h-screen">
-      {/* 1. Hero Section ("Insights") */}
-      <section className="relative bg-[#FAF8F5] bg-pinstripes border-b border-gray-200 overflow-hidden py-14 md:py-20">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+      {/* 1. Hero Section ("Insights") - True Full-Page (100vh) Viewport */}
+      <section className="relative w-full overflow-hidden bg-neutral-950 min-h-[calc(100vh-66px)] h-[calc(100vh-66px)] flex items-center select-none border-b border-white/10">
+        {/* Full-bleed background photo */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <img
+            src="/images/insights_hero.jpg"
+            alt="Norstar Digital Insights"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+
+        {/* High-contrast gradient scrim for optimal readability */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/70 to-black/35 pointer-events-none" />
+
+        {/* Main Content */}
+        <div className="relative z-20 max-w-[1440px] w-full mx-auto px-6 sm:px-10 md:px-16 lg:px-20 py-12 flex flex-col justify-center h-full">
           {/* Breadcrumb Header */}
-          <div className="flex items-center space-x-2 text-xs font-semibold text-gray-500 mb-6 uppercase tracking-wider">
-            <span className="hover:text-[#DE0826] cursor-pointer">Home</span>
-            <span>/</span>
-            <span className="text-[#DE0826]">Insights</span>
+          <div className="flex items-center space-x-2 text-xs font-medium text-gray-300 mb-6 tracking-wide">
+            <a href="#/home" className="hover:text-white transition-colors">Home</a>
+            <span className="text-gray-500">/</span>
+            <span className="text-[#DE0826] font-bold">Insights</span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Title & Intro */}
-            <div className="lg:col-span-6 pr-0 lg:pr-6">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                Insights
-              </h1>
-              <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg font-normal">
-                Dive in here for our the latest corporate and press releases, case studies, blogs, podcasts, reports and upcoming events.
-              </p>
-            </div>
+          <div className="max-w-3xl">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
+              Latest <span className="text-[#DE0826]">Insights</span>
+            </h1>
 
-            {/* Right Angled Frame with Professional Reviewing Digital Tablet */}
-            <div className="lg:col-span-6">
-              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-tr from-red-500/20 via-blue-500/20 to-purple-500/20 p-2 border border-neutral-300/80 shadow-xl backdrop-blur-md">
-                <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden shadow-inner">
-                  <img
-                    src="/images/insights_hero.jpg"
-                    alt="Norstar Digital Insights"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  {/* Subtle red corner markers */}
-                  <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-[#DE0826] opacity-80" />
-                  <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-[#DE0826] opacity-80" />
-                </div>
-              </div>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-200/90 leading-relaxed font-normal mb-8 max-w-2xl">
+              Dive in here for our latest corporate announcements, case studies, executive viewpoints, podcasts, industry whitepapers, and upcoming global tech events.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#featured-insights"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const el = document.getElementById('featured-insights')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs sm:text-sm font-bold px-7 py-3.5 rounded transition-all shadow-lg hover:shadow-red-600/30 cursor-pointer"
+              >
+                <span>Explore Featured Stories</span>
+                <Icon name="arrow-right" className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
+
+        {/* Bottom Center Scroll to Explore Indicator */}
+        <div className="absolute bottom-6 inset-x-0 z-20 flex justify-center pointer-events-auto">
+          <a
+            href="#featured-insights"
+            onClick={(e) => {
+              e.preventDefault()
+              const el = document.getElementById('featured-insights')
+              if (el) el.scrollIntoView({ behavior: 'smooth' })
+            }}
+            className="flex flex-col items-center text-white/60 hover:text-white transition-colors group cursor-pointer"
+            aria-label="Scroll to Featured Insights"
+          >
+            <span className="text-[10px] font-bold uppercase tracking-widest mb-1.5 text-white/50 group-hover:text-white">
+              Explore Articles
+            </span>
+            <svg
+              className="w-4 h-4 animate-bounce text-[#DE0826]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
+        </div>
+
+        {/* Subtle bottom border line */}
+        <div className="absolute bottom-0 inset-x-0 h-[1px] bg-white/10 z-20 pointer-events-none" />
       </section>
 
       {/* 2. Featured Press Release: Cisco Cyber Resilience Fabric */}
-      <section className="py-16 md:py-24 bg-[#FAF8F5] border-b border-gray-200">
+      <section id="featured-insights" className="py-16 md:py-24 bg-[#FAF8F5] border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Deep Royal Blue Cyber Waves Graphic */}
@@ -4138,7 +4700,7 @@ function InsightsPage() {
       </section>
 
       {/* 4. Case Studies (3-Card Horizontal Showcase) */}
-      <section className="py-16 md:py-24 bg-[#FAF8F5] border-b border-gray-200">
+      <section id="insights-case-studies" className="py-16 md:py-24 bg-[#FAF8F5] border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           {/* Section Header */}
           <div className="flex items-center justify-between mb-12">
@@ -4207,7 +4769,7 @@ function InsightsPage() {
       </section>
 
       {/* 5. Events Section (Upcoming Conferences & Summits) */}
-      <section className="py-16 md:py-24 bg-[#EBE7DF] border-b border-gray-200">
+      <section id="upcoming-events" className="py-16 md:py-24 bg-[#EBE7DF] border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-950 mb-12">
             Events
@@ -4481,11 +5043,39 @@ function InsightsPage() {
   )
 }
 
-function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities?: () => void }) {
+interface IndustriesPageProps {
+  onNavigateToCapabilities?: () => void
+  targetIndustry?: string | null
+  onClearTarget?: () => void
+}
+
+function IndustriesPage({
+  onNavigateToCapabilities,
+  targetIndustry,
+  onClearTarget,
+}: IndustriesPageProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [activeModal, setActiveModal] = useState<IndustryItem | null>(null)
   const [contactModalOpen, setContactModalOpen] = useState(false)
   const [contactSubmitted, setContactSubmitted] = useState(false)
+
+  useEffect(() => {
+    if (targetIndustry) {
+      const match = getIndustryByName(targetIndustry)
+      if (match) {
+        setActiveModal(match)
+        setTimeout(() => {
+          const el = document.getElementById('industries-grid')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }, 80)
+      }
+    }
+  }, [targetIndustry])
+
+  const closeModal = () => {
+    setActiveModal(null)
+    onClearTarget?.()
+  }
 
   const filteredIndustries =
     selectedCategory === 'all'
@@ -4494,66 +5084,99 @@ function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities
 
   return (
     <div className="bg-[#FAF8F5] text-gray-900 min-h-screen">
-      {/* 1. Hero Section ("Industries") */}
-      <section className="relative bg-[#FAF8F5] bg-pinstripes border-b border-gray-200 overflow-hidden py-14 md:py-20">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+      {/* 1. Hero Section ("Industries") - True Full-Page (100vh) Viewport */}
+      <section className="relative w-full overflow-hidden bg-neutral-950 min-h-[calc(100vh-66px)] h-[calc(100vh-66px)] flex items-center select-none border-b border-white/10">
+        {/* Full-bleed background mesh image */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <img
+            src="/images/ind_hero_mesh.jpg"
+            alt="Norstar Industries Convergence"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
+
+        {/* High-contrast gradient scrim for optimal readability */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/70 to-black/40 pointer-events-none" />
+
+        {/* Main Content */}
+        <div className="relative z-20 max-w-[1440px] w-full mx-auto px-6 sm:px-10 md:px-16 lg:px-20 py-12 flex flex-col justify-center h-full">
           {/* Breadcrumb Header */}
-          <div className="flex items-center space-x-2 text-xs font-semibold text-gray-500 mb-6 uppercase tracking-wider">
-            <span className="hover:text-[#DE0826] cursor-pointer">Home</span>
-            <span>/</span>
-            <span className="text-[#DE0826]">Industries</span>
+          <div className="flex items-center space-x-2 text-xs font-medium text-gray-300 mb-6 tracking-wide">
+            <a href="#/home" className="hover:text-white transition-colors">Home</a>
+            <span className="text-gray-500">/</span>
+            <span className="text-[#DE0826] font-bold">Industries</span>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Title & Intro */}
-            <div className="lg:col-span-6 pr-0 lg:pr-6">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                Industries
-              </h1>
-              <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg font-normal">
-                As industries converge and new industries emerge, we are re-imagining our strategy, solutions, and platforms as well.
-              </p>
+          <div className="max-w-3xl">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
+              Expertise Across <span className="text-[#DE0826]">Industries</span>
+            </h1>
 
-              {/* Quick Jump Categories */}
-              <div className="flex flex-wrap gap-2 mt-8">
-                {[
-                  { id: 'all', label: 'All Industries (14)' },
-                  { id: 'financial', label: 'Financial & Capital Markets' },
-                  { id: 'tech', label: 'Communications & Hi-Tech' },
-                  { id: 'industrial', label: 'Energy & Industrial' },
-                  { id: 'consumer', label: 'Healthcare, Retail & Services' },
-                ].map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setSelectedCategory(tab.id)}
-                    className={`text-xs px-4 py-2 rounded font-semibold transition-all cursor-pointer border ${
-                      selectedCategory === tab.id
-                        ? 'bg-[#DE0826] text-white border-[#DE0826] shadow-sm'
-                        : 'bg-white text-gray-700 border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826]'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-200/90 leading-relaxed font-normal mb-8 max-w-2xl">
+              As industries converge and new industries emerge, we are re-imagining our strategy, solutions, and platforms across 14 global industry domains.
+            </p>
 
-            {/* Right Diagonal / Parametric Mesh Art Frame */}
-            <div className="lg:col-span-6">
-              <div className="relative rounded-2xl overflow-hidden aspect-[16/9] shadow-xl border border-neutral-300/80 group bg-[#FAF8F5]">
-                <img
-                  src="/images/ind_hero_mesh.jpg"
-                  alt="Norstar Industries Convergence"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
+            {/* Quick Jump Categories */}
+            <div className="flex flex-wrap gap-2.5">
+              {[
+                { id: 'all', label: 'All Industries (14)' },
+                { id: 'financial', label: 'Financial & Capital Markets' },
+                { id: 'tech', label: 'Communications & Hi-Tech' },
+                { id: 'industrial', label: 'Energy & Industrial' },
+                { id: 'consumer', label: 'Healthcare, Retail & Services' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setSelectedCategory(tab.id)
+                    const el = document.getElementById('industries-grid')
+                    if (el) el.scrollIntoView({ behavior: 'smooth' })
+                  }}
+                  className={`text-xs px-4 py-2.5 rounded font-semibold transition-all cursor-pointer backdrop-blur-xs ${
+                    selectedCategory === tab.id
+                      ? 'bg-[#DE0826] text-white border border-[#DE0826] shadow-md shadow-red-600/30'
+                      : 'bg-black/30 text-gray-200 border border-white/20 hover:border-white hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
+
+        {/* Bottom Center Scroll to Explore Indicator */}
+        <div className="absolute bottom-6 inset-x-0 z-20 flex justify-center pointer-events-auto">
+          <a
+            href="#industries-grid"
+            onClick={(e) => {
+              e.preventDefault()
+              const el = document.getElementById('industries-grid')
+              if (el) el.scrollIntoView({ behavior: 'smooth' })
+            }}
+            className="flex flex-col items-center text-white/60 hover:text-white transition-colors group cursor-pointer"
+            aria-label="Scroll to Industries Grid"
+          >
+            <span className="text-[10px] font-bold uppercase tracking-widest mb-1.5 text-white/50 group-hover:text-white">
+              Explore 14 Sectors
+            </span>
+            <svg
+              className="w-4 h-4 animate-bounce text-[#DE0826]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
+        </div>
+
+        {/* Subtle bottom border line */}
+        <div className="absolute bottom-0 inset-x-0 h-[1px] bg-white/10 z-20 pointer-events-none" />
       </section>
 
       {/* 2. 14 Industries Grid (Matching Reference Screenshot) */}
-      <section className="py-20 md:py-28 bg-[#FAF8F5] border-b border-gray-200">
+      <section id="industries-grid" className="py-20 md:py-28 bg-[#FAF8F5] border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           {/* Active filter label */}
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-200">
@@ -4739,14 +5362,20 @@ function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities
 
       {/* Interactive Detail Modal for Selected Industry */}
       {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white max-w-2xl w-full rounded-xl shadow-2xl border border-gray-200 overflow-hidden relative animate-scaleUp">
+        <div
+          onClick={closeModal}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white max-w-2xl w-full rounded-xl shadow-2xl border border-gray-200 overflow-hidden relative animate-scaleUp"
+          >
             {/* Modal Header */}
             <div
               className={`bg-gradient-to-r ${activeModal.gradient} text-white p-6 sm:p-8 relative`}
             >
               <button
-                onClick={() => setActiveModal(null)}
+                onClick={closeModal}
                 className="absolute top-4 right-4 text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer border-0 bg-transparent"
                 aria-label="Close"
               >
@@ -4819,7 +5448,7 @@ function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities
               <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
                 <button
                   onClick={() => {
-                    setActiveModal(null)
+                    closeModal()
                     setContactModalOpen(true)
                   }}
                   className="flex-1 bg-[#DE0826] text-white py-3 px-5 rounded font-bold text-xs hover:bg-[#BE001D] transition-colors shadow-sm text-center cursor-pointer border-0"
@@ -4827,7 +5456,7 @@ function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities
                   Inquire About {activeModal.name} Solutions
                 </button>
                 <button
-                  onClick={() => setActiveModal(null)}
+                  onClick={closeModal}
                   className="px-5 py-3 border border-gray-300 rounded font-semibold text-xs text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   Close
@@ -4948,49 +5577,115 @@ function IndustriesPage({ onNavigateToCapabilities }: { onNavigateToCapabilities
   )
 }
 
-function CapabilitiesPage() {
+interface CapabilitiesPageProps {
+  targetCapability?: string | null
+  onClearTarget?: () => void
+}
+
+function CapabilitiesPage({ targetCapability, onClearTarget }: CapabilitiesPageProps) {
   const [activeModal, setActiveModal] = useState<CapabilityItem | null>(null)
+
+  useEffect(() => {
+    if (targetCapability) {
+      const match = getCapabilityByName(targetCapability)
+      if (match) {
+        setActiveModal(match)
+        setTimeout(() => {
+          const el = document.getElementById('capabilities-grid')
+          if (el) el.scrollIntoView({ behavior: 'smooth' })
+        }, 80)
+      }
+    }
+  }, [targetCapability])
+
+  const closeModal = () => {
+    setActiveModal(null)
+    onClearTarget?.()
+  }
 
   return (
     <div className="bg-[#FAF8F5] text-gray-900 min-h-screen">
-      {/* 1. Hero Section ("Our Capabilities") */}
-      <section className="relative bg-[#FAF8F5] bg-pinstripes border-b border-gray-200 overflow-hidden py-16 md:py-24">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Title & Intro */}
-            <div className="lg:col-span-6 pr-0 lg:pr-6">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                Our Capabilities
-              </h1>
-              <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg font-normal">
-                Our portfolio of offerings spans competencies, specialisms, and application services that align with our customers changing worlds.
-              </p>
-            </div>
+      {/* 1. Hero Section ("Our Capabilities") - True Full-Page (100vh) Viewport */}
+      <section className="relative w-full overflow-hidden bg-neutral-950 min-h-[calc(100vh-66px)] h-[calc(100vh-66px)] flex items-center select-none border-b border-white/10">
+        {/* Full-bleed background mesh image */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <img
+            src="/images/cap_hero_mesh.jpg"
+            alt="Norstar Enterprise Capabilities Architecture"
+            className="w-full h-full object-cover object-center"
+          />
+        </div>
 
-            {/* Right Diagonal / 3D Modular Mesh Visual Frame */}
-            <div className="lg:col-span-6">
-              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-tr from-teal-500/20 via-cyan-400/20 to-purple-500/20 p-2 border border-neutral-300/80 shadow-xl backdrop-blur-md">
-                {/* 3D Parametric Mesh Hero Graphic */}
-                <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden shadow-inner bg-neutral-950">
-                  <img
-                    src="/images/cap_hero_mesh.jpg"
-                    alt="Norstar Enterprise Capabilities Architecture"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-5">
-                    <span className="text-white text-xs uppercase tracking-widest font-bold drop-shadow">
-                      Enterprise Capabilities Matrix
-                    </span>
-                  </div>
-                </div>
-              </div>
+        {/* High-contrast gradient scrim for optimal readability */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/90 via-black/70 to-black/40 pointer-events-none" />
+
+        {/* Main Content */}
+        <div className="relative z-20 max-w-[1440px] w-full mx-auto px-6 sm:px-10 md:px-16 lg:px-20 py-12 flex flex-col justify-center h-full">
+          {/* Breadcrumb */}
+          <div className="flex items-center space-x-2 text-xs text-gray-300 mb-6 font-medium tracking-wide">
+            <a href="#/home" className="hover:text-white transition-colors">Home</a>
+            <span className="text-gray-500">/</span>
+            <span className="text-[#DE0826] font-bold">Capabilities</span>
+          </div>
+
+          <div className="max-w-3xl">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
+              Our <span className="text-[#DE0826]">Capabilities</span>
+            </h1>
+
+            <p className="text-base sm:text-lg lg:text-xl text-gray-200/90 leading-relaxed font-normal mb-8 max-w-2xl">
+              Our portfolio of offerings spans competencies, specialisms, and application services that align with our customers' rapidly changing worlds.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#capabilities-grid"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const el = document.getElementById('capabilities-grid')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs sm:text-sm font-bold px-7 py-3.5 rounded transition-all shadow-lg hover:shadow-red-600/30 cursor-pointer"
+              >
+                <span>Explore Capabilities</span>
+                <Icon name="arrow-right" className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
+
+        {/* Bottom Center Scroll to Explore Indicator */}
+        <div className="absolute bottom-6 inset-x-0 z-20 flex justify-center pointer-events-auto">
+          <a
+            href="#capabilities-grid"
+            onClick={(e) => {
+              e.preventDefault()
+              const el = document.getElementById('capabilities-grid')
+              if (el) el.scrollIntoView({ behavior: 'smooth' })
+            }}
+            className="flex flex-col items-center text-white/60 hover:text-white transition-colors group cursor-pointer"
+            aria-label="Scroll to Capabilities Grid"
+          >
+            <span className="text-[10px] font-bold uppercase tracking-widest mb-1.5 text-white/50 group-hover:text-white">
+              Explore Offerings
+            </span>
+            <svg
+              className="w-4 h-4 animate-bounce text-[#DE0826]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
+        </div>
+
+        {/* Subtle bottom border line */}
+        <div className="absolute bottom-0 inset-x-0 h-[1px] bg-white/10 z-20 pointer-events-none" />
       </section>
 
       {/* 2. 3x3 Capabilities Grid (Matching Reference Screenshot) */}
-      <section className="py-20 md:py-28 bg-[#F5F3ED] border-b border-gray-200">
+      <section id="capabilities-grid" className="py-20 md:py-28 bg-[#F5F3ED] border-b border-gray-200">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allCapabilitiesList.map((cap) => (
@@ -5027,8 +5722,14 @@ function CapabilitiesPage() {
 
       {/* 3. Interactive Capability Slide-Over Modal */}
       {activeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-red-100">
+        <div
+          onClick={closeModal}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden border-2 border-red-100"
+          >
             {/* Modal Header */}
             <div className={`p-8 bg-gradient-to-r ${activeModal.gradient} text-white relative flex items-center justify-between`}>
               <div className="pr-12">
@@ -5043,8 +5744,8 @@ function CapabilitiesPage() {
                 <img src={activeModal.image} alt={activeModal.title} className="w-full h-full object-cover" />
               </div>
               <button
-                onClick={() => setActiveModal(null)}
-                className="absolute top-6 right-6 w-9 h-9 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center transition-colors"
+                onClick={closeModal}
+                className="absolute top-6 right-6 w-9 h-9 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <Icon name="close" className="w-5 h-5" />
@@ -5079,7 +5780,7 @@ function CapabilitiesPage() {
               <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-100">
                 <a
                   href="#contact"
-                  onClick={() => setActiveModal(null)}
+                  onClick={closeModal}
                   className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3 rounded transition-colors shadow-sm"
                 >
                   <span>Connect with a Specialist</span>
@@ -5087,8 +5788,8 @@ function CapabilitiesPage() {
                 </a>
 
                 <button
-                  onClick={() => setActiveModal(null)}
-                  className="text-xs font-semibold text-gray-600 hover:text-black py-2 px-4"
+                  onClick={closeModal}
+                  className="text-xs font-semibold text-gray-600 hover:text-black py-2 px-4 cursor-pointer"
                 >
                   Close
                 </button>
@@ -5783,7 +6484,40 @@ function PodcastSection() {
 // 6. "Latest Thinking" Section
 // Asymmetric 3-Column Bento Grid Matching Reference media_1789191273812.png
 // -------------------------------------------------------------
-const thinkingColumns = {
+interface ThinkingCard {
+  id: string
+  badge: string
+  title: string
+  image: string
+  tall?: boolean
+  category: string
+  readTime: string
+  date: string
+  author: {
+    name: string
+    role: string
+  }
+  subtitle: string
+  summary: string
+  paragraphs: string[]
+  keyHighlights: {
+    title: string
+    description: string
+  }[]
+  metrics: {
+    value: string
+    label: string
+    desc: string
+  }[]
+  takeaways: string[]
+  tags: string[]
+}
+
+const thinkingColumns: {
+  col1: ThinkingCard[]
+  col2: ThinkingCard[]
+  col3: ThinkingCard[]
+} = {
   col1: [
     {
       id: 'ai-adoption',
@@ -5791,6 +6525,48 @@ const thinkingColumns = {
       title: 'From AI Adoption to AI Advantage',
       image: '/images/thinking_robot.jpg',
       tall: true,
+      category: 'Artificial Intelligence',
+      readTime: '6 min read',
+      date: 'October 2024',
+      author: {
+        name: 'Dr. Julian Vance',
+        role: 'Global Lead - Cognitive & Agentic Systems',
+      },
+      subtitle: 'Moving beyond pilot purgatory to build compounding autonomous business value.',
+      summary:
+        'While 87% of Global 2000 enterprises have deployed initial generative AI pilots, fewer than 14% have achieved measurable enterprise-scale margin expansion. The chasm lies between surface-level workflow automation and foundational architectural advantage.',
+      paragraphs: [
+        'Most organizations treat artificial intelligence as a tactical productivity plug-in—embedding chatbots into email or summarizers into spreadsheets. However, high-performing enterprises view AI not as a feature layer, but as an autonomous operational fabric that rewires decision loops, supply coordination, and predictive risk underwriting.',
+        'To capture true competitive advantage, enterprise architectures must transition from isolated large language models to orchestrated multi-agent reasoning chains. These multi-agent ecosystems operate on deterministic enterprise graphs, ensuring rigorous mathematical guardrails, automated compliance audits, and real-time operational self-correction.',
+      ],
+      keyHighlights: [
+        {
+          title: 'Compound Reasoning Architecture',
+          description:
+            'Shift from single-prompt interactions to asynchronous multi-agent coordination loops with deterministic verification.',
+        },
+        {
+          title: 'Proprietary World Models',
+          description:
+            'Transform fragmented internal operational logs and supply chains into fine-tuned, sovereign enterprise reasoning engines.',
+        },
+        {
+          title: 'Algorithmic Risk Governance',
+          description:
+            'Implement sub-millisecond safety guardrails and auditable decision tracing for regulatory compliance.',
+        },
+      ],
+      metrics: [
+        { value: '+340%', label: 'Processing Velocity', desc: 'Accelerated complex multi-party underwriting' },
+        { value: '62%', label: 'Cycle Time Reduction', desc: 'Slashed operational latency across workflows' },
+        { value: '4.8x', label: 'Measured ROI', desc: 'Documented return on engineering capital invested' },
+      ],
+      takeaways: [
+        'Prioritize end-to-end autonomous loops over human-in-the-loop chat interfaces.',
+        'Build domain-specific retrieval pipelines anchored in sovereign private datasets.',
+        'Deploy active token telemetry to monitor latency, cost, and hallucination bounds.',
+      ],
+      tags: ['Generative AI', 'Agentic Systems', 'Autonomous Enterprise', 'Digital Strategy'],
     },
     {
       id: 'invisible-ai',
@@ -5798,6 +6574,48 @@ const thinkingColumns = {
       title: 'Invisible AI: Enabling Frictionless Customer Experiences in Europe',
       image: '/images/thinking_spheres.jpg',
       tall: false,
+      category: 'Customer Experience & AI',
+      readTime: '5 min read',
+      date: 'September 2024',
+      author: {
+        name: 'Elena Rostova',
+        role: 'Managing Director - Digital Experience Europe',
+      },
+      subtitle: 'How ambient intelligence and zero-UI workflows are redefining omnichannel customer loyalty.',
+      summary:
+        'The most powerful artificial intelligence is the one the consumer never perceives. Leading European enterprises are abandoning clunky conversational chatbots in favor of predictive, ambient systems that eradicate friction before the user even encounters it.',
+      paragraphs: [
+        'Across European retail, telecommunications, and financial hubs, customer tolerance for latency and convoluted navigational menus has collapsed. Modern consumer expectations demand instant, context-aware service delivery that anticipates intent seamlessly across devices.',
+        'By uniting streaming event telemetry with localized privacy-first machine learning, organizations are creating zero-UI journeys: automated micro-refunds, instantaneous baggage tracking, and dynamic pricing models that adapt in sub-50-millisecond response windows while strictly adhering to the EU AI Act and GDPR directives.',
+      ],
+      keyHighlights: [
+        {
+          title: 'Predictive Intent Orchestration',
+          description:
+            'Detecting subtle behavioral indicators of customer frustration and executing automated resolutions in real time.',
+        },
+        {
+          title: 'Sovereign EU Privacy Compliance',
+          description:
+            'Engineered from the ground up for strict alignment with EU AI Act risk categories and localized data custody.',
+        },
+        {
+          title: 'Zero-UI Friction Elimination',
+          description:
+            'Removing form fills and support queues through proactive event streaming and verified biometric authentication.',
+        },
+      ],
+      metrics: [
+        { value: '+41 pts', label: 'NPS Enhancement', desc: 'Measured across tier-1 European retail networks' },
+        { value: '78%', label: 'First-Contact Autonomy', desc: 'Customer queries resolved without human intervention' },
+        { value: '-45%', label: 'Support Ticket Inflow', desc: 'Permanent reduction in repetitive inbound complaints' },
+      ],
+      takeaways: [
+        'Eliminate intrusive conversational widgets; embed intelligence directly into transaction flows.',
+        'Establish federated learning clusters to preserve customer data sovereignty across borders.',
+        'Unify physical storefront and digital mobile application state into a single customer event broker.',
+      ],
+      tags: ['Customer Experience', 'Zero-UI', 'EU AI Act', 'Ambient Computing'],
     },
   ],
   col2: [
@@ -5807,6 +6625,48 @@ const thinkingColumns = {
       title: 'Open Banking at an Inflection Point: Why Banks Must Act Now',
       image: '/images/thinking_open_banking.jpg',
       tall: false,
+      category: 'Banking & Financial Services',
+      readTime: '7 min read',
+      date: 'August 2024',
+      author: {
+        name: 'Marcus Sterling',
+        role: 'Practice Head - FinTech & Capital Markets',
+      },
+      subtitle: 'Capitalizing on PSD3, real-time payments, and embedded finance ecosystems.',
+      summary:
+        'Open Banking has evolved from a regulatory mandate into the central battleground for institutional liquidity, customer acquisition, and transactional velocity.',
+      paragraphs: [
+        'Financial institutions that treated PSD2 and Open Banking as mere compliance tick-boxes are now facing margin compression from agile neobanks and non-bank payment rails. The upcoming PSD3 and Open Finance frameworks mandate broader access to insurance, pensions, and commercial credit data.',
+        'Forward-looking tier-1 banks are turning their core ledger APIs into commercial platforms—offering embedded lending, instant account-to-account (A2A) settlements, and programmable corporate treasury services that generate recurring software revenue.',
+      ],
+      keyHighlights: [
+        {
+          title: 'High-Margin API Monetization',
+          description:
+            'Transforming standard compliance gateways into enterprise-grade paid developer platforms and treasury integrations.',
+        },
+        {
+          title: 'Real-Time Graph Fraud Detection',
+          description:
+            'Analyzing billions of cross-institutional payment flows to stop authorized push payment (APP) fraud in sub-second windows.',
+        },
+        {
+          title: 'Embedded B2B Credit Rails',
+          description:
+            'Injecting instant merchant credit scoring directly into enterprise point-of-sale and procurement software.',
+        },
+      ],
+      metrics: [
+        { value: '$1.4B+', label: 'Monthly Payment Volume', desc: 'Handled via Northstar-engineered A2A rails' },
+        { value: '< 65ms', label: 'API Response Latency', desc: 'High-throughput core banking microservices' },
+        { value: '99.999%', label: 'System Uptime', desc: 'Resilient multi-cloud settlement architecture' },
+      ],
+      takeaways: [
+        'De-risk legacy mainframe modernization by wrapping cores with reactive event streams.',
+        'Launch specialized developer hubs with instant sandbox provisioning and SDK libraries.',
+        'Partner directly with large enterprise platforms to embed white-label lending at checkout.',
+      ],
+      tags: ['FinTech', 'Open Banking', 'PSD3', 'Embedded Finance', 'Core Modernization'],
     },
     {
       id: 'security-by-design',
@@ -5814,6 +6674,48 @@ const thinkingColumns = {
       title: 'Security by Design: A New Model for Trust and Growth',
       image: '/images/thinking_ribbon.jpg',
       tall: false,
+      category: 'Cyber Security',
+      readTime: '6 min read',
+      date: 'October 2024',
+      author: {
+        name: 'Sarah Jenkins',
+        role: 'Chief Information Security Officer & Partner',
+      },
+      subtitle: 'Transforming cybersecurity from an organizational bottleneck into an operational growth catalyst.',
+      summary:
+        'In an era of hyper-connected supply chains and automated cyber threat vectors, bolting on security defenses after software deployment is an unacceptable liability. Modern security must be baked into every architectural boundary.',
+      paragraphs: [
+        'Traditional perimeter-based defense models have collapsed under the weight of distributed remote workforces, hybrid cloud infrastructure, and third-party SaaS dependencies. Today, organizations face automated algorithmic reconnaissance and prompt-injection threats that exploit the slightest configuration oversight.',
+        'Security by Design flips the paradigm: by integrating continuous zero-trust attestation, immutable infrastructure pipelines, and automated adversarial red-teaming into developer workflows, enterprises eliminate vulnerabilities before production release while simultaneously accelerating deployment frequency.',
+      ],
+      keyHighlights: [
+        {
+          title: 'Zero-Trust Runtime Attestation',
+          description:
+            'Continuous cryptographic verification of service mesh identities, containers, and data access permissions.',
+        },
+        {
+          title: 'Automated Adversarial AI Testing',
+          description:
+            'Deploying autonomous synthetic red teams to probe LLM endpoints and APIs for privilege escalation vulnerabilities.',
+        },
+        {
+          title: 'Post-Quantum Cryptographic Migration',
+          description:
+            'Upgrading fundamental key-exchange protocols and cipher suites to resist emergent quantum decryption threats.',
+        },
+      ],
+      metrics: [
+        { value: '-85%', label: 'MTTR Slashed', desc: 'Mean time to detect and remediate perimeter breaches' },
+        { value: '100%', label: 'Pipeline Coverage', desc: 'Automated policy-as-code enforcement in CI/CD pipelines' },
+        { value: 'Zero', label: 'Production Outages', desc: 'Zero downtime during critical zero-day threat mitigations' },
+      ],
+      takeaways: [
+        'Enforce immutable infrastructure where production servers cannot be modified after deployment.',
+        'Shift security testing into IDEs and git pre-commit hooks to catch flaws at the source.',
+        'Establish strict cryptographic isolation for model weights and proprietary enterprise data.',
+      ],
+      tags: ['Cyber Security', 'Zero Trust', 'DevSecOps', 'Quantum Resilience', 'Cloud Governance'],
     },
     {
       id: 'prepaid-growth',
@@ -5821,6 +6723,48 @@ const thinkingColumns = {
       title: 'Bold Moves in Prepaid: A New Growth Path for Developed Markets',
       image: '/images/thinking_mobile_calling.jpg',
       tall: false,
+      category: 'Telecom & Networks',
+      readTime: '5 min read',
+      date: 'September 2024',
+      author: {
+        name: 'Tariq Al-Mansoor',
+        role: 'Senior Partner - Global Telecommunications',
+      },
+      subtitle: 'How digital eSIMs, flexible micro-bundles, and AI personalization are revitalizing prepaid revenue.',
+      summary:
+        'Saturated postpaid markets in North America and Western Europe have reached growth ceilings. Forward-thinking mobile operators are reinventing prepaid as a digital-first, high-margin subscriber engine driven by instant eSIM activation.',
+      paragraphs: [
+        'For decades, prepaid subscriptions were treated as an afterthought—associated with budget consumers and low margins. However, shifts in consumer behavior toward financial flexibility and digital nomadism have created a massive appetite for premium, contract-free connectivity.',
+        'Telcos that deploy 100% digital eSIM provisioning apps allow international travelers and cost-conscious domestic consumers to activate service in under two minutes. Coupled with dynamic micro-bundling and real-time top-up rewards, operators are seeing prepaid average revenue per user (ARPU) approach parity with postpaid tiers.',
+      ],
+      keyHighlights: [
+        {
+          title: 'Instant 90-Second eSIM Provisioning',
+          description:
+            'Eliminating plastic SIM logistics and physical store visits with instant digital credential delivery.',
+        },
+        {
+          title: 'Contextual AI Micro-Bundling',
+          description:
+            'Dynamically offering streaming passes, gaming boosters, and international roaming packs when users need them most.',
+        },
+        {
+          title: 'Predictive Churn Interception',
+          description:
+            'Machine learning algorithms forecasting balance exhaustion to deliver tailored renewal incentives.',
+        },
+      ],
+      metrics: [
+        { value: '+28%', label: 'ARPU Growth', desc: 'Surge in average revenue per user within 90 days' },
+        { value: '92%', label: 'eSIM Self-Activation', desc: 'Customers completed onboarding without call center contact' },
+        { value: '-34%', label: 'Subscriber Churn', desc: 'Lower attrition compared to legacy retail SIM cards' },
+      ],
+      takeaways: [
+        'Replace cumbersome in-store identity checks with AI-assisted digital identity verification.',
+        'Introduce dynamic credit wallet balances that can be shared across family or IoT devices.',
+        'Leverage carrier billing integrations with global streaming and gaming platforms.',
+      ],
+      tags: ['Telecommunications', '5G & eSIM', 'Customer Retention', 'Digital Channels'],
     },
   ],
   col3: [
@@ -5830,6 +6774,48 @@ const thinkingColumns = {
       title: 'Agentic AI for Oil and Gas Upstream Operations',
       image: '/images/thinking_energy_engineer.jpg',
       tall: false,
+      category: 'Energy & Utilities',
+      readTime: '8 min read',
+      date: 'August 2024',
+      author: {
+        name: 'David Chen, PE',
+        role: 'Principal Consultant - Industrial Automation & Energy',
+      },
+      subtitle: 'Deploying autonomous sensor networks and agentic predictive maintenance on offshore assets.',
+      summary:
+        'A global offshore energy operator faced escalating unplanned downtime and maintenance costs across deepwater extraction platforms. Northstar Digital deployed autonomous industrial AI agents capable of monitoring thousands of SCADA telemetry feeds in real time.',
+      paragraphs: [
+        'Deepwater offshore platforms represent some of the most unforgiving operational environments on earth. A single unexpected compressor failure can result in millions of dollars in lost throughput per day, while severe weather frequently prevents onshore technical personnel from reaching offshore assets.',
+        'Northstar engineered an edge-deployed agentic reasoning mesh directly on the platform servers. These autonomous agents continuously evaluate high-frequency acoustic, vibration, and thermal sensor streams against physics-based digital twins, identifying mechanical fatigue 72 hours before catastrophic failures occur.',
+      ],
+      keyHighlights: [
+        {
+          title: 'Autonomous Acoustic & Vibration Telemetry',
+          description:
+            'Edge AI inference models detecting sub-harmonic bearing defects weeks ahead of conventional threshold alarms.',
+        },
+        {
+          title: 'Closed-Loop Choke Optimization',
+          description:
+            'Automated gas-lift valve modulation that maximizes hydrocarbon recovery while strictly respecting reservoir safety limits.',
+        },
+        {
+          title: 'AR-Enabled Digital Twin Guidance',
+          description:
+            'Equipping offshore field technicians with augmented reality headsets and interactive spatial schematics.',
+        },
+      ],
+      metrics: [
+        { value: '$48M', label: 'Cost Savings', desc: 'Direct savings achieved across deepwater platforms in year one' },
+        { value: '99.4%', label: 'Compressor Uptime', desc: 'Near-zero unplanned downtime on high-criticality equipment' },
+        { value: '-31%', label: 'Flaring Emissions Slashed', desc: 'Optimized gas recovery significantly reduced greenhouse flaring' },
+      ],
+      takeaways: [
+        'Deploy compute models at the operational edge to guarantee autonomy during satellite connectivity outages.',
+        'Foster cross-functional collaboration between legacy OT plant engineers and digital data scientists.',
+        'Incorporate deterministic thermodynamic rules into deep learning models to eliminate spurious predictions.',
+      ],
+      tags: ['Industrial AI', 'Edge Computing', 'Energy & Utilities', 'Digital Twins', 'Predictive Maintenance'],
     },
     {
       id: 'autonomous-enterprise',
@@ -5837,11 +6823,53 @@ const thinkingColumns = {
       title: 'Engineering Autonomous Enterprise',
       image: '/images/thinking_cubes.jpg',
       tall: true,
+      category: 'Enterprise Strategy & Architecture',
+      readTime: '10 min read',
+      date: 'October 2024',
+      author: {
+        name: 'Dr. Julian Vance & Northstar Research',
+        role: 'Enterprise Architecture Practice',
+      },
+      subtitle: 'The comprehensive blueprint for transitioning from software-assisted to fully autonomous enterprise operations.',
+      summary:
+        'The next era of organizational architecture is defined by autonomous execution loops: systems that self-heal, self-optimize, and execute strategic intent with deterministic precision and zero human latency.',
+      paragraphs: [
+        'Over the last two decades, enterprise IT was organized around workflow software: humans typed into systems of record (ERP, CRM, SCM), and software recorded the actions. Autonomous enterprise architecture flips this relationship: autonomous software agents execute operational tasks, and human leaders supervise strategic objectives and boundary constraints.',
+        'Drawing on comprehensive field implementations across manufacturing, logistics, and capital markets, this flagship Northstar report lays out the core architectural blueprint—covering event meshes, knowledge graphs, deterministic verification layers, and real-time capital routing protocols.',
+      ],
+      keyHighlights: [
+        {
+          title: 'The Cognitive Enterprise Fabric',
+          description:
+            'A federated semantic layer connecting disparate databases into a unified, queryable enterprise state graph.',
+        },
+        {
+          title: 'Autonomous DevOps & SRE Self-Healing',
+          description:
+            'Agent swarms that monitor logs, pinpoint root causes, generate code fixes, and deploy verified canary updates autonomously.',
+        },
+        {
+          title: 'Algorithmic Capital & Talent Routing',
+          description:
+            'Real-time allocation of organizational compute, capital, and labor resources based on shifting market opportunities.',
+        },
+      ],
+      metrics: [
+        { value: '10x', label: 'Delivery Velocity', desc: 'Accelerated software release cycles across complex core platforms' },
+        { value: '74%', label: 'Manual Task Eradication', desc: 'Routine administrative workflows fully automated' },
+        { value: '99.98%', label: 'SLA Adherence', desc: 'Uninterrupted performance across mission-critical systems' },
+      ],
+      takeaways: [
+        'Re-architect enterprise applications around asynchronous events rather than synchronous API polls.',
+        'Establish a clear hierarchy of agent permissions with cryptographically signed operational scopes.',
+        'Invest heavily in semantic data models; agents are only as capable as the enterprise knowledge they navigate.',
+      ],
+      tags: ['Autonomous Enterprise', 'Knowledge Graphs', 'System Architecture', 'Next-Gen IT'],
     },
   ],
 }
 
-const allThinkingCards = [
+const allThinkingCards: ThinkingCard[] = [
   thinkingColumns.col1[0], // From AI Adoption to AI Advantage
   thinkingColumns.col2[0], // Open Banking at an Inflection Point
   thinkingColumns.col3[0], // Agentic AI for Oil and Gas Upstream Operations
@@ -5853,7 +6881,28 @@ const allThinkingCards = [
 
 function LatestThinkingSection() {
   const [activeMobileCard, setActiveMobileCard] = useState(0)
+  const [selectedCard, setSelectedCard] = useState<ThinkingCard | null>(null)
   const mobileScrollRef = useRef<HTMLDivElement>(null)
+
+  // Keyboard navigation & body scroll lock when modal is open
+  useEffect(() => {
+    if (!selectedCard) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedCard(null)
+      }
+    }
+
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [selectedCard])
 
   const handleMobileScroll = () => {
     if (!mobileScrollRef.current) return
@@ -5885,7 +6934,17 @@ function LatestThinkingSection() {
             {thinkingColumns.col1.map((card) => (
               <div
                 key={card.id}
-                className={`relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-xl transition-all duration-300 ${
+                onClick={() => setSelectedCard(card)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Expand article: ${card.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setSelectedCard(card)
+                  }
+                }}
+                className={`relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-2xl transition-all duration-300 ring-0 hover:ring-2 hover:ring-[#DE0826]/70 rounded-xs select-none ${
                   card.tall
                     ? 'h-[320px] sm:h-[360px] lg:h-[415px]'
                     : 'h-[180px] sm:h-[190px] lg:h-[195px]'
@@ -5897,14 +6956,25 @@ function LatestThinkingSection() {
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute top-3.5 left-3.5 z-20">
-                  <span className="inline-flex items-center px-2 py-0.5 bg-black/65 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-black/70 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
                     {card.badge}
+                  </span>
+                </div>
+                {/* Hover Expand Badge */}
+                <div className="absolute top-3.5 right-3.5 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/95 backdrop-blur-md text-gray-950 text-[10px] font-bold tracking-wider uppercase rounded-full shadow-lg border border-white/30">
+                    <span>Expand</span>
+                    <Icon name="arrow-right" className="w-2.5 h-2.5 text-[#DE0826]" />
                   </span>
                 </div>
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-4 sm:p-5 lg:p-6 pointer-events-none">
                   <h3 className="text-white font-bold text-sm sm:text-base lg:text-[17px] leading-snug group-hover:text-red-300 transition-colors">
                     {card.title}
                   </h3>
+                  <div className="flex items-center text-[11px] sm:text-xs font-semibold text-red-400 mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                    <span>Read Full Insight</span>
+                    <Icon name="arrow-right" className="w-3 h-3 ml-1.5 transform group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -5915,7 +6985,17 @@ function LatestThinkingSection() {
             {thinkingColumns.col2.map((card) => (
               <div
                 key={card.id}
-                className="relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-xl transition-all duration-300 h-[180px] sm:h-[190px] lg:h-[195px]"
+                onClick={() => setSelectedCard(card)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Expand article: ${card.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setSelectedCard(card)
+                  }
+                }}
+                className="relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-2xl transition-all duration-300 ring-0 hover:ring-2 hover:ring-[#DE0826]/70 rounded-xs select-none h-[180px] sm:h-[190px] lg:h-[195px]"
               >
                 <img
                   src={card.image}
@@ -5923,14 +7003,25 @@ function LatestThinkingSection() {
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute top-3.5 left-3.5 z-20">
-                  <span className="inline-flex items-center px-2 py-0.5 bg-black/65 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-black/70 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
                     {card.badge}
+                  </span>
+                </div>
+                {/* Hover Expand Badge */}
+                <div className="absolute top-3.5 right-3.5 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/95 backdrop-blur-md text-gray-950 text-[10px] font-bold tracking-wider uppercase rounded-full shadow-lg border border-white/30">
+                    <span>Expand</span>
+                    <Icon name="arrow-right" className="w-2.5 h-2.5 text-[#DE0826]" />
                   </span>
                 </div>
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-4 sm:p-5 lg:p-6 pointer-events-none">
                   <h3 className="text-white font-bold text-sm sm:text-base lg:text-[17px] leading-snug group-hover:text-red-300 transition-colors">
                     {card.title}
                   </h3>
+                  <div className="flex items-center text-[11px] sm:text-xs font-semibold text-red-400 mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                    <span>Read Full Insight</span>
+                    <Icon name="arrow-right" className="w-3 h-3 ml-1.5 transform group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -5941,7 +7032,17 @@ function LatestThinkingSection() {
             {thinkingColumns.col3.map((card) => (
               <div
                 key={card.id}
-                className={`relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-xl transition-all duration-300 ${
+                onClick={() => setSelectedCard(card)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Expand article: ${card.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    setSelectedCard(card)
+                  }
+                }}
+                className={`relative overflow-hidden group cursor-pointer bg-neutral-950 shadow-xs hover:shadow-2xl transition-all duration-300 ring-0 hover:ring-2 hover:ring-[#DE0826]/70 rounded-xs select-none ${
                   card.tall
                     ? 'h-[320px] sm:h-[360px] lg:h-[415px]'
                     : 'h-[180px] sm:h-[190px] lg:h-[195px]'
@@ -5953,14 +7054,25 @@ function LatestThinkingSection() {
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute top-3.5 left-3.5 z-20">
-                  <span className="inline-flex items-center px-2 py-0.5 bg-black/65 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
+                  <span className="inline-flex items-center px-2 py-0.5 bg-black/70 backdrop-blur-xs border border-white/20 text-white text-[9px] sm:text-[10px] font-bold tracking-widest uppercase select-none">
                     {card.badge}
+                  </span>
+                </div>
+                {/* Hover Expand Badge */}
+                <div className="absolute top-3.5 right-3.5 z-20 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-1 group-hover:translate-y-0">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/95 backdrop-blur-md text-gray-950 text-[10px] font-bold tracking-wider uppercase rounded-full shadow-lg border border-white/30">
+                    <span>Expand</span>
+                    <Icon name="arrow-right" className="w-2.5 h-2.5 text-[#DE0826]" />
                   </span>
                 </div>
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-4 sm:p-5 lg:p-6 pointer-events-none">
                   <h3 className="text-white font-bold text-sm sm:text-base lg:text-[17px] leading-snug group-hover:text-red-300 transition-colors">
                     {card.title}
                   </h3>
+                  <div className="flex items-center text-[11px] sm:text-xs font-semibold text-red-400 mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0">
+                    <span>Read Full Insight</span>
+                    <Icon name="arrow-right" className="w-3 h-3 ml-1.5 transform group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -5978,6 +7090,10 @@ function LatestThinkingSection() {
             {allThinkingCards.map((card) => (
               <div
                 key={card.id}
+                onClick={() => setSelectedCard(card)}
+                role="button"
+                tabIndex={0}
+                aria-label={`Expand article: ${card.title}`}
                 className="relative flex-shrink-0 w-[84vw] max-w-[320px] h-[360px] rounded-[2px] overflow-hidden group cursor-pointer bg-neutral-950 shadow-md snap-start"
               >
                 <img
@@ -5990,10 +7106,20 @@ function LatestThinkingSection() {
                     {card.badge}
                   </span>
                 </div>
+                <div className="absolute top-3.5 right-3.5 z-20">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-white/90 text-gray-950 text-[9px] font-bold uppercase rounded-full shadow">
+                    <span>Expand</span>
+                    <Icon name="arrow-right" className="w-2 h-2 text-[#DE0826]" />
+                  </span>
+                </div>
                 <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/45 to-transparent flex flex-col justify-end p-5 pointer-events-none">
                   <h3 className="text-white font-bold text-[16px] leading-snug group-hover:text-red-300 transition-colors">
                     {card.title}
                   </h3>
+                  <div className="flex items-center text-xs font-semibold text-red-400 mt-2">
+                    <span>Tap to open insight</span>
+                    <Icon name="arrow-right" className="w-3 h-3 ml-1" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -6017,6 +7143,177 @@ function LatestThinkingSection() {
           </div>
         </div>
       </div>
+
+      {/* Expanded Article Modal */}
+      {selectedCard && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 lg:p-8 bg-black/80 backdrop-blur-md animate-fadeIn"
+          onClick={() => setSelectedCard(null)}
+        >
+          <div
+            className="bg-white max-w-4xl w-full max-h-[92vh] rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col relative text-gray-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header Banner with Hero Image */}
+            <div className="relative h-[220px] sm:h-[280px] lg:h-[310px] w-full flex-shrink-0 bg-neutral-950 overflow-hidden">
+              <img
+                src={selectedCard.image}
+                alt={selectedCard.title}
+                className={`w-full h-full object-cover ${
+                  selectedCard.tall ? 'object-[center_20%]' : 'object-center'
+                }`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/60 to-black/35" />
+
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedCard(null)}
+                aria-label="Close insight"
+                className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/60 hover:bg-black text-white hover:scale-105 transition-all cursor-pointer border border-white/20 shadow-lg"
+              >
+                <Icon name="close" className="w-5 h-5" />
+              </button>
+
+              {/* Title and date overlay */}
+              <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 z-20">
+                <div className="text-white/80 text-xs font-medium mb-1.5 flex items-center gap-2">
+                  <span>{selectedCard.date}</span>
+                  <span>•</span>
+                  <span>Northstar Strategic Insights</span>
+                </div>
+                <h2 className="text-white font-extrabold text-xl sm:text-2xl lg:text-[28px] leading-tight font-heading max-w-3xl">
+                  {selectedCard.title}
+                </h2>
+              </div>
+            </div>
+
+            {/* Scrollable Content Body (scrollbar hidden for clean UI) */}
+            <div className="overflow-y-auto hide-scrollbar p-6 sm:p-8 lg:p-10 space-y-8 flex-1">
+              {/* Subtitle / Lead Quote Callout */}
+              <div className="p-4 sm:p-5 bg-red-50/60 border-l-4 border-[#DE0826] rounded-r-xl">
+                <p className="text-base sm:text-lg font-semibold text-gray-900 leading-snug">
+                  "{selectedCard.subtitle}"
+                </p>
+                <p className="text-sm text-gray-600 mt-2 font-normal leading-relaxed">
+                  {selectedCard.summary}
+                </p>
+              </div>
+
+              {/* Narrative Deep-Dive */}
+              <div className="space-y-4">
+                <h3 className="text-xs font-extrabold tracking-wider uppercase text-gray-400 font-heading">
+                  Executive Analysis & Strategic Context
+                </h3>
+                {selectedCard.paragraphs.map((p, idx) => (
+                  <p key={`para-${selectedCard.id}-${idx}`} className="text-gray-700 text-sm sm:text-[15px] leading-relaxed font-normal">
+                    {p}
+                  </p>
+                ))}
+              </div>
+
+              {/* Key Metrics Grid */}
+              <div>
+                <h3 className="text-xs font-extrabold tracking-wider uppercase text-gray-400 mb-3 font-heading">
+                  Measurable Impact & Transformation Metrics
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {selectedCard.metrics.map((metric) => (
+                    <div
+                      key={metric.label}
+                      className="bg-white border border-red-100 rounded-xl p-4 sm:p-5 shadow-xs hover:border-red-300 transition-colors"
+                    >
+                      <div className="text-2xl sm:text-3xl font-black text-[#DE0826] font-heading tracking-tight">
+                        {metric.value}
+                      </div>
+                      <div className="text-xs font-bold uppercase tracking-wider text-gray-900 mt-1">
+                        {metric.label}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1 leading-normal">
+                        {metric.desc}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Core Insights Pillars */}
+              <div>
+                <h3 className="text-xs font-extrabold tracking-wider uppercase text-gray-400 mb-3 font-heading">
+                  Core Strategic Pillars
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {selectedCard.keyHighlights.map((hl, idx) => (
+                    <div key={hl.title} className="bg-gray-50/80 border border-gray-200/80 rounded-xl p-4 sm:p-5 flex flex-col justify-between">
+                      <div>
+                        <span className="inline-block text-[11px] font-extrabold text-[#DE0826] uppercase tracking-wider mb-1.5">
+                          Pillar 0{idx + 1}
+                        </span>
+                        <h4 className="text-sm font-bold text-gray-950 mb-2 leading-snug">
+                          {hl.title}
+                        </h4>
+                        <p className="text-xs text-gray-600 leading-relaxed">
+                          {hl.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Actionable Executive Takeaways */}
+              <div className="bg-neutral-950 text-white rounded-xl p-6 sm:p-7">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-red-400 mb-4 font-heading flex items-center gap-2">
+                  <Icon name="check" className="w-4 h-4 text-[#DE0826]" />
+                  Actionable Executive Recommendations
+                </h3>
+                <div className="space-y-3">
+                  {selectedCard.takeaways.map((takeaway, idx) => (
+                    <div key={`takeaway-${selectedCard.id}-${idx}`} className="flex items-start space-x-3">
+                      <span className="w-5 h-5 rounded-full bg-white/10 text-red-400 flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">
+                        ✓
+                      </span>
+                      <span className="text-xs sm:text-sm text-gray-300 leading-relaxed font-normal">
+                        {takeaway}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Topics / Tags */}
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <span className="text-xs font-semibold text-gray-400 mr-2">Topics:</span>
+                {selectedCard.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-full transition-colors"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Modal Sticky Footer with Actions */}
+            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-3 flex-shrink-0">
+              <button
+                onClick={() => setSelectedCard(null)}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-bold rounded-lg cursor-pointer border-0 transition-colors"
+              >
+                Close
+              </button>
+              <a
+                href="#contact"
+                onClick={() => setSelectedCard(null)}
+                className="px-4 py-2 bg-[#DE0826] hover:bg-[#b5061e] text-white text-xs font-bold rounded-lg cursor-pointer transition-colors shadow-xs inline-flex items-center space-x-1.5"
+              >
+                <span>Discuss with Specialist</span>
+                <Icon name="arrow-right" className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
@@ -6567,7 +7864,7 @@ const homeCapabilitiesList: HomeCapabilityItem[] = [
     image: '/images/cap_ribbon_ai.jpg',
   },
   {
-    title: 'Cloud and Infrastructure Services',
+    title: 'Cloud & Infrastructure Services',
     image: '/images/cap_ribbon_cloud.jpg',
   },
   {
@@ -7091,40 +8388,325 @@ function IndustriesSection({ onExploreMore }: { onExploreMore?: () => void }) {
 // -------------------------------------------------------------
 // 11. "Success Stories"
 // -------------------------------------------------------------
-const successStories = [
+interface SuccessStory {
+  id: number
+  slug: string
+  client: string
+  category: string
+  title: string
+  desc: string
+  subtitle: string
+  timeline: string
+  location: string
+  scope: string
+  challenge: string
+  challengePoints: string[]
+  solution: string
+  solutionPillars: {
+    title: string
+    desc: string
+  }[]
+  implementationRoadmap: {
+    phase: string
+    title: string
+    detail: string
+  }[]
+  metrics: {
+    value: string
+    label: string
+    desc: string
+  }[]
+  keyOutcomes: string[]
+  quote: string
+  quoteAuthor: string
+  quoteRole?: string
+  tags: string[]
+  isVideo?: boolean
+  image: string
+}
+
+const successStories: SuccessStory[] = [
   {
     id: 1,
+    slug: 'att-field-ops',
     client: 'AT&T',
     category: 'Telecommunications',
     title: 'How AT&T and Norstar Transformed Field Operations with AI',
     desc: 'Empowered 25,000+ field technicians with real-time AI guidance, reducing repeat truck rolls by 28%.',
+    subtitle: 'Empowering 25,000+ field technicians with real-time AI guidance and diagnostic copilots.',
+    timeline: '14-Month Enterprise Rollout',
+    location: 'United States Nationwide',
+    scope: 'Field Service Automation, Multimodal AI & Computer Vision',
+    challenge:
+      'With a dispersed national workforce managing millions of complex fiber optic and wireless installations, AT&T faced rising operational dispatch costs, inconsistent first-time resolution rates, and lengthy knowledge transfer cycles for junior field technicians.',
+    challengePoints: [
+      'High repeat dispatch rates (28% repeat truck rolls) costing millions annually in redundant fleet miles.',
+      'Offline field environments (basements, remote towers) preventing reliance on standard cloud-hosted knowledge portals.',
+      'Disparate legacy wiring schematics and legacy copper-fiber splice documentation across 50 regional operating units.',
+    ],
+    solution:
+      'Northstar Digital architected a multimodal edge AI copilot running on technician tablets. Leveraging computer vision, real-time spatial schematics, and retrieval-augmented historical repair logs, the system provides step-by-step diagnostic verification and AR-guided fiber splicing assistance even in offline basement environments.',
+    solutionPillars: [
+      {
+        title: 'Edge Computer Vision Diagnostic Suite',
+        desc: 'Trained localized deep vision models capable of identifying fiber splice misalignments, bent optical cables, and improper port patchings through tablet cameras in under 2 seconds.',
+      },
+      {
+        title: 'Offline-First Hybrid RAG Knowledge Engine',
+        desc: 'Synchronized 40 years of engineering documentation and wiring schematics into a compressed on-device vector database that functions smoothly even in subterranean basements with zero cellular coverage.',
+      },
+      {
+        title: 'Voice-First Hands-Free Guidance Interface',
+        desc: 'Implemented hands-free acoustic voice assistants allowing technicians wearing protective gear to query schematics and dictate inspection checklists without touching their devices.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'Field Discovery & Model Training',
+        detail: 'Curated 1.2M historical dispatch records and 85,000 photographic splice examples to train domain-specific vision and text copilots.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Pilot in 4 Regional Hubs',
+        detail: 'Deployed prototype tablets with 1,500 technicians in Dallas, Atlanta, Chicago, and Phoenix, achieving a 22% initial fix-rate lift.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Nationwide 25,000+ Technician Scale',
+        detail: 'Completed nationwide rollout integrated with enterprise dispatch dispatchers, SAP ERP, and inventory management.',
+      },
+    ],
+    metrics: [
+      { value: '-28%', label: 'Truck Rolls Reduced', desc: 'Eliminated unnecessary repeat field dispatches across regions' },
+      { value: '25,000+', label: 'Technicians Onboarded', desc: 'Active daily users navigating fiber and 5G field installations' },
+      { value: '94%', label: 'First-Time Fix Rate', desc: 'All-time company record across broadband & commercial nodes' },
+      { value: '$140M', label: 'Annual Operational Savings', desc: 'Saved in vehicle fuel, fleet maintenance, and repeat labor hours' },
+    ],
+    keyOutcomes: [
+      'Equipped field workforce with voice-activated hands-free diagnostic copilots.',
+      'Reduced average time per service call from 84 minutes to 51 minutes.',
+      'Saved an estimated $140M annually in repeat vehicle dispatch and labor expenses.',
+      'Accelerated junior technician onboarding curve from 9 months down to 10 weeks.',
+    ],
+    quote:
+      '"The AI copilot developed with Northstar has become the single most valued tool in our field force\'s toolkit. It turns every technician into our top 1% veteran engineer."',
+    quoteAuthor: 'SVP, Network Field Engineering, AT&T',
+    quoteRole: 'AT&T Network & Field Engineering Operations',
+    tags: ['Telecommunications', 'Field Service AI', 'Computer Vision', 'Offline RAG', 'Edge Computing', 'Operational Efficiency'],
     isVideo: true,
     image: '/images/case_consult.jpg',
   },
   {
     id: 2,
+    slug: 'norstar-racing',
     client: 'Norstar Racing',
     category: 'Formula E Racing',
     title: 'Accelerating Norstar Racing with Real-Time AI Analytics',
     desc: 'Sub-second sensor streaming and telemetry optimization providing competitive edge on international circuits.',
+    subtitle: 'Sub-second telemetry streaming and predictive powertrain optimization for international motorsport.',
+    timeline: '8-Month Rapid Deployment',
+    location: 'Global FIA Circuits (16 Cities)',
+    scope: 'Edge Computing, Real-Time Telemetry & Predictive AI',
+    challenge:
+      'In electric single-seater motorsport, race strategy is decided in fractions of a second. The team needed to ingest millions of high-frequency CAN bus telemetry metrics per lap—battery thermal dynamics, tire graining, regenerative braking recovery—and provide deterministic tactical advice to the pit wall.',
+    challengePoints: [
+      'High latency (>800ms) over legacy RF links caused blind spots during critical pit strategy windows.',
+      'Complex battery thermal degradation profiles required non-linear multi-variable physics modeling.',
+      'Zero room for compute failure: trackside hardware must endure extreme temperatures, RF interference, and rapid circuit tear-downs.',
+    ],
+    solution:
+      'Northstar engineered an ultra-low latency edge compute telemetry broker deployed directly in the race garage. Powered by neural differential equations and real-time probabilistic simulations, the platform models 10,000 synthetic race scenarios every lap to recommend precise battery state-of-charge targets and overtake mode timing.',
+    solutionPillars: [
+      {
+        title: 'Sub-Millisecond Trackside Telemetry Mesh',
+        desc: 'Engineered a dual-redundant 5G-private and high-gain Wi-Fi 6E telemetry bridge between moving vehicles and pit lane edge compute, dropping latency from 800ms to under 45ms with zero packet loss.',
+      },
+      {
+        title: 'Physics-Informed Neural Battery Twin',
+        desc: 'Developed hybrid physics-informed neural network (PINN) models simulating battery electrochemical kinetics and thermal dissipation, predicting pack temperature 4 laps in advance with 99.4% accuracy.',
+      },
+      {
+        title: 'Autonomous Pitwall Strategy Copilot',
+        desc: 'Built an interactive engineer console that models 10,000 simulated race trajectories per lap, dynamically alerting engineers when to switch driver maps, deploy Attack Mode, and maximize regenerative capture.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'Telemetry Audit & Pipeline Harmonization',
+        detail: 'Benchmarked 200+ sensor channels across dyno test rigs and wind tunnels, establishing standardized binary serialization protocols.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Edge Hardware & AI Twin Deployment',
+        detail: 'Fabricated ruggedized trackside edge server racks and containerized neural battery models tested across pre-season Valencia trials.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Live Championship Race Integration',
+        detail: 'Deployed real-time pitwall copilot across 16 global E-Prix rounds with instantaneous continuous learning post-session.',
+      },
+    ],
+    metrics: [
+      { value: '+0.42s', label: 'Lap Pace Advantage', desc: 'Measured pace gain over race stints under active competition' },
+      { value: '12,000', label: 'Data Points / Sec', desc: 'Ingested and analyzed in real time per single-seater vehicle' },
+      { value: '100%', label: 'Thermal Safety', desc: 'Zero battery derating events across the entire championship season' },
+      { value: '< 45ms', label: 'Telemetry Latency', desc: 'Sub-second response loop between track sensors and pit wall' },
+    ],
+    keyOutcomes: [
+      'Engineered sub-50ms live telemetry pipeline between trackside edge and remote simulation factory.',
+      'Automated regenerative braking energy recovery strategies adapting dynamically to weather and safety cars.',
+      'Delivered 3 podium finishes and a championship contention through algorithmic pit-stop timing.',
+      'Streamlined post-race telemetry analysis turnaround from 6 hours to less than 15 minutes.',
+    ],
+    quote:
+      '"Racing in Formula E is an engineering war of energy management. Northstar\'s predictive AI platform gives our drivers and race engineers an unfair tactical edge on every lap."',
+    quoteAuthor: 'Team Principal & Technical Director, Norstar Racing',
+    quoteRole: 'Norstar Racing Technical Department',
+    tags: ['Motorsport Tech', 'Real-Time Telemetry', 'Edge Computing', 'Battery Optimization', 'Neural Models', 'Kubernetes'],
     isVideo: false,
     image: '/images/home_racing.jpg',
   },
   {
     id: 3,
+    slug: 'global-retail-giant',
     client: 'Global Retail Giant',
     category: 'Retail & Omnichannel',
     title: 'Modernizing Supply Chain with Generative AI and Autonomous Fulfillment',
     desc: 'Boosted order accuracy by 40% while slashing inventory holding costs across 1,200 stores.',
+    subtitle: 'Transforming distributed logistics with AI-driven demand forecasting and robotic warehouse orchestration.',
+    timeline: '12-Month Enterprise Rollout',
+    location: 'Europe & North America (1,200 Stores)',
+    scope: 'Supply Chain Mesh, Demand Forecasting & Automated Replenishment',
+    challenge:
+      'Operating over 1,200 hypermarket stores and 45 distribution centers across 8 countries, the retailer struggled with stockouts on high-demand perishables, excessive safety stock buffers, and disjointed cross-docking schedules during peak holiday surges.',
+    challengePoints: [
+      'Fragmented inventory data across 12 legacy ERP instances created 3-day visibility delays.',
+      'Excessive safety stock buffers tied up hundreds of millions in idle working capital.',
+      'Frequent perishable stock-outs eroded customer loyalty and incurred high disposal waste penalties.',
+    ],
+    solution:
+      'Northstar built a unified Autonomous Supply Mesh combining transformer-based hyper-local demand forecasting with dynamic automated routing algorithms. The platform dynamically recalculates delivery routes, balances distribution center inventory, and auto-generates purchase orders based on real-time foot traffic and weather data.',
+    solutionPillars: [
+      {
+        title: 'Hyper-Local Transformer Demand Forecasting',
+        desc: 'Trained hierarchical transformer neural networks processing 400+ demand covariates, including hyperlocal weather forecasts, holiday calendars, road closures, and social trends.',
+      },
+      {
+        title: 'Autonomous Multi-Echelon Replenishment',
+        desc: 'Automated procurement purchase orders across 45 distribution centers directly to supplier APIs, dynamically rebalancing safety stock based on supplier lead times.',
+      },
+      {
+        title: 'Robotic Cross-Docking Orchestration',
+        desc: 'Integrated automated guided vehicles (AGVs) and warehouse management systems to shrink dock-to-stock turnaround from 18 hours to 4 hours.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'Data Lakehouse & Schema Unification',
+        detail: 'Integrated 12 disparate ERP systems into an enterprise Apache Iceberg data mesh on cloud with real-time CDC.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Demand AI Calibration & Pilot Hubs',
+        detail: 'Calibrated forecasting algorithms across 3 pilot distribution centers supplying 80 retail hypermarkets.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Automated Procurement Network Scale',
+        detail: 'Scaled autonomous replenishment across all 1,200 stores and 45 logistics nodes with full supplier API integrations.',
+      },
+    ],
+    metrics: [
+      { value: '+40%', label: 'Order Accuracy', desc: 'Surge in fulfillment precision across all regional distribution hubs' },
+      { value: '-28%', label: 'Holding Costs Slashed', desc: 'Substantial working capital released back to retail operations' },
+      { value: '99.2%', label: 'On-Shelf Availability', desc: 'Near-zero out-of-stock incidents on essential grocery lines' },
+      { value: '$65M', label: 'Waste Spoilage Saved', desc: 'Annual reduction in perishables spoilage across distribution hubs' },
+    ],
+    keyOutcomes: [
+      'Replaced manual weekly forecasting spreadsheets with autonomous multi-echelon replenishment.',
+      'Reduced average warehouse dock-to-stock turnaround time from 18 hours to 4 hours.',
+      'Eliminated over $65M in annual perishable inventory spoilage and landfill fees.',
+      'Achieved 99.2% on-shelf product availability during peak Black Friday and holiday surges.',
+    ],
+    quote:
+      '"Northstar connected our fragmented warehouses into a single intelligent ecosystem. We eliminated stockouts while holding significantly less safety inventory."',
+    quoteAuthor: 'Chief Supply Chain Officer, Global Retail Giant',
+    quoteRole: 'Global Supply Chain & Logistics Operations',
+    tags: ['Retail Supply Chain', 'Autonomous Fulfillment', 'Demand Forecasting', 'Warehouse Logistics', 'Cloud Mesh'],
     isVideo: false,
     image: '/images/case_port.jpg',
   },
   {
     id: 4,
+    slug: 'european-telecom',
     client: 'Top European Telecom',
     category: 'Cloud Core & 5G',
     title: 'Achieving 40% Operational Cost Optimization with Cloud Core Migration',
     desc: 'Modernized core switching network to hybrid cloud infrastructure for 18 million active subscribers.',
+    subtitle: 'De-risking legacy telco switching cores through carrier-grade cloud-native 5G architecture.',
+    timeline: '18-Month Zero-Downtime Migration',
+    location: 'Pan-European (Germany, Austria, Switzerland)',
+    scope: 'Cloud-Native 5G Core, Telco Cloud, Kubernetes CNFs',
+    challenge:
+      'Managing 18 million active mobile subscribers across three nations, the telecom operator was constrained by expensive proprietary hardware appliances, inflexible vendor lock-in, and multi-day maintenance windows required for basic network slice updates.',
+    challengePoints: [
+      'Rigid legacy hardware appliances incurring escalating annual maintenance and energy costs.',
+      'Multi-month lead times (180+ days) to launch custom 5G private network slices for industrial customers.',
+      'High risk of catastrophic downtime during legacy subscriber core migration.',
+    ],
+    solution:
+      'Northstar Digital orchestrated a phased zero-downtime migration of the operator\'s core packet network into a carrier-grade hybrid cloud environment. Leveraging containerized network functions (CNFs), GitOps infrastructure-as-code, and automated canary routing, the new core scales dynamically with traffic demand.',
+    solutionPillars: [
+      {
+        title: 'Carrier-Grade Kubernetes CNF Architecture',
+        desc: 'Containerized critical telco user plane (UPF) and control plane functions on distributed Kubernetes clusters with SR-IOV and DPDK kernel bypass for line-rate packet throughput.',
+      },
+      {
+        title: 'Zero-Downtime Canary Traffic Handover',
+        desc: 'Developed intelligent algorithmic BGP route steering that migrated 18 million subscribers in batches of 50,000 during live hours with continuous automated SLA telemetry.',
+      },
+      {
+        title: 'Automated GitOps & Dynamic Slicing Platform',
+        desc: 'Automated 5G network slicing orchestration via declarative GitOps pipelines, slashing enterprise private slice deployment times from 6 months to under 48 hours.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'Target Architecture & Cloud Infrastructure Prep',
+        detail: 'Staged carrier-grade hybrid cloud nodes with hardware security modules (HSM) and automated test suites.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Dual-Stack Shadow Traffic Verification',
+        detail: 'Mirrored live production telco traffic through containerized CNFs for 90 days to validate jitter, latency, and failover.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Canary Migration of 18M Subscribers',
+        detail: 'Migrated 18 million active subscribers across three nations with zero network outages and seamless billing parity.',
+      },
+    ],
+    metrics: [
+      { value: '40%', label: 'OpEx Optimization', desc: 'Annual operational infrastructure savings post cloud migration' },
+      { value: '18M', label: 'Subscribers Migrated', desc: 'Zero downtime during nationwide subscriber traffic handover' },
+      { value: '< 15ms', label: '5G Core Latency', desc: 'Low-latency user plane packet routing across cell sites' },
+      { value: '48 Hrs', label: 'Service Turnaround', desc: 'Enterprise 5G slice provisioning down from 6 months' },
+    ],
+    keyOutcomes: [
+      'Transitioned legacy monolithic network functions to resilient cloud-native microservices.',
+      'Accelerated new enterprise 5G private network deployment times from 6 months to 48 hours.',
+      'Attained 99.999% carrier-grade availability with automated multi-zone failover.',
+      'Reduced datacenter energy footprint and power consumption by 55%.',
+    ],
+    quote:
+      '"Migrating an active core telecom network serving 18 million users is like changing jet engines mid-flight. Northstar executed it flawlessly with zero subscriber disruptions."',
+    quoteAuthor: 'Chief Technology & Network Officer, Top European Telecom',
+    quoteRole: 'European Telco Network Architecture & Technology Division',
+    tags: ['5G Core', 'Cloud Migration', 'Kubernetes CNFs', 'Carrier-Grade Infrastructure', 'GitOps'],
     isVideo: false,
     image: '/images/case_ribbon.jpg',
   },
@@ -7132,7 +8714,11 @@ const successStories = [
 
 const extendedSuccessStories = [...successStories, ...successStories, ...successStories]
 
-function SuccessStoriesSection() {
+interface SuccessStoriesSectionProps {
+  onOpenCaseStudy?: (slug: string) => void
+}
+
+function SuccessStoriesSection({ onOpenCaseStudy }: SuccessStoriesSectionProps = {}) {
   const baseCount = successStories.length
   const [currentIndex, setCurrentIndex] = useState(baseCount)
   const [isTransitioning, setIsTransitioning] = useState(true)
@@ -7208,7 +8794,7 @@ function SuccessStoriesSection() {
     }, 650)
   }, [isTransitioning, handleTransitionEnd])
 
-  // Automatic slide rotation every 5 seconds in one continuous forward flow, paused on hover
+  // Automatic slide rotation every 5 seconds, paused on hover
   useEffect(() => {
     if (isHovered) return
     const timer = setInterval(() => {
@@ -7222,7 +8808,7 @@ function SuccessStoriesSection() {
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="flex items-end justify-between mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-950 font-heading">
               Success Stories
             </h2>
             <p className="text-gray-600 text-sm mt-2 max-w-md">
@@ -7234,14 +8820,14 @@ function SuccessStoriesSection() {
             <button
               onClick={prev}
               aria-label="Previous Story"
-              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-sm"
+              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-xs cursor-pointer"
             >
               <Icon name="chevron-left" className="w-4 h-4" />
             </button>
             <button
               onClick={next}
               aria-label="Next Story"
-              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-sm"
+              className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors shadow-xs cursor-pointer"
             >
               <Icon name="chevron-right" className="w-4 h-4" />
             </button>
@@ -7270,7 +8856,25 @@ function SuccessStoriesSection() {
                 key={`${story.id}-${idx}`}
                 className="w-full md:w-1/2 lg:w-1/3 flex-shrink-0 px-3"
               >
-                <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#DE0826] hover:shadow-lg transition-all duration-200 h-full flex flex-col justify-between group">
+                <div
+                  onClick={() => {
+                    if (onOpenCaseStudy) {
+                      onOpenCaseStudy(story.slug)
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open full case study for ${story.client}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      if (onOpenCaseStudy) {
+                        onOpenCaseStudy(story.slug)
+                      }
+                    }
+                  }}
+                  className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#DE0826] hover:shadow-xl transition-all duration-200 h-full flex flex-col justify-between group cursor-pointer select-none"
+                >
                   <div>
                     <div className="relative">
                       <ImageBox
@@ -7293,7 +8897,7 @@ function SuccessStoriesSection() {
                         <span className="text-gray-500 font-medium">{story.category}</span>
                       </div>
 
-                      <h3 className="text-base font-bold text-gray-900 group-hover:text-[#DE0826] transition-colors leading-snug mb-3">
+                      <h3 className="text-base font-bold text-gray-900 group-hover:text-[#DE0826] transition-colors leading-snug mb-3 font-heading">
                         {story.title}
                       </h3>
 
@@ -7304,8 +8908,8 @@ function SuccessStoriesSection() {
                   </div>
 
                   <div className="px-6 pb-6 pt-2 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-gray-800 group-hover:text-[#DE0826]">
-                    <span>View Case Study</span>
-                    <Icon name="arrow-right" className="w-3.5 h-3.5 text-[#DE0826]" />
+                    <span>View Full Case Study</span>
+                    <Icon name="arrow-right" className="w-3.5 h-3.5 text-[#DE0826] group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -7314,6 +8918,573 @@ function SuccessStoriesSection() {
         </div>
       </div>
     </section>
+  )
+}
+
+// -------------------------------------------------------------
+// Full-Page Enterprise Case Study View
+// -------------------------------------------------------------
+interface CaseStudyPageProps {
+  storySlug: string
+  onBack: () => void
+  onSelectStory: (slug: string) => void
+  onNavigateToContact: () => void
+}
+
+const pipelineData: Record<string, { label: string; detail: string }[]> = {
+  'att-field-ops': [
+    { label: 'Field Video & Optical Feeds', detail: 'Real-time 60fps high-res capture from technician tablets' },
+    { label: 'Edge Computer Vision Classifier', detail: 'Sub-2s microscopic fiber splice fault detection' },
+    { label: 'Offline Vector RAG Engine', detail: '40 years of wiring schematics in on-device SQLite vector DB' },
+    { label: 'Technician Voice Copilot', detail: 'Hands-free acoustic guidance with 94% first-time fix rate' },
+  ],
+  'norstar-racing': [
+    { label: '12,000 CAN Bus Points / Sec', detail: 'High-frequency telemetry streaming per single-seater car' },
+    { label: 'Trackside Garage 5G Broker', detail: 'Dual-redundant telemetry edge with sub-50ms roundtrip' },
+    { label: 'Neural ODE Battery Simulator', detail: '10,000 simulated race scenarios executed per lap' },
+    { label: 'Pitwall Tactical HUD', detail: 'Deterministic Attack Mode & energy recovery recommendations' },
+  ],
+  'global-retail-giant': [
+    { label: 'Hyperlocal Demand Signals', detail: 'Real-time POS, foot-traffic, weather & calendar covariates' },
+    { label: 'Transformer Forecasting Mesh', detail: 'Multi-echelon dynamic safety stock recalculation' },
+    { label: 'Autonomous Supplier APIs', detail: 'Direct PO auto-dispatch to 45 regional logistics centers' },
+    { label: 'Robotic Cross-Docking AGVs', detail: 'Warehouse dock-to-stock turnaround compressed to 4 hours' },
+  ],
+  'european-telecom': [
+    { label: '18M Active Mobile Subscribers', detail: 'Carrier-grade nationwide traffic routing with zero downtime' },
+    { label: 'Kubernetes Telco CNF Core', detail: 'Containerized UPF/SMF functions with DPDK kernel bypass' },
+    { label: 'GitOps Infrastructure as Code', detail: 'Automated canary traffic migration in 50k user batches' },
+    { label: 'Automated 5G Slicing Hub', detail: 'Private network slice provisioning shrunk from 6mo to 48h' },
+  ],
+}
+
+function CaseStudyPage({
+  storySlug,
+  onBack,
+  onSelectStory,
+  onNavigateToContact,
+}: CaseStudyPageProps) {
+  const [copied, setCopied] = useState(false)
+  const story =
+    successStories.find((s) => s.slug === storySlug) ||
+    successStories.find((s) => s.slug === 'norstar-racing') ||
+    successStories[0]
+  const otherStories = successStories.filter((s) => s.id !== story.id)
+
+  const handleShare = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    }
+  }
+
+  const pipeline = pipelineData[story.slug] || pipelineData['norstar-racing']
+
+  return (
+    <div className="bg-[#FAF8F5] min-h-screen text-gray-900 selection:bg-[#DE0826] selection:text-white">
+      {/* 1. Sticky Navigation Bar */}
+      <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-3.5 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={onBack}
+              className="inline-flex items-center space-x-2 text-xs font-bold text-gray-700 hover:text-[#DE0826] bg-gray-100 hover:bg-red-50 px-3.5 py-2 rounded-lg transition-colors border border-gray-200 cursor-pointer"
+            >
+              <div className="rotate-180">
+                <Icon name="arrow-right" className="w-3.5 h-3.5 text-[#DE0826]" />
+              </div>
+              <span>Back to All Success Stories</span>
+            </button>
+          </div>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={handleShare}
+              className="hidden md:inline-flex items-center space-x-1.5 text-xs font-bold text-gray-700 hover:text-[#DE0826] bg-gray-100 hover:bg-gray-200 px-3.5 py-2 rounded-lg transition-colors border border-gray-200 cursor-pointer"
+            >
+              <Icon name="external" className="w-3.5 h-3.5 text-[#DE0826]" />
+              <span>{copied ? 'Link Copied!' : 'Share'}</span>
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="hidden md:inline-flex items-center space-x-1.5 text-xs font-bold text-gray-700 hover:text-[#DE0826] bg-gray-100 hover:bg-gray-200 px-3.5 py-2 rounded-lg transition-colors border border-gray-200 cursor-pointer"
+            >
+              <Icon name="chart" className="w-3.5 h-3.5 text-[#DE0826]" />
+              <span>PDF</span>
+            </button>
+            <button
+              onClick={onNavigateToContact}
+              className="inline-flex items-center space-x-1.5 bg-[#DE0826] hover:bg-[#b5061e] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors shadow-xs cursor-pointer border-0"
+            >
+              <span>Discuss Your Project</span>
+              <Icon name="arrow-right" className="w-3 h-3" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Hero Section: Dark Cinematic Presentation */}
+      <section className="relative bg-[#0B0F19] text-white py-16 md:py-24 border-b border-white/10 overflow-hidden">
+        {/* Geometric Background Grid Accent */}
+        <div className="absolute inset-0 opacity-15 pointer-events-none">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="cs-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#cs-grid)" />
+          </svg>
+        </div>
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#DE0826]/20 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 relative z-10">
+          {/* Headline & Subtitle */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-6 leading-tight max-w-4xl font-heading">
+            {story.title}
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl leading-relaxed mb-10 font-normal">
+            {story.subtitle}
+          </p>
+
+          {/* Metadata Ribbon */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-5 px-6 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 mb-10 max-w-4xl">
+            <div>
+              <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">
+                Industry
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-white mt-0.5 block">
+                {story.category}
+              </span>
+            </div>
+            <div>
+              <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">
+                Deployment Timeline
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-white mt-0.5 block">
+                {story.timeline}
+              </span>
+            </div>
+            <div>
+              <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">
+                Geography
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-white mt-0.5 block">
+                {story.location}
+              </span>
+            </div>
+            <div>
+              <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider block">
+                Delivery Scope
+              </span>
+              <span className="text-xs sm:text-sm font-semibold text-white mt-0.5 block truncate" title={story.scope}>
+                {story.scope}
+              </span>
+            </div>
+          </div>
+
+          {/* Cinematic Hero Image */}
+          <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-neutral-900 aspect-[16/8] sm:aspect-[21/9] max-h-[520px]">
+            <img
+              src={story.image}
+              alt={story.title}
+              className="w-full h-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F19] via-transparent to-black/30" />
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Transformation Metrics Strip */}
+      <section className="bg-white py-12 md:py-16 border-b border-gray-200">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {story.metrics.map((metric, i) => (
+              <div
+                key={i}
+                className="p-6 rounded-2xl bg-gradient-to-b from-gray-50 to-white border border-gray-200 hover:border-[#DE0826] transition-all duration-200 shadow-xs hover:shadow-md"
+              >
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#DE0826] tracking-tight font-heading">
+                  {metric.value}
+                </div>
+                <div className="text-xs font-extrabold uppercase tracking-wider text-gray-900 mt-2.5">
+                  {metric.label}
+                </div>
+                <p className="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                  {metric.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Executive Overview & Project Snapshot (Balanced 2-Column Section) */}
+      <section className="py-16 bg-[#FAF8F5] border-b border-gray-200">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            {/* Left: Executive Premise */}
+            <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-2xl border-l-4 border-[#DE0826] border-y border-r border-gray-200 shadow-sm flex flex-col justify-center">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 tracking-tight font-heading mb-4">
+                Executive Overview
+              </h2>
+              <p className="text-base sm:text-lg font-bold text-gray-950 leading-relaxed mb-4">
+                {story.subtitle}
+              </p>
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-normal">
+                {story.desc} Co-innovating closely with {story.client}, Northstar Digital designed and engineered an end-to-end resilient architecture tailored to high-scale mission-critical operations, unlocking measurable ROI, dramatic latency reduction, and sustained performance gains.
+              </p>
+            </div>
+
+            {/* Right: Project Snapshot Card */}
+            <div className="lg:col-span-5 bg-white p-8 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-gray-950 pb-3 border-b border-gray-100 font-heading mb-4">
+                  Project Snapshot
+                </h3>
+                <div className="grid grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <span className="text-gray-400 block font-medium mb-0.5">Client Organization</span>
+                    <span className="text-gray-900 font-bold text-sm">{story.client}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400 block font-medium mb-0.5">Industry Sector</span>
+                    <span className="text-gray-900 font-bold text-sm">{story.category}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400 block font-medium mb-0.5">Delivery Timeline</span>
+                    <span className="text-gray-800 font-medium text-xs sm:text-sm">{story.timeline}</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400 block font-medium mb-0.5">Deployment Region</span>
+                    <span className="text-gray-800 font-medium text-xs sm:text-sm">{story.location}</span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="text-gray-400 block font-medium mb-0.5">Engagement Scope</span>
+                    <span className="text-gray-800 font-medium text-xs sm:text-sm">{story.scope}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4 mt-4 border-t border-gray-100">
+                <span className="text-gray-500 text-xs block font-bold mb-2">
+                  Core Technologies
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {story.tags.map((t, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2.5 py-1 bg-gray-100 text-gray-700 text-[11px] font-semibold rounded-md"
+                    >
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. The Strategic Challenge (Balanced Full-Width Layout) */}
+      <section className="py-16 md:py-20 bg-white border-b border-gray-200">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="lg:col-span-5">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 tracking-tight font-heading mb-4">
+                The Strategic Challenge
+              </h2>
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6">
+                {story.challenge}
+              </p>
+              <div className="p-5 rounded-xl bg-gray-50 border border-gray-200 text-xs text-gray-600 leading-relaxed">
+                <span className="font-bold text-gray-900 block mb-1">Operational Imperative</span>
+                Legacy architectures could no longer sustain high-scale concurrency demands. A ground-up paradigm shift was required to meet mission-critical SLAs.
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 space-y-3.5">
+              {story.challengePoints.map((point, pIdx) => (
+                <div key={pIdx} className="flex items-start space-x-4 p-5 bg-red-50/50 rounded-xl border border-red-100">
+                  <span className="w-6 h-6 rounded-full bg-[#DE0826]/15 text-[#DE0826] flex items-center justify-center flex-shrink-0 text-xs font-black mt-0.5">
+                    !
+                  </span>
+                  <div>
+                    <span className="text-sm sm:text-base text-gray-900 leading-relaxed font-semibold block">
+                      Constraint 0{pIdx + 1}
+                    </span>
+                    <span className="text-xs sm:text-sm text-gray-700 leading-relaxed mt-1 block">
+                      {point}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Architectural Blueprint & 3-Column Solution Grid */}
+      <section className="py-16 md:py-24 bg-[#FAF8F5] border-b border-gray-200">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="max-w-3xl mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-950 tracking-tight font-heading mb-4">
+              Architectural Blueprint & Northstar Solution
+            </h2>
+            <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
+              {story.solution}
+            </p>
+          </div>
+
+          {/* 3 Full-Width Solution Pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {story.solutionPillars.map((pillar, pilIdx) => (
+              <div
+                key={pilIdx}
+                className="p-7 rounded-2xl bg-white border border-gray-200 hover:border-[#DE0826] hover:shadow-xl transition-all duration-200 flex flex-col justify-between shadow-xs group"
+              >
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[#DE0826] text-white flex items-center justify-center text-sm font-black font-heading mb-5 group-hover:scale-105 transition-transform">
+                    0{pilIdx + 1}
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-950 mb-3 group-hover:text-[#DE0826] transition-colors leading-snug">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                    {pillar.desc}
+                  </p>
+                </div>
+                <div className="mt-6 pt-4 border-t border-gray-100 flex items-center text-xs font-bold text-[#DE0826]">
+                  <span>Pillar Capability Verified</span>
+                  <Icon name="check" className="w-3.5 h-3.5 ml-1.5" />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* High-Tech End-to-End Pipeline Data Flow Visualizer */}
+          <div className="bg-[#0B0F19] rounded-2xl p-6 sm:p-8 text-white border border-white/10 shadow-2xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
+              <div>
+                <h3 className="text-lg font-bold text-white font-heading">
+                  End-to-End System Architecture Dataflow
+                </h3>
+                <p className="text-xs text-gray-400 mt-1">
+                  Sub-millisecond data loop deployed in production for {story.client}
+                </p>
+              </div>
+              <div className="flex items-center space-x-2 text-xs text-emerald-400 bg-emerald-950/60 px-3 py-1.5 rounded-full border border-emerald-800/60">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="font-bold">Live Production Pipeline</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {pipeline.map((step, sIdx) => (
+                <div
+                  key={sIdx}
+                  className="bg-white/5 rounded-xl p-4 border border-white/10 relative"
+                >
+                  <div className="text-[10px] font-mono text-[#DE0826] font-bold mb-1.5">
+                    STAGE 0{sIdx + 1}
+                  </div>
+                  <div className="text-sm font-bold text-white mb-1.5">
+                    {step.label}
+                  </div>
+                  <p className="text-xs text-gray-400 leading-relaxed">
+                    {step.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Phased Implementation Roadmap (Full-Width 3-Column Milestone Flow) */}
+      <section className="py-16 md:py-24 bg-white border-b border-gray-200">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="max-w-2xl mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-950 tracking-tight font-heading mb-3">
+              Phased Implementation Roadmap
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600">
+              A disciplined execution methodology de-risked rollout and accelerated delivery of measurable milestones:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+            {story.implementationRoadmap.map((item, rIdx) => (
+              <div
+                key={rIdx}
+                className="p-7 rounded-2xl bg-gradient-to-b from-gray-50 to-white border border-gray-200 relative overflow-hidden flex flex-col justify-between shadow-xs"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xs font-black text-[#DE0826] tracking-wider uppercase bg-red-50 px-3 py-1 rounded-md border border-red-100">
+                      Phase 0{rIdx + 1}
+                    </span>
+                    <span className="text-xs text-gray-400 font-mono">Milestone Complete</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-950 mb-2.5">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                    {item.detail}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Delivered Enterprise Outcomes (Full-Width 2x2 Outcome Grid) */}
+      <section className="py-16 md:py-24 bg-[#0B0F19] text-white">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="max-w-2xl mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight font-heading mb-3">
+              Delivered Enterprise Outcomes
+            </h2>
+            <p className="text-sm sm:text-base text-gray-400">
+              Validated operational impact achieved across {story.client}'s global operations:
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-14">
+            {story.keyOutcomes.map((outcome, oIdx) => (
+              <div
+                key={oIdx}
+                className="flex items-start space-x-4 p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-[#DE0826]/60 transition-colors"
+              >
+                <span className="w-6 h-6 rounded-full bg-[#DE0826] text-white flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">
+                  ✓
+                </span>
+                <span className="text-sm sm:text-base text-gray-200 leading-relaxed font-medium">
+                  {outcome}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Full-Width Executive Testimonial Quote */}
+          <div className="p-8 md:p-12 bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-900 border border-white/15 rounded-3xl relative overflow-hidden">
+            <div className="text-[#DE0826]/15 text-9xl font-serif absolute -bottom-10 right-8 select-none pointer-events-none">
+              “
+            </div>
+            <p className="text-lg sm:text-xl md:text-2xl italic font-normal text-white leading-relaxed mb-8 relative z-10 max-w-4xl">
+              {story.quote}
+            </p>
+            <div className="relative z-10 flex items-center space-x-4 border-t border-white/10 pt-6">
+              <div className="w-12 h-12 rounded-full bg-[#DE0826] text-white flex items-center justify-center font-bold text-base shadow-lg">
+                {story.client.charAt(0)}
+              </div>
+              <div>
+                <div className="text-base font-bold text-white">{story.quoteAuthor}</div>
+                <div className="text-xs text-gray-400 mt-0.5">{story.quoteRole || story.client}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. Full-Width Action & Consultation Banner */}
+      <section className="py-16 bg-gradient-to-r from-neutral-900 via-[#0B0F19] to-neutral-900 text-white border-t border-white/10">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white font-heading mb-4">
+            Accelerate Your Enterprise Transformation
+          </h2>
+          <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto mb-8">
+            Connect with our {story.category} practice leadership to evaluate how this architecture can be tailored to your enterprise roadmap.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <button
+              onClick={onNavigateToContact}
+              className="px-8 py-3.5 bg-[#DE0826] hover:bg-[#b5061e] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-lg flex items-center space-x-2 cursor-pointer border-0"
+            >
+              <span>Schedule Solution Briefing</span>
+              <Icon name="arrow-right" className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all border border-white/20 flex items-center space-x-2 cursor-pointer"
+            >
+              <Icon name="chart" className="w-3.5 h-3.5" />
+              <span>Download PDF Summary</span>
+            </button>
+            <button
+              onClick={handleShare}
+              className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all border border-white/20 flex items-center space-x-2 cursor-pointer"
+            >
+              <Icon name="external" className="w-3.5 h-3.5" />
+              <span>{copied ? 'Link Copied!' : 'Share Case Study'}</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. Explore More Success Stories Grid */}
+      <section className="py-20 bg-white border-t border-gray-200">
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+          <div className="flex items-end justify-between mb-10">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 font-heading">
+              Explore More Success Stories
+            </h2>
+            <button
+              onClick={onBack}
+              className="hidden sm:inline-flex items-center space-x-1.5 text-xs font-bold text-[#DE0826] hover:underline cursor-pointer bg-transparent border-0"
+            >
+              <span>View All Stories</span>
+              <Icon name="arrow-right" className="w-3 h-3" />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {otherStories.map((other) => (
+              <div
+                key={other.slug}
+                onClick={() => {
+                  onSelectStory(other.slug)
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    onSelectStory(other.slug)
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }
+                }}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:border-[#DE0826] hover:shadow-xl transition-all duration-200 flex flex-col justify-between group cursor-pointer"
+              >
+                <div>
+                  <div className="relative aspect-[16/10] overflow-hidden bg-neutral-900">
+                    <img
+                      src={other.image}
+                      alt={other.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-base font-bold text-gray-900 group-hover:text-[#DE0826] transition-colors leading-snug mb-2 line-clamp-2 font-heading">
+                      {other.title}
+                    </h3>
+                    <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                      {other.desc}
+                    </p>
+                  </div>
+                </div>
+                <div className="px-6 pb-6 pt-2 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-gray-800 group-hover:text-[#DE0826]">
+                  <span>Read Full Case Study</span>
+                  <Icon name="arrow-right" className="w-3.5 h-3.5 text-[#DE0826] group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
   )
 }
 
@@ -7502,11 +9673,32 @@ function Footer({ onRouteChange }: FooterProps) {
 export default function App() {
   const parseHash = () => {
     const hash = window.location.hash
-    if (hash.includes('contact')) return { route: 'contact' as PageRoute, subpage: 'overview' as AboutSubpage }
-    if (hash.includes('careers')) return { route: 'careers' as PageRoute, subpage: 'overview' as AboutSubpage }
-    if (hash.includes('insights')) return { route: 'insights' as PageRoute, subpage: 'overview' as AboutSubpage }
-    if (hash.includes('industries')) return { route: 'industries' as PageRoute, subpage: 'overview' as AboutSubpage }
-    if (hash.includes('capabilities')) return { route: 'capabilities' as PageRoute, subpage: 'overview' as AboutSubpage }
+    if (hash.includes('case-study')) {
+      const parts = hash.split('/')
+      const slug = parts[2]?.replace(/[?#].*$/, '') || 'norstar-racing'
+      return { route: 'case-study' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: slug }
+    }
+    if (hash.includes('contact')) return { route: 'contact' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing' }
+    if (hash.includes('careers')) {
+      const parts = hash.split('/')
+      const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
+      return { route: 'careers' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetCareer: item }
+    }
+    if (hash.includes('insights')) {
+      const parts = hash.split('/')
+      const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
+      return { route: 'insights' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetInsight: item }
+    }
+    if (hash.includes('industries')) {
+      const parts = hash.split('/')
+      const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
+      return { route: 'industries' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetIndustry: item }
+    }
+    if (hash.includes('capabilities')) {
+      const parts = hash.split('/')
+      const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
+      return { route: 'capabilities' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetCapability: item }
+    }
     if (hash.includes('about')) {
       const parts = hash.split('/')
       const sub = parts[2]?.replace(/[?#].*$/, '') as AboutSubpage
@@ -7525,21 +9717,33 @@ export default function App() {
         'investors',
       ]
       if (validSubpages.includes(sub)) {
-        return { route: 'about' as PageRoute, subpage: sub }
+        return { route: 'about' as PageRoute, subpage: sub, caseStudySlug: 'norstar-racing' }
       }
-      return { route: 'about' as PageRoute, subpage: 'overview' as AboutSubpage }
+      return { route: 'about' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing' }
     }
-    return { route: 'home' as PageRoute, subpage: 'overview' as AboutSubpage }
+    return { route: 'home' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing' }
   }
 
   const [route, setRoute] = useState<PageRoute>(() => parseHash().route)
   const [aboutSubpage, setAboutSubpage] = useState<AboutSubpage>(() => parseHash().subpage)
+  const [selectedCaseStudySlug, setSelectedCaseStudySlug] = useState<string>(() => parseHash().caseStudySlug)
+  const [targetCapability, setTargetCapability] = useState<string | null>(() => parseHash().targetCapability || null)
+  const [targetIndustry, setTargetIndustry] = useState<string | null>(() => parseHash().targetIndustry || null)
+  const [targetInsight, setTargetInsight] = useState<string | null>(() => parseHash().targetInsight || null)
+  const [targetCareer, setTargetCareer] = useState<string | null>(() => parseHash().targetCareer || null)
 
   useEffect(() => {
     const handleHash = () => {
-      const { route: newRoute, subpage: newSubpage } = parseHash()
+      const { route: newRoute, subpage: newSubpage, caseStudySlug, targetCapability: tc, targetIndustry: ti, targetInsight: tin, targetCareer: tcar } = parseHash()
       setRoute(newRoute)
       setAboutSubpage(newSubpage)
+      if (caseStudySlug) {
+        setSelectedCaseStudySlug(caseStudySlug)
+      }
+      if (tc !== undefined) setTargetCapability(tc || null)
+      if (ti !== undefined) setTargetIndustry(ti || null)
+      if (tin !== undefined) setTargetInsight(tin || null)
+      if (tcar !== undefined) setTargetCareer(tcar || null)
       window.scrollTo(0, 0)
     }
 
@@ -7547,22 +9751,55 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHash)
   }, [])
 
-  const handleRouteChange = (newRoute: PageRoute, subpage?: AboutSubpage) => {
+  const handleOpenCaseStudy = (slug: string) => {
+    setSelectedCaseStudySlug(slug)
+    setRoute('case-study')
+    window.location.hash = `#/case-study/${slug}`
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleRouteChange = (newRoute: PageRoute, subpage?: AboutSubpage, targetItem?: string) => {
     setRoute(newRoute)
-    if (newRoute === 'about') {
+    if (newRoute === 'case-study') {
+      window.location.hash = `#/case-study/${selectedCaseStudySlug || 'norstar-racing'}`
+    } else if (newRoute === 'about') {
       const targetSub = subpage || 'overview'
       setAboutSubpage(targetSub)
       window.location.hash = `#/about/${targetSub}`
     } else if (newRoute === 'contact') {
       window.location.hash = '#/contact'
     } else if (newRoute === 'careers') {
-      window.location.hash = '#/careers'
+      setTargetCareer(null)
+      if (targetItem) {
+        setTimeout(() => setTargetCareer(targetItem), 10)
+        window.location.hash = `#/careers/${encodeURIComponent(targetItem)}`
+      } else {
+        window.location.hash = '#/careers'
+      }
     } else if (newRoute === 'insights') {
-      window.location.hash = '#/insights'
+      setTargetInsight(null)
+      if (targetItem) {
+        setTimeout(() => setTargetInsight(targetItem), 10)
+        window.location.hash = `#/insights/${encodeURIComponent(targetItem)}`
+      } else {
+        window.location.hash = '#/insights'
+      }
     } else if (newRoute === 'industries') {
-      window.location.hash = '#/industries'
+      setTargetIndustry(null)
+      if (targetItem) {
+        setTimeout(() => setTargetIndustry(targetItem), 10)
+        window.location.hash = `#/industries/${encodeURIComponent(targetItem)}`
+      } else {
+        window.location.hash = '#/industries'
+      }
     } else if (newRoute === 'capabilities') {
-      window.location.hash = '#/capabilities'
+      setTargetCapability(null)
+      if (targetItem) {
+        setTimeout(() => setTargetCapability(targetItem), 10)
+        window.location.hash = `#/capabilities/${encodeURIComponent(targetItem)}`
+      } else {
+        window.location.hash = '#/capabilities'
+      }
     } else {
       window.location.hash = '#/home'
     }
@@ -7578,18 +9815,44 @@ export default function App() {
         onRouteChange={handleRouteChange}
       />
 
-      {/* Main Content Area: Home, About Us, or Capabilities */}
+      {/* Main Content Area: Home, About Us, Capabilities, or Case Study */}
       <main className="flex-grow">
-        {route === 'contact' ? (
+        {route === 'case-study' ? (
+          <CaseStudyPage
+            storySlug={selectedCaseStudySlug}
+            onBack={() => {
+              handleRouteChange('home')
+              setTimeout(() => {
+                const el = document.getElementById('success-stories')
+                if (el) el.scrollIntoView({ behavior: 'smooth' })
+              }, 100)
+            }}
+            onSelectStory={handleOpenCaseStudy}
+            onNavigateToContact={() => handleRouteChange('contact')}
+          />
+        ) : route === 'contact' ? (
           <ContactPage />
         ) : route === 'careers' ? (
-          <CareersPage />
+          <CareersPage
+            targetCareer={targetCareer}
+            onClearTarget={() => setTargetCareer(null)}
+          />
         ) : route === 'insights' ? (
-          <InsightsPage />
+          <InsightsPage
+            targetInsight={targetInsight}
+            onClearTarget={() => setTargetInsight(null)}
+          />
         ) : route === 'industries' ? (
-          <IndustriesPage onNavigateToCapabilities={() => handleRouteChange('capabilities')} />
+          <IndustriesPage
+            onNavigateToCapabilities={() => handleRouteChange('capabilities')}
+            targetIndustry={targetIndustry}
+            onClearTarget={() => setTargetIndustry(null)}
+          />
         ) : route === 'capabilities' ? (
-          <CapabilitiesPage />
+          <CapabilitiesPage
+            targetCapability={targetCapability}
+            onClearTarget={() => setTargetCapability(null)}
+          />
         ) : route === 'about' ? (
           <AboutUsPage
             activeSubpage={aboutSubpage}
@@ -7625,7 +9888,7 @@ export default function App() {
             <IndustriesSection onExploreMore={() => handleRouteChange('industries')} />
 
             {/* 11. Success Stories (Sliding Carousel) */}
-            <SuccessStoriesSection />
+            <SuccessStoriesSection onOpenCaseStudy={handleOpenCaseStudy} />
 
             {/* 12. Limitless Together (Culture & Careers) */}
             <LimitlessTogetherSection />
