@@ -185,7 +185,7 @@ export const aiFaqs = [
 ]
 
 // -------------------------------------------------------------
-// Autonomous Agents Showcase Component (Scroll-Driven Animation Track)
+// Autonomous Agents Showcase Component (Strict Right-to-Left Continuous Scrolling Track)
 // -------------------------------------------------------------
 export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseStudy?: (slug: string) => void }) {
   const carouselRef = useRef<HTMLDivElement>(null)
@@ -195,74 +195,110 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
   const [startX, setStartX] = useState(0)
   const [scrollLeftState, setScrollLeftState] = useState(0)
 
-  // Scroll to a specific agent with smooth animation
-  const scrollToAgent = useCallback((idx: number) => {
+  const totalCount = autonomousAgentsData.length
+  // 4 identical sets for seamless infinite forward looping strictly from right to left
+  const loopCards = [
+    ...autonomousAgentsData,
+    ...autonomousAgentsData,
+    ...autonomousAgentsData,
+    ...autonomousAgentsData,
+  ]
+
+  // Initial mount: position at the start of middle buffer
+  useEffect(() => {
     if (!carouselRef.current) return
     const container = carouselRef.current
-    const cards = container.children
-    if (cards[idx]) {
-      const card = cards[idx] as HTMLElement
-      container.scrollTo({
-        left: card.offsetLeft - container.offsetLeft,
-        behavior: 'smooth',
-      })
-    } else {
-      container.scrollTo({
-        left: idx * container.offsetWidth,
-        behavior: 'smooth',
-      })
+    const cardWidth = container.offsetWidth
+    if (cardWidth > 0) {
+      container.scrollLeft = totalCount * cardWidth
     }
-    setActiveIdx(idx)
+  }, [totalCount])
+
+  // Scroll forward to a specific agent (always moving forward right-to-left)
+  const scrollToAgent = useCallback((targetRelIdx: number) => {
+    if (!carouselRef.current) return
+    const container = carouselRef.current
+    const cardWidth = container.offsetWidth
+    if (cardWidth <= 0) return
+
+    const currentSlideIdx = Math.round(container.scrollLeft / cardWidth)
+    const currentRelIdx = ((currentSlideIdx % totalCount) + totalCount) % totalCount
+
+    let forwardDelta = targetRelIdx - currentRelIdx
+    if (forwardDelta <= 0) {
+      forwardDelta += totalCount
+    }
+    const targetSlideIdx = currentSlideIdx + forwardDelta
+    container.scrollTo({
+      left: targetSlideIdx * cardWidth,
+      behavior: 'smooth',
+    })
+    setActiveIdx(targetRelIdx)
+  }, [totalCount])
+
+  // Right-to-Left smooth scroll animation (strictly forward: content moves left ←, next card enters from right)
+  const scrollRightToLeft = useCallback(() => {
+    if (!carouselRef.current) return
+    const container = carouselRef.current
+    const cardWidth = container.offsetWidth
+    if (cardWidth <= 0) return
+
+    container.scrollBy({
+      left: cardWidth,
+      behavior: 'smooth',
+    })
   }, [])
 
-  // Sync active index when user scrolls or swipes
+  // Optional step backward if user explicitly clicks previous
+  const scrollLeftStep = useCallback(() => {
+    if (!carouselRef.current) return
+    const container = carouselRef.current
+    const cardWidth = container.offsetWidth
+    if (cardWidth <= 0) return
+
+    container.scrollBy({
+      left: -cardWidth,
+      behavior: 'smooth',
+    })
+  }, [])
+
+  // Auto-scroll animation running strictly from RIGHT TO LEFT (never comes back)
+  useEffect(() => {
+    if (isHovered || isDragging) return
+    const timer = setInterval(() => {
+      scrollRightToLeft()
+    }, 5000)
+
+    return () => clearInterval(timer)
+  }, [isHovered, isDragging, scrollRightToLeft])
+
+  // Sync active index and handle seamless infinite forward wrapping without any reverse jump
   const handleScroll = useCallback(() => {
     if (!carouselRef.current || isDragging) return
     const container = carouselRef.current
     const scrollLeft = container.scrollLeft
     const cardWidth = container.offsetWidth
-    const newIdx = Math.round(scrollLeft / cardWidth)
-    if (newIdx >= 0 && newIdx < autonomousAgentsData.length && newIdx !== activeIdx) {
-      setActiveIdx(newIdx)
+    if (cardWidth <= 0) return
+
+    const slideIdx = Math.round(scrollLeft / cardWidth)
+    const normalizedIdx = ((slideIdx % totalCount) + totalCount) % totalCount
+
+    if (normalizedIdx !== activeIdx) {
+      setActiveIdx(normalizedIdx)
     }
-  }, [activeIdx, isDragging])
 
-  // Next / Previous navigation
-  const handlePrev = () => {
-    const prevIdx = (activeIdx - 1 + autonomousAgentsData.length) % autonomousAgentsData.length
-    scrollToAgent(prevIdx)
-  }
+    // Seamless forward wrap:
+    // When scrollLeft crosses the 2nd buffer set, seamlessly reset backward by 1 set width
+    // Since the content is identical, the forward right-to-left motion continues smoothly forever without coming back!
+    const wrapThreshold = totalCount * 2 * cardWidth
+    if (scrollLeft >= wrapThreshold) {
+      container.scrollLeft = scrollLeft - totalCount * cardWidth
+    } else if (scrollLeft < cardWidth * 0.5) {
+      container.scrollLeft = scrollLeft + totalCount * cardWidth
+    }
+  }, [activeIdx, isDragging, totalCount])
 
-  const handleNext = () => {
-    const nextIdx = (activeIdx + 1) % autonomousAgentsData.length
-    scrollToAgent(nextIdx)
-  }
-
-  // Smooth Auto-Scrolling Animation (pauses on hover or drag)
-  useEffect(() => {
-    if (isHovered || isDragging) return
-    const timer = setInterval(() => {
-      setActiveIdx((curr) => {
-        const next = (curr + 1) % autonomousAgentsData.length
-        if (carouselRef.current) {
-          const container = carouselRef.current
-          const cards = container.children
-          if (cards[next]) {
-            const card = cards[next] as HTMLElement
-            container.scrollTo({
-              left: card.offsetLeft - container.offsetLeft,
-              behavior: 'smooth',
-            })
-          }
-        }
-        return next
-      })
-    }, 6000)
-
-    return () => clearInterval(timer)
-  }, [isHovered, isDragging])
-
-  // Mouse Drag to Scroll handlers
+  // Mouse Drag handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!carouselRef.current) return
     setIsDragging(true)
@@ -310,12 +346,12 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
             <div className="text-xs font-mono text-gray-400 bg-white/5 border border-white/10 px-3.5 py-2 rounded-lg flex items-center space-x-1.5">
               <span className="text-[#DE0826] font-bold">0{activeIdx + 1}</span>
               <span>/</span>
-              <span>0{autonomousAgentsData.length}</span>
+              <span>0{totalCount}</span>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 type="button"
-                onClick={handlePrev}
+                onClick={scrollLeftStep}
                 aria-label="Previous Agent"
                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 hover:bg-[#DE0826] hover:border-[#DE0826] text-white flex items-center justify-center transition-all duration-200 cursor-pointer"
               >
@@ -323,8 +359,8 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
               </button>
               <button
                 type="button"
-                onClick={handleNext}
-                aria-label="Next Agent"
+                onClick={scrollRightToLeft}
+                aria-label="Next Agent (Right-to-Left)"
                 className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 hover:bg-[#DE0826] hover:border-[#DE0826] text-white flex items-center justify-center transition-all duration-200 cursor-pointer"
               >
                 →
@@ -333,7 +369,7 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
           </div>
         </div>
 
-        {/* Horizontal Scrolling Animation Track */}
+        {/* Horizontal Scrolling Animation Track (Strictly Right to Left, Never Comes Back) */}
         <div
           ref={carouselRef}
           onScroll={handleScroll}
@@ -350,11 +386,12 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
           }`}
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {autonomousAgentsData.map((agent, idx) => {
-            const isActive = activeIdx === idx
+          {loopCards.map((agent, loopIdx) => {
+            const relIdx = loopIdx % totalCount
+            const isActive = activeIdx === relIdx
             return (
               <div
-                key={agent.slug}
+                key={`${agent.slug}-${loopIdx}`}
                 className="w-full shrink-0 snap-center min-w-full"
               >
                 <div
@@ -434,7 +471,7 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
                       </div>
                     </div>
 
-                    {/* Right Media */}
+                    {/* Right Media (Clean without badges or overlays) */}
                     <div className="lg:col-span-6">
                       <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-white/15 shadow-2xl group">
                         <img
@@ -455,8 +492,8 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
         {/* Bottom Scrolling Navigation Indicators */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/5 text-xs text-gray-400">
           <div className="flex items-center space-x-2">
-            <span className="text-[#DE0826]">↔</span>
-            <span>Scroll horizontally, swipe, or use arrows to explore all agents</span>
+            <span className="text-[#DE0826]">→</span>
+            <span>Scrolling strictly right to left · Continuous loop</span>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -478,6 +515,7 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
   )
 }
 
+// -------------------------------------------------------------
 // AI Technology Stack Matrix Component
 // -------------------------------------------------------------
 export function AITechStackSection() {
