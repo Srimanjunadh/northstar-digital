@@ -333,37 +333,6 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
           </div>
         </div>
 
-        {/* Scrollable / Interactive Option Pills with Progress Animation */}
-        <div className="flex overflow-x-auto gap-3 pb-4 mb-8 sm:mb-10 no-scrollbar">
-          {autonomousAgentsData.map((agent, idx) => {
-            const isSelected = activeIdx === idx
-            return (
-              <button
-                key={agent.slug}
-                onClick={() => scrollToAgent(idx)}
-                className={`relative flex items-center space-x-3 px-5 py-3 rounded-lg border text-left transition-all duration-300 cursor-pointer shrink-0 overflow-hidden ${
-                  isSelected
-                    ? 'bg-[#DE0826] border-[#DE0826] text-white shadow-lg shadow-red-900/40'
-                    : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10 hover:text-white'
-                }`}
-              >
-                <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-white animate-pulse' : 'bg-gray-500'}`} />
-                <div>
-                  <div className="text-sm font-bold leading-tight">{agent.name}</div>
-                  <div className={`text-[11px] ${isSelected ? 'text-white/80' : 'text-gray-400'}`}>
-                    {agent.badge}
-                  </div>
-                </div>
-                {isSelected && !isHovered && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/30 overflow-hidden">
-                    <div className="h-full bg-white animate-pulse" style={{ width: '100%' }} />
-                  </div>
-                )}
-              </button>
-            )
-          })}
-        </div>
-
         {/* Horizontal Scrolling Animation Track */}
         <div
           ref={carouselRef}
@@ -399,12 +368,10 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
                     {/* Left Content */}
                     <div className="lg:col-span-6 flex flex-col justify-between">
                       <div>
-                        <div className="flex items-center space-x-3 mb-2">
+                        <div className="mb-2">
                           <span className="text-xs font-bold text-[#DE0826] uppercase tracking-wider">
                             {agent.badge}
                           </span>
-                          <span className="text-white/20 text-xs">•</span>
-                          <span className="text-xs font-mono text-gray-400">Agent 0{idx + 1}</span>
                         </div>
                         <h3 className="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-3 font-heading">
                           {agent.tagline}
@@ -476,15 +443,6 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-                        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                          <div className="bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded border border-white/15 text-xs font-semibold text-white">
-                            {agent.name} Live Sandbox
-                          </div>
-                          <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1.5 bg-black/80 px-2.5 py-1 rounded border border-white/10">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                            Agent Status: Active
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </div>
