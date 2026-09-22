@@ -4,7 +4,6 @@ import {
   AutonomousAgentsSection,
   AITechStackSection,
   AIDeliveryProcessSection,
-  AIFAQSection,
 } from './AIServiceComponents'
 
 // Configuration for image placeholder mode
@@ -5323,9 +5322,10 @@ interface CapabilitiesPageProps {
   targetCapability?: string | null
   onClearTarget?: () => void
   onOpenCaseStudy?: (slug: string) => void
+  onRouteChange?: (route: PageRoute) => void
 }
 
-function CapabilitiesPage({ targetCapability, onClearTarget, onOpenCaseStudy }: CapabilitiesPageProps) {
+function CapabilitiesPage({ targetCapability, onClearTarget, onOpenCaseStudy, onRouteChange }: CapabilitiesPageProps) {
   const [activeModal, setActiveModal] = useState<CapabilityItem | null>(null)
 
   useEffect(() => {
@@ -5472,8 +5472,8 @@ function CapabilitiesPage({ targetCapability, onClearTarget, onOpenCaseStudy }: 
       {/* Governed AI Delivery Process (6-Stage Lifecycle) */}
       <AIDeliveryProcessSection />
 
-      {/* AI Frequently Asked Questions */}
-      <AIFAQSection />
+      {/* Limitless Together */}
+      <LimitlessTogetherSection onRouteChange={onRouteChange} />
 
       {/* Interactive Capability Slide-Over Modal */}
       {activeModal && (
@@ -9316,7 +9316,11 @@ function CaseStudyPage({
 // -------------------------------------------------------------
 // 12. "Limitless Together"
 // -------------------------------------------------------------
-function LimitlessTogetherSection() {
+interface LimitlessTogetherSectionProps {
+  onRouteChange?: (route: PageRoute) => void
+}
+
+function LimitlessTogetherSection({ onRouteChange }: LimitlessTogetherSectionProps = {}) {
   return (
     <section id="careers" className="py-20 md:py-24 bg-[#0B0F19] text-white">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
@@ -9324,7 +9328,7 @@ function LimitlessTogetherSection() {
           <div className="lg:col-span-6">
             <div className="bg-neutral-900 rounded-2xl p-4 border border-white/10 shadow-2xl">
               <ImageBox
-                label="Limitless Together • Collaborative Culture"
+                label="Limitless Together • Applied AI Culture"
                 aspectRatio="aspect-[16/10]"
                 dark={true}
                 imageSrc="/images/limitless_team.jpg"
@@ -9338,20 +9342,31 @@ function LimitlessTogetherSection() {
             </h2>
 
             <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
-              At Norstar, we believe that when human ingenuity connects with intelligent technology, possibilities become limitless.
+              At Northstar AI, we believe that when human ingenuity connects with autonomous intelligence and applied AI systems, possibilities become limitless.
             </p>
 
             <p className="text-gray-400 text-sm leading-relaxed mb-8">
-              Join a diverse global community of 145,000+ innovators, engineers, strategists, and creators shaping the future across 90+ nations. Discover your next milestone with us.
+              Join a high-velocity collective of applied AI researchers, prompt engineers, MLOps architects, and autonomous system creators pioneering cognitive enterprise automation. Discover your next career milestone with Northstar.
             </p>
 
-            <a
-              href="#careers"
-              className="inline-flex items-center space-x-2 bg-white text-gray-950 hover:bg-[#DE0826] hover:text-white text-xs font-bold px-7 py-3.5 rounded transition-all shadow-lg"
-            >
-              <span>Explore Careers</span>
-              <Icon name="arrow-right" className="w-3.5 h-3.5" />
-            </a>
+            {onRouteChange ? (
+              <button
+                type="button"
+                onClick={() => onRouteChange('careers')}
+                className="inline-flex items-center space-x-2 bg-white text-gray-950 hover:bg-[#DE0826] hover:text-white text-xs font-bold px-7 py-3.5 rounded transition-all shadow-lg cursor-pointer"
+              >
+                <span>Explore Careers</span>
+                <Icon name="arrow-right" className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <a
+                href="#careers"
+                className="inline-flex items-center space-x-2 bg-white text-gray-950 hover:bg-[#DE0826] hover:text-white text-xs font-bold px-7 py-3.5 rounded transition-all shadow-lg"
+              >
+                <span>Explore Careers</span>
+                <Icon name="arrow-right" className="w-3.5 h-3.5" />
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -9678,6 +9693,7 @@ export default function App() {
             targetCapability={targetCapability}
             onClearTarget={() => setTargetCapability(null)}
             onOpenCaseStudy={handleOpenCaseStudy}
+            onRouteChange={handleRouteChange}
           />
         ) : route === 'about' ? (
           <AboutUsPage
@@ -9710,14 +9726,11 @@ export default function App() {
             {/* 9. Success Stories (Sliding Carousel) */}
             <SuccessStoriesSection onOpenCaseStudy={handleOpenCaseStudy} />
 
-            {/* 10. AI Frequently Asked Questions */}
-            <AIFAQSection />
+            {/* 10. Limitless Together (Culture & Careers) */}
+            <LimitlessTogetherSection onRouteChange={handleRouteChange} />
 
             {/* 11. Expertise Across Industries (Sliding Carousel) */}
             <IndustriesSection onExploreMore={() => handleRouteChange('industries')} />
-
-            {/* 12. Limitless Together (Culture & Careers) */}
-            <LimitlessTogetherSection />
           </>
         )}
 
