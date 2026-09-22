@@ -1340,14 +1340,14 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
               <div className="max-w-[1440px] mx-auto px-8 sm:px-12 py-7">
                 <div className="grid grid-cols-12 gap-8 lg:gap-10 items-start">
                   {/* Left Column: Heading */}
-                  <div className="col-span-12 lg:col-span-2">
+                  <div className="col-span-12 lg:col-span-3">
                     <h3 className="text-3xl font-extrabold text-gray-950 tracking-tight">
                       Careers
                     </h3>
                   </div>
 
-                  {/* Middle Column: Links List */}
-                  <div className="col-span-12 lg:col-span-5">
+                  {/* Links List */}
+                  <div className="col-span-12 lg:col-span-9">
                     <ul className="space-y-3.5 text-[14px] font-bold text-gray-950">
                       {['The Northstar Way', 'Diversity & Inclusion', 'Join Us'].map((item) => (
                         <li key={item}>
@@ -1360,59 +1360,6 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                         </li>
                       ))}
                     </ul>
-                  </div>
-
-                  {/* Right Column: 2 Featured Cards Side-by-Side (Decreased Size) */}
-                  <div className="col-span-12 lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Card 1: Rubicon Case Study */}
-                    <div
-                      onClick={() => handleNavClick('careers')}
-                      className="relative h-[130px] overflow-hidden group cursor-pointer bg-black"
-                    >
-                      <img
-                        src="/images/story_racing.jpg"
-                        alt="Rubicon 2.0"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-3.5 flex flex-col justify-between">
-                        <span className="text-[10px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start uppercase tracking-wider">
-                          Featured Case Study
-                        </span>
-                        <div>
-                          <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
-                            Outpacing Change with Rubicon 2.0
-                          </h5>
-                          <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
-                            READ MORE
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card 2: Stockmann Case Study */}
-                    <div
-                      onClick={() => handleNavClick('careers')}
-                      className="relative h-[130px] overflow-hidden group cursor-pointer bg-black"
-                    >
-                      <img
-                        src="/images/case_ribbon.jpg"
-                        alt="Stockmann Case Study"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-3.5 flex flex-col justify-between">
-                        <span className="text-[10px] font-semibold text-white/90 border-b border-white/60 pb-0.5 inline-block self-start uppercase tracking-wider">
-                          Featured Case Study
-                        </span>
-                        <div>
-                          <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
-                            Stockmann Cuts Supplier Onboarding from Weeks to Hours
-                          </h5>
-                          <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
-                            READ MORE
-                          </span>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
