@@ -548,16 +548,16 @@ export function AITechStackSection() {
 
         {/* Upper Line: Moves Right to Left */}
         <div className="overflow-hidden w-full">
-          <div className="animate-marquee-left flex items-center gap-10 sm:gap-14">
+          <div className="animate-marquee-left flex items-center gap-4 sm:gap-6">
             {upperItems.map((item, idx) => (
               <div
                 key={`${item.name}-${idx}`}
-                className="flex flex-col items-center justify-center min-w-[90px] sm:min-w-[110px] group cursor-pointer transition-transform duration-300 hover:-translate-y-1"
+                className="flex flex-col items-center justify-center w-20 sm:w-24 shrink-0 group cursor-pointer transition-transform duration-300 hover:-translate-y-1.5"
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110">
                   {item.icon}
                 </div>
-                <span className="text-xs sm:text-[13px] font-medium text-gray-700 group-hover:text-black tracking-tight whitespace-nowrap">
+                <span className="text-[11px] sm:text-xs font-semibold text-gray-700 group-hover:text-black tracking-tight whitespace-nowrap text-center">
                   {item.name}
                 </span>
               </div>
@@ -567,16 +567,16 @@ export function AITechStackSection() {
 
         {/* Lower Line: Moves Left to Right */}
         <div className="overflow-hidden w-full">
-          <div className="animate-marquee-right flex items-center gap-10 sm:gap-14">
+          <div className="animate-marquee-right flex items-center gap-4 sm:gap-6">
             {lowerItems.map((item, idx) => (
               <div
                 key={`${item.name}-${idx}`}
-                className="flex flex-col items-center justify-center min-w-[90px] sm:min-w-[110px] group cursor-pointer transition-transform duration-300 hover:-translate-y-1"
+                className="flex flex-col items-center justify-center w-20 sm:w-24 shrink-0 group cursor-pointer transition-transform duration-300 hover:-translate-y-1.5"
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110">
                   {item.icon}
                 </div>
-                <span className="text-xs sm:text-[13px] font-medium text-gray-700 group-hover:text-black tracking-tight whitespace-nowrap">
+                <span className="text-[11px] sm:text-xs font-semibold text-gray-700 group-hover:text-black tracking-tight whitespace-nowrap text-center">
                   {item.name}
                 </span>
               </div>
