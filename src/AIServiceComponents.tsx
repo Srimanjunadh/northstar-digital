@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 
 export interface AgentProduct {
   slug: string
@@ -185,11 +185,105 @@ export const aiFaqs = [
 ]
 
 // -------------------------------------------------------------
-// Autonomous Agents Showcase Component
+// Autonomous Agents Showcase Component (Scroll-Driven Animation Track)
 // -------------------------------------------------------------
 export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseStudy?: (slug: string) => void }) {
-  const [activeTab, setActiveTab] = useState(0)
-  const activeAgent = autonomousAgentsData[activeTab]
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const [activeIdx, setActiveIdx] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeftState, setScrollLeftState] = useState(0)
+
+  // Scroll to a specific agent with smooth animation
+  const scrollToAgent = useCallback((idx: number) => {
+    if (!carouselRef.current) return
+    const container = carouselRef.current
+    const cards = container.children
+    if (cards[idx]) {
+      const card = cards[idx] as HTMLElement
+      container.scrollTo({
+        left: card.offsetLeft - container.offsetLeft,
+        behavior: 'smooth',
+      })
+    } else {
+      container.scrollTo({
+        left: idx * container.offsetWidth,
+        behavior: 'smooth',
+      })
+    }
+    setActiveIdx(idx)
+  }, [])
+
+  // Sync active index when user scrolls or swipes
+  const handleScroll = useCallback(() => {
+    if (!carouselRef.current || isDragging) return
+    const container = carouselRef.current
+    const scrollLeft = container.scrollLeft
+    const cardWidth = container.offsetWidth
+    const newIdx = Math.round(scrollLeft / cardWidth)
+    if (newIdx >= 0 && newIdx < autonomousAgentsData.length && newIdx !== activeIdx) {
+      setActiveIdx(newIdx)
+    }
+  }, [activeIdx, isDragging])
+
+  // Next / Previous navigation
+  const handlePrev = () => {
+    const prevIdx = (activeIdx - 1 + autonomousAgentsData.length) % autonomousAgentsData.length
+    scrollToAgent(prevIdx)
+  }
+
+  const handleNext = () => {
+    const nextIdx = (activeIdx + 1) % autonomousAgentsData.length
+    scrollToAgent(nextIdx)
+  }
+
+  // Smooth Auto-Scrolling Animation (pauses on hover or drag)
+  useEffect(() => {
+    if (isHovered || isDragging) return
+    const timer = setInterval(() => {
+      setActiveIdx((curr) => {
+        const next = (curr + 1) % autonomousAgentsData.length
+        if (carouselRef.current) {
+          const container = carouselRef.current
+          const cards = container.children
+          if (cards[next]) {
+            const card = cards[next] as HTMLElement
+            container.scrollTo({
+              left: card.offsetLeft - container.offsetLeft,
+              behavior: 'smooth',
+            })
+          }
+        }
+        return next
+      })
+    }, 6000)
+
+    return () => clearInterval(timer)
+  }, [isHovered, isDragging])
+
+  // Mouse Drag to Scroll handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!carouselRef.current) return
+    setIsDragging(true)
+    setStartX(e.pageX - carouselRef.current.offsetLeft)
+    setScrollLeftState(carouselRef.current.scrollLeft)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !carouselRef.current) return
+    e.preventDefault()
+    const x = e.pageX - carouselRef.current.offsetLeft
+    const walk = (x - startX) * 1.5
+    carouselRef.current.scrollLeft = scrollLeftState - walk
+  }
+
+  const handleMouseUpOrLeave = () => {
+    if (isDragging) {
+      setIsDragging(false)
+      handleScroll()
+    }
+  }
 
   return (
     <section id="autonomous-agents" className="py-20 md:py-28 bg-[#090D16] text-white relative overflow-hidden border-b border-gray-800">
@@ -197,134 +291,228 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-[#DE0826]/15 via-blue-600/10 to-transparent blur-[140px] pointer-events-none" />
 
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 relative z-10">
-        {/* Header */}
-        <div className="max-w-3xl mb-12 lg:mb-16">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 bg-[#DE0826]/20 border border-[#DE0826]/40 rounded-full text-[#DE0826] text-xs font-extrabold uppercase tracking-widest mb-4">
-            <span>Autonomous Intelligence</span>
+        {/* Header with Navigation Controls */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-[#DE0826]/20 border border-[#DE0826]/40 rounded-full text-[#DE0826] text-xs font-extrabold uppercase tracking-widest mb-4">
+              <span>Autonomous Intelligence</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white font-heading">
+              Enterprise Autonomous <span className="text-[#DE0826]">Agents</span>
+            </h2>
+            <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed mt-4 font-normal">
+              Multi-step autonomous agents with scoped tools, durable execution loops, human handoffs, and operational kill switches designed for mission-critical enterprise workflows.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white font-heading">
-            Enterprise Autonomous <span className="text-[#DE0826]">Agents</span>
-          </h2>
-          <p className="text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed mt-4 font-normal">
-            Multi-step autonomous agents with scoped tools, durable execution loops, human handoffs, and operational kill switches designed for mission-critical enterprise workflows.
-          </p>
+
+          {/* Controls: Slide Counter & Prev/Next Arrows */}
+          <div className="flex items-center space-x-4 shrink-0">
+            <div className="text-xs font-mono text-gray-400 bg-white/5 border border-white/10 px-3.5 py-2 rounded-lg flex items-center space-x-1.5">
+              <span className="text-[#DE0826] font-bold">0{activeIdx + 1}</span>
+              <span>/</span>
+              <span>0{autonomousAgentsData.length}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <button
+                type="button"
+                onClick={handlePrev}
+                aria-label="Previous Agent"
+                className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 hover:bg-[#DE0826] hover:border-[#DE0826] text-white flex items-center justify-center transition-all duration-200 cursor-pointer"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                onClick={handleNext}
+                aria-label="Next Agent"
+                className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 hover:bg-[#DE0826] hover:border-[#DE0826] text-white flex items-center justify-center transition-all duration-200 cursor-pointer"
+              >
+                →
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Tab Selector */}
+        {/* Scrollable / Interactive Option Pills with Progress Animation */}
         <div className="flex overflow-x-auto gap-3 pb-4 mb-8 sm:mb-10 no-scrollbar">
           {autonomousAgentsData.map((agent, idx) => {
-            const isSelected = activeTab === idx
+            const isSelected = activeIdx === idx
             return (
               <button
                 key={agent.slug}
-                onClick={() => setActiveTab(idx)}
-                className={`flex items-center space-x-3 px-5 py-3 rounded-lg border text-left transition-all duration-300 cursor-pointer shrink-0 ${
+                onClick={() => scrollToAgent(idx)}
+                className={`relative flex items-center space-x-3 px-5 py-3 rounded-lg border text-left transition-all duration-300 cursor-pointer shrink-0 overflow-hidden ${
                   isSelected
                     ? 'bg-[#DE0826] border-[#DE0826] text-white shadow-lg shadow-red-900/40'
                     : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10 hover:text-white'
                 }`}
               >
-                <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-white' : 'bg-gray-500'}`} />
+                <div className={`w-2 h-2 rounded-full ${isSelected ? 'bg-white animate-pulse' : 'bg-gray-500'}`} />
                 <div>
                   <div className="text-sm font-bold leading-tight">{agent.name}</div>
                   <div className={`text-[11px] ${isSelected ? 'text-white/80' : 'text-gray-400'}`}>
                     {agent.badge}
                   </div>
                 </div>
+                {isSelected && !isHovered && (
+                  <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/30 overflow-hidden">
+                    <div className="h-full bg-white animate-pulse" style={{ width: '100%' }} />
+                  </div>
+                )}
               </button>
             )
           })}
         </div>
 
-        {/* Spotlight Card */}
-        <div className="bg-neutral-900/90 border border-white/10 rounded-2xl p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-md">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-6 flex flex-col justify-between">
-              <div>
-                <span className="text-xs font-bold text-[#DE0826] uppercase tracking-wider">
-                  {activeAgent.badge}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-3">
-                  {activeAgent.tagline}
-                </h3>
-                <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-6">
-                  {activeAgent.description}
-                </p>
-
-                {/* Features List */}
-                <div className="space-y-4 mb-8">
-                  {activeAgent.features.map((feat, i) => (
-                    <div key={i} className="flex items-start space-x-3">
-                      <div className="w-5 h-5 rounded-full bg-[#DE0826]/20 text-[#DE0826] flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
-                        ✓
-                      </div>
-                      <div>
-                        <h5 className="text-sm font-bold text-white leading-snug">{feat.title}</h5>
-                        <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{feat.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Metrics Row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-xl bg-black/40 border border-white/5 mb-6">
-                  {activeAgent.metrics.map((m, i) => (
-                    <div key={i} className="text-center">
-                      <div className="text-xl sm:text-2xl font-black text-white">{m.value}</div>
-                      <div className="text-[10px] text-gray-400 uppercase font-semibold mt-0.5 tracking-wider">
-                        {m.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Tech Stack Pills */}
-                <div className="flex flex-wrap gap-2 items-center">
-                  <span className="text-xs text-gray-400 font-medium">Stack:</span>
-                  {activeAgent.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2.5 py-1 text-xs rounded bg-white/5 border border-white/10 text-gray-300"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* CTA Button */}
-              <div className="mt-8 pt-6 border-t border-white/10 flex items-center space-x-4">
-                <button
-                  onClick={() => onExploreCaseStudy?.(activeAgent.slug)}
-                  className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs sm:text-sm font-bold px-6 py-3 rounded transition-all shadow-md cursor-pointer"
+        {/* Horizontal Scrolling Animation Track */}
+        <div
+          ref={carouselRef}
+          onScroll={handleScroll}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => {
+            setIsHovered(false)
+            handleMouseUpOrLeave()
+          }}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          className={`flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar gap-6 lg:gap-8 pb-4 cursor-grab ${
+            isDragging ? 'cursor-grabbing select-none' : ''
+          }`}
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {autonomousAgentsData.map((agent, idx) => {
+            const isActive = activeIdx === idx
+            return (
+              <div
+                key={agent.slug}
+                className="w-full shrink-0 snap-center min-w-full"
+              >
+                <div
+                  className={`bg-neutral-900/90 border rounded-2xl p-6 sm:p-10 lg:p-12 shadow-2xl backdrop-blur-md transition-all duration-500 ${
+                    isActive
+                      ? 'border-[#DE0826]/40 shadow-red-950/20'
+                      : 'border-white/10 opacity-90'
+                  }`}
                 >
-                  <span>Explore Agent Architecture</span>
-                  <span>→</span>
-                </button>
-              </div>
-            </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    {/* Left Content */}
+                    <div className="lg:col-span-6 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center space-x-3 mb-2">
+                          <span className="text-xs font-bold text-[#DE0826] uppercase tracking-wider">
+                            {agent.badge}
+                          </span>
+                          <span className="text-white/20 text-xs">•</span>
+                          <span className="text-xs font-mono text-gray-400">Agent 0{idx + 1}</span>
+                        </div>
+                        <h3 className="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-3 font-heading">
+                          {agent.tagline}
+                        </h3>
+                        <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-6">
+                          {agent.description}
+                        </p>
 
-            {/* Right Media */}
-            <div className="lg:col-span-6">
-              <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-white/15 shadow-2xl group">
-                <img
-                  src={activeAgent.image}
-                  alt={activeAgent.name}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-                  <div className="bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded border border-white/15 text-xs font-semibold text-white">
-                    {activeAgent.name} Live Sandbox
+                        {/* Features List */}
+                        <div className="space-y-4 mb-8">
+                          {agent.features.map((feat, i) => (
+                            <div key={i} className="flex items-start space-x-3">
+                              <div className="w-5 h-5 rounded-full bg-[#DE0826]/20 text-[#DE0826] flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                                ✓
+                              </div>
+                              <div>
+                                <h5 className="text-sm font-bold text-white leading-snug">{feat.title}</h5>
+                                <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{feat.desc}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Metrics Row */}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-xl bg-black/40 border border-white/5 mb-6">
+                          {agent.metrics.map((m, i) => (
+                            <div key={i} className="text-center">
+                              <div className="text-xl sm:text-2xl font-black text-white">{m.value}</div>
+                              <div className="text-[10px] text-gray-400 uppercase font-semibold mt-0.5 tracking-wider">
+                                {m.label}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Tech Stack Pills */}
+                        <div className="flex flex-wrap gap-2 items-center">
+                          <span className="text-xs text-gray-400 font-medium">Stack:</span>
+                          {agent.techStack.map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-2.5 py-1 text-xs rounded bg-white/5 border border-white/10 text-gray-300"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* CTA Button */}
+                      <div className="mt-8 pt-6 border-t border-white/10 flex items-center space-x-4">
+                        <button
+                          type="button"
+                          onClick={() => onExploreCaseStudy?.(agent.slug)}
+                          className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs sm:text-sm font-bold px-6 py-3 rounded transition-all shadow-md cursor-pointer"
+                        >
+                          <span>Explore Agent Architecture</span>
+                          <span>→</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Right Media */}
+                    <div className="lg:col-span-6">
+                      <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-white/15 shadow-2xl group">
+                        <img
+                          src={agent.image}
+                          alt={agent.name}
+                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+                          <div className="bg-black/80 backdrop-blur-md px-3.5 py-1.5 rounded border border-white/15 text-xs font-semibold text-white">
+                            {agent.name} Live Sandbox
+                          </div>
+                          <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1.5 bg-black/80 px-2.5 py-1 rounded border border-white/10">
+                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                            Agent Status: Active
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-[11px] text-emerald-400 font-mono flex items-center gap-1.5 bg-black/80 px-2.5 py-1 rounded border border-white/10">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    Agent Status: Active
-                  </span>
                 </div>
               </div>
-            </div>
+            )
+          })}
+        </div>
+
+        {/* Bottom Scrolling Navigation Indicators */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/5 text-xs text-gray-400">
+          <div className="flex items-center space-x-2">
+            <span className="text-[#DE0826]">↔</span>
+            <span>Scroll horizontally, swipe, or use arrows to explore all agents</span>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            {autonomousAgentsData.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => scrollToAgent(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  activeIdx === idx ? 'w-8 bg-[#DE0826]' : 'w-2 bg-white/20 hover:bg-white/40'
+                }`}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -332,7 +520,6 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
   )
 }
 
-// -------------------------------------------------------------
 // AI Technology Stack Matrix Component
 // -------------------------------------------------------------
 export function AITechStackSection() {
