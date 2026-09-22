@@ -97,59 +97,45 @@ function SubIcon({ name, className = 'w-4 h-4' }: { name: string; className?: st
 // Historical Timeline Data
 const timelineData = [
   {
-    year: '1986',
-    title: 'Pioneering Joint Venture Foundation',
+    year: '2018',
+    title: 'Applied AI & Neural Research Lab Founded',
     description:
-      'Established as a visionary telecom engineering partnership between Mahindra & British Telecom, setting the benchmark for offshore telecom software delivery.',
+      'Established as an elite artificial intelligence collective focused on deep learning, GPU kernel optimization, and high-concurrency stream scoring.',
     tag: 'Foundation',
   },
   {
-    year: '2001',
-    title: 'SEI-CMM Level 5 Certification',
+    year: '2020',
+    title: 'First Production Transformer Deployments',
     description:
-      'Assessed at SEI-CMM Level 5, marking benchmark quality in enterprise software processes and telecom systems engineering.',
-    tag: 'Quality Benchmark',
+      'Pioneered parameter-efficient fine-tuning and quantized transformer inference for tier-1 financial and telecommunications institutions.',
+    tag: 'Transformer Era',
   },
   {
-    year: '2006',
-    title: 'Global Expansion & IPO',
+    year: '2022',
+    title: 'Hybrid Dense-Sparse RAG Architecture',
     description:
-      'Transitioned to Norstar Limited and launched landmark Initial Public Offering (IPO), widely oversubscribed.',
-    tag: 'Public Listing',
+      'Architected the industry-first multi-modal hybrid retrieval system combining BM25 lexical search with Milvus high-dimensional vector embeddings.',
+    tag: 'RAG Innovation',
   },
   {
-    year: '2009',
-    title: 'Strategic Satyam Acquisition',
+    year: '2024',
+    title: 'Launch of Agent Kavacha & Agent Arogya',
     description:
-      'Executed landmark strategic acquisitions, transforming Norstar into a top-tier digital systems integrator.',
-    tag: 'Mega Acquisition',
+      'Deployed autonomous multi-step agents in production: sub-45ms transaction fraud defense and ambient clinical EHR listening across 12 hospitals.',
+    tag: 'Autonomous Agents',
   },
   {
-    year: '2013',
-    title: 'Historic Merger Completion',
+    year: '2025',
+    title: 'Sovereign Zero-Egress VPC AI Mesh',
     description:
-      'Consolidation completed, creating a unified global IT powerhouse of 84,000+ professionals.',
-    tag: 'Unified Scale',
+      'Engineered complete data sovereignty frameworks allowing Global 2000 enterprises to run frontier LLMs strictly within their private clouds.',
+    tag: 'Sovereign AI',
   },
   {
-    year: '2017',
-    title: 'Launch of NXT.NOW™ Framework',
+    year: '2026',
+    title: 'The Governed Applied AI Studio',
     description:
-      'Unveiled the NXT.NOW™ framework focusing on explosive growth in Cloud, 5G, Artificial Intelligence, and Experience Engineering.',
-    tag: 'Next-Gen Strategy',
-  },
-  {
-    year: '2021',
-    title: '$5 Billion Revenue & Net-Zero Pledge',
-    description:
-      'Crossed the USD $5.1 Billion revenue milestone; recognized on the CDP Climate A List and Dow Jones Sustainability Emerging Markets Index.',
-    tag: 'Global Sustainability',
-  },
-  {
-    year: '2024 - 2026',
-    title: 'Scale at Speed™ & Sovereign AI',
-    description:
-      'Under the leadership of MD & CEO Mohit Joshi, launched the Scale at Speed™ era, cutting-edge Agentic AI platforms, and the new sonic identity Norstar T!ng.',
+      'Setting the global benchmark for enterprise AI with guaranteed 4–6 week pilots, deterministic evaluation harnesses, and continuous MLOps telemetry.',
     tag: 'Current Era',
   },
 ]
@@ -222,7 +208,7 @@ export function AboutUsPage({
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* ------------------------------------------------------------- */}
-      {/* STICKY SECONDARY SUB-NAVIGATION BAR (Tech Mahindra Inspired) */}
+      {/* STICKY SECONDARY SUB-NAVIGATION BAR (Northstar AI Studio Inspired) */}
       {/* ------------------------------------------------------------- */}
       <div className="sticky top-[58px] sm:top-[64px] z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
@@ -282,11 +268,11 @@ export function AboutUsPage({
 
               <div className="max-w-3xl">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
-                  Scale at <span className="text-[#DE0826]">Speed™</span>
+                  Applied AI <span className="text-[#DE0826]">Engineering</span>
                 </h1>
 
                 <p className="text-base sm:text-lg lg:text-xl text-gray-200/90 leading-relaxed font-normal mb-8 max-w-2xl">
-                  We are digital changemakers – here to disrupt old ideas, blaze new trails, and help Global 2000 enterprises transform and scale with unparalleled agility.
+                  We are an Applied AI Engineering studio. We design, benchmark, and deploy governed retrieval systems, specialized autonomous agents, and sovereign foundation models for Global 2000 enterprises.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-4">
@@ -316,43 +302,27 @@ export function AboutUsPage({
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-100">
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">
-                    145K+
-                  </div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">
-                    Global Associates
-                  </div>
-                  <div className="text-[11px] text-gray-500 mt-1">Diverse Minds & Innovators</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">500+</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">Governed AI Pilots</div>
+                  <div className="text-[11px] text-gray-500 mt-1">Production-Hardened Systems</div>
                 </div>
 
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">
-                    90+
-                  </div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">
-                    Countries Operative
-                  </div>
-                  <div className="text-[11px] text-gray-500 mt-1">Worldwide Footprint</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">&lt; 45ms</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">Scoring Latency</div>
+                  <div className="text-[11px] text-gray-500 mt-1">Sub-Second Inline Inference</div>
                 </div>
 
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">
-                    1,100+
-                  </div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">
-                    Global Clients
-                  </div>
-                  <div className="text-[11px] text-gray-500 mt-1">Fortune 500 Leaders</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">99.8%</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">Model Precision</div>
+                  <div className="text-[11px] text-gray-500 mt-1">Zero False-Positive Abandonment</div>
                 </div>
 
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">
-                    $6.5B+
-                  </div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">
-                    USD Annual Revenue
-                  </div>
-                  <div className="text-[11px] text-gray-500 mt-1">Enterprise Scale</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">Zero</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">Data Egress</div>
+                  <div className="text-[11px] text-gray-500 mt-1">Sovereign Client VPC Enclaves</div>
                 </div>
               </div>
             </div>
@@ -369,7 +339,7 @@ export function AboutUsPage({
                   Purpose, Promise & Core Mission
                 </h2>
                 <p className="text-gray-600 text-sm md:text-base">
-                  Rooted in the heritage of the Mahindra Group, we exist to unlock human potential and deliver positive, sustainable change across the globe.
+                  As an Applied AI Engineering studio, we exist to unlock human and computational potential, deploying sovereign, governed, and high-impact artificial intelligence systems across the enterprise.
                 </p>
               </div>
 
@@ -384,10 +354,10 @@ export function AboutUsPage({
                       Core Purpose
                     </span>
                     <h3 className="text-xl font-bold text-gray-950 mt-1 mb-3">
-                      Drive Positive Change
+                      Sovereignty & Model Governance
                     </h3>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      "Only when we enable others to Rise will we rise." We dedicate our intellectual capital and technological craft to driving meaningful social and economic prosperity for our communities, partners, and associates.
+                      We deploy models strictly within your private AWS, Azure, GCP VPC or on-premise GPU clusters with zero external data leakage, zero customer IP training, and audit-proof SHAP explainability.
                     </p>
                   </div>
                   <div className="mt-6 pt-4 border-t border-gray-100 flex items-center text-xs font-semibold text-gray-500">
@@ -445,7 +415,7 @@ export function AboutUsPage({
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="text-center max-w-2xl mx-auto mb-16">
                 <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-950">
-                  Our Journey Since <span className="text-[#DE0826]">1986</span>
+                  Our Journey in <span className="text-[#DE0826]">Enterprise AI</span>
                 </h2>
                 <p className="text-gray-600 text-sm md:text-base mt-3">
                   Explore the pivotal milestones that shaped Norstar from an Indian telecommunications joint venture into a global digital transformation titan.
@@ -544,7 +514,7 @@ export function AboutUsPage({
                   Visionary <span className="text-[#DE0826]">Leadership</span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal">
-                  Guided by ethical leadership, deep industry experience, and customer obsession, our executive team steers over 145,000 innovators to build tomorrow's intelligent enterprises.
+                  Guided by leading AI scientists, systems architects, and governance pioneers, our leadership council guides enterprise organizations from experimental prototypes to mission-critical production deployments.
                 </p>
               </div>
             </div>
@@ -559,11 +529,11 @@ export function AboutUsPage({
                     CEO Perspective
                   </span>
                   <blockquote className="text-xl sm:text-2xl md:text-3xl font-medium leading-relaxed my-6">
-                    "In the era of autonomous cognitive intelligence, true competitive edge is not just about adopting new tech; it is about delivering scale with unmatched speed while maintaining unwavering trust, ethics, and human purpose."
+                    "In the era of generative intelligence, competitive dominance belongs to organizations that deploy governed, hallucination-resistant models tied to active production pipelines with measurable ROI."
                   </blockquote>
                   <div>
-                    <div className="font-extrabold text-lg text-white">Mohit Joshi</div>
-                    <div className="text-sm text-gray-300">Managing Director & Chief Executive Officer</div>
+                    <div className="font-extrabold text-lg text-white">Marcus Vance</div>
+                    <div className="text-sm text-gray-300">Chief Technology Officer & AI Studio Lead</div>
                   </div>
                 </div>
               </div>
@@ -575,70 +545,70 @@ export function AboutUsPage({
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="text-center max-w-2xl mx-auto mb-16">
                 <h2 className="text-3xl md:text-4xl font-extrabold text-gray-950">
-                  Executive Council & Board
+                  AI Research & Systems Leadership Council
                 </h2>
                 <p className="text-gray-600 text-sm md:text-base mt-2">
-                  Meet the leaders driving enterprise growth, technology disruption, and global operational excellence.
+                  Meet the researchers, architects, and engineering leaders driving frontier AI models and autonomous agent breakthroughs.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
                   {
-                    name: 'Anand Mahindra',
-                    role: 'Chairman, Mahindra Group',
+                    name: 'Dr. Elena Rostova',
+                    role: 'Chief AI Scientist & Head of Research',
                     image: '/images/exec_speaker_left.png',
                     objectPos: 'object-top',
-                    desc: 'Visionary industrialist leading the Mahindra Group into global innovation, sustainability, and the Rise movement.',
+                    desc: 'World-renowned researcher in parameter-efficient fine-tuning (LoRA/QLoRA), dense-sparse retrieval embeddings, and model alignment benchmarks.',
                   },
                   {
-                    name: 'Mohit Joshi',
-                    role: 'MD & Chief Executive Officer',
+                    name: 'Marcus Vance',
+                    role: 'Chief Technology Officer & Head of Autonomous Systems',
                     image: '/images/big_thinker_executive.png',
                     objectPos: 'object-top',
-                    desc: 'Transformative technology leader spearheading Norstar’s Scale at Speed™ era and generative AI operations.',
+                    desc: 'Pioneering multi-step autonomous agent swarms, durable execution state machines, scoped tool calling, and sub-45ms inference serving fabrics.',
+                  },
+                  {
+                    name: 'Vikram Choudhury',
+                    role: 'Head of Enterprise RAG & Knowledge Systems',
+                    image: '/images/exec_speaker_right.png',
+                    objectPos: 'object-top',
+                    desc: 'Architecting high-dimensional vector search, hybrid Colbert reranking, permission-aware retrieval, and zero-egress VPC deployments.',
+                  },
+                  {
+                    name: 'Dr. Sarah Jenkins',
+                    role: 'VP of AI Safety, Ethics & Red-Teaming',
+                    image: '/images/careers_purpose.jpg',
+                    objectPos: 'object-center',
+                    desc: 'Directs automated hallucination regression benchmarks, safety guardrails, prompt injection defenses, and EU AI Act compliance manifests.',
                   },
                   {
                     name: 'Rohit Anand',
                     role: 'Chief Financial Officer',
-                    image: '/images/exec_speaker_right.png',
-                    objectPos: 'object-top',
-                    desc: 'Oversees global capital allocation, shareholder value creation, financial discipline, and M&A integration.',
+                    image: '/images/careers_diversity.jpg',
+                    objectPos: 'object-center',
+                    desc: 'Oversees capital allocation, GPU cluster infrastructure financing, compute unit economics, and enterprise AI recurring revenue growth.',
                   },
                   {
                     name: 'Atul Soneja',
-                    role: 'Chief Operating Officer',
-                    image: '/images/careers_purpose.jpg',
-                    objectPos: 'object-center',
-                    desc: 'Drives end-to-end delivery rigor, global service lines, enterprise agility, and large deal transformations.',
-                  },
-                  {
-                    name: 'Richard Lobo',
-                    role: 'Chief People Officer',
-                    image: '/images/careers_diversity.jpg',
-                    objectPos: 'object-center',
-                    desc: 'Champions talent architecture, culture of learning, global diversity, and organizational effectiveness.',
-                  },
-                  {
-                    name: 'Peeyush Dubey',
-                    role: 'Chief Marketing Officer',
+                    role: 'Chief Operating Officer & Pilot Delivery',
                     image: '/images/thinking_ribbon.jpg',
                     objectPos: 'object-center',
-                    desc: 'Leads global brand positioning, sonic identity, demand generation, and analyst relations worldwide.',
+                    desc: 'Drives our governed 4–6 week pilot methodology, ensuring deterministic milestone acceptance, data readiness, and enterprise SLA fulfillment.',
                   },
                   {
                     name: 'Harshvendra Soin',
-                    role: 'Global Strategic Advisor',
+                    role: 'Global AI Ecosystem Alliances Director',
                     image: '/images/case_consult.jpg',
                     objectPos: 'object-center',
-                    desc: 'Advises on strategic partnerships, leadership development, and individual social responsibility.',
+                    desc: 'Manages strategic co-engineering partnerships with NVIDIA, OpenAI, Anthropic, Milvus / Zilliz & Vector Search Vertex AI, and AWS Bedrock.',
                   },
                   {
                     name: 'Biren Sen',
-                    role: 'Chief Delivery Officer',
+                    role: 'Chief MLOps & Platform Officer',
                     image: '/images/cap_hero.jpg',
                     objectPos: 'object-center',
-                    desc: 'Directs global delivery centers across Americas, EMEA, and APAC with zero-defect execution standards.',
+                    desc: 'Leads distributed GPU serving clusters (vLLM, Triton), automated circuit breakers, token telemetry, and 24/7 cluster health monitoring.',
                   },
                 ].map((exec) => (
                   <div
@@ -726,10 +696,10 @@ export function AboutUsPage({
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 <div className="lg:col-span-7">
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                    Powered by the Spirit of <span className="text-[#DE0826]">Rise</span>
+                    The Northstar AI Promise: <span className="text-[#DE0826]">Governed Intelligence</span>
                   </h1>
                   <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal mb-8 max-w-xl">
-                    Rise is not just a tagline. It is our guiding philosophy, a challenge to conventional thinking, and a commitment to enabling people and organizations to achieve their highest aspirations.
+                    We believe artificial intelligence should never be an unpredictable black box. We engineer deterministic guardrails, citation-grounded retrieval, and sub-45ms execution into every enterprise system.
                   </p>
                 </div>
 
@@ -751,10 +721,10 @@ export function AboutUsPage({
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="text-center max-w-2xl mx-auto mb-16">
                 <span className="text-xs font-bold text-[#DE0826] uppercase tracking-widest">
-                  Foundational Tenets
+                  Engineering Standards
                 </span>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-gray-950 mt-2">
-                  The Three Pillars of Rise
+                  Three Pillars of Applied AI Engineering
                 </h2>
               </div>
 
@@ -764,10 +734,10 @@ export function AboutUsPage({
                     01
                   </div>
                   <h3 className="text-2xl font-bold text-gray-950 mb-3">
-                    Accept No Limits
+                    Zero-Hallucination Grounding
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                    We question conventional boundaries and reject the idea that something cannot be done. Whether engineering autonomous networks or migrating critical banking cores, we redefine what is possible.
+                    We mandate strict multi-stage retrieval grounding, dense-sparse lexical verification, and negative refusal constraints to eliminate hallucination in mission-critical applications.
                   </p>
                   <div className="text-xs font-bold text-[#DE0826]">Breakthrough Mindset</div>
                 </div>
@@ -777,7 +747,7 @@ export function AboutUsPage({
                     02
                   </div>
                   <h3 className="text-2xl font-bold text-gray-950 mb-3">
-                    Alternative Thinking
+                    Sub-45ms Real-Time Performance
                   </h3>
                   <p className="text-sm text-gray-600 leading-relaxed mb-4">
                     We apply fresh perspectives, cross-industry convergence, and agile engineering to solve tough problems. In an era of copy-paste tech, we pioneer differentiated value.
@@ -870,10 +840,10 @@ export function AboutUsPage({
 
               <div className="max-w-3xl">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                  Sustainable <span className="text-[#DE0826]">Enterprise</span> by Design
+                  Green Compute & <span className="text-[#DE0826]">Energy-Efficient AI</span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal">
-                  Committed to achieving Net Zero by 2035 — 15 years ahead of the Paris Agreement. We empower clients and campuses with responsible green technologies, circular resource cycles, and ethical governance.
+                  Pioneering energy-efficient machine intelligence through model distillation, FP8 quantization, carbon-aware inference routing, and serverless scale-to-zero GPU clusters.
                 </p>
               </div>
             </div>
@@ -888,9 +858,9 @@ export function AboutUsPage({
                     <SubIcon name="award" className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-2xl font-extrabold text-gray-950">CDP 'A' List</div>
-                    <div className="text-xs font-semibold text-[#DE0826]">Top 2% Globally</div>
-                    <p className="text-[11px] text-gray-600 mt-1">Recognized for leadership in climate transparency.</p>
+                    <div className="text-2xl font-extrabold text-gray-950">FP8 / INT4 Quant.</div>
+                    <div className="text-xs font-semibold text-[#DE0826]">-65% Energy Draw</div>
+                    <p className="text-[11px] text-gray-600 mt-1">Quantized serving reduces thermal wattage and carbon output per million tokens.</p>
                   </div>
                 </div>
 
@@ -899,9 +869,9 @@ export function AboutUsPage({
                     <SubIcon name="zap" className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-2xl font-extrabold text-gray-950">Net Zero 2035</div>
-                    <div className="text-xs font-semibold text-[#DE0826]">15 Yrs Ahead</div>
-                    <p className="text-[11px] text-gray-600 mt-1">Aggressive decarbonization across Scope 1, 2, and 3.</p>
+                    <div className="text-2xl font-extrabold text-gray-950">Scale-to-Zero</div>
+                    <div className="text-xs font-semibold text-[#DE0826]">Zero Idle GPU Wattage</div>
+                    <p className="text-[11px] text-gray-600 mt-1">Serverless inference fabrics spin down inactive GPU pods to eliminate idle power draw.</p>
                   </div>
                 </div>
 
@@ -910,9 +880,9 @@ export function AboutUsPage({
                     <SubIcon name="globe" className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-2xl font-extrabold text-gray-950">50%+ Green</div>
-                    <div className="text-xs font-semibold text-[#DE0826]">Renewable Energy</div>
-                    <p className="text-[11px] text-gray-600 mt-1">Sourced from on-campus solar and long-term PPAs.</p>
+                    <div className="text-2xl font-extrabold text-gray-950">Clean Energy GPUs</div>
+                    <div className="text-xs font-semibold text-[#DE0826]">100% Hydro/Geothermal</div>
+                    <p className="text-[11px] text-gray-600 mt-1">Batch model fine-tuning and evaluation clusters routed exclusively to renewable datacenters.</p>
                   </div>
                 </div>
 
@@ -1014,7 +984,7 @@ export function AboutUsPage({
                   Global <span className="text-[#DE0826]">Recognition</span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal">
-                  Our commitment to technological innovation, customer satisfaction, and ESG excellence has been repeatedly recognized by the world's leading analyst firms and industry bodies.
+                  Our breakthrough work in Retrieval-Augmented Generation (RAG), autonomous multi-agent systems, and low-latency model serving has established Northstar as the premier Applied AI benchmark.
                 </p>
               </div>
             </div>
@@ -1050,24 +1020,24 @@ export function AboutUsPage({
                     category: 'analyst',
                     issuer: 'Gartner®',
                     title: 'Magic Quadrant™ Leader',
-                    subtitle: 'Public Cloud IT Transformation Services',
-                    desc: 'Positioned in the Leaders quadrant for completeness of vision and ability to execute large-scale enterprise cloud transformations.',
+                    subtitle: 'Enterprise AI & Applied RAG Engineering',
+                    desc: 'Positioned in the Leaders quadrant for completeness of vision in hybrid vector search, hallucination regression gates, and governed pilot delivery.',
                     year: '2025 - 2026',
                   },
                   {
                     category: 'analyst',
                     issuer: 'Everest Group',
                     title: 'PEAK Matrix® Leader',
-                    subtitle: 'Digital Workplace Services',
-                    desc: 'Recognized as a Leader for visionary workplace AI integration, employee experience engineering, and zero-touch support.',
+                    subtitle: 'Generative AI Services & Autonomous Agents',
+                    desc: 'Recognized as a Leader for production agent swarms, clinical EHR ambient listening copilots, and real-time transaction defense.',
                     year: '2025',
                   },
                   {
                     category: 'analyst',
                     issuer: 'HFS Research',
                     title: 'Horizon 3 Market Leader',
-                    subtitle: 'Generative AI & Autonomous Operations',
-                    desc: 'Ranked in the top echelon for real-world enterprise GenAI delivery and sovereign LLM deployment frameworks.',
+                    subtitle: 'Applied Cognitive Systems & MLOps Platforms',
+                    desc: 'Ranked in the top echelon for zero-egress private cloud foundation model deployments and sub-45ms inference latency.',
                     year: '2026',
                   },
                   {
@@ -1170,7 +1140,7 @@ export function AboutUsPage({
                   Customer <span className="text-[#DE0826]">Speak</span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal">
-                  Our clients are our greatest advocates. Discover how Global 2000 leaders partner with us to engineer digital superiority, optimize mission-critical operations, and scale at speed.
+                  Discover how enterprise CISOs, Chief Medical Officers, and Heads of AI deploy Agent Kavacha, Agent Arogya, and our Enterprise RAG Mesh to eliminate risk and unlock operational leverage.
                 </p>
               </div>
             </div>
@@ -1209,10 +1179,10 @@ export function AboutUsPage({
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="text-center max-w-2xl mx-auto mb-16">
                 <h2 className="text-3xl md:text-4xl font-extrabold text-gray-950">
-                  What Global CxOs Say
+                  Enterprise CxO Perspectives on Production AI
                 </h2>
                 <p className="text-gray-600 text-sm md:text-base mt-2">
-                  Direct perspectives from industry leaders who count on Norstar to power their digital futures.
+                  Verifiable outcomes from technology leaders who trust Northstar AI in mission-critical environments.
                 </p>
               </div>
 
@@ -1221,14 +1191,14 @@ export function AboutUsPage({
                   {
                     industry: 'Telecommunications',
                     quote:
-                      'Norstar’s Scale at Speed™ execution model allowed us to migrate 18 million mobile subscribers to a cloud-native 5G BSS architecture nine months ahead of schedule with zero customer outage.',
+                      'Agent Kavacha changed how our risk team operates. We stopped chasing false positives and gained a real-time autonomous shield that evaluates every transaction in under 38ms with 99.8% precision.',
                     author: 'Chief Information Officer',
-                    org: 'Tier-1 North American Telco Carrier',
+                    org: 'Apex Global Payments & FinTech',
                   },
                   {
                     industry: 'Automotive & Mobility',
                     quote:
-                      'Pininfarina and Norstar united Italian industrial elegance with next-generation in-vehicle software architecture. The result is an EV cockpit interface that sets a new industry standard for luxury.',
+                      'Agent Kavacha Platform and Norstar united Italian industrial elegance with next-generation in-vehicle software architecture. The result is an EV cockpit interface that sets a new industry standard for luxury.',
                     author: 'VP of Vehicle Software & UX',
                     org: 'Global Premium Automotive OEM',
                   },
@@ -1317,15 +1287,15 @@ export function AboutUsPage({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="p-8 rounded-2xl bg-[#FAF8F5] border border-gray-200 hover:border-[#DE0826] transition-all hover:shadow-md">
                   <div className="h-10 font-black text-xl text-gray-900 flex items-center mb-4">
-                    Amazon Web Services
+                    NVIDIA AI Enterprise
                   </div>
                   <span className="px-2.5 py-1 bg-red-50 text-[#DE0826] font-bold text-xs rounded mb-3 inline-block">
-                    AWS Premier Tier Partner
+                    Elite Technology Alliance
                   </span>
                   <p className="text-xs text-gray-600 leading-relaxed mb-4">
-                    Joint Generative AI Innovation Centers, over 12,000 AWS certified engineers, and proven migration competency across financial services and telecom.
+                    Joint engineering on DGX SuperPOD architectures, Triton Inference Server optimization, and TensorRT-LLM low-latency acceleration.
                   </p>
-                  <div className="text-xs font-bold text-gray-900">12,000+ Certified Associates</div>
+                  <div className="text-xs font-bold text-gray-900">DGX & Triton Co-Engineered</div>
                 </div>
 
                 <div className="p-8 rounded-2xl bg-[#FAF8F5] border border-gray-200 hover:border-[#DE0826] transition-all hover:shadow-md">
@@ -1333,20 +1303,20 @@ export function AboutUsPage({
                     Microsoft Azure
                   </div>
                   <span className="px-2.5 py-1 bg-red-50 text-[#DE0826] font-bold text-xs rounded mb-3 inline-block">
-                    Azure Expert MSP
+                    Frontier LLM Alliance
                   </span>
                   <p className="text-xs text-gray-600 leading-relaxed mb-4">
-                    Inner Circle Partner for business applications, Azure OpenAI enterprise integrations, and specialized zero-trust security managed services.
+                    Enterprise private endpoints, zero-data retention agreements, and schema-constrained structured outputs on Claude 3.5 Sonnet and GPT-4o.
                   </p>
-                  <div className="text-xs font-bold text-gray-900">Top-Tier Global Partner</div>
+                  <div className="text-xs font-bold text-gray-900">Zero-Retention Private APIs</div>
                 </div>
 
                 <div className="p-8 rounded-2xl bg-[#FAF8F5] border border-gray-200 hover:border-[#DE0826] transition-all hover:shadow-md">
                   <div className="h-10 font-black text-xl text-gray-900 flex items-center mb-4">
-                    Google Cloud
+                    Milvus / Zilliz & Vector Search
                   </div>
                   <span className="px-2.5 py-1 bg-red-50 text-[#DE0826] font-bold text-xs rounded mb-3 inline-block">
-                    Premier Partner
+                    High-Dimensional Vector Alliance
                   </span>
                   <p className="text-xs text-gray-600 leading-relaxed mb-4">
                     Recognized for specialized BigQuery data migrations, Vertex AI enterprise applications, and sovereign cloud infrastructure for public sectors.
@@ -1423,10 +1393,10 @@ export function AboutUsPage({
 
               <div className="max-w-3xl">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                  Portfolio <span className="text-[#DE0826]">Companies</span>
+                  Applied AI <span className="text-[#DE0826]">Platforms & Products</span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal">
-                  Our family of specialized subsidiaries brings boutique agility, iconic Italian styling, financial technology depth, and award-winning creative design backed by enterprise scale.
+                  Our catalog of enterprise-grade AI platforms combines production-tested autonomous agents, high-dimensional vector search meshes, and low-latency MLOps serving stacks.
                 </p>
               </div>
             </div>
@@ -1438,34 +1408,34 @@ export function AboutUsPage({
               <div className="space-y-12">
                 {[
                   {
-                    name: 'Pininfarina',
-                    tagline: 'Iconic Italian Design & Luxury Mobility Architecture',
-                    hq: 'Turin, Italy • Est. 1930',
-                    desc: 'The world standard in automotive styling and industrial elegance. Pininfarina combines nearly a century of hypercar craftsmanship with advanced digital cockpit ergonomics, smart architecture, and bespoke product design.',
+                    name: 'Agent Kavacha Platform',
+                    tagline: 'Autonomous Real-Time Anti-Fraud & Transaction Defense',
+                    hq: 'FinTech & Banking AI • Sub-45ms Latency',
+                    desc: 'The world standard in automotive styling and industrial elegance. Agent Kavacha Platform combines nearly a century of hypercar craftsmanship with advanced digital cockpit ergonomics, smart architecture, and bespoke product design.',
                     image: '/images/home_racing.jpg',
                     capabilities: ['Luxury Automotive Styling', 'Aerodynamics & Wind Tunnel Testing', 'Smart City Architecture', 'Interior & Industrial Design'],
                   },
                   {
-                    name: 'Comviva',
-                    tagline: 'Mobile Solutions & Next-Gen Digital Finance',
-                    hq: 'New Delhi, India & Dubai, UAE',
-                    desc: 'A global leader in digital financial solutions, powering mobile money transfers, digital wallets, and value-added telecommunication services for over 2 billion consumers across 100+ emerging and mature markets.',
+                    name: 'Agent Arogya Healthcare Suite',
+                    tagline: 'Ambient Clinical Consultation Listening & EHR Charting',
+                    hq: 'Healthcare & Clinical AI • HIPAA Audited',
+                    desc: 'Ambient clinical listening copilot powered by medical foundation models. Eliminates doctor pajama time by automatically drafting structured SOAP notes, cross-referencing ICD-10 codes, and syncing via FHIR.',
                     image: '/images/ind_banking.jpg',
                     capabilities: ['Digital Wallets & Micro-Lending', 'Telecom VAS & Messaging Platforms', 'Customer Value Management', 'Merchant Payment Systems'],
                   },
                   {
-                    name: 'Born Group & BIO Agency',
-                    tagline: 'Award-Winning Digital Customer Experience & Commerce',
-                    hq: 'New York, London & Singapore',
-                    desc: 'A premier creative agency blending creative artistry with enterprise e-commerce engineering. Designing unforgettable brand experiences, headless commerce, and omni-channel content ecosystems.',
+                    name: 'Northstar Enterprise RAG Mesh',
+                    tagline: 'Hybrid Dense-Sparse Vector Search & Source Attribution',
+                    hq: 'Knowledge & Semantic Search • < 800ms Query',
+                    desc: 'Permission-aware enterprise knowledge engine combining Milvus vector search with lexical BM25 indexing. Guarantees 99.6% answer faithfulness with exact coordinate citations and zero hallucination risk.',
                     image: '/images/cap_experience.jpg',
                     capabilities: ['Customer Journey Strategy', 'Headless & Composable Commerce', 'Brand Creative & Visual Identity', 'Omnichannel Content Hubs'],
                   },
                   {
-                    name: 'Target Group',
-                    tagline: 'Fintech Platforms for Enterprise Lending & Servicing',
-                    hq: 'Cardiff & London, United Kingdom',
-                    desc: 'A leading UK fintech service provider delivering software and operational processing for over £30 Billion in assets, specializing in mortgages, personal lending, and regulatory compliance outsourcing.',
+                    name: 'Northstar MLOps Command Stack',
+                    tagline: 'Low-Latency Triton Inference Serving & Model Drift Telemetry',
+                    hq: 'Production AI Infrastructure • Kubernetes & Ray',
+                    desc: 'Distributed model serving fabrics on Kubernetes and Ray with automated hallucination regression testing, real-time token expenditure monitoring, and automated circuit breaker rollback controls.',
                     image: '/images/ind_privateequity.jpg',
                     capabilities: ['Mortgage Lifecycle Servicing', 'Commercial Lending Engines', 'Regulatory Compliance Automation', 'Loan Origination Software'],
                   },
@@ -1556,7 +1526,7 @@ export function AboutUsPage({
                       Pillar 01
                     </span>
                     <h2 className="text-3xl font-extrabold text-gray-950 mt-1 mb-4">
-                      Tech Mahindra Foundation / Norstar Foundation
+                      Northstar AI Innovation Foundation
                     </h2>
                     <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6">
                       The corporate social responsibility arm dedicated to youth empowerment, inclusive education, and disability support. Over 150,000 young people have been trained with market-relevant skills, maintaining a verified 75%+ placement track record.
@@ -1587,13 +1557,13 @@ export function AboutUsPage({
                   </div>
                 </div>
 
-                {/* 2. Mahindra Educational Institutions */}
+                {/* 2. Northstar AI Institute & Academy */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center pt-10 border-t border-gray-200">
                   <div className="lg:col-span-5 order-2 lg:order-1">
                     <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border-2 border-red-100">
                       <img
                         src="/images/ind_education.jpg"
-                        alt="Mahindra Educational Institutions"
+                        alt="Northstar AI Institute & Academy"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -1603,10 +1573,10 @@ export function AboutUsPage({
                       Pillar 02
                     </span>
                     <h2 className="text-3xl font-extrabold text-gray-950 mt-1 mb-4">
-                      Mahindra Educational Institutions
+                      Northstar AI Institute & Academy
                     </h2>
                     <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6">
-                      Promoting world-class higher education in India through Mahindra University in Hyderabad and École Centrale School of Engineering. Creating future-ready leaders equipped with interdisciplinary engineering, management, and artificial intelligence ethics.
+                      Promoting world-class AI literacy and engineering talent through university research partnerships. Empowering future-ready leaders in deep learning, LLM safety, and responsible machine intelligence.
                     </p>
                     <div className="p-4 rounded-xl bg-[#FAF8F5] border border-gray-200">
                       <div className="font-bold text-sm text-gray-950 mb-1">Interdisciplinary Research & AI Incubators</div>
@@ -1779,20 +1749,20 @@ export function AboutUsPage({
                   {
                     date: 'September 2026',
                     category: 'Artificial Intelligence',
-                    title: 'Norstar Unveils Next-Generation Agentic AI Enterprise Platform for Autonomous Operations',
-                    desc: 'Designed to orchestrate autonomous multi-agent systems across enterprise telecom, banking, and supply chain networks with sovereign safety guardrails.',
+                    title: 'Northstar AI Unveils Agent Kavacha: Real-Time Anti-Fraud Agent Scoring 120M+ Transactions in Sub-45ms',
+                    desc: 'Protects $4.2B+ in annual transaction flow using graph neural network anomaly detection with zero checkout friction and audit-proof explainability.',
                   },
                   {
                     date: 'August 2026',
                     category: 'Industry Recognition',
-                    title: 'Norstar Positioned as Leader in 2026 Gartner® Magic Quadrant™ for Public Cloud IT Transformation',
-                    desc: 'Evaluated for completeness of vision and high client satisfaction scores in multi-cloud migration and FinOps automation.',
+                    title: 'Northstar AI Positioned as Leader in 2026 IDC MarketScape for Enterprise RAG & Autonomous Agent Platforms',
+                    desc: 'Evaluated for benchmark answer faithfulness in hybrid dense-sparse retrieval, clinical EHR automation, and zero-egress VPC deployments.',
                   },
                   {
                     date: 'July 2026',
                     category: 'Financial Results',
-                    title: 'Norstar Reports Q1 FY27 Financial Results with 8.4% YoY Constant Currency Revenue Growth',
-                    desc: 'Solid operational execution and strong large deal wins in North America and Europe drive robust margin performance.',
+                    title: 'Northstar AI Expands GPU Cluster Infrastructure with NVIDIA H100 & B200 Accelerators for Sovereign Model Serving',
+                    desc: 'Provides dedicated zero-egress GPU enclaves for healthcare, defense, and banking clients requiring on-premise foundation model fine-tuning.',
                   },
                   {
                     date: 'June 2026',
@@ -1860,23 +1830,23 @@ export function AboutUsPage({
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-100">
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">$6.5B+</div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">Annual Revenue (USD)</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">$1.2B+</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">Enterprise AI Pipeline (USD)</div>
                   <div className="text-[11px] text-gray-500 mt-1">Consistent High Growth</div>
                 </div>
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">15.2%</div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">EBITDA Margin</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">74.8%</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">Autonomous Platform Gross Margin</div>
                   <div className="text-[11px] text-gray-500 mt-1">Healthy Operating Leverage</div>
                 </div>
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">3.4%</div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">Dividend Yield</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-[#DE0826] mb-1">3.4x</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">YoY Governed Pilot Growth</div>
                   <div className="text-[11px] text-gray-500 mt-1">Consistent Shareholder Payouts</div>
                 </div>
                 <div className="px-4">
-                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">AAA</div>
-                  <div className="text-xs md:text-sm font-semibold text-gray-800">Credit Rating</div>
+                  <div className="text-3xl md:text-5xl font-extrabold text-gray-950 mb-1">99.8%</div>
+                  <div className="text-xs md:text-sm font-semibold text-gray-800">Enterprise Client Retention</div>
                   <div className="text-[11px] text-gray-500 mt-1">Highest Credit Worthiness</div>
                 </div>
               </div>

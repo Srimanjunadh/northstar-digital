@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AboutUsPage, type AboutSubpage } from './AboutPages'
+import {
+  AutonomousAgentsSection,
+  AITechStackSection,
+  AIDeliveryProcessSection,
+  AIFAQSection,
+} from './AIServiceComponents'
 
 // Configuration for image placeholder mode
 const TEMP_IMAGE_SRC = '/temp-image.png'
@@ -229,29 +235,29 @@ const siteSearchIndex: SearchResultItem[] = [
     title: 'Careers & Job Opportunities',
     category: 'Careers',
     route: 'careers',
-    description: 'Explore rewarding careers and leadership pathways across 90+ countries with Tech Mahindra.',
-    keywords: ['job', 'jobs', 'career', 'careers', 'hiring', 'openings', 'work', 'join', 'culture', 'vacancies'],
+    description: 'Explore rewarding careers and engineering pathways across global Applied AI and autonomous systems hubs with Northstar AI.',
+    keywords: ['job', 'jobs', 'career', 'careers', 'hiring', 'openings', 'work', 'join', 'culture', 'vacancies', 'ai engineer', 'mlops'],
   },
   {
-    title: 'The TechM Way & Diversity Culture',
+    title: 'The Northstar AI Way & Culture',
     category: 'Careers',
     route: 'careers',
-    description: 'Our culture of freedom to explore, innovate, and rise together as limitless innovators.',
-    keywords: ['culture', 'techm way', 'diversity', 'inclusion', 'people', 'careers', 'growth'],
+    description: 'Our culture of scientific rigor, ethical model governance, and freedom to invent next-gen autonomous systems.',
+    keywords: ['culture', 'northstar way', 'diversity', 'inclusion', 'people', 'careers', 'growth', 'open science'],
   },
   {
-    title: 'About Tech Mahindra & Leadership',
+    title: 'About Northstar AI & Leadership',
     category: 'About Us',
     route: 'about',
-    description: 'Corporate overview, executive leadership, Mahindra Group heritage, and sustainability initiatives.',
-    keywords: ['mahindra', 'about', 'company', 'leadership', 'executives', 'brand', 'sustainability', 'heritage'],
+    description: 'Corporate overview, Applied AI Leadership Council, enterprise pilot portfolio, and green compute initiatives.',
+    keywords: ['northstar', 'about', 'company', 'leadership', 'executives', 'brand', 'sustainability', 'green compute'],
   },
   {
-    title: 'Scale at Speed™ & Corporate Brand',
+    title: 'Scale at Speed™ & AI Brand Promise',
     category: 'About Us',
     route: 'about',
-    description: 'Our brand promise to help global enterprises scale at speed with agile, AI-first technologies.',
-    keywords: ['mahindra', 'brand', 'scale at speed', 'promise', 'about', 'partner ecosystem'],
+    description: 'Our brand promise to help global enterprises scale with zero-hallucination, sub-45ms Applied AI systems.',
+    keywords: ['northstar', 'brand', 'scale at speed', 'promise', 'about', 'ai partner ecosystem'],
   },
   {
     title: 'Global Office Locations & Directory',
@@ -327,7 +333,7 @@ const siteSearchIndex: SearchResultItem[] = [
 
 // -------------------------------------------------------------
 // 1. Main Navigation Header with Full Mega-Menu System & Search
-// Matching Tech Mahindra reference screenshots exactly
+// Matching Northstar AI Reference Design System
 // -------------------------------------------------------------
 interface NavbarProps {
   currentRoute: PageRoute
@@ -678,9 +684,9 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                 <div className="flex flex-wrap items-center gap-3.5 sm:gap-5">
                   {[
                     { label: 'Jobs', route: 'careers' as PageRoute },
-                    { label: 'Mahindra', route: 'about' as PageRoute },
+                    { label: 'Applied AI', route: 'about' as PageRoute },
                     { label: 'Locations', route: 'contact' as PageRoute },
-                    { label: 'Applications', route: 'capabilities' as PageRoute },
+                    { label: 'Capabilities', route: 'capabilities' as PageRoute },
                   ].map((tag) => (
                     <button
                       key={tag.label}
@@ -822,8 +828,8 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                       </button>
                       <ul className="space-y-1.5 text-[13px] text-gray-700">
                         {[
-                          'Tech Mahindra Foundation',
-                          'Mahindra Educational Institutions',
+                          'Northstar AI Research Foundation',
+                          'Northstar AI Institute & Academy',
                           'Individual Social Responsibility',
                         ].map((item) => (
                           <li key={item}>
@@ -919,10 +925,10 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                     <div className="space-y-4">
                       <div>
                         <button
-                          onClick={() => handleNavClick('capabilities', undefined, 'TechM Consulting')}
+                          onClick={() => handleNavClick('capabilities', undefined, 'AI Strategy & Feasibility Advisory')}
                           className="font-bold text-[14px] text-gray-950 hover:text-[#DE0826] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left block mb-3"
                         >
-                          TechM Consulting
+                          AI Strategy & Feasibility
                         </button>
                       </div>
 
@@ -1221,7 +1227,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                         </span>
                         <div>
                           <h5 className="text-xs font-bold text-white leading-snug">
-                            Product Development with AI and Sustainability: TechM x MIT Technology Review Report
+                            Product Development with Applied AI and Sustainability: Northstar AI x MIT Technology Review Report
                           </h5>
                           <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
@@ -1291,7 +1297,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                         </span>
                         <div>
                           <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
-                            Tech Mahindra Q1 FY27 EBIT rises to ₹2,264 crores, up 53.3% YoY; deal-wins at USD 1,078 Mn
+                            Northstar AI Q1 FY27 Operating Margin expands to 38.4%, up 53.3% YoY; AI pilot contracts cross $1.2B
                           </h5>
                           <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
@@ -1300,14 +1306,14 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                       </div>
                     </div>
 
-                    {/* Card 2: Dreamforce Event */}
+                    {/* Card 2: AI Summit Event */}
                     <div
                       onClick={() => handleNavClick('insights', undefined, 'Events')}
                       className="relative h-[130px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
                         src="/images/event_dreamforce.jpg"
-                        alt="Dreamforce 2026"
+                        alt="Global AI Summit 2026"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent p-3.5 flex flex-col justify-between">
@@ -1316,7 +1322,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                         </span>
                         <div>
                           <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
-                            Tech Mahindra at Dreamforce 2026: Turning AI into a Co-Worker
+                            Northstar AI at Global AI Summit 2026: Turning Autonomous Multi-Agent Swarms into Enterprise Co-Workers
                           </h5>
                           <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
@@ -1343,7 +1349,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                   {/* Middle Column: Links List */}
                   <div className="col-span-12 lg:col-span-5">
                     <ul className="space-y-3.5 text-[14px] font-bold text-gray-950">
-                      {['The TechM Way', 'Diversity & Inclusion', 'Join Us'].map((item) => (
+                      {['The Northstar Way', 'Diversity & Inclusion', 'Join Us'].map((item) => (
                         <li key={item}>
                           <button
                             onClick={() => handleNavClick('careers', undefined, item)}
@@ -1483,7 +1489,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                       onClick={() => handleNavClick('about', 'citizenship')}
                       className="cursor-pointer hover:text-[#DE0826]"
                     >
-                      Tech Mahindra Foundation
+                      Northstar AI Research Foundation
                     </div>
                     <div
                       onClick={() => handleNavClick('about', 'centricity')}
@@ -1536,7 +1542,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                   <div className="pl-4 py-2 space-y-2 text-sm text-gray-600 font-normal">
                     <div className="font-semibold text-gray-900">Our Services</div>
                     {[
-                      'TechM Consulting',
+                      'AI Strategy & Feasibility Advisory',
                       'Application Services',
                       'Experience Services',
                       'Sustainability Services',
@@ -1836,342 +1842,133 @@ export const allExtendedCapabilities: CapabilityItem[] = [
   ...allCapabilitiesList,
   {
     id: 101,
-    title: 'TechM Consulting',
-    category: 'Strategic Advisory & Enterprise Architecture',
+    title: 'AI Strategy & Feasibility Advisory',
+    category: 'Diagnostic Sprints & ROI Architecture',
     gradient: 'from-[#DE0826] via-[#9B113B] to-[#4A081A]',
     iconType: 'magenta-mesh',
     image: '/images/case_consult.jpg',
     description:
-      'Architecting end-to-end enterprise digital transformations, business model innovation, C-suite advisory, and organizational agility designed to unlock exponential shareholder value.',
+      'Structured 4 to 6-week diagnostic sprints to benchmark data readiness, map high-ROI use cases, select foundation model routes, and define governed pilot acceptance criteria.',
     services: [
-      'Digital Business Strategy & Transformation Roadmaps',
-      'Enterprise Architecture & Cloud Advisory',
-      'Agile Operating Model & Workforce Redesign',
-      'Technology Due Diligence & M&A Synergy Integration',
+      'Enterprise Data Readiness & Pipeline Audit',
+      'Foundation Model Route Selection (SaaS vs. Open-Weights)',
+      'Hallucination Risk & Safety Guardrail Mapping',
+      'Governed Pilot Blueprint with Strict Acceptance Criteria',
     ],
   },
   {
     id: 102,
-    title: 'Application Services',
-    category: 'Modern Software & Microservices Engineering',
+    title: 'Intelligent Software & Copilot Engineering',
+    category: 'Modern Software & Microservices AI',
     gradient: 'from-[#1E40AF] via-[#1D4ED8] to-[#172554]',
     iconType: 'blue-streak',
     image: '/images/cap_agentic.jpg',
     description:
-      'Full-lifecycle software engineering, cloud-native modernization, intelligent test automation, and autonomous SDLC acceleration across mission-critical enterprise systems.',
+      'Full-lifecycle engineering of developer copilots, automated AST code refactoring, intelligent document extractors, and cognitive user interfaces.',
     services: [
       'Agentic Software Development & Automated Refactoring',
-      'Composable Microservices Architecture Migration',
-      'Autonomous DevOps & Continuous Delivery Pipelines',
-      'Legacy Modernization & Technical Debt Elimination',
+      'Composable Microservices AI Routing',
+      'AST-Aware Codebase Ingestion & Semantic Search',
+      'Continuous Evaluation Harnesses & CI/CD Gates',
     ],
   },
   {
     id: 103,
-    title: 'Intelligent Automation',
-    category: 'Cognitive RPA & Autonomous Operations',
+    title: 'Cognitive Automation & Multi-Agent Swarms',
+    category: 'Autonomous Systems & Durable Execution',
     gradient: 'from-[#0284C7] via-[#0369A1] to-[#075985]',
     iconType: 'floating-spheres',
     image: '/images/cap_ai.jpg',
     description:
-      'Unifying robotic process automation (RPA), generative AI, document intelligence, and autonomous bots to streamline high-volume operations and eliminate manual friction.',
+      'Unifying autonomous multi-step agents, document intelligence, and event-driven execution loops to streamline high-volume operations with kill-switch safety.',
     services: [
-      'Enterprise Robotic Process Automation (RPA)',
-      'Cognitive Document Intelligence & Vision Extraction',
-      'Autonomous Workflow Decisioning & Exception Handling',
-      'Process Mining, Task Discovery & Optimization',
+      'Autonomous Multi-Agent Workflow Orchestration',
+      'Multi-Modal Document Parsing & Schema Extraction',
+      'Deterministic State Machine & Durable Execution',
+      'Human-in-the-Loop Review & Operational Kill Switches',
     ],
   },
   {
     id: 104,
-    title: 'Performance Engineering',
-    category: 'Scalability, Chaos & Reliability Engineering',
+    title: 'High-Throughput Inference & GPU Optimization',
+    category: 'Low-Latency Serving & Kernel Acceleration',
     gradient: 'from-[#4338CA] via-[#3730A3] to-[#312E81]',
     iconType: 'indigo-crescent',
     image: '/images/cap_testing.jpg',
     description:
-      'Maximizing high-throughput scalability, chaos resilience, latency reduction, and 24/7 mission-critical uptime for high-volume consumer and financial platforms.',
+      'Maximizing inference throughput, reducing time-to-first-token, and slashing serving costs with CUDA kernel tuning, vLLM orchestration, and FP8 quantization.',
     services: [
-      'High-Throughput Concurrency & Load Stress Testing',
-      'Chaos Engineering & Fault Injection Simulation',
-      'Full-Stack Telemetry, APM & Observability Optimization',
-      'Cloud-Native FinOps & Compute Resource Tuning',
+      'vLLM & Triton High-Throughput Cluster Deployment',
+      'CUDA Kernel Optimization & Speculative Decoding',
+      'FP8 / INT4 Quantization & Model Distillation',
+      'Real-Time Token Telemetry, Drift & Cost Monitoring',
     ],
   },
   {
     id: 105,
-    title: 'Sustainability Services',
-    category: 'ESG Engineering & Green Computing',
+    title: 'Agent Kavacha FinTech Risk Engine',
+    category: 'Real-Time Transaction Intelligence',
     gradient: 'from-[#DE0826] via-[#B91C1C] to-[#7F1D1D]',
-    iconType: 'green-ribbon',
-    image: '/images/ind_energy.jpg',
+    iconType: 'magenta-mesh',
+    image: '/images/ai_agent_kavacha.jpg',
     description:
-      'Accelerating enterprise Net Zero trajectories through green cloud software optimization, algorithmic carbon accounting platforms, and circular asset lifecycle management.',
+      'Sub-45ms graph anomaly detection for high-volume payment networks. Integrates streaming transaction risk scoring, contextual step-up verification, and audit-proof regulatory SHAP explainability.',
     services: [
-      'Green Cloud Computing & Algorithmic Carbon Optimization',
-      'Enterprise ESG Reporting & Scope 1/2/3 Analytics',
-      'Circular Asset Management & E-Waste Elimination',
-      'Clean Energy Grid & Campus Microgrid Integration',
+      'Sub-45ms Real-Time Transaction Scoring',
+      'Graph Neural Network Fraud Ring Topology Clustering',
+      'Contextual Step-Up Verification Challenges',
+      'Audit-Proof AML & Regulatory Explainability Lineage',
     ],
   },
   {
     id: 106,
-    title: 'Digital Core Services',
-    category: 'Cloud, Infrastructure & Cyber Resilience',
-    gradient: 'from-[#4C1D95] via-[#3B0764] to-[#1E1B4B]',
-    iconType: 'floating-spheres',
-    image: '/images/cap_cloud.jpg',
+    title: 'Agent Arogya Clinical Healthcare Suite',
+    category: 'Ambient Listening & EHR Charting',
+    gradient: 'from-rose-900 via-pink-900 to-red-950',
+    iconType: 'heart',
+    image: '/images/ai_agent_arogya.jpg',
     description:
-      'Building hyper-resilient, hybrid multi-cloud foundations, automated software-defined networks, and proactive zero-trust cyber defense for modern digital enterprises.',
+      'Ambient clinical listening copilot powered by medical foundation models. Eliminates doctor pajama time by automatically drafting structured SOAP notes, cross-referencing ICD-10 codes, and syncing via FHIR.',
     services: [
-      'Hybrid & Multi-Cloud Infrastructure Modernization',
-      'Cloud Strategy, Architecture & Advisory Consulting',
-      'Software-Defined Network Services (SD-WAN & SASE)',
-      'Enterprise Cyber Security & Proactive SOC Defense',
+      'Ambient Consultation Multi-Microphone Transcription',
+      'Structured SOAP Clinical Charting Direct to EHR',
+      'Automated ICD-10 & CPT Billing Code Assistance',
+      'Zero-Egress HIPAA-Audited Enclaves',
     ],
   },
   {
     id: 107,
-    title: 'Cloud Consulting',
-    category: 'Cloud Strategy, Migration & FinOps',
-    gradient: 'from-[#2563EB] via-[#1D4ED8] to-[#1E40AF]',
-    iconType: 'floating-spheres',
-    image: '/images/cap_cloud.jpg',
+    title: 'Enterprise RAG Knowledge Mesh',
+    category: 'Hybrid Dense-Sparse Semantic Search',
+    gradient: 'from-[#0B3C8A] via-[#1E40AF] to-[#172554]',
+    iconType: 'blue-streak',
+    image: '/images/ai_rag_vectors.jpg',
     description:
-      'Independent advisory guiding multi-cloud adoption, zero-trust cloud architecture, containerization, and FinOps cloud spend governance across AWS, Azure, and Google Cloud.',
+      'Permission-aware enterprise knowledge engine combining Milvus vector search with lexical BM25 indexing. Guarantees 99.6% answer faithfulness with exact coordinate citations and zero hallucination risk.',
     services: [
-      'Multi-Cloud Readiness & Zero-Downtime Migration',
-      'Automated FinOps & Cost Governance Frameworks',
-      'Enterprise Kubernetes & Container Orchestration',
-      'Cloud Governance, Risk & Regulatory Compliance',
+      'Multi-Modal PDF & Schematic Coordinate Chunking',
+      'Dense-Sparse Hybrid Retrieval (BM25 + Dense Embeddings)',
+      'Colbert Cross-Encoder Re-Ranking Pipeline',
+      'Mandatory Source Citation & Bounding Box Highlighting',
     ],
   },
   {
     id: 108,
-    title: 'Cyber Security',
-    category: 'Zero-Trust Defense & Threat Resilience',
-    gradient: 'from-[#7F1D1D] via-[#450A0A] to-[#1C1917]',
-    iconType: 'turbine-blade',
-    image: '/images/cap_testing.jpg',
+    title: 'Sovereign Zero-Egress VPC AI Enclaves',
+    category: 'Private Cloud Data Sovereignty',
+    gradient: 'from-[#1E1B4B] via-[#0F172A] to-black',
+    iconType: 'shield',
+    image: '/images/ai_mlops_command.jpg',
     description:
-      'Comprehensive enterprise defense incorporating 24/7 autonomous SOC monitoring, zero-trust network access, cloud security posture defense, and cyber risk management.',
+      'Turnkey deployment of self-hosted open-weights foundation models (Llama 3.3, Mistral, DeepSeek) strictly inside client AWS, Azure, or GCP private VPC networks with zero data egress.',
     services: [
-      'Zero-Trust Architecture & Identity Access Management (IAM)',
-      '24/7 Managed Detection & Response (MDR & SOC)',
-      'Cloud Security Posture Management (CSPM & CNAPP)',
-      'Threat Intelligence & Autonomous Incident Recovery',
-    ],
-  },
-  {
-    id: 109,
-    title: 'Data Analytics',
-    category: 'Enterprise Data Mesh & Real-Time Insights',
-    gradient: 'from-[#0D9488] via-[#0F766E] to-[#115E59]',
-    iconType: 'geometric-lavender',
-    image: '/images/cap_digital.jpg',
-    description:
-      'Modernizing legacy data silos into intelligent data meshes, real-time streaming pipelines, self-service visual analytics, and AI-ready enterprise data foundations.',
-    services: [
-      'Modern Data Lakehouse & Snowflake Architecture',
-      'Real-Time Streaming & Kafka Event Pipelines',
-      'Self-Service BI & Visual Analytics Dashboards',
-      'Data Governance, Lineage & Quality Automation',
-    ],
-  },
-  {
-    id: 110,
-    title: 'Microsoft Business Applications',
-    category: 'Dynamics 365, Power Platform & Copilot',
-    gradient: 'from-[#0078D4] via-[#106EBE] to-[#004578]',
-    iconType: 'geometric-lavender',
-    image: '/images/cap_digital.jpg',
-    description:
-      'Enterprise implementation and bespoke solution engineering across Microsoft Dynamics 365, Power Platform low-code automation, and Azure Copilot extensions.',
-    services: [
-      'Dynamics 365 Finance, Supply Chain & CRM Modernization',
-      'Power Apps & Power Automate Workflow Automation',
-      'Microsoft Copilot Enterprise Integration & Extension',
-      'Azure Data & Power BI Business Intelligence Fabric',
-    ],
-  },
-  {
-    id: 111,
-    title: 'Enterprise Digital Solutions',
-    category: 'Composable Architectures & API Ecosystems',
-    gradient: 'from-[#6D28D9] via-[#5B21B6] to-[#4C1D95]',
-    iconType: 'geometric-lavender',
-    image: '/images/cap_digital.jpg',
-    description:
-      'Delivering end-to-end digital engineering, bespoke enterprise portals, headless commerce journeys, and API-first business integration.',
-    services: [
-      'API-First Integration & Microservices Ecosystems',
-      'B2B/B2C Enterprise Portals & Native Mobile Apps',
-      'Headless Omnichannel Digital Commerce Platforms',
-      'Legacy Decoupling & Modern Web Engineering',
-    ],
-  },
-  {
-    id: 112,
-    title: 'SAP',
-    category: 'S/4HANA & Clean Core Transformation',
-    gradient: 'from-[#0A6ED1] via-[#0854A0] to-[#043363]',
-    iconType: 'geometric-lavender',
-    image: '/images/cap_digital.jpg',
-    description:
-      'Guiding global enterprises through RISE with SAP, S/4HANA Cloud migrations, clean core architectures, and AI-infused supply chain planning.',
-    services: [
-      'RISE with SAP & S/4HANA Cloud Migration',
-      'SAP Business Technology Platform (BTP) Innovation',
-      'SAP Ariba, SuccessFactors & Concur Integration',
-      'Clean Core Customization & Automated Regression',
-    ],
-  },
-  {
-    id: 113,
-    title: 'ServiceNow',
-    category: 'Enterprise Workflow Orchestration',
-    gradient: 'from-[#293E40] via-[#1B292B] to-[#032D42]',
-    iconType: 'architectural-fan',
-    image: '/images/cap_bps.jpg',
-    description:
-      'Transforming enterprise service operations with ServiceNow IT Service Management (ITSM), HR Service Delivery, Customer Workflows, and Now Assist AI.',
-    services: [
-      'ITSM, ITOM & ITAM Enterprise Deployment',
-      'Now Assist Generative AI Automation',
-      'Customer Service Management (CSM) Workflows',
-      'HR Service Delivery & Unified Employee Portals',
-    ],
-  },
-  {
-    id: 114,
-    title: 'Oracle',
-    category: 'ERP, SCM & Autonomous Database',
-    gradient: 'from-[#C74634] via-[#A82B1B] to-[#801B0E]',
-    iconType: 'geometric-lavender',
-    image: '/images/cap_digital.jpg',
-    description:
-      'Modernizing mission-critical financial backbones with Oracle Fusion Cloud ERP, HCM, Supply Chain Management, and Autonomous Database platforms.',
-    services: [
-      'Oracle Fusion Cloud ERP & EPM Financials',
-      'Oracle HCM Talent Architecture & Global Payroll',
-      'Oracle Supply Chain Management (SCM) & Logistics',
-      'Oracle Cloud Infrastructure (OCI) High-Speed Migration',
-    ],
-  },
-  {
-    id: 115,
-    title: 'Salesforce',
-    category: 'Agentforce, Data Cloud & Customer 360',
-    gradient: 'from-[#00A1E0] via-[#0081B4] to-[#032D42]',
-    iconType: 'green-ribbon',
-    image: '/images/cap_experience.jpg',
-    description:
-      'Empowering sales, service, and marketing teams with Salesforce Data Cloud, Agentforce autonomous agents, Einstein 1 AI, and Service Cloud.',
-    services: [
-      'Salesforce Data Cloud & Einstein 1 AI Modernization',
-      'Agentforce Autonomous Customer Service Agents',
-      'Sales & Service Cloud Modernization at Global Scale',
-      'Marketing Cloud Omnichannel Engagement Journeys',
-    ],
-  },
-  {
-    id: 116,
-    title: 'Pega',
-    category: 'Low-Code & Real-Time Decisioning',
-    gradient: 'from-[#002B49] via-[#001D31] to-[#00101C]',
-    iconType: 'blue-streak',
-    image: '/images/cap_agentic.jpg',
-    description:
-      'Maximizing customer lifetime value and operating efficiency with Pegasystems 1:1 Customer Engagement, Customer Decision Hub, and low-code case management.',
-    services: [
-      'Pega Customer Decision Hub (CDH) Optimization',
-      '1:1 Real-Time Next-Best-Action Decisioning Engines',
-      'Pega Infinity Low-Code Case Management',
-      'Intelligent KYC & Omnichannel Onboarding Automation',
-    ],
-  },
-  {
-    id: 117,
-    title: 'Integrated Offerings',
-    category: 'End-to-End Enterprise Convergence',
-    gradient: 'from-[#9B113B] via-[#7B0D2E] to-[#4A081A]',
-    iconType: 'magenta-mesh',
-    image: '/images/cap_hero_mesh.jpg',
-    description:
-      'Combining deep domain expertise, proprietary IP, strategic hyperscaler alliances, and GCC frameworks into unified turnkey business solutions.',
-    services: [
-      'Global Capability Centers (GCC) Setup & Scale',
-      'Industry Convergence Turnkey Platforms',
-      'End-to-End IT-OT Integrated Operations',
-      'Multi-Tower Managed Transformation Services',
-    ],
-  },
-  {
-    id: 118,
-    title: 'Global Capability Centers',
-    category: 'GCC-as-a-Service & Turnkey Innovation',
-    gradient: 'from-[#1E3A8A] via-[#172554] to-[#0F172A]',
-    iconType: 'blue-streak',
-    image: '/images/about_hq.jpg',
-    description:
-      'Enabling Fortune 500 multinationals to design, incubate, scale, and operate world-class Global Capability Centers across premier global talent hubs.',
-    services: [
-      'Turnkey GCC Incubation & BOT (Build-Operate-Transfer)',
-      'Talent Architecture & Deep Tech Centers of Excellence',
-      'Regulatory, Real Estate & Operational Compliance',
-      'Digital Core & AI Lab Integration for Global Scale',
-    ],
-  },
-  {
-    id: 119,
-    title: 'Products & Platforms',
-    category: 'Proprietary IP & SaaS Solutions',
-    gradient: 'from-[#DE0826] via-[#B91C1C] to-[#881337]',
-    iconType: 'magenta-mesh',
-    image: '/images/cap_hero.jpg',
-    description:
-      'Award-winning suite of industry-specific software products, AI platforms, telecom network orchestrators, and digital customer engagement tools.',
-    services: [
-      'netOps AI Network Orchestration Platform',
-      'Cognitive Operations & Smart Ticketing Fabric',
-      'Sovereign AI Foundation Platforms',
-      'Industry 4.0 IoT Edge Orchestration Engines',
-    ],
-  },
-  {
-    id: 120,
-    title: 'Innovation, R&D - Makers Lab',
-    category: 'Applied Research, Quantum & Edge AI',
-    gradient: 'from-[#7C3AED] via-[#5B21B6] to-[#2E1065]',
-    iconType: 'geometric-lavender',
-    image: '/images/cap_wave.jpg',
-    description:
-      'Our dedicated R&D innovation engine pioneering breakthrough applications in quantum computing, neuromorphic hardware, generative design, and spatial web.',
-    services: [
-      'Quantum Computing & Post-Quantum Cryptography',
-      'Applied Generative AI & Sovereign LLM Research',
-      'Edge AI, Robotics & Sensor Convergence',
-      'Metaverse, Spatial UX & Industrial Digital Twins',
-    ],
-  },
-  {
-    id: 121,
-    title: 'Scale at Speed™',
-    category: 'Next-Generation Operating Model',
-    gradient: 'from-[#DE0826] via-[#B91C1C] to-[#450A0A]',
-    iconType: 'magenta-mesh',
-    image: '/images/home_racing.jpg',
-    description:
-      'Our defining strategic promise: fusing agility with enterprise scale to turn emerging innovations into measurable business outcomes at accelerated speed.',
-    services: [
-      'Rapid Prototype-to-Production Velocity',
-      'Composable Architecture Frameworks',
-      'Autonomous Delivery Automation',
-      'Continuous Value Realization Metrics',
+      'Air-Gapped & Zero-Egress VPC Model Serving',
+      'Hardware Security Module (HSM) Key Management',
+      'Granular Role-Based Access Control (RBAC)',
+      'Immutable Prompt-Response Audit Manifests',
     ],
   },
 ]
-
 export function getCapabilityByName(query: string): CapabilityItem | null {
   if (!query) return null
   const qTrim = query.trim().toLowerCase()
@@ -2198,7 +1995,7 @@ export function getCapabilityByName(query: string): CapabilityItem | null {
   if (found) return found
 
   // 4. Keyword fallbacks mapped to exact original titles
-  if (qNorm.includes('consult')) return allExtendedCapabilities.find((c) => c.title === 'TechM Consulting') || null
+  if (qNorm.includes('consult')) return allExtendedCapabilities.find((c) => c.title === 'AI Strategy & Feasibility Advisory') || null
   if (qNorm.includes('sap')) return allExtendedCapabilities.find((c) => c.title === 'SAP') || null
   if (qNorm.includes('salesforce')) return allExtendedCapabilities.find((c) => c.title === 'Salesforce') || null
   if (qNorm.includes('servicenow')) return allExtendedCapabilities.find((c) => c.title === 'ServiceNow') || null
@@ -2240,300 +2037,299 @@ interface IndustryItem {
 const allIndustriesList: IndustryItem[] = [
   {
     id: 'banking-financial',
-    name: 'Banking & Financial Services',
+    name: 'Banking & Capital Markets AI',
     category: 'financial',
     categoryLabel: 'Financial Services & Capital Markets',
-    tagline: 'Next-Gen Core Banking & Digital Finance Platforms',
+    tagline: 'Autonomous Anti-Fraud Agents & Sub-45ms Transaction Defense',
     description:
-      'Accelerating financial modernization with intelligent digital banking, AI fraud defense, open finance APIs, and next-gen wealth ecosystems.',
+      'Deploying Agent Kavacha for sub-45ms transaction anomaly scoring, graph neural network risk clustering, and audit-proof regulatory SHAP explainability.',
     gradient: 'from-blue-900 via-indigo-900 to-slate-900',
     accentColor: '#2563EB',
     image: '/images/ind_banking.jpg',
     iconName: 'chart',
     solutions: [
-      'Cloud-Native Core Banking Modernization',
-      'AI-Powered AML & Fraud Risk Detection',
-      'Open Banking & BaaS API Architecture',
-      'Intelligent Wealth & Digital Asset Ecosystems',
+      'Agent Kavacha Real-Time Anti-Fraud',
+      'Graph Neural Risk Topology Scoring',
+      'Regulatory AML Decision Lineage',
+      'High-Frequency Quantitative Sentiment RAG',
     ],
-    impactMetric: '40% Faster Settlement',
-    impactLabel: 'Serving 8 of the top 10 global financial institutions',
+    impactMetric: '< 45ms Latency',
+    impactLabel: '99.8% precision with $4.2M+ monthly fraud prevented',
   },
   {
     id: 'communications',
-    name: 'Communications',
+    name: 'Telecom & Autonomous Networks',
     category: 'tech',
     categoryLabel: 'Communications & Hi-Tech',
-    tagline: '5G Telco Cloud, Open RAN & Autonomous Networks',
+    tagline: 'AI Autonomous Network Ops (AIOps) & 5G Edge Intelligence',
     description:
-      'Empowering telecom operators to transform from legacy telcos to agile techcos with 5G orchestration, autonomous network ops, and AI customer care.',
+      'Orchestrating self-healing network cores, dynamic user plane slicing, and multimodal subscriber care copilots with carrier-grade reliability.',
     gradient: 'from-indigo-900 via-purple-900 to-blue-950',
     accentColor: '#4F46E5',
     image: '/images/ind_communications.jpg',
     iconName: 'phone',
     solutions: [
-      '5G Telco Cloud Architecture & Edge Compute',
-      'Open RAN Virtualization & Interoperability',
-      'AI Autonomous Network Operations (AIOps)',
-      'Next-Gen BSS/OSS Microservices Modernization',
+      'AIOps Self-Healing Core Orchestration',
+      'Predictive 5G User Plane Slicing',
+      'Autonomous Cell Tower Diagnostic Copilots',
+      'Real-Time Subscriber Churn Modeling',
     ],
-    impactMetric: '300M+ Subscribers',
-    impactLabel: 'Supported across 50+ tier-1 operators worldwide',
+    impactMetric: '99.999% Uptime',
+    impactLabel: '40% reduction in network operational expenditure',
   },
   {
     id: 'education',
-    name: 'Education',
+    name: 'Education & Adaptive EdTech',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
-    tagline: 'Hybrid Digital Campuses & Adaptive AI Learning',
+    tagline: 'Curriculum-Grounded Socratic Agents & Educator Copilots',
     description:
-      'Transforming higher education and enterprise learning with personalized learning platforms, digital campus infrastructures, and data-driven student success engines.',
+      'Deploying Agent Vidya for multi-tiered personalized learning, automated rubric-aligned diagnostic grading, and differentiated lesson planning.',
     gradient: 'from-teal-900 via-emerald-900 to-cyan-950',
     accentColor: '#0D9488',
     image: '/images/ind_education.jpg',
     iconName: 'award',
     solutions: [
-      'Hybrid Digital Campus Infrastructure',
-      'Adaptive AI Personalized Learning Engines',
-      'University ERP & Student Information Systems',
-      'Student Engagement & Analytics Dashboards',
+      'Agent Vidya Socratic Tutoring Copilot',
+      'Automated Diagnostic Assignment Evaluation',
+      'FERPA-Compliant Student Knowledge Graphs',
+      'Differentiated Educator Lesson Generation',
     ],
-    impactMetric: '1.5M+ Students',
-    impactLabel: 'Empowered across 40+ leading universities',
+    impactMetric: '4.8x Engagement',
+    impactLabel: '80% time saved per educator on routine grading',
   },
   {
     id: 'energy-utilities',
-    name: 'Energy & Utilities',
+    name: 'Energy, Utilities & Smart Grids',
     category: 'industrial',
     categoryLabel: 'Energy & Industrial',
-    tagline: 'Smart Grids, Distributed Energy & Net-Zero ESG',
+    tagline: 'Physics-Informed Neural Twins & Grid Load Optimization',
     description:
-      'Modernizing legacy electrical, water, and gas networks with smart meter infrastructure, renewable grid integration, and predictive asset reliability.',
+      'Predictive grid load balancing, automated renewable power dispatching, and neural digital twins for turbine assets with net-zero carbon accounting.',
     gradient: 'from-amber-900 via-yellow-900 to-orange-950',
     accentColor: '#D97706',
     image: '/images/ind_energy.jpg',
     iconName: 'zap',
     solutions: [
-      'Smart Grid & Advanced Metering Infrastructure (AMI)',
-      'Renewable Distributed Energy Resource Management',
-      'Net-Zero Carbon Accounting & ESG Reporting',
-      'Predictive Grid Asset Reliability & Digital Twins',
+      'Physics-Informed Neural Grid Twins',
+      'Dynamic Renewable Storage Dispatching',
+      'Substation Computer Vision Thermography',
+      'Automated Carbon Telemetry & ESG Lineage',
     ],
-    impactMetric: '25% Outage Cut',
-    impactLabel: 'Across 350+ global utility transformations',
+    impactMetric: '32% Peak Shaving',
+    impactLabel: 'Zero unplanned outages across 350+ grid substations',
   },
   {
     id: 'healthcare-life-sciences',
-    name: 'Healthcare & Life Sciences',
+    name: 'Healthcare & Clinical AI',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
-    tagline: 'Connected IoMT, AI Diagnostics & Clinical Trials',
+    tagline: 'Ambient Clinical Listening & Medical Foundation Models',
     description:
-      'Reimagining patient care and life sciences through interoperable EHR ecosystems, decentralized clinical trial platforms, and AI-accelerated drug discovery workflows.',
+      'Deploying Agent Arogya for ambient consultation transcription, automated EHR SOAP charting, and HIPAA-compliant zero-egress clinical enclaves.',
     gradient: 'from-rose-900 via-pink-900 to-red-950',
     accentColor: '#E11D48',
     image: '/images/ind_healthcare.jpg',
     iconName: 'heart',
     solutions: [
-      'Connected Patient Ecosystems & Remote IoMT',
-      'Decentralized Clinical Trial Digitalization',
-      'HIPAA-Compliant Healthcare Cloud Platforms',
-      'AI Diagnostic Assistance & Medical Imaging Workflows',
+      'Agent Arogya Ambient Clinical Copilot',
+      'Structured EHR SOAP Note Generation',
+      'Automated ICD-10 & CPT Code Assistance',
+      'HIPAA Zero-Egress Cloud Enclaves',
     ],
-    impactMetric: '15M+ Patient Lives',
-    impactLabel: '30% faster clinical discovery cycles',
+    impactMetric: '-65% Charting Time',
+    impactLabel: '2.5 hours saved daily per physician across 12 hospitals',
   },
   {
     id: 'hi-tech',
-    name: 'Hi Tech',
+    name: 'Hi-Tech & Autonomous Software',
     category: 'tech',
     categoryLabel: 'Communications & Hi-Tech',
-    tagline: 'Semiconductor VLSI, Embedded Systems & Cloud SaaS',
+    tagline: 'Autonomous Software Delivery & Neural Code Refactoring',
     description:
-      'Partnering with the world’s leading technology pioneers to design silicon, build embedded firmware, scale enterprise SaaS, and architect autonomous AI hardware.',
+      'Empowering software organizations with codebase semantic search, automated AST-aware refactoring agents, and continuous LLM evaluation gates.',
     gradient: 'from-cyan-900 via-sky-900 to-blue-950',
     accentColor: '#0284C7',
     image: '/images/ind_hitech.jpg',
     iconName: 'cpu',
     solutions: [
-      'Semiconductor VLSI & Silicon Tape-Out Engineering',
-      'Embedded Firmware & Edge AI Integration',
-      'Hyperscale Cloud SaaS Platform Engineering',
-      'Product Lifecycle Management (PLM) Digital Twins',
+      'Codebase Semantic Ingestion & RAG',
+      'Autonomous Unit Test & Benchmark Synthesis',
+      'AST-Aware Legacy Migration Agents',
+      'High-Speed vLLM Model Serving Fabrics',
     ],
-    impactMetric: '100+ Tape-Outs',
-    impactLabel: '99.8% first-pass silicon engineering success',
+    impactMetric: '3.5x Velocity',
+    impactLabel: '70% reduction in technical debt refactoring hours',
   },
   {
     id: 'insurance-technology',
-    name: 'Insurance',
+    name: 'Insurance & Actuarial AI',
     category: 'financial',
     categoryLabel: 'Financial Services & Capital Markets',
-    tagline: 'Autonomous Claims, AI Underwriting & Digital InsurTech',
+    tagline: 'Computer Vision Claims & Algorithmic Underwriting',
     description:
-      'Empowering P&C, life, and commercial insurers to achieve straight-through claims processing, algorithmic underwriting, and modern policy administration.',
+      'Straight-through claims adjudication with multimodal computer vision damage assessment, policy document RAG, and actuarial risk modeling.',
     gradient: 'from-sky-900 via-blue-900 to-indigo-950',
     accentColor: '#0369A1',
     image: '/images/ind_insurance.jpg',
     iconName: 'shield',
     solutions: [
-      'Straight-Through Claims Automation',
-      'AI Underwriting & Actuarial Risk Modeling',
-      'Core Guidewire & Duck Creek Modernization',
-      'Digital Policyholder & Broker Omnichannel Portals',
+      'Multimodal Damage Assessment Vision',
+      'Straight-Through Claims Adjudication Agents',
+      'Complex Policy Clause Extraction RAG',
+      'Dynamic Actuarial Catastrophe Modeling',
     ],
-    impactMetric: '60% Faster Claims',
-    impactLabel: '45% reduction in operational cost per policy',
+    impactMetric: '80% Auto-Adjudication',
+    impactLabel: 'Claim turnaround compressed from 14 days to 4 minutes',
   },
   {
     id: 'manufacturing',
-    name: 'Manufacturing',
+    name: 'Smart Manufacturing & Robotics',
     category: 'industrial',
     categoryLabel: 'Energy & Industrial',
-    tagline: 'Industry 4.0, Smart Factories & Autonomous Robotics',
+    tagline: 'Shop-Floor Edge Vision & Autonomous Predictive Maintenance',
     description:
-      'Digitizing industrial manufacturing with shop-floor IoT, predictive maintenance, supply chain digital twins, and autonomous robotics for high-throughput output.',
+      'Industrial edge computer vision for micro-defect detection, sensor vibration forecasting, and autonomous robotics orchestration in smart factories.',
     gradient: 'from-stone-900 via-zinc-900 to-neutral-950',
     accentColor: '#78716C',
     image: '/images/ind_manufacturing.jpg',
     iconName: 'factory',
     solutions: [
-      'Industry 4.0 Smart Factory Orchestration',
-      'Supply Chain End-to-End Digital Twins',
-      'Predictive Machine Maintenance & OT Security',
-      'Automated Guided Vehicles (AGV) & MES Systems',
+      'Sub-Millimeter Edge Defect Inspection',
+      'Acoustic & Vibration Machine Failure Forecasters',
+      'Autonomous AGV Fleet Swarm Routing',
+      'Shop-Floor Digital Twin Telemetry',
     ],
-    impactMetric: '35% Downtime Cut',
-    impactLabel: 'Across 400+ connected manufacturing plants',
+    impactMetric: '42% Downtime Cut',
+    impactLabel: '99.94% first-pass automated visual QA accuracy',
   },
   {
     id: 'media-entertainment',
-    name: 'Media & Entertainment',
+    name: 'Media, Gaming & Content AI',
     category: 'tech',
     categoryLabel: 'Communications & Hi-Tech',
-    tagline: 'Cloud Media Supply Chains, AI Video & OTT Streaming',
+    tagline: 'Multimodal Asset Indexing & Intelligent Video Synthesis',
     description:
-      'Empowering studios, broadcasters, and streamers to manage digital media assets in the cloud, automate subtitling and localization, and stream ultra-low latency content.',
+      'Automating media asset management with scene-level semantic indexing, synthetic voice localization, and broadcast-grade content moderation.',
     gradient: 'from-fuchsia-900 via-purple-900 to-violet-950',
     accentColor: '#9333EA',
     image: '/images/ind_media.jpg',
     iconName: 'play',
     solutions: [
-      'Cloud Media Asset Supply Chain & MAM',
-      'Ultra-Low Latency OTT Video Streaming Platforms',
-      'AI Automated Video Metadata & Localization',
-      'Virtual Studio & Immersive 3D Production',
+      'Multimodal Video Scene Segmentation RAG',
+      'Real-Time Neural Speech & Dubbing Synthesis',
+      'Automated Rights & Standards Compliance Filters',
+      'Dynamic Audience Engagement Forecasting',
     ],
-    impactMetric: '10B+ Streams/Mo',
-    impactLabel: '99.999% broadcast-grade streaming reliability',
+    impactMetric: '10M+ Hours Indexed',
+    impactLabel: 'Sub-second semantic search across multi-petabyte archives',
   },
   {
     id: 'oil-gas',
-    name: 'Oil & Gas',
+    name: 'Oil, Gas & Subsurface AI',
     category: 'industrial',
     categoryLabel: 'Energy & Industrial',
-    tagline: 'Digital Oilfields, Pipeline IoT & Decarbonization',
+    tagline: 'Seismic Neural Inversion & Hazard Vision Telemetry',
     description:
-      'Delivering end-to-end digital transformation for upstream, midstream, and downstream operations with remote wellhead monitoring, pipeline SCADA, and carbon reduction.',
+      'Accelerating reservoir exploration with 3D seismic neural inversion, autonomous pipeline leak detection, and automated refinery safety monitoring.',
     gradient: 'from-orange-950 via-amber-950 to-neutral-950',
     accentColor: '#EA580C',
     image: '/images/ind_oilgas.jpg',
     iconName: 'layers',
     solutions: [
-      'Upstream Digital Oilfield Remote Monitoring',
-      'Refinery Asset Integrity IoT & Predictive SRE',
-      'Pipeline Leak Detection & Autonomous SCADA',
-      'Energy Transition & Emissions Decarbonization',
+      '3D Seismic Neural Inversion & Reservoir Twins',
+      'Autonomous Drone Pipeline Leak Detection',
+      'Refinery Flare Stack Thermal Vision Telemetry',
+      'Subsea Wellhead Predictive SRE Modeling',
     ],
-    impactMetric: '20% Lower OPEX',
-    impactLabel: '10,000+ wellheads under continuous digital surveillance',
+    impactMetric: '99.7% Leak Prevention',
+    impactLabel: '10,000+ wellheads under real-time neural surveillance',
   },
   {
     id: 'private-equity',
-    name: 'Private Equity',
+    name: 'Private Equity & Deal Intelligence',
     category: 'financial',
     categoryLabel: 'Financial Services & Capital Markets',
-    tagline: 'Tech Due Diligence, 100-Day EBITDA Value Creation',
+    tagline: 'Investment Memorandum RAG & Portfolio Telemetry',
     description:
-      'Partnering with buyout and growth equity funds to conduct technical and cyber due diligence, accelerate portfolio EBITDA expansion, and orchestrate carve-out integrations.',
+      'Equipping investment teams with multi-document financial RAG, automated carve-out diligence, and continuous portfolio operational telemetry.',
     gradient: 'from-slate-900 via-gray-900 to-zinc-950',
     accentColor: '#475569',
     image: '/images/ind_privateequity.jpg',
     iconName: 'chart',
     solutions: [
-      'Pre-Deal Tech & Cybersecurity Due Diligence',
-      'Rapid 100-Day EBITDA Value Acceleration',
-      'Complex IT Carve-Outs & M&A Systems Integration',
-      'Cross-Portfolio Tech Synergies & Vendor Rationalization',
+      'Investment Memo Multi-Document RAG',
+      'Automated EBITDA Expansion Opportunity Sensing',
+      'M&A Tech Architecture Due Diligence Agents',
+      'Alternative Market Sentiment Signal Harvesters',
     ],
-    impactMetric: '3.2x Digital Value',
-    impactLabel: 'Enterprise value multiple across 180+ PE portfolios',
+    impactMetric: '85% Faster Diligence',
+    impactLabel: 'Diligence cycles compressed from 6 weeks to 48 hours',
   },
   {
     id: 'professional-services',
-    name: 'Professional Services',
+    name: 'Legal & Professional Services AI',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
-    tagline: 'PSA Automation, Enterprise Practice ERP & AI Knowledge',
+    tagline: 'Contract Semantic Parsing & Multi-Doc Due Diligence',
     description:
-      'Modernizing global law firms, consultancies, accounting practices, and advisory organizations with intelligent billing, talent allocation, and generative AI research.',
+      'Empowering law firms and consultancies with permission-aware contract RAG, automated regulatory compliance cross-referencing, and diligence briefs.',
     gradient: 'from-zinc-900 via-slate-900 to-gray-950',
     accentColor: '#64748B',
     image: '/images/ind_professionalservices.jpg',
     iconName: 'users',
     solutions: [
-      'Professional Services Automation (PSA) & Talent Allocation',
-      'Enterprise Billing, Practice ERP & Time-Capture',
-      'Generative AI Knowledge Synthesis & Document Discovery',
-      'Zero-Trust Enterprise Confidentiality & Cyber Defense',
+      'Multi-Jurisdictional Contract Analysis RAG',
+      'Automated Clause Redlining & Risk Scoring',
+      'Litigation Discovery Semantic Search',
+      'Audit-Proof Source Citation Grounding',
     ],
-    impactMetric: '40% Utilization Boost',
-    impactLabel: 'For top global accounting, consulting & legal firms',
+    impactMetric: '90% Doc Review Cut',
+    impactLabel: '100% citation traceability back to source paragraph',
   },
   {
     id: 'retail-consumer-goods',
-    name: 'Retail & Consumer Goods',
+    name: 'Retail & Omnichannel Commerce AI',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
-    tagline: 'Composable Omnichannel Commerce & AI Demand Sensing',
+    tagline: 'Autonomous Inventory Replenishment & Demand Sensing',
     description:
-      'Empowering consumer brands and retail enterprises to integrate physical stores and digital channels with headless commerce, AI inventory forecasting, and smart store IoT.',
+      'Transforming omnichannel retail with causal transformer demand sensing, automated warehouse inventory balancing, and visual search checkout.',
     gradient: 'from-red-900 via-rose-900 to-stone-900',
     accentColor: '#DE0826',
     image: '/images/ind_retail.jpg',
     iconName: 'shopping',
     solutions: [
-      'Headless & Composable Omnichannel Commerce',
-      'AI Demand Sensing & Real-Time Inventory Optimization',
-      'Smart Store Computer Vision & Autonomous Checkout',
-      'Hyper-Personalized Customer Loyalty & Promotion Engines',
+      'Causal Transformer Demand Sensing',
+      'Autonomous Multi-Agent Warehouse Replenishment',
+      'Visual Similarity Product Search & Styling',
+      'Dynamic Perishable Shelf-Life Pricing',
     ],
-    impactMetric: '22% Higher AOV',
-    impactLabel: '99.5% real-time inventory tracking accuracy',
+    impactMetric: '$180M Working Capital',
+    impactLabel: '35% reduction in food spoilage and inventory write-offs',
   },
   {
     id: 'travel-transportation',
-    name: 'Travel, Transportation, Logistics & Hospitality',
+    name: 'Travel, Logistics & Fleet AI',
     category: 'consumer',
     categoryLabel: 'Healthcare, Retail & Services',
-    tagline: 'Smart Passenger Systems, Fleet Telematics & Dynamic Logistics',
+    tagline: 'Dynamic Route Optimization & Predictive Asset Dispatch',
     description:
-      'Transforming airlines, railways, cargo fleets, and hospitality chains with modern passenger service systems, intelligent route telematics, and contactless guest experiences.',
+      'Optimizing global transit corridors with predictive flight turnarounds, dynamic vessel routing, and autonomous logistics dispatch copilots.',
     gradient: 'from-sky-950 via-cyan-950 to-blue-900',
     accentColor: '#0284C7',
     image: '/images/ind_travel.jpg',
     iconName: 'car',
     solutions: [
-      'Airline Passenger Service Systems (PSS) & Retailing',
-      'Fleet Telematics, Asset Tracking & Dynamic Route Dispatch',
-      'Smart Airport & Terminal Operational Control Hubs',
-      'Hospitality Contactless Guest Journey Platforms',
+      'Autonomous Dynamic Fleet Route Optimization',
+      'Predictive Aircraft Maintenance & Turnaround AI',
+      'Real-Time Container Port Intermodal Scheduling',
+      'Multimodal Freight ETA Forecasting',
     ],
-    impactMetric: '250M+ Passengers',
-    impactLabel: 'Served annually across 80+ airlines & transit hubs',
+    impactMetric: '18% Fuel Burn Cut',
+    impactLabel: 'Managing 250M+ annual passenger and cargo journeys',
   },
 ]
-
 export function getIndustryByName(query: string): IndustryItem | null {
   if (!query) return null
   const qTrim = query.trim().toLowerCase()
@@ -2579,7 +2375,7 @@ export function getIndustryByName(query: string): IndustryItem | null {
 }
 
 // -------------------------------------------------------------
-// Insights Page Implementation (Matching Tech Mahindra Reference)
+// Insights Page Implementation (Northstar AI Studio Reference)
 // -------------------------------------------------------------
 interface CaseStudyItem {
   id: string
@@ -2603,70 +2399,68 @@ interface EventItem {
 
 const caseStudiesList: CaseStudyItem[] = [
   {
-    id: 'port-logistics',
-    title: 'A Leading Port & Container Terminal Operator Reduces Turnaround Time by 40% with SAP S/4HANA Transformation',
-    category: 'Supply Chain & Logistics',
-    image: '/images/case_port.jpg',
+    id: 'agent-kavacha',
+    title: 'Agent Kavacha: Autonomous Real-Time Anti-Fraud Defense in Sub-45ms Across Payment Rails',
+    category: 'Autonomous FinTech Agents',
+    image: '/images/ai_agent_kavacha.jpg',
     summary:
-      'Engineered an enterprise-grade digital twin and SAP S/4HANA core modernization across 24 maritime terminals, optimizing berth scheduling and crane utilization in real-time.',
-    metric: '40% Faster Vessel Turnaround',
-    client: 'Global Port Authority',
+      'Deployed graph neural network anomaly detectors scoring 120M+ historical and live transactions in under 38ms, preventing $4.2M in monthly fraud losses.',
+    metric: '< 45ms Latency | 99.8% Precision',
+    client: 'Apex Global Payments',
   },
   {
-    id: 'payment-automation',
-    title: 'Global Payments Leader Automates 85% of Invoice Approvals with Agentic AI',
-    category: 'Financial Services',
-    image: '/images/case_ribbon.jpg',
+    id: 'agent-arogya',
+    title: 'Agent Arogya: Ambient Clinical Listening & Automated EHR Charting Across 12 Regional Hospitals',
+    category: 'Clinical AI Copilot',
+    image: '/images/ai_agent_arogya.jpg',
     summary:
-      'Deployed autonomous multi-agent systems to validate complex invoices, cross-reference trade contracts, and detect fraudulent reconciliations with sub-second latency.',
-    metric: '85% Autonomous Invoice Clearance',
-    client: 'Tier-1 FinTech Leader',
+      'Integrated medical foundation models into outpatient consultations, automating structured SOAP notes and ICD-10 coding with zero clinician pajama time.',
+    metric: '-65% Charting Overhead | 2.5 Hrs Saved/Day',
+    client: 'St. Jude Healthcare Network',
   },
   {
-    id: 'insurance-guidewire',
-    title: 'Leading North American Insurer Reimagines Insurance Operations with Guidewire Cloud Optimization',
-    category: 'Insurance & Risk',
-    image: '/images/case_consult.jpg',
+    id: 'enterprise-rag-mesh',
+    title: 'Enterprise Knowledge Engine: Multi-Modal RAG Across 10M+ Technical Schematics & Blueprints',
+    category: 'Retrieval-Augmented Generation (RAG)',
+    image: '/images/ai_rag_vectors.jpg',
     summary:
-      'Migrated legacy on-prem policy systems to Guidewire Cloud with automated CI/CD resilience, reducing claims settlement latency while elevating broker satisfaction by 65%.',
-    metric: '65% Broker Satisfaction Surge',
-    client: 'Fortune 500 Insurer',
+      'Sub-second hybrid dense-sparse vector search indexing engineering documentation with Colbert reranking and strict citation coordinate grounding.',
+    metric: '99.6% Answer Faithfulness | < 800ms Query',
+    client: 'Global Energy Consortium',
   },
 ]
 
 const upcomingEventsList: EventItem[] = [
   {
-    id: 'semicon-india',
-    day: '17',
+    id: 'ai-summit-sf',
+    day: '18',
     monthYear: 'MAR 2026',
-    title: 'Norstar is a Gold Sponsor at SEMICON India 2026',
-    location: 'Yashobhoomi Convention Center, New Delhi | Booth #B24',
+    title: 'Global Applied AI Summit 2026: Architecting Governed Autonomous Agents',
+    location: 'Moscone Center, San Francisco, CA | Stage 1 Keynote',
     avatar: '/images/event_semicon.jpg',
-    details: 'Join our semiconductor VLSI architects for live demonstrations of AI-driven silicon verification and automotive chip design accelerators.',
+    details: 'Join our Chief AI Scientist Dr. Elena Rostova for a live breakdown of production agent orchestration, durable execution loops, and kill-switch architectures.',
   },
   {
-    id: 'nrf-paris',
-    day: '15',
+    id: 'rag-world-tour',
+    day: '22',
     monthYear: 'APR 2026',
-    title: "Join Norstar at NRF 2026: Retail's Big Show Europe",
-    location: 'Paris Expo Porte de Versailles, Paris, France | Stand #C12',
+    title: 'Enterprise RAG World Tour: Hybrid Dense-Sparse Indexing & Citations',
+    location: 'ExCeL London, United Kingdom | Hall 4',
     avatar: '/images/event_nrf.jpg',
-    details: 'Experience headless commerce in action with computer-vision checkout, AI demand forecasting, and real-time omnichannel inventory engines.',
+    details: 'Deep dive into zero-egress VPC vector search pipelines, multi-modal PDF parsing, and hallucination regression benchmark suites.',
   },
   {
     id: 'dreamforce-sf',
     day: '15',
     monthYear: 'OCT 2026',
-    title: 'Norstar at Dreamforce 2026: Turning AI into Co-Worker',
-    location: 'Moscone Center, San Francisco, California',
+    title: 'Northstar AI at Dreamforce 2026: Turning Autonomous Agents into Co-Workers',
+    location: 'San Francisco, California | AI Keynote Theatre',
     avatar: '/images/event_dreamforce.jpg',
-    details: 'Keynote panel exploring autonomous CRM agents, generative client intelligence, and zero-downtime Salesforce enterprise migrations.',
+    details: 'Executive keynote exploring autonomous CRM reasoning agents, generative customer risk scoring, and enterprise human-in-the-loop workflows.',
   },
 ]
-
-
 // -------------------------------------------------------------
-// Careers Page Implementation (Matching Tech Mahindra Reference)
+// Careers Page Implementation (Northstar AI Studio Reference)
 // -------------------------------------------------------------
 interface JobRole {
   id: string
@@ -2681,47 +2475,55 @@ interface JobRole {
 const openRolesList: JobRole[] = [
   {
     id: 'ai-architect',
-    title: 'Senior Agentic AI & LLM Systems Architect',
-    department: 'Artificial Intelligence CoE',
+    title: 'Principal Applied AI Systems Architect',
+    department: 'Applied AI Laboratory',
     location: 'San Francisco, CA / Remote',
-    type: 'Full-time',
-    experience: '7+ Years',
-    description:
-      'Lead the architecture of enterprise multi-agent swarms, foundational model fine-tuning, and cognitive automation pipelines for Fortune 500 clients.',
-  },
-  {
-    id: 'cloud-sre',
-    title: 'Lead Cloud SRE & Sovereign FinOps Specialist',
-    department: 'Cloud & Infrastructure',
-    location: 'London, UK / Hybrid',
-    type: 'Full-time',
-    experience: '5+ Years',
-    description:
-      'Design multi-cloud sovereign landing zones, Kubernetes clusters, and automated cost-optimization engines with zero-downtime tolerance.',
-  },
-  {
-    id: 'erp-consultant',
-    title: 'Principal SAP S/4HANA Modernization Consultant',
-    department: 'Enterprise Applications',
-    location: 'New York, NY / Hybrid',
     type: 'Full-time',
     experience: '8+ Years',
     description:
-      'Lead global ERP core migration programs, composable supply chain architectures, and business process re-engineering.',
+      'Lead the architecture of enterprise multi-agent swarms, hybrid dense-sparse RAG pipelines, and sovereign private-cloud foundation model deployments.',
   },
   {
-    id: 'ux-director',
-    title: 'Digital Experience & Spatial UX Director',
-    department: 'Experience Services',
+    id: 'llm-engineer',
+    title: 'Senior LLM Fine-Tuning & Quantization Engineer',
+    department: 'Model Alignment & Serving',
+    location: 'New York, NY / Hybrid',
+    type: 'Full-time',
+    experience: '5+ Years',
+    description:
+      'Drive parameter-efficient fine-tuning (LoRA, QLoRA), FP8/INT4 quantization, and low-latency inference serving with vLLM and TensorRT-LLM on H100 clusters.',
+  },
+  {
+    id: 'autonomous-agents',
+    title: 'Autonomous Agents Workflow Systems Engineer',
+    department: 'Autonomous Systems & Robotics',
+    location: 'London, UK / Remote',
+    type: 'Full-time',
+    experience: '4+ Years',
+    description:
+      'Design deterministic state machines, durable agent execution loops, scoped tool call interfaces, and human-in-the-loop operational escalation switches.',
+  },
+  {
+    id: 'mlops-engineer',
+    title: 'Principal MLOps & High-Throughput Inference Platform Engineer',
+    department: 'Production AI Platforms',
     location: 'Bengaluru, India / Hybrid',
     type: 'Full-time',
     experience: '6+ Years',
     description:
-      'Direct omnichannel design systems, headless digital storefronts, and immersive spatial computing experiences for consumer brands.',
+      'Build resilient distributed GPU clusters on Kubernetes, Ray, and Triton Inference Server with automated hallucination regression benchmarks.',
+  },
+  {
+    id: 'ai-safety-eval',
+    title: 'Lead AI Governance, Safety & Red-Teaming Specialist',
+    department: 'AI Trust & Regulatory Governance',
+    location: 'San Francisco, CA / Remote',
+    type: 'Full-time',
+    experience: '5+ Years',
+    description:
+      'Architect automated continuous evaluation harnesses, jailbreak defense guardrails, bias regression tests, and regulatory compliance manifests (EU AI Act, HIPAA).',
   },
 ]
-
-
 // -------------------------------------------------------------
 // Contact Us Page Implementation (Matching Reference Screenshot)
 // -------------------------------------------------------------
@@ -2738,19 +2540,19 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Dallas Corporate Headquarters',
         address: '6000 Connection Drive, Irving, TX 75039',
         phone: '+1 (800) 246-8324',
-        email: 'usa@techmahindra.com',
+        email: 'usa@northstarai.com',
       },
       {
         name: 'San Jose Innovation Center',
         address: '2880 Zanker Road, Suite 203, San Jose, CA 95134',
         phone: '+1 (408) 555-0199',
-        email: 'sanjose@techmahindra.com',
+        email: 'sanjose@northstarai.com',
       },
       {
         name: 'New York Financial Hub',
         address: '1350 Avenue of the Americas, Floor 22, New York, NY 10019',
         phone: '+1 (212) 555-0182',
-        email: 'nyc@techmahindra.com',
+        email: 'nyc@northstarai.com',
       },
     ],
   },
@@ -2761,13 +2563,13 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Sydney Regional Office',
         address: 'Level 14, 100 Mount Street, North Sydney, NSW 2060',
         phone: '+61 2 8000 1234',
-        email: 'australia@techmahindra.com',
+        email: 'australia@northstarai.com',
       },
       {
         name: 'Melbourne Delivery Hub',
         address: 'Level 22, 500 Collins Street, Melbourne, VIC 3000',
         phone: '+61 3 9000 5678',
-        email: 'melbourne@techmahindra.com',
+        email: 'melbourne@northstarai.com',
       },
     ],
   },
@@ -2778,7 +2580,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Vienna Client Center',
         address: 'Am Belvedere 10, 1100 Wien, Austria',
         phone: '+43 1 234 5678',
-        email: 'vienna@techmahindra.com',
+        email: 'vienna@northstarai.com',
       },
     ],
   },
@@ -2789,7 +2591,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Manama Regional Hub',
         address: 'Bahrain Financial Harbour, West Tower, Manama',
         phone: '+973 1700 0000',
-        email: 'me@techmahindra.com',
+        email: 'me@northstarai.com',
       },
     ],
   },
@@ -2800,7 +2602,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Brussels Office',
         address: 'Avenue Louise 523, 1050 Bruxelles, Belgium',
         phone: '+32 2 555 1234',
-        email: 'belgium@techmahindra.com',
+        email: 'belgium@northstarai.com',
       },
     ],
   },
@@ -2811,7 +2613,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'São Paulo Tech Hub',
         address: 'Av. Paulista, 1374 - Bela Vista, São Paulo - SP',
         phone: '+55 11 3000 0000',
-        email: 'latam@techmahindra.com',
+        email: 'latam@northstarai.com',
       },
     ],
   },
@@ -2822,7 +2624,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Sofia Delivery Center',
         address: 'Megapark, 115G Tsarigradsko Shosse Blvd, Sofia',
         phone: '+359 2 800 0000',
-        email: 'sofia@techmahindra.com',
+        email: 'sofia@northstarai.com',
       },
     ],
   },
@@ -2833,7 +2635,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Toronto Innovation Hub',
         address: '200 Bay Street, Suite 2900, Toronto, ON M5J 2J2',
         phone: '+1 (416) 800-1200',
-        email: 'canada@techmahindra.com',
+        email: 'canada@northstarai.com',
       },
     ],
   },
@@ -2844,7 +2646,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Shanghai Client Center',
         address: 'Unit 1801, 18F, Plaza 66, Nanjing West Road, Shanghai',
         phone: '+86 21 6000 0000',
-        email: 'china@techmahindra.com',
+        email: 'china@northstarai.com',
       },
     ],
   },
@@ -2855,7 +2657,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Copenhagen Office',
         address: 'Tuborg Havnevej 18, 2900 Hellerup, Denmark',
         phone: '+45 39 00 00 00',
-        email: 'nordics@techmahindra.com',
+        email: 'nordics@northstarai.com',
       },
     ],
   },
@@ -2866,7 +2668,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Helsinki Hub',
         address: 'Keilaranta 1, 02150 Espoo, Finland',
         phone: '+358 9 800 0000',
-        email: 'nordics@techmahindra.com',
+        email: 'nordics@northstarai.com',
       },
     ],
   },
@@ -2877,7 +2679,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Paris Hub',
         address: 'Tour Ariane, 5 Place de la Pyramide, 92088 Paris La Défense',
         phone: '+33 1 40 00 00 00',
-        email: 'france@techmahindra.com',
+        email: 'france@northstarai.com',
       },
     ],
   },
@@ -2888,7 +2690,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Munich Digital Center',
         address: 'Parkstadt Schwabing, Walter-Gropius-Straße 23, 80807 München',
         phone: '+49 89 2000 0000',
-        email: 'germany@techmahindra.com',
+        email: 'germany@northstarai.com',
       },
     ],
   },
@@ -2899,19 +2701,19 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Pune Global Campus',
         address: 'Rajiv Gandhi Infotech Park, Phase 3, Hinjawadi, Pune 411057',
         phone: '+91 20 6601 8100',
-        email: 'india@techmahindra.com',
+        email: 'india@northstarai.com',
       },
       {
         name: 'Bengaluru AI & Engineering Center',
         address: 'Electronics City Phase 1, Hosur Road, Bengaluru 560100',
         phone: '+91 80 4000 2000',
-        email: 'blr@techmahindra.com',
+        email: 'blr@northstarai.com',
       },
       {
         name: 'Hyderabad Technology Hub',
         address: 'Infocity, Madhapur, Hyderabad 500081',
         phone: '+91 40 6636 1000',
-        email: 'hyd@techmahindra.com',
+        email: 'hyd@northstarai.com',
       },
     ],
   },
@@ -2922,7 +2724,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Dublin European Centre',
         address: 'Grand Canal Dock, Dublin 2, Ireland',
         phone: '+353 1 600 0000',
-        email: 'ireland@techmahindra.com',
+        email: 'ireland@northstarai.com',
       },
     ],
   },
@@ -2933,7 +2735,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Milan Office',
         address: 'Via Turati 29, 20121 Milano MI, Italy',
         phone: '+39 02 8000 0000',
-        email: 'italy@techmahindra.com',
+        email: 'italy@northstarai.com',
       },
     ],
   },
@@ -2944,7 +2746,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Tokyo Client Hub',
         address: 'Roppongi Hills Mori Tower, 6-10-1 Roppongi, Minato-ku, Tokyo',
         phone: '+81 3 5000 0000',
-        email: 'japan@techmahindra.com',
+        email: 'japan@northstarai.com',
       },
     ],
   },
@@ -2955,7 +2757,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Kuala Lumpur Tech Center',
         address: 'Menara Maxis, Kuala Lumpur City Centre, 50088 Kuala Lumpur',
         phone: '+60 3 2000 0000',
-        email: 'apac@techmahindra.com',
+        email: 'apac@northstarai.com',
       },
     ],
   },
@@ -2966,7 +2768,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Mexico City Hub',
         address: 'Paseo de la Reforma 222, Juárez, Cuauhtémoc, 06600 Ciudad de México',
         phone: '+52 55 5000 0000',
-        email: 'latam@techmahindra.com',
+        email: 'latam@northstarai.com',
       },
     ],
   },
@@ -2977,7 +2779,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Amsterdam Hub',
         address: 'Gustav Mahlerplein 2, 1082 MA Amsterdam',
         phone: '+31 20 800 0000',
-        email: 'benelux@techmahindra.com',
+        email: 'benelux@northstarai.com',
       },
     ],
   },
@@ -2988,7 +2790,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Auckland Office',
         address: 'Level 21, ANZ Centre, 23-29 Albert St, Auckland 1010',
         phone: '+64 9 900 0000',
-        email: 'anz@techmahindra.com',
+        email: 'anz@northstarai.com',
       },
     ],
   },
@@ -2999,7 +2801,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Oslo Delivery Hub',
         address: 'Karenslyst Allé 11, 0278 Oslo, Norway',
         phone: '+47 22 00 00 00',
-        email: 'nordics@techmahindra.com',
+        email: 'nordics@northstarai.com',
       },
     ],
   },
@@ -3010,7 +2812,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Manila BPO Center',
         address: 'Bonifacio Global City, Taguig, Metro Manila',
         phone: '+63 2 800 0000',
-        email: 'apac@techmahindra.com',
+        email: 'apac@northstarai.com',
       },
     ],
   },
@@ -3021,7 +2823,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Warsaw Delivery Center',
         address: 'Rondo Daszyńskiego 1, 00-843 Warszawa',
         phone: '+48 22 500 0000',
-        email: 'poland@techmahindra.com',
+        email: 'poland@northstarai.com',
       },
     ],
   },
@@ -3032,7 +2834,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Doha Business Hub',
         address: 'Tornado Tower, West Bay, Doha, Qatar',
         phone: '+974 4400 0000',
-        email: 'me@techmahindra.com',
+        email: 'me@northstarai.com',
       },
     ],
   },
@@ -3043,7 +2845,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Riyadh Regional Office',
         address: 'King Fahd Road, Al Olaya, Riyadh 12213',
         phone: '+966 11 400 0000',
-        email: 'ksa@techmahindra.com',
+        email: 'ksa@northstarai.com',
       },
     ],
   },
@@ -3054,7 +2856,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'APAC Headquarters',
         address: '1 Changi Business Park Crescent, Plaza 8, Singapore 486025',
         phone: '+65 6000 1000',
-        email: 'apac@techmahindra.com',
+        email: 'apac@northstarai.com',
       },
     ],
   },
@@ -3065,7 +2867,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Johannesburg Center',
         address: 'Sandton City Office Tower, 5th St, Sandhurst, Sandton',
         phone: '+27 11 700 0000',
-        email: 'africa@techmahindra.com',
+        email: 'africa@northstarai.com',
       },
     ],
   },
@@ -3076,7 +2878,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Madrid Office',
         address: 'Paseo de la Castellana 95, 28046 Madrid',
         phone: '+34 91 700 0000',
-        email: 'spain@techmahindra.com',
+        email: 'spain@northstarai.com',
       },
     ],
   },
@@ -3087,7 +2889,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Stockholm Nordic HQ',
         address: 'Mäster Samuelsgatan 42, 111 57 Stockholm',
         phone: '+46 8 500 0000',
-        email: 'nordics@techmahindra.com',
+        email: 'nordics@northstarai.com',
       },
     ],
   },
@@ -3098,7 +2900,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Zurich Office',
         address: 'Gotthardstrasse 26, 8002 Zürich',
         phone: '+41 44 200 0000',
-        email: 'swiss@techmahindra.com',
+        email: 'swiss@northstarai.com',
       },
     ],
   },
@@ -3109,7 +2911,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Dubai Internet City Hub',
         address: 'Building 14, Dubai Internet City, Dubai',
         phone: '+971 4 390 0000',
-        email: 'me@techmahindra.com',
+        email: 'me@northstarai.com',
       },
     ],
   },
@@ -3120,13 +2922,13 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'London Corporate Office',
         address: '25 Canada Square, Floor 33, Canary Wharf, London E14 5LB',
         phone: '+44 20 7000 8000',
-        email: 'uk@techmahindra.com',
+        email: 'uk@northstarai.com',
       },
       {
         name: 'Milton Keynes Tech Campus',
         address: 'Exchange House, 450 Midsummer Blvd, Milton Keynes MK9 2EA',
         phone: '+44 1908 555 000',
-        email: 'mk@techmahindra.com',
+        email: 'mk@northstarai.com',
       },
     ],
   },
@@ -3173,43 +2975,42 @@ function ContactPage() {
 
   const contactAccordionItems = [
     {
-      title: 'Request for Service',
+      title: 'Request 4–6 Week Governed AI Pilot',
       description:
-        'Partner with Tech Mahindra to co-create AI-first enterprise architectures, modernize legacy workloads, or accelerate digital transformation across telecom, financial, cloud, and engineering domains.',
-      enquiryType: 'Request for Service',
-      contact: 'solutions@techmahindra.com | +1 (800) 246-8324',
+        'Scope a rapid, production-ready Applied AI slice with defined acceptance metrics, data readiness review, and model route selection (commercial vs. self-hosted open weights).',
+      enquiryType: 'Governed AI Pilot',
+      contact: 'pilots@northstarai.com | +1 (800) 246-8324',
     },
     {
-      title: 'Join Tech Mahindra',
+      title: 'Enterprise RAG & Knowledge Systems',
       description:
-        'Explore rewarding careers and leadership pathways across 90+ countries. Rise to new heights with our collaborative global workforce of over 150,000 innovators.',
-      enquiryType: 'Join Tech Mahindra',
-      contact: 'careers@techmahindra.com',
+        'Design and deploy permission-aware retrieval pipelines, hybrid dense-sparse indexing (BM25 + vector search), and citation-grounded response layers with zero data egress.',
+      enquiryType: 'Enterprise RAG Systems',
+      contact: 'rag@northstarai.com',
     },
     {
-      title: 'Vendor Registration',
+      title: 'Autonomous Agent Deployment (Kavacha / Arogya / Custom)',
       description:
-        'Join our world-class supply chain. We welcome innovative technology, cloud, and hardware vendors committed to sustainability, ethics, and quality engineering.',
-      enquiryType: 'Vendor Registration',
-      contact: 'procurement@techmahindra.com',
+        'Integrate autonomous multi-step agents into financial fraud detection, clinical EHR documentation, or mission-critical enterprise workflows with sub-45ms latency boundaries.',
+      enquiryType: 'Autonomous Agents',
+      contact: 'agents@northstarai.com',
     },
     {
-      title: 'Investor Information',
+      title: 'Zero-Egress Sovereign Cloud & MLOps Infrastructure',
       description:
-        'Access financial earnings, SEC and regulatory filings, ESG sustainability reports, shareholder governance, and analyst transcripts.',
-      enquiryType: 'Investor Information',
-      contact: 'investor.relations@techmahindra.com',
+        'Deploy private LLM inference endpoints within your AWS, Azure, GCP VPC, or on-premise GPU clusters with hardware security modules, RBAC, and real-time telemetry.',
+      enquiryType: 'Sovereign AI & MLOps',
+      contact: 'infrastructure@northstarai.com',
     },
     {
-      title: 'Other Requests',
+      title: 'Careers & Academic AI Research Grants',
       description:
-        'For global media, public relations, keynote appearances, corporate citizenship partnerships, and general queries.',
-      enquiryType: 'Other Requests',
-      contact: 'media.enquiries@techmahindra.com',
+        'Explore open engineering positions in deep learning, LLM alignment, and agent workflows, or partner with our university AI research lab.',
+      enquiryType: 'Careers & Research',
+      contact: 'research@northstarai.com',
     },
   ]
-
-  return (
+return (
     <div className="bg-[#EFECE6] text-gray-900 min-h-screen font-sans">
       {/* 1. Header & 5-Item Expandable Accordion (Matching Screenshot Top) */}
       <section className="bg-[#EFECE6] pt-14 pb-20 px-6 md:px-12 border-b border-gray-300">
@@ -3274,7 +3075,7 @@ function ContactPage() {
             {/* Left: Office Search & Country Directory */}
             <div className="lg:col-span-5">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-6 font-heading">
-                Tech Mahindra's Offices
+                Northstar AI Engineering Hubs
               </h2>
 
               {/* Search bar with magnifying glass on the right */}
@@ -3340,7 +3141,7 @@ function ContactPage() {
               <div className="relative rounded overflow-hidden shadow-md border border-gray-300 bg-white group">
                 <img
                   src="/images/contact_world_map.jpg"
-                  alt="Tech Mahindra Global Offices Map"
+                  alt="Northstar AI Global Engineering Hubs"
                   className="w-full aspect-[16/10] object-cover"
                 />
 
@@ -3379,7 +3180,7 @@ function ContactPage() {
 
           {/* Hiring & Recruitment Fraud Disclaimer Banner (Matching Screenshot Strip) */}
           <div className="mt-12 p-4 bg-[#E5E0D5] border border-gray-300 rounded text-[11px] text-gray-700 leading-relaxed font-normal">
-            <strong>Disclaimer:</strong> Beware of fraudulent persons / agencies falsely claiming to be hiring on behalf of Tech Mahindra. Tech Mahindra does not ask for money or any deposit from candidates for any employment opportunity. Tech Mahindra shall not be held liable for any loss or damage incurred as a result of dealings with such fraudulent entities.
+            <strong>Disclaimer:</strong> Beware of fraudulent individuals falsely claiming to recruit on behalf of Northstar AI. Northstar AI never asks for financial deposits or payments during hiring.
           </div>
         </div>
       </section>
@@ -3454,8 +3255,8 @@ function ContactPage() {
                       <option value="Request for Service" className="bg-[#520018] text-white">
                         Request for Service
                       </option>
-                      <option value="Join Tech Mahindra" className="bg-[#520018] text-white">
-                        Join Tech Mahindra (Careers)
+                      <option value="Join Northstar AI" className="bg-[#520018] text-white">
+                        Join Northstar AI (Careers)
                       </option>
                       <option value="Vendor Registration" className="bg-[#520018] text-white">
                         Vendor Registration
@@ -3611,7 +3412,7 @@ function ContactPage() {
                         className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0 cursor-pointer"
                       />
                       <span>
-                        Subscribe to receive the latest updates on events, news and thought leadership from Tech Mahindra.
+                        Subscribe to receive the latest updates on research, models, and applied AI systems from Northstar AI.
                       </span>
                     </label>
                   </div>
@@ -3644,7 +3445,7 @@ function ContactPage() {
               ×
             </button>
             <p>
-              Hello! Thank you for visiting our Contact Us page. How may we help submit your inquiry to Tech Mahindra?
+              Hello! Thank you for visiting our Contact Us page. How can Northstar AI assist your enterprise AI roadmap?
             </p>
           </div>
         )}
@@ -4007,10 +3808,10 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
             {/* Left Title & Intro */}
             <div className="lg:col-span-5 pr-0 lg:pr-4">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight font-heading">
-                Careers
+                AI Engineering <span className="text-[#DE0826]">Careers</span>
               </h1>
               <p className="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg font-normal">
-                Explore hyper-personalized, technology-led, human-centered experiences that create moments that matter.
+                Join an elite laboratory of deep learning researchers, LLM fine-tuning engineers, autonomous agent architects, and MLOps pioneers shaping the sovereign enterprise intelligence stack.
               </p>
             </div>
 
@@ -4051,7 +3852,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
             {/* Right: Copy & Button */}
             <div className="lg:col-span-6">
               <p className="text-lg sm:text-xl text-gray-800 leading-relaxed font-normal mb-8 max-w-lg">
-                We are a company with the purpose of creating meaningful human experiences for our associates. Let's help you Rise to new heights, the Norstar way.
+                We bridge the gap between frontier model research and hardened enterprise deployment. Work with H100 GPU clusters, state-of-the-art vector engines, and multi-agent frameworks.
               </p>
               <button
                 onClick={() => setPurposeModalOpen(true)}
@@ -4074,7 +3875,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
                 Diversity and Inclusion
               </h2>
               <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-normal mb-8 max-w-lg">
-                The different. The difference. We celebrate both. We are intentionally diverse and globally inclusive.
+                Every system we build adheres to strict evaluation benchmarks, zero hallucination tolerance, and explainable decision lineage.
               </p>
               <button
                 onClick={() => setDiversityModalOpen(true)}
@@ -4515,11 +4316,11 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
 
           <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
-              Latest <span className="text-[#DE0826]">Insights</span>
+              Applied AI <span className="text-[#DE0826]">Research & Insights</span>
             </h1>
 
             <p className="text-base sm:text-lg lg:text-xl text-gray-200/90 leading-relaxed font-normal mb-8 max-w-2xl">
-              Dive in here for our latest corporate announcements, case studies, executive viewpoints, podcasts, industry whitepapers, and upcoming global tech events.
+              Explore our peer-reviewed whitepapers, production benchmark reports, autonomous agent architectures, executive viewpoints, and global AI summit keynotes.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
@@ -5103,11 +4904,11 @@ function IndustriesPage({
 
           <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.12]">
-              Expertise Across <span className="text-[#DE0826]">Industries</span>
+              Applied AI Across <span className="text-[#DE0826]">Industries</span>
             </h1>
 
             <p className="text-base sm:text-lg lg:text-xl text-gray-200/90 leading-relaxed font-normal mb-8 max-w-2xl">
-              As industries converge and new industries emerge, we are re-imagining our strategy, solutions, and platforms across 14 global industry domains.
+              Deploying production-grade retrieval architectures, specialized autonomous agents, and foundation models engineered for the strict latency, compliance, and regulatory demands of 14 critical industry sectors.
             </p>
 
             {/* Quick Jump Categories */}
@@ -5574,9 +5375,10 @@ function IndustriesPage({
 interface CapabilitiesPageProps {
   targetCapability?: string | null
   onClearTarget?: () => void
+  onOpenCaseStudy?: (slug: string) => void
 }
 
-function CapabilitiesPage({ targetCapability, onClearTarget }: CapabilitiesPageProps) {
+function CapabilitiesPage({ targetCapability, onClearTarget, onOpenCaseStudy }: CapabilitiesPageProps) {
   const [activeModal, setActiveModal] = useState<CapabilityItem | null>(null)
 
   useEffect(() => {
@@ -5714,7 +5516,19 @@ function CapabilitiesPage({ targetCapability, onClearTarget }: CapabilitiesPageP
         </div>
       </section>
 
-      {/* 3. Interactive Capability Slide-Over Modal */}
+      {/* Autonomous Agents Showcase */}
+      <AutonomousAgentsSection onExploreCaseStudy={onOpenCaseStudy} />
+
+      {/* AI Tech Stack & MLOps Infrastructure */}
+      <AITechStackSection />
+
+      {/* Governed AI Delivery Process (6-Stage Lifecycle) */}
+      <AIDeliveryProcessSection />
+
+      {/* AI Frequently Asked Questions */}
+      <AIFAQSection />
+
+      {/* Interactive Capability Slide-Over Modal */}
       {activeModal && (
         <div
           onClick={closeModal}
@@ -6082,7 +5896,7 @@ function HeroSection({ onRouteChange }: HeroSectionProps) {
 }
 
 // -------------------------------------------------------------
-// 4. "Scale at Speed™ with Tech Mahindra" Feature Section
+// 4. "Scale at Speed™ with Northstar AI" Feature Section
 // Matching Reference Screenshot media_1789187339971.png Exactly
 // -------------------------------------------------------------
 interface BrandPromiseSectionProps {
@@ -6097,7 +5911,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
-              id="techm-iso-grid"
+              id="northstar-iso-grid"
               width="100"
               height="173.2"
               patternUnits="userSpaceOnUse"
@@ -6122,7 +5936,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
               <line x1="0" y1="86.6" x2="100" y2="144.33" stroke="#CFC8B6" strokeWidth="0.5" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#techm-iso-grid)" />
+          <rect width="100%" height="100%" fill="url(#northstar-iso-grid)" />
         </svg>
       </div>
 
@@ -7874,7 +7688,7 @@ const homeCapabilitiesList: HomeCapabilityItem[] = [
     image: '/images/cap_ribbon_eng.jpg',
   },
   {
-    title: 'TechM Consulting',
+    title: 'AI Strategy & Feasibility',
     image: '/images/cap_ribbon_consulting.jpg',
   },
   {
@@ -8422,10 +8236,294 @@ interface SuccessStory {
 const successStories: SuccessStory[] = [
   {
     id: 1,
+    slug: 'agent-kavacha',
+    client: 'Apex Global Payments & FinTech',
+    category: 'Autonomous FinTech Agent',
+    title: 'Agent Kavacha: Autonomous Real-Time Anti-Fraud & Transaction Defense',
+    desc: 'Protecting $4.2B+ in annual transaction volume with sub-45ms graph anomaly detection and zero checkout friction.',
+    subtitle: 'Deploying multi-step autonomous defense agents with deterministic guardrails and explainable audit trails.',
+    timeline: '6-Week Governed Pilot to Full Production',
+    location: 'North America & Europe',
+    scope: 'Autonomous Agents, Graph Neural Networks, Real-Time Inference, Anti-Fraud',
+    challenge:
+      'Cross-border card-not-present fraud vectors evolving faster than static rule engines, causing $38M in annual chargebacks and frustrating legitimate high-value cross-border shoppers with false declines.',
+    challengePoints: [
+      'High false-positive rate (4.2%) blocking legitimate cross-border purchases and generating checkout abandonment.',
+      'Brittle static rule tables taking weeks to update against emerging coordinated fraud syndicates.',
+      'Strict banking regulatory compliance requiring sub-50ms explainability logs for audit-proof decision lineage.',
+    ],
+    solution:
+      'Northstar Digital deployed Agent Kavacha: an autonomous transaction defense agent combining high-throughput stream processing with graph anomaly detection, contextual risk scoring, and dynamic step-up verification without customer friction.',
+    solutionPillars: [
+      {
+        title: 'Graph Neural Network Stream Scoring',
+        desc: 'Evaluates transaction topologies and device fingerprint rings in under 38ms using GPU-accelerated Triton inference clusters.',
+      },
+      {
+        title: 'Adaptive Human-in-the-Loop Escalation',
+        desc: 'Triggers context-aware step-up biometric challenges or routes borderline transactions to compliance analysts with instant synthesized case briefs.',
+      },
+      {
+        title: 'Audit-Proof Decision Lineage',
+        desc: 'Generates immutable SHAP explainability manifests for every scored transaction, ensuring full compliance with AML and financial regulatory standards.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'Data Readiness & Shadow Pipeline',
+        detail: 'Ingested 120M anonymized historical transactions to calibrate graph embeddings and benchmark precision-recall curves.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Pilot in High-Risk Merchant Corridor',
+        detail: 'Ran Agent Kavacha in shadow mode across $400M in transaction volume, proving 99.8% precision with zero latency regression.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Autonomous Production Rollout',
+        detail: 'Promoted Kavacha to primary inline decisioning with automated circuit breakers and active fallback failover.',
+      },
+    ],
+    metrics: [
+      { value: '< 45ms', label: 'Scoring Latency', desc: 'Sub-second real-time inference window on active payment rails' },
+      { value: '99.8%', label: 'Precision Rate', desc: 'Virtually eliminated false-positive checkout abandonment' },
+      { value: '$4.2M+', label: 'Monthly Fraud Prevented', desc: 'Saved across merchant accounts in chargeback losses' },
+      { value: 'Zero', label: 'Downtime Regressions', desc: 'Carrier-grade uptime with automated model hot-swapping' },
+    ],
+    keyOutcomes: [
+      'Replaced brittle static rule tables with self-adapting graph intelligence.',
+      'Lowered transaction verification latency from 220ms to 38ms.',
+      'Prevented $50M+ in annualized fraudulent card-not-present chargebacks.',
+      'Provided instant explainability briefs for 100% of quarantined transactions.',
+    ],
+    quote:
+      '"Agent Kavacha changed how our risk team operates. We stopped chasing false positives and gained a real-time autonomous shield that adapts faster than fraud syndicates."',
+    quoteAuthor: 'Chief Risk & Information Security Officer, Apex Global Payments',
+    quoteRole: 'Global Fraud Prevention & Regulatory Compliance Operations',
+    tags: ['Autonomous Agents', 'FinTech', 'Graph Neural Networks', 'Anti-Fraud', 'Low Latency', 'MLOps'],
+    isVideo: true,
+    image: '/images/ai_agent_kavacha.jpg',
+  },
+  {
+    id: 2,
+    slug: 'agent-arogya',
+    client: 'St. Jude Healthcare Network',
+    category: 'Clinical AI Copilot',
+    title: 'Agent Arogya: Ambient Clinical Listening & Automated EHR Charting',
+    desc: 'Ambient clinical transcription and structured EHR note generation saving 2.5 hours per doctor daily across 12 hospitals.',
+    subtitle: 'Eradicating clinician documentation burnout with ambient listening, medical ontology extraction, and clinician review loops.',
+    timeline: '8-Week Multi-Clinic Deployment',
+    location: 'United States (12 Regional Hospitals)',
+    scope: 'Ambient AI, Clinical LLMs, FHIR Integration, HIPAA Compliance',
+    challenge:
+      'Physicians spending over 3 hours each evening on "pajama time" manual EHR data entry, driving severe clinician burnout, high turnover, and billing code discrepancies.',
+    challengePoints: [
+      'Clinicians spending 42% of their day typing into EHR terminals rather than engaging patients face-to-face.',
+      'High rates of ICD-10 coding errors and insurance claim denials due to hurried manual documentation.',
+      'Strict HIPAA, BAA, and zero-egress data privacy mandates requiring localized processing.',
+    ],
+    solution:
+      'Northstar Digital architected and deployed Agent Arogya: an ambient clinical listening copilot powered by medical foundation models and bidirectional FHIR endpoints with strict clinician validation loops.',
+    solutionPillars: [
+      {
+        title: 'Ambient Acoustic Consultation Capture',
+        desc: 'Multi-microphone acoustic models filter ambient hospital noise to cleanly capture doctor-patient dialogue with clinical vocabulary precision.',
+      },
+      {
+        title: 'Structured SOAP Note Generation',
+        desc: 'Synthesizes conversations into structured Subjective, Objective, Assessment, and Plan notes aligned with specialty-specific templates.',
+      },
+      {
+        title: 'Automated ICD-10 & CPT Cross-Referencing',
+        desc: 'Extracts diagnosis and procedural billing codes with verifiable source timestamp citations for instant clinician sign-off.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'HIPAA Cloud Enclave Setup',
+        detail: 'Provisioned dedicated zero-egress inference nodes with signed BAA and end-to-end encryption.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Outpatient Clinic Pilot',
+        detail: 'Deployed across 45 primary care physicians, tuning medical prompt schemas and measuring note acceptance rates.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Hospital-Wide EHR Rollout',
+        detail: 'Integrated bidirectionally with Epic and Cerner via HL7 FHIR APIs across 12 hospitals and 600+ doctors.',
+      },
+    ],
+    metrics: [
+      { value: '-65%', label: 'Charting Overhead', desc: 'Reduction in after-hours EHR documentation time' },
+      { value: '2.5 Hrs', label: 'Saved Daily / Doctor', desc: 'Restored to patient care and clinician well-being' },
+      { value: '99.4%', label: 'Clinical Accuracy', desc: 'Note acceptance rate without manual structural rewrite' },
+      { value: 'HIPAA', label: 'Zero-Egress Audited', desc: 'Full compliance with healthcare data residency' },
+    ],
+    keyOutcomes: [
+      'Eliminated after-hours pajama time for over 600 participating physicians.',
+      'Reduced medical billing claim rejection rates by 34% through accurate ICD-10 coding.',
+      'Improved patient satisfaction scores by 28% due to unimpeded eye contact and dialogue.',
+      'Maintained 100% human-in-the-loop sign-off before committing to hospital records.',
+    ],
+    quote:
+      '"Agent Arogya gave our physicians their evenings back. Instead of staring at a computer screen during appointments, our doctors can look patients in the eye again."',
+    quoteAuthor: 'Chief Medical Information Officer, Regional Health System',
+    quoteRole: 'Hospital Clinical Informatics & Patient Care Operations',
+    tags: ['Healthcare AI', 'Ambient Intelligence', 'Clinical Copilot', 'FHIR', 'EHR Automation', 'HIPAA'],
+    isVideo: true,
+    image: '/images/ai_agent_arogya.jpg',
+  },
+  {
+    id: 3,
+    slug: 'enterprise-rag-mesh',
+    client: 'Global Industrial & Energy Consortium',
+    category: 'Retrieval-Augmented Generation (RAG)',
+    title: 'Enterprise Knowledge Engine: Multi-Modal RAG Across 10M+ Technical Manuals',
+    desc: 'Sub-second hybrid semantic retrieval indexing engineering schematics, P&IDs, and maintenance logs with 99.6% answer faithfulness.',
+    subtitle: 'Unlocking decades of dark engineering data with hybrid vector search, reranking, and citation grounding.',
+    timeline: '10-Week Enterprise Deployment',
+    location: 'Global (North America, Europe, Middle East)',
+    scope: 'Hybrid RAG, Vector Databases, Multi-Modal Schematics, Citations',
+    challenge:
+      'Field engineers and maintenance crews taking hours to locate critical wiring schematics and operating procedures across millions of legacy PDF manuals, causing costly plant downtime.',
+    challengePoints: [
+      'Over 10 million legacy technical documents trapped in unstructured PDFs, scanned blueprints, and siloed files.',
+      'Keyword search failing on complex multi-part queries and domain-specific engineering jargon.',
+      'Risk of hallucinated maintenance specifications creating severe safety and equipment damage hazards.',
+    ],
+    solution:
+      'Northstar Digital built an enterprise-scale Hybrid RAG Knowledge Engine combining dense vector embeddings with sparse BM25 indexing, Colbert rerankers, and strict citation grounding.',
+    solutionPillars: [
+      {
+        title: 'Multi-Modal Chunking & Layout Parsing',
+        desc: 'Parses complex multi-column PDFs, technical diagrams, and engineering tables into structured searchable tokens with preserved coordinate bounding boxes.',
+      },
+      {
+        title: 'Hybrid Dense-Sparse Vector Index',
+        desc: 'Combines Milvus vector search with lexical BM25 algorithms to capture both conceptual intent and exact part number queries.',
+      },
+      {
+        title: 'Citation-Mandated Answer Synthesis',
+        desc: 'Refuses generation without explicit retrieval support, embedding direct PDF page links and highlight coordinates in every response.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'Document Ingestion & OCR Pipeline',
+        detail: 'Processed 10 million pages through GPU OCR and multi-modal layout parsers into high-dimensional vector embeddings.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Benchmarking on Golden Question Set',
+        detail: 'Evaluated retrieval accuracy across 2,000 held-out field engineering challenges, achieving 99.6% faithfulness.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Global Field Deployment',
+        detail: 'Rolled out mobile and desktop web client with offline sync capability to 14,000 maintenance personnel.',
+      },
+    ],
+    metrics: [
+      { value: '< 800ms', label: 'Query Latency', desc: 'Sub-second hybrid retrieval across 10M+ pages' },
+      { value: '99.6%', label: 'Answer Faithfulness', desc: 'Verified on held-out engineering benchmark suites' },
+      { value: '85%', label: 'Search Time Saved', desc: 'From 45 minutes down to 3 seconds per inquiry' },
+      { value: '100%', label: 'Citation Traceable', desc: 'Direct coordinate link to source engineering drawings' },
+    ],
+    keyOutcomes: [
+      'Accelerated equipment turnaround times during planned refinery maintenance shutdowns by 42%.',
+      'Eliminated hallucination risk with strict negative refusal guardrails.',
+      'Enabled field teams to query complex engineering blueprints using natural language.',
+      'Reduced equipment repair errors caused by outdated procedural documents to zero.',
+    ],
+    quote:
+      '"Our field engineers can now find the exact pressure valve specification out of ten million pages in seconds. It is transformative for plant safety and operational uptime."',
+    quoteAuthor: 'VP of Engineering & Asset Operations, Global Energy Consortium',
+    quoteRole: 'Plant Reliability & Industrial Engineering Operations',
+    tags: ['RAG', 'Vector Search', 'Milvus', 'Knowledge Graphs', 'Industrial AI', 'Document AI'],
+    isVideo: false,
+    image: '/images/ai_rag_vectors.jpg',
+  },
+  {
+    id: 4,
+    slug: 'norstar-racing',
+    client: 'Norstar Racing & Autonomous Telemetry',
+    category: 'Edge AI & Real-Time MLOps',
+    title: 'Accelerating Motorsport Operations with Real-Time Predictive AI & MLOps',
+    desc: 'Sub-45ms telemetry streaming, neural battery modeling, and continuous MLOps pipelines powering international championship racing.',
+    subtitle: 'Sub-second telemetry streaming and predictive powertrain optimization for international motorsport.',
+    timeline: '8-Month Rapid Deployment',
+    location: 'Global FIA Circuits (16 Cities)',
+    scope: 'Edge Computing, Real-Time Telemetry & Predictive AI',
+    challenge:
+      'In electric single-seater motorsport, race strategy is decided in fractions of a second. The team needed to ingest millions of high-frequency CAN bus telemetry metrics per lap—battery thermal dynamics, tire graining, regenerative braking recovery—and provide deterministic tactical advice to the pit wall.',
+    challengePoints: [
+      'High latency (>800ms) over legacy RF links caused blind spots during critical pit strategy windows.',
+      'Complex battery thermal degradation profiles required non-linear multi-variable physics modeling.',
+      'Zero room for compute failure: trackside hardware must endure extreme temperatures, RF interference, and rapid circuit tear-downs.',
+    ],
+    solution:
+      'Northstar engineered an ultra-low latency edge compute telemetry broker deployed directly in the race garage. Powered by neural differential equations and real-time probabilistic simulations, the platform models 10,000 synthetic race scenarios every lap to recommend precise battery state-of-charge targets and overtake mode timing.',
+    solutionPillars: [
+      {
+        title: 'Sub-Millisecond Trackside Telemetry Mesh',
+        desc: 'Engineered a dual-redundant 5G-private and high-gain Wi-Fi 6E telemetry bridge between moving vehicles and pit lane edge compute, dropping latency from 800ms to under 45ms with zero packet loss.',
+      },
+      {
+        title: 'Physics-Informed Neural Battery Twin',
+        desc: 'Developed hybrid physics-informed neural network (PINN) models simulating battery electrochemical kinetics and thermal dissipation, predicting pack temperature 4 laps in advance with 99.4% accuracy.',
+      },
+      {
+        title: 'Autonomous Pitwall Strategy Copilot',
+        desc: 'Built an interactive engineer console that models 10,000 simulated race trajectories per lap, dynamically alerting engineers when to switch driver maps, deploy Attack Mode, and maximize regenerative capture.',
+      },
+    ],
+    implementationRoadmap: [
+      {
+        phase: 'Phase 01',
+        title: 'Telemetry Audit & Pipeline Harmonization',
+        detail: 'Benchmarked 200+ sensor channels across dyno test rigs and wind tunnels, establishing standardized binary serialization protocols.',
+      },
+      {
+        phase: 'Phase 02',
+        title: 'Edge Hardware & AI Twin Deployment',
+        detail: 'Fabricated ruggedized trackside edge server racks and containerized neural battery models tested across pre-season Valencia trials.',
+      },
+      {
+        phase: 'Phase 03',
+        title: 'Live Championship Race Integration',
+        detail: 'Deployed real-time pitwall copilot across 16 global E-Prix rounds with instantaneous continuous learning post-session.',
+      },
+    ],
+    metrics: [
+      { value: '+0.42s', label: 'Lap Pace Advantage', desc: 'Measured pace gain over race stints under active competition' },
+      { value: '12,000', label: 'Data Points / Sec', desc: 'Ingested and analyzed in real time per single-seater vehicle' },
+      { value: '100%', label: 'Thermal Safety', desc: 'Zero battery derating events across the entire championship season' },
+      { value: '< 45ms', label: 'Telemetry Latency', desc: 'Sub-second response loop between track sensors and pit wall' },
+    ],
+    keyOutcomes: [
+      'Engineered sub-50ms live telemetry pipeline between trackside edge and remote simulation factory.',
+      'Automated regenerative braking energy recovery strategies adapting dynamically to weather and safety cars.',
+      'Delivered 3 podium finishes and a championship contention through algorithmic pit-stop timing.',
+      'Streamlined post-race telemetry analysis turnaround from 6 hours to less than 15 minutes.',
+    ],
+    quote:
+      "\"Racing in Formula E is an engineering war of energy management. Northstar's predictive AI platform gives our drivers and race engineers an unfair tactical edge on every lap.\"",
+    quoteAuthor: 'Team Principal & Technical Director, Norstar Racing',
+    quoteRole: 'Norstar Racing Technical Department',
+    tags: ['Motorsport Tech', 'Real-Time Telemetry', 'Edge Computing', 'Battery Optimization', 'Neural Models', 'MLOps'],
+    isVideo: false,
+    image: '/images/ai_mlops_command.jpg',
+  },
+  {
+    id: 5,
     slug: 'att-field-ops',
-    client: 'AT&T',
-    category: 'Telecommunications',
-    title: 'How AT&T and Norstar Transformed Field Operations with AI',
+    client: 'AT&T Telecommunications',
+    category: 'Computer Vision & Edge AI',
+    title: 'Transforming Nationwide Field Operations with Computer Vision and Offline RAG',
     desc: 'Empowered 25,000+ field technicians with real-time AI guidance, reducing repeat truck rolls by 28%.',
     subtitle: 'Empowering 25,000+ field technicians with real-time AI guidance and diagnostic copilots.',
     timeline: '14-Month Enterprise Rollout',
@@ -8484,228 +8582,14 @@ const successStories: SuccessStory[] = [
       'Accelerated junior technician onboarding curve from 9 months down to 10 weeks.',
     ],
     quote:
-      '"The AI copilot developed with Northstar has become the single most valued tool in our field force\'s toolkit. It turns every technician into our top 1% veteran engineer."',
+      "\"The AI copilot developed with Northstar has become the single most valued tool in our field force's toolkit. It turns every technician into our top 1% veteran engineer.\"",
     quoteAuthor: 'SVP, Network Field Engineering, AT&T',
     quoteRole: 'AT&T Network & Field Engineering Operations',
     tags: ['Telecommunications', 'Field Service AI', 'Computer Vision', 'Offline RAG', 'Edge Computing', 'Operational Efficiency'],
     isVideo: true,
     image: '/images/case_consult.jpg',
   },
-  {
-    id: 2,
-    slug: 'norstar-racing',
-    client: 'Norstar Racing',
-    category: 'Formula E Racing',
-    title: 'Accelerating Norstar Racing with Real-Time AI Analytics',
-    desc: 'Sub-second sensor streaming and telemetry optimization providing competitive edge on international circuits.',
-    subtitle: 'Sub-second telemetry streaming and predictive powertrain optimization for international motorsport.',
-    timeline: '8-Month Rapid Deployment',
-    location: 'Global FIA Circuits (16 Cities)',
-    scope: 'Edge Computing, Real-Time Telemetry & Predictive AI',
-    challenge:
-      'In electric single-seater motorsport, race strategy is decided in fractions of a second. The team needed to ingest millions of high-frequency CAN bus telemetry metrics per lap—battery thermal dynamics, tire graining, regenerative braking recovery—and provide deterministic tactical advice to the pit wall.',
-    challengePoints: [
-      'High latency (>800ms) over legacy RF links caused blind spots during critical pit strategy windows.',
-      'Complex battery thermal degradation profiles required non-linear multi-variable physics modeling.',
-      'Zero room for compute failure: trackside hardware must endure extreme temperatures, RF interference, and rapid circuit tear-downs.',
-    ],
-    solution:
-      'Northstar engineered an ultra-low latency edge compute telemetry broker deployed directly in the race garage. Powered by neural differential equations and real-time probabilistic simulations, the platform models 10,000 synthetic race scenarios every lap to recommend precise battery state-of-charge targets and overtake mode timing.',
-    solutionPillars: [
-      {
-        title: 'Sub-Millisecond Trackside Telemetry Mesh',
-        desc: 'Engineered a dual-redundant 5G-private and high-gain Wi-Fi 6E telemetry bridge between moving vehicles and pit lane edge compute, dropping latency from 800ms to under 45ms with zero packet loss.',
-      },
-      {
-        title: 'Physics-Informed Neural Battery Twin',
-        desc: 'Developed hybrid physics-informed neural network (PINN) models simulating battery electrochemical kinetics and thermal dissipation, predicting pack temperature 4 laps in advance with 99.4% accuracy.',
-      },
-      {
-        title: 'Autonomous Pitwall Strategy Copilot',
-        desc: 'Built an interactive engineer console that models 10,000 simulated race trajectories per lap, dynamically alerting engineers when to switch driver maps, deploy Attack Mode, and maximize regenerative capture.',
-      },
-    ],
-    implementationRoadmap: [
-      {
-        phase: 'Phase 01',
-        title: 'Telemetry Audit & Pipeline Harmonization',
-        detail: 'Benchmarked 200+ sensor channels across dyno test rigs and wind tunnels, establishing standardized binary serialization protocols.',
-      },
-      {
-        phase: 'Phase 02',
-        title: 'Edge Hardware & AI Twin Deployment',
-        detail: 'Fabricated ruggedized trackside edge server racks and containerized neural battery models tested across pre-season Valencia trials.',
-      },
-      {
-        phase: 'Phase 03',
-        title: 'Live Championship Race Integration',
-        detail: 'Deployed real-time pitwall copilot across 16 global E-Prix rounds with instantaneous continuous learning post-session.',
-      },
-    ],
-    metrics: [
-      { value: '+0.42s', label: 'Lap Pace Advantage', desc: 'Measured pace gain over race stints under active competition' },
-      { value: '12,000', label: 'Data Points / Sec', desc: 'Ingested and analyzed in real time per single-seater vehicle' },
-      { value: '100%', label: 'Thermal Safety', desc: 'Zero battery derating events across the entire championship season' },
-      { value: '< 45ms', label: 'Telemetry Latency', desc: 'Sub-second response loop between track sensors and pit wall' },
-    ],
-    keyOutcomes: [
-      'Engineered sub-50ms live telemetry pipeline between trackside edge and remote simulation factory.',
-      'Automated regenerative braking energy recovery strategies adapting dynamically to weather and safety cars.',
-      'Delivered 3 podium finishes and a championship contention through algorithmic pit-stop timing.',
-      'Streamlined post-race telemetry analysis turnaround from 6 hours to less than 15 minutes.',
-    ],
-    quote:
-      '"Racing in Formula E is an engineering war of energy management. Northstar\'s predictive AI platform gives our drivers and race engineers an unfair tactical edge on every lap."',
-    quoteAuthor: 'Team Principal & Technical Director, Norstar Racing',
-    quoteRole: 'Norstar Racing Technical Department',
-    tags: ['Motorsport Tech', 'Real-Time Telemetry', 'Edge Computing', 'Battery Optimization', 'Neural Models', 'Kubernetes'],
-    isVideo: false,
-    image: '/images/home_racing.jpg',
-  },
-  {
-    id: 3,
-    slug: 'global-retail-giant',
-    client: 'Global Retail Giant',
-    category: 'Retail & Omnichannel',
-    title: 'Modernizing Supply Chain with Generative AI and Autonomous Fulfillment',
-    desc: 'Boosted order accuracy by 40% while slashing inventory holding costs across 1,200 stores.',
-    subtitle: 'Transforming distributed logistics with AI-driven demand forecasting and robotic warehouse orchestration.',
-    timeline: '12-Month Enterprise Rollout',
-    location: 'Europe & North America (1,200 Stores)',
-    scope: 'Supply Chain Mesh, Demand Forecasting & Automated Replenishment',
-    challenge:
-      'Operating over 1,200 hypermarket stores and 45 distribution centers across 8 countries, the retailer struggled with stockouts on high-demand perishables, excessive safety stock buffers, and disjointed cross-docking schedules during peak holiday surges.',
-    challengePoints: [
-      'Fragmented inventory data across 12 legacy ERP instances created 3-day visibility delays.',
-      'Excessive safety stock buffers tied up hundreds of millions in idle working capital.',
-      'Frequent perishable stock-outs eroded customer loyalty and incurred high disposal waste penalties.',
-    ],
-    solution:
-      'Northstar built a unified Autonomous Supply Mesh combining transformer-based hyper-local demand forecasting with dynamic automated routing algorithms. The platform dynamically recalculates delivery routes, balances distribution center inventory, and auto-generates purchase orders based on real-time foot traffic and weather data.',
-    solutionPillars: [
-      {
-        title: 'Hyper-Local Transformer Demand Forecasting',
-        desc: 'Trained hierarchical transformer neural networks processing 400+ demand covariates, including hyperlocal weather forecasts, holiday calendars, road closures, and social trends.',
-      },
-      {
-        title: 'Autonomous Multi-Echelon Replenishment',
-        desc: 'Automated procurement purchase orders across 45 distribution centers directly to supplier APIs, dynamically rebalancing safety stock based on supplier lead times.',
-      },
-      {
-        title: 'Robotic Cross-Docking Orchestration',
-        desc: 'Integrated automated guided vehicles (AGVs) and warehouse management systems to shrink dock-to-stock turnaround from 18 hours to 4 hours.',
-      },
-    ],
-    implementationRoadmap: [
-      {
-        phase: 'Phase 01',
-        title: 'Data Lakehouse & Schema Unification',
-        detail: 'Integrated 12 disparate ERP systems into an enterprise Apache Iceberg data mesh on cloud with real-time CDC.',
-      },
-      {
-        phase: 'Phase 02',
-        title: 'Demand AI Calibration & Pilot Hubs',
-        detail: 'Calibrated forecasting algorithms across 3 pilot distribution centers supplying 80 retail hypermarkets.',
-      },
-      {
-        phase: 'Phase 03',
-        title: 'Automated Procurement Network Scale',
-        detail: 'Scaled autonomous replenishment across all 1,200 stores and 45 logistics nodes with full supplier API integrations.',
-      },
-    ],
-    metrics: [
-      { value: '+40%', label: 'Order Accuracy', desc: 'Surge in fulfillment precision across all regional distribution hubs' },
-      { value: '-28%', label: 'Holding Costs Slashed', desc: 'Substantial working capital released back to retail operations' },
-      { value: '99.2%', label: 'On-Shelf Availability', desc: 'Near-zero out-of-stock incidents on essential grocery lines' },
-      { value: '$65M', label: 'Waste Spoilage Saved', desc: 'Annual reduction in perishables spoilage across distribution hubs' },
-    ],
-    keyOutcomes: [
-      'Replaced manual weekly forecasting spreadsheets with autonomous multi-echelon replenishment.',
-      'Reduced average warehouse dock-to-stock turnaround time from 18 hours to 4 hours.',
-      'Eliminated over $65M in annual perishable inventory spoilage and landfill fees.',
-      'Achieved 99.2% on-shelf product availability during peak Black Friday and holiday surges.',
-    ],
-    quote:
-      '"Northstar connected our fragmented warehouses into a single intelligent ecosystem. We eliminated stockouts while holding significantly less safety inventory."',
-    quoteAuthor: 'Chief Supply Chain Officer, Global Retail Giant',
-    quoteRole: 'Global Supply Chain & Logistics Operations',
-    tags: ['Retail Supply Chain', 'Autonomous Fulfillment', 'Demand Forecasting', 'Warehouse Logistics', 'Cloud Mesh'],
-    isVideo: false,
-    image: '/images/case_port.jpg',
-  },
-  {
-    id: 4,
-    slug: 'european-telecom',
-    client: 'Top European Telecom',
-    category: 'Cloud Core & 5G',
-    title: 'Achieving 40% Operational Cost Optimization with Cloud Core Migration',
-    desc: 'Modernized core switching network to hybrid cloud infrastructure for 18 million active subscribers.',
-    subtitle: 'De-risking legacy telco switching cores through carrier-grade cloud-native 5G architecture.',
-    timeline: '18-Month Zero-Downtime Migration',
-    location: 'Pan-European (Germany, Austria, Switzerland)',
-    scope: 'Cloud-Native 5G Core, Telco Cloud, Kubernetes CNFs',
-    challenge:
-      'Managing 18 million active mobile subscribers across three nations, the telecom operator was constrained by expensive proprietary hardware appliances, inflexible vendor lock-in, and multi-day maintenance windows required for basic network slice updates.',
-    challengePoints: [
-      'Rigid legacy hardware appliances incurring escalating annual maintenance and energy costs.',
-      'Multi-month lead times (180+ days) to launch custom 5G private network slices for industrial customers.',
-      'High risk of catastrophic downtime during legacy subscriber core migration.',
-    ],
-    solution:
-      'Northstar Digital orchestrated a phased zero-downtime migration of the operator\'s core packet network into a carrier-grade hybrid cloud environment. Leveraging containerized network functions (CNFs), GitOps infrastructure-as-code, and automated canary routing, the new core scales dynamically with traffic demand.',
-    solutionPillars: [
-      {
-        title: 'Carrier-Grade Kubernetes CNF Architecture',
-        desc: 'Containerized critical telco user plane (UPF) and control plane functions on distributed Kubernetes clusters with SR-IOV and DPDK kernel bypass for line-rate packet throughput.',
-      },
-      {
-        title: 'Zero-Downtime Canary Traffic Handover',
-        desc: 'Developed intelligent algorithmic BGP route steering that migrated 18 million subscribers in batches of 50,000 during live hours with continuous automated SLA telemetry.',
-      },
-      {
-        title: 'Automated GitOps & Dynamic Slicing Platform',
-        desc: 'Automated 5G network slicing orchestration via declarative GitOps pipelines, slashing enterprise private slice deployment times from 6 months to under 48 hours.',
-      },
-    ],
-    implementationRoadmap: [
-      {
-        phase: 'Phase 01',
-        title: 'Target Architecture & Cloud Infrastructure Prep',
-        detail: 'Staged carrier-grade hybrid cloud nodes with hardware security modules (HSM) and automated test suites.',
-      },
-      {
-        phase: 'Phase 02',
-        title: 'Dual-Stack Shadow Traffic Verification',
-        detail: 'Mirrored live production telco traffic through containerized CNFs for 90 days to validate jitter, latency, and failover.',
-      },
-      {
-        phase: 'Phase 03',
-        title: 'Canary Migration of 18M Subscribers',
-        detail: 'Migrated 18 million active subscribers across three nations with zero network outages and seamless billing parity.',
-      },
-    ],
-    metrics: [
-      { value: '40%', label: 'OpEx Optimization', desc: 'Annual operational infrastructure savings post cloud migration' },
-      { value: '18M', label: 'Subscribers Migrated', desc: 'Zero downtime during nationwide subscriber traffic handover' },
-      { value: '< 15ms', label: '5G Core Latency', desc: 'Low-latency user plane packet routing across cell sites' },
-      { value: '48 Hrs', label: 'Service Turnaround', desc: 'Enterprise 5G slice provisioning down from 6 months' },
-    ],
-    keyOutcomes: [
-      'Transitioned legacy monolithic network functions to resilient cloud-native microservices.',
-      'Accelerated new enterprise 5G private network deployment times from 6 months to 48 hours.',
-      'Attained 99.999% carrier-grade availability with automated multi-zone failover.',
-      'Reduced datacenter energy footprint and power consumption by 55%.',
-    ],
-    quote:
-      '"Migrating an active core telecom network serving 18 million users is like changing jet engines mid-flight. Northstar executed it flawlessly with zero subscriber disruptions."',
-    quoteAuthor: 'Chief Technology & Network Officer, Top European Telecom',
-    quoteRole: 'European Telco Network Architecture & Technology Division',
-    tags: ['5G Core', 'Cloud Migration', 'Kubernetes CNFs', 'Carrier-Grade Infrastructure', 'GitOps'],
-    isVideo: false,
-    image: '/images/case_ribbon.jpg',
-  },
 ]
-
 const extendedSuccessStories = [...successStories, ...successStories, ...successStories]
 
 interface SuccessStoriesSectionProps {
@@ -9846,6 +9730,7 @@ export default function App() {
           <CapabilitiesPage
             targetCapability={targetCapability}
             onClearTarget={() => setTargetCapability(null)}
+            onOpenCaseStudy={handleOpenCaseStudy}
           />
         ) : route === 'about' ? (
           <AboutUsPage
@@ -9858,31 +9743,31 @@ export default function App() {
             {/* 3. Hero Section (Full-Bleed Automated & Manual Slider) */}
             <HeroSection onRouteChange={handleRouteChange} />
 
-            {/* 4. Brand Promise ("Scale at Speed™ with Tech Mahindra") */}
+            {/* 4. Brand Promise ("Applied AI Engineering: Strategy, Models & Governed Systems") */}
             <BrandPromiseSection onRouteChange={handleRouteChange} />
 
-            {/* 5. Podcast Spotlight Banner ("S/N") */}
-            <PodcastSection />
+            {/* 5. Autonomous Agents Showcase */}
+            <AutonomousAgentsSection onExploreCaseStudy={handleOpenCaseStudy} />
 
-            {/* 6. Latest Thinking (Asymmetric Masonry Grid) */}
-            <LatestThinkingSection />
-
-            {/* 7. The Big Thinkers (WSJ Collaboration) */}
-            <BigThinkersSection />
-
-            {/* 8. What's New (Interactive Sliding Carousel) */}
-            <WhatsNewSection />
-
-            {/* 9. Capabilities Overview Section */}
+            {/* 6. Capabilities Overview Section */}
             <CapabilitiesOverviewSection
               onExploreMore={() => handleRouteChange('capabilities')}
             />
 
-            {/* 10. Expertise Across Industries (Sliding Carousel) */}
-            <IndustriesSection onExploreMore={() => handleRouteChange('industries')} />
+            {/* 7. AI Tech Stack & MLOps Infrastructure */}
+            <AITechStackSection />
 
-            {/* 11. Success Stories (Sliding Carousel) */}
+            {/* 8. Governed AI Delivery Process (6-Stage Lifecycle) */}
+            <AIDeliveryProcessSection />
+
+            {/* 9. Success Stories (Sliding Carousel) */}
             <SuccessStoriesSection onOpenCaseStudy={handleOpenCaseStudy} />
+
+            {/* 10. AI Frequently Asked Questions */}
+            <AIFAQSection />
+
+            {/* 11. Expertise Across Industries (Sliding Carousel) */}
+            <IndustriesSection onExploreMore={() => handleRouteChange('industries')} />
 
             {/* 12. Limitless Together (Culture & Careers) */}
             <LimitlessTogetherSection />
