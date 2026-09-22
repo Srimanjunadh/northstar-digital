@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { upperTechStack, lowerTechStack } from './TechStackLogos'
 
 export interface AgentProduct {
   slug: string
@@ -516,58 +517,71 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
 }
 
 // -------------------------------------------------------------
-// AI Technology Stack Matrix Component
+// AI Technology Stack Dual-Row Marquee Component (Right-to-Left Upper, Left-to-Right Lower)
 // -------------------------------------------------------------
 export function AITechStackSection() {
+  const upperItems = [...upperTechStack, ...upperTechStack]
+  const lowerItems = [...lowerTechStack, ...lowerTechStack]
+
   return (
-    <section id="ai-tech-stack" className="py-20 md:py-28 bg-[#FAF8F5] text-gray-900 border-b border-gray-200">
-      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-        {/* Header */}
-        <div className="max-w-3xl mb-12 sm:mb-16">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-[#DE0826]">
-            Engineering Foundations
+    <section id="ai-tech-stack" className="py-20 md:py-28 bg-white text-gray-900 border-b border-gray-200 overflow-hidden relative">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
+        {/* Header exactly matching reference */}
+        <div className="max-w-4xl">
+          <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#E5A000]">
+            TECHNOLOGY STACK
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-950 mt-2 font-heading">
-            Enterprise AI <span className="text-[#DE0826]">Technology Stack</span>
+            The stack behind our <span className="text-[#E5A000]">AI delivery</span>
           </h2>
-          <p className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed mt-4 font-normal">
-            Production-grade tooling spanning deep learning runtimes, frontier language models, vector indexes, and low-latency MLOps infrastructure.
+          <p className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed mt-3 font-normal">
+            Models, frameworks, data systems, and cloud platforms we use to build and operate enterprise AI and the services we offer.
           </p>
         </div>
+      </div>
 
-        {/* 4-Category Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-          {techStackCategories.map((group, idx) => (
-            <div
-              key={idx}
-              className="bg-white border border-gray-200/90 rounded-xl p-6 sm:p-8 shadow-xs hover:shadow-xl hover:border-[#DE0826]/40 transition-all duration-300 flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-950 group-hover:text-[#DE0826] transition-colors">
-                    {group.category}
-                  </h3>
-                  <span className="font-mono text-xs text-gray-400 font-bold">
-                    0{idx + 1}
-                  </span>
+      {/* Two Moving Flow Lines */}
+      <div className="relative w-full space-y-8 sm:space-y-12">
+        {/* Left and Right Edge Gradient Masks for smooth fade out */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-36 bg-gradient-to-r from-white via-white/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-36 bg-gradient-to-l from-white via-white/80 to-transparent z-10" />
+
+        {/* Upper Line: Moves Right to Left */}
+        <div className="overflow-hidden w-full">
+          <div className="animate-marquee-left flex items-center gap-10 sm:gap-14">
+            {upperItems.map((item, idx) => (
+              <div
+                key={`${item.name}-${idx}`}
+                className="flex flex-col items-center justify-center min-w-[90px] sm:min-w-[110px] group cursor-pointer transition-transform duration-300 hover:-translate-y-1"
+              >
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110">
+                  {item.icon}
                 </div>
-                <p className="text-xs sm:text-sm text-gray-500 mb-6 leading-relaxed">
-                  {group.description}
-                </p>
+                <span className="text-xs sm:text-[13px] font-medium text-gray-700 group-hover:text-black tracking-tight whitespace-nowrap">
+                  {item.name}
+                </span>
               </div>
+            ))}
+          </div>
+        </div>
 
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
-                {group.techs.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1.5 rounded-md text-xs font-semibold bg-gray-50 border border-gray-200 text-gray-800 hover:bg-[#DE0826] hover:border-[#DE0826] hover:text-white transition-colors cursor-default"
-                  >
-                    {tech}
-                  </span>
-                ))}
+        {/* Lower Line: Moves Left to Right */}
+        <div className="overflow-hidden w-full">
+          <div className="animate-marquee-right flex items-center gap-10 sm:gap-14">
+            {lowerItems.map((item, idx) => (
+              <div
+                key={`${item.name}-${idx}`}
+                className="flex flex-col items-center justify-center min-w-[90px] sm:min-w-[110px] group cursor-pointer transition-transform duration-300 hover:-translate-y-1"
+              >
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110">
+                  {item.icon}
+                </div>
+                <span className="text-xs sm:text-[13px] font-medium text-gray-700 group-hover:text-black tracking-tight whitespace-nowrap">
+                  {item.name}
+                </span>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
