@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AboutUsPage, type AboutSubpage } from './AboutPages'
+import { GlobalModals, type LegalModalType } from './GlobalModals'
+
 import {
   AutonomousAgentsSection,
   AITechStackSection,
@@ -338,11 +340,13 @@ interface NavbarProps {
   currentRoute: PageRoute
   activeAboutSubpage?: AboutSubpage
   onRouteChange: (route: PageRoute, subpage?: AboutSubpage, targetItem?: string) => void
+  onOpenRegionModal?: () => void
+  selectedRegion?: string
 }
 
 type MegaMenuTab = 'about' | 'capabilities' | 'industries' | 'insights' | 'careers' | null
 
-function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
+function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion = 'English (Global)' }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openMenu, setOpenMenu] = useState<MegaMenuTab>(null)
@@ -595,10 +599,16 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
 
             <span className="text-gray-300 font-light hidden sm:inline select-none">|</span>
 
-            <div className="hidden sm:flex items-center space-x-1.5 border border-gray-200 rounded px-2.5 py-1 text-xs text-gray-700 hover:border-gray-400 cursor-pointer bg-gray-50/50">
+            <button
+              type="button"
+              onClick={() => onOpenRegionModal?.()}
+              aria-label={`Current Region: ${selectedRegion}. Click to change language or region.`}
+              className="hidden sm:flex items-center space-x-1.5 border border-gray-200 rounded px-2.5 py-1 text-xs text-gray-700 hover:border-gray-400 hover:text-gray-950 transition-colors cursor-pointer bg-gray-50/50"
+            >
               <Icon name="globe" className="w-3.5 h-3.5 text-gray-600" />
+              <span className="text-[11px] font-medium text-gray-700 max-w-[90px] truncate">{selectedRegion.split(' ')[0]}</span>
               <span className="text-[#DE0826] text-[10px]">▼</span>
-            </div>
+            </button>
 
             {/* Mobile Hamburger Toggle */}
             <button
@@ -861,7 +871,7 @@ function Navbar({ currentRoute, onRouteChange }: NavbarProps) {
                       className="relative h-[145px] overflow-hidden group cursor-pointer bg-black"
                     >
                       <img
-                        src="/images/home_racing.jpg"
+                        src="/images/ai_hero_neural.jpg"
                         alt="Scale at Speed"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                       />
@@ -1721,14 +1731,15 @@ const allCapabilitiesList: CapabilityItem[] = [
   {
     id: 6,
     title: 'Engineering Services',
-    category: 'Product & Hardware Innovation',
+    category: 'Cloud-Native & Digital Software Engineering',
     gradient: 'from-neutral-900 via-stone-800 to-black',
     iconType: 'turbine-blade',
     image: '/images/cap_engineering.jpg',
     description:
-      'End-to-end product design, electric vehicle software stacks, industrial IoT digital twins, avionics engineering, and embedded hardware architectures.',
+      'End-to-end cloud-native engineering, distributed microservices architectures, enterprise API platforms, and resilient chip-to-cloud edge systems.',
     services: [
-      'Connected Electric Vehicle (EV) Engineering',
+      'Cloud-Native Software Engineering',
+      'Enterprise API Platforms & Microservices',
       'Digital Twins & Industrial IoT Platforms',
       'Aerospace & Defense Systems Engineering',
       'Embedded Software & Chip-to-Cloud Hardware',
@@ -2374,6 +2385,36 @@ const caseStudiesList: CaseStudyItem[] = [
     metric: '99.6% Answer Faithfulness | < 800ms Query',
     client: 'Global Energy Consortium',
   },
+  {
+    id: 'apex-cloud-modernization',
+    title: 'Tier-1 Financial Core Cloud Modernization: Zero Transaction Loss & Active-Active Multi-Cloud Mesh',
+    category: 'Cloud Engineering & FinTech',
+    image: '/images/case_banking.jpg',
+    summary:
+      'Architected event-driven distributed ledger migration from legacy on-prem systems to active-active multi-region Kubernetes cloud mesh.',
+    metric: '99.999% SLA | 3.2ms Settlement',
+    client: 'Tier-1 Global Investment Bank',
+  },
+  {
+    id: 'telecom-noc-autonomy',
+    title: 'Zero Gravity Telco Network: Self-Healing Open RAN Virtualization Across 14,000 Edge Towers',
+    category: 'Next-Gen Telco & Networks',
+    image: '/images/hero_telco_glass.jpg',
+    summary:
+      'Deployed real-time autonomous telemetry correlation engines predicting and self-healing cell tower link degradation before customer outage.',
+    metric: '-84% MTTR | 99.999% Edge Availability',
+    client: 'Pan-Continental Telecom Operator',
+  },
+  {
+    id: 'omnichannel-retail-ai',
+    title: 'Omnichannel Ambient Commerce: Unified Real-Time Inventory & Dynamic Personalization at Scale',
+    category: 'Retail & Consumer Intelligence',
+    image: '/images/thinking_connected.jpg',
+    summary:
+      'Engineered sub-50ms distributed event mesh synchronizing 4,200 physical department stores with online mobile checkout pipelines.',
+    metric: '+38% Cart Velocity | 99.9% Stock Accuracy',
+    client: 'Nordic Retail Group',
+  },
 ]
 
 const upcomingEventsList: EventItem[] = [
@@ -2880,7 +2921,7 @@ const globalOfficesData: OfficeLocation[] = [
   },
 ]
 
-function ContactPage() {
+function ContactPage({ onOpenPrivacyModal }: { onOpenPrivacyModal?: () => void } = {}) {
   const [openAccordion, setOpenAccordion] = useState<number | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCountry, setSelectedCountry] = useState<OfficeLocation>(globalOfficesData[0])
@@ -3344,9 +3385,13 @@ return (
                       />
                       <span>
                         By clicking Submit, you agree to our{' '}
-                        <a href="#privacy" className="underline hover:text-white">
+                        <button
+                          type="button"
+                          onClick={() => onOpenPrivacyModal?.()}
+                          className="underline hover:text-white bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit inline"
+                        >
                           Privacy Policy
-                        </a>.
+                        </button>.
                       </span>
                     </label>
 
@@ -3410,7 +3455,7 @@ return (
 // -------------------------------------------------------------
 // Global Contact Us Section (Featured Before Footer On Every Page)
 // -------------------------------------------------------------
-function ContactUsSection() {
+function ContactUsSection({ onOpenPrivacyModal }: { onOpenPrivacyModal?: () => void } = {}) {
   const [enquiryType, setEnquiryType] = useState('Request for Service')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -3669,9 +3714,13 @@ function ContactUsSection() {
                     />
                     <span>
                       By clicking Submit, you agree to our{' '}
-                      <a href="#privacy" className="underline hover:text-red-200">
+                      <button
+                        type="button"
+                        onClick={() => onOpenPrivacyModal?.()}
+                        className="underline hover:text-red-200 bg-transparent border-0 p-0 cursor-pointer font-inherit text-inherit inline"
+                      >
                         Privacy Policy
-                      </a>
+                      </button>
                       .
                     </span>
                   </label>
@@ -4206,6 +4255,36 @@ interface InsightsPageProps {
   onClearTarget?: () => void
 }
 
+const featuredViewsData = [
+  {
+    id: 'quantum-ml',
+    title: 'Quantum Machine Learning vs Classical Deep Learning: A Service-Provider View on the Next Horizon',
+    description: 'Moving from Classical Deep Learning to Quantum Learning in the modern enterprise, our view deep-dives into quantum annealing, hybrid classical-quantum optimization, and algorithms that will redefine pharmaceutical discovery and cryptographic resilience.',
+    image: '/images/insights_quantum.jpg',
+    category: 'Executive Viewpoint • Quantum Computing',
+    modalP1: 'While classical deep learning excels at pattern recognition across unstructured data, combinatorial optimization problems in logistics, molecule synthesis, and financial risk modeling are reaching computational limits.',
+    modalP2: 'Norstar’s Quantum AI CoE is building hybrid architectures that offload specific NP-hard algorithms to quantum processing units (QPUs) while preserving classical cloud pipelines for data ingestion and user experience.',
+  },
+  {
+    id: 'agentic-swarms',
+    title: 'Autonomous Multi-Agent Swarms: Re-architecting Enterprise Workflows with Deterministic Guardrails',
+    description: 'Autonomous agent swarms represent the transition from passive chatbot interfaces to asynchronous proactive workforces. We explore sovereign memory graphs, consensus mechanisms, and audit logging for mission-critical operations.',
+    image: '/images/ai_hero_neural.jpg',
+    category: 'Executive Viewpoint • Autonomous Systems',
+    modalP1: 'Enterprise multi-agent architectures require strict isolation layers between speculative reasoning LLMs and verified transaction execution systems to prevent cascade failures.',
+    modalP2: 'By embedding verifiable cryptographic attestations and continuous policy evaluation, organizations can deploy autonomous agent collectives with mathematical safety guarantees.',
+  },
+  {
+    id: 'sovereign-cloud',
+    title: 'Zero-Trust Sovereign AI & Cross-Border Cloud Governance: Operating in Fragmented Regulatory Eras',
+    description: 'Navigating EU AI Act, GDPR, and cross-border data transfer restrictions requires architectural sovereignty. Explore federated training meshes, confidential enclaves, and localized telemetry routing.',
+    image: '/images/cap_hero.jpg',
+    category: 'Executive Viewpoint • Cloud & Governance',
+    modalP1: 'Modern multinational corporations face increasing friction from divergent localized compliance regimes that penalize centralized raw-data consolidation.',
+    modalP2: 'Northstar’s sovereign cloud architecture decentralizes model evaluation and keeps sensitive customer payloads pinned strictly to their sovereign jurisdiction.',
+  },
+]
+
 function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
   const [selectedCase, setSelectedCase] = useState<CaseStudyItem | null>(null)
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
@@ -4213,6 +4292,30 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
   const [viewsModalOpen, setViewsModalOpen] = useState(false)
   const [regModalOpen, setRegModalOpen] = useState(false)
   const [regSubmitted, setRegSubmitted] = useState(false)
+  const [currentViewIndex, setCurrentViewIndex] = useState(0)
+  const [caseStudyPage, setCaseStudyPage] = useState(0)
+
+  const currentView = featuredViewsData[currentViewIndex]
+
+  const nextView = () => {
+    setCurrentViewIndex((prev) => (prev + 1) % featuredViewsData.length)
+  }
+
+  const prevView = () => {
+    setCurrentViewIndex((prev) => (prev - 1 + featuredViewsData.length) % featuredViewsData.length)
+  }
+
+  const casePageSize = 3
+  const totalCasePages = Math.ceil(caseStudiesList.length / casePageSize)
+  const displayedCaseStudies = caseStudiesList.slice(caseStudyPage * casePageSize, (caseStudyPage + 1) * casePageSize)
+
+  const nextCaseStudies = () => {
+    setCaseStudyPage((prev) => (prev + 1) % totalCasePages)
+  }
+
+  const prevCaseStudies = () => {
+    setCaseStudyPage((prev) => (prev - 1 + totalCasePages) % totalCasePages)
+  }
 
   useEffect(() => {
     if (targetInsight) {
@@ -4379,12 +4482,16 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
             </h2>
             <div className="flex items-center space-x-2">
               <button
+                type="button"
+                onClick={prevView}
                 aria-label="Previous view"
                 className="w-10 h-10 rounded-full border border-gray-400/80 hover:border-[#DE0826] hover:text-[#DE0826] bg-transparent flex items-center justify-center text-gray-700 transition-colors cursor-pointer"
               >
                 <Icon name="chevron-left" className="w-4 h-4" />
               </button>
               <button
+                type="button"
+                onClick={nextView}
                 aria-label="Next view"
                 className="w-10 h-10 rounded-full border border-gray-400/80 hover:border-[#DE0826] hover:text-[#DE0826] bg-transparent flex items-center justify-center text-gray-700 transition-colors cursor-pointer"
               >
@@ -4401,10 +4508,10 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
                   onClick={() => setViewsModalOpen(true)}
                   className="text-2xl sm:text-3xl font-extrabold text-gray-950 leading-snug hover:text-[#DE0826] transition-colors cursor-pointer mb-4"
                 >
-                  Quantum Machine Learning vs Classical Deep Learning: A Service-Provider View on the Next Horizon
+                  {currentView.title}
                 </h3>
                 <p className="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 font-normal">
-                  Moving from Classical Deep Learning to Quantum Learning in the modern enterprise, our view deep-dives into quantum annealing, hybrid classical-quantum optimization, and algorithms that will redefine pharmaceutical discovery and cryptographic resilience.
+                  {currentView.description}
                 </p>
                 <button
                   onClick={() => setViewsModalOpen(true)}
@@ -4418,7 +4525,10 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
               {/* Progress Line and Action Button */}
               <div className="mt-8 pt-6 border-t border-gray-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="w-48 h-1 bg-gray-300 rounded-full overflow-hidden">
-                  <div className="w-1/2 h-full bg-[#DE0826] rounded-full" />
+                  <div
+                    className="h-full bg-[#DE0826] rounded-full transition-all duration-300"
+                    style={{ width: `${((currentViewIndex + 1) / featuredViewsData.length) * 100}%` }}
+                  />
                 </div>
                 <button
                   onClick={() => setViewsModalOpen(true)}
@@ -4429,12 +4539,12 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
               </div>
             </div>
 
-            {/* Right: Quantum Glass Discs Image */}
+            {/* Right: Feature Image */}
             <div className="lg:col-span-6 order-1 lg:order-2">
               <div className="relative rounded-xl overflow-hidden shadow-lg border border-gray-300 group cursor-pointer" onClick={() => setViewsModalOpen(true)}>
                 <img
-                  src="/images/insights_quantum.jpg"
-                  alt="Quantum Machine Learning Optics"
+                  src={currentView.image}
+                  alt={currentView.title}
                   className="w-full aspect-[16/9] object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
@@ -4453,12 +4563,16 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
             </h2>
             <div className="flex items-center space-x-2">
               <button
+                type="button"
+                onClick={prevCaseStudies}
                 aria-label="Previous case studies"
                 className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors cursor-pointer shadow-sm"
               >
                 <Icon name="chevron-left" className="w-4 h-4" />
               </button>
               <button
+                type="button"
+                onClick={nextCaseStudies}
                 aria-label="Next case studies"
                 className="w-10 h-10 rounded-full border border-gray-300 hover:border-[#DE0826] hover:text-[#DE0826] bg-white flex items-center justify-center text-gray-700 transition-colors cursor-pointer shadow-sm"
               >
@@ -4468,7 +4582,7 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {caseStudiesList.map((cs) => (
+            {displayedCaseStudies.map((cs) => (
               <div
                 key={cs.id}
                 onClick={() => setSelectedCase(cs)}
@@ -4500,7 +4614,10 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
           {/* Progress Bar & CTA */}
           <div className="mt-12 flex flex-col items-center justify-center gap-6">
             <div className="w-64 h-1 bg-gray-200 rounded-full overflow-hidden">
-              <div className="w-1/3 h-full bg-[#DE0826] rounded-full" />
+              <div
+                className="h-full bg-[#DE0826] rounded-full transition-all duration-300"
+                style={{ width: `${((caseStudyPage + 1) / totalCasePages) * 100}%` }}
+              />
             </div>
             <button
               onClick={() => setSelectedCase(caseStudiesList[0])}
@@ -4667,15 +4784,15 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
             >
               <Icon name="close" className="w-5 h-5" />
             </button>
-            <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">Executive Viewpoint</div>
+            <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">{currentView.category}</div>
             <h3 className="text-xl sm:text-2xl font-extrabold text-gray-950 mb-4 leading-snug">
-              Quantum Machine Learning vs Classical Deep Learning: A Service-Provider View on the Next Horizon
+              {currentView.title}
             </h3>
             <p className="text-sm text-gray-700 leading-relaxed mb-4">
-              While classical deep learning excels at pattern recognition across unstructured data, combinatorial optimization problems in logistics, molecule synthesis, and financial risk modeling are reaching computational limits.
+              {currentView.modalP1}
             </p>
             <p className="text-sm text-gray-700 leading-relaxed mb-6">
-              Norstar’s Quantum AI CoE is building hybrid architectures that offload specific NP-hard algorithms to quantum processing units (QPUs) while preserving classical cloud pipelines for data ingestion and user experience.
+              {currentView.modalP2}
             </p>
             <div className="flex justify-end">
               <button
@@ -4975,23 +5092,23 @@ function IndustriesPage({
               Cross-Industry Convergence in Action
             </h2>
             <p className="text-base text-gray-600 leading-relaxed">
-              Leading organizations no longer operate in industry silos. Norstar builds interoperable digital ecosystems where telecom meets automotive, energy converges with manufacturing, and financial services embed everywhere.
+              Leading organizations no longer operate in industry silos. Norstar builds interoperable digital ecosystems where cloud meets banking, energy converges with manufacturing, and financial services embed everywhere.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-[#FAF8F5] p-8 border border-gray-200 rounded-xl hover:border-[#DE0826] transition-all hover:shadow-lg">
               <div className="w-12 h-12 rounded-lg bg-[#DE0826] text-white flex items-center justify-center mb-6">
-                <Icon name="car" className="w-6 h-6" />
+                <Icon name="cloud" className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-gray-950 mb-3">
-                Connected Mobility
+                Cloud & FinTech Platforms
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                Automotive ER&D merges with 5G telecom edge networks to deliver software-defined vehicles, telematics ecosystems, and autonomous fleets.
+                Next-generation core banking, autonomous payment rails, and multi-cloud architectures driving frictionless digital financial ecosystems.
               </p>
               <span className="text-xs font-bold text-[#DE0826] flex items-center space-x-1">
-                <span>Automotive + Communications</span>
+                <span>Banking + Cloud Services</span>
               </span>
             </div>
 
@@ -5533,14 +5650,18 @@ function CapabilitiesPage({ targetCapability, onClearTarget, onOpenCaseStudy, on
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-gray-100">
-                <a
-                  href="#contact"
-                  onClick={closeModal}
-                  className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3 rounded transition-colors shadow-sm"
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeModal()
+                    if (onRouteChange) onRouteChange('contact')
+                    else { window.location.hash = '#/contact'; window.scrollTo({ top: 0, behavior: 'smooth' }) }
+                  }}
+                  className="inline-flex items-center space-x-2 bg-[#DE0826] hover:bg-[#BE001D] text-white text-xs font-bold px-6 py-3 rounded transition-colors shadow-sm cursor-pointer border-0"
                 >
                   <span>Connect with a Specialist</span>
                   <Icon name="arrow-right" className="w-3.5 h-3.5" />
-                </a>
+                </button>
 
                 <button
                   onClick={closeModal}
@@ -5587,10 +5708,10 @@ const heroSlides: HeroSlideData[] = [
   {
     title: 'Scale at Speed™',
     subtitle:
-      'Delivering transformative scale at unparalleled speed across 90+ countries with digital consulting, cloud architectures, and autonomous workflows.',
+      'Delivering transformative enterprise scale at speed across 90+ countries with digital consulting, cloud architectures, and autonomous workflows.',
     cta: 'KNOW MORE',
     badge: 'Core Promise',
-    image: '/images/home_racing.jpg',
+    image: '/images/ai_hero_neural.jpg',
     route: 'about',
   },
   {
@@ -5926,7 +6047,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
         </div>
       </div>
 
-      {/* Desktop Angled Formula Racing Car Graphic on the Right */}
+      {/* Desktop Angled Executive Consulting Graphic on the Right */}
       <div
         className="hidden lg:block absolute right-0 top-0 bottom-0 w-[50%] xl:w-[51%] h-full z-10 pointer-events-none"
         style={{
@@ -5934,13 +6055,13 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
         }}
       >
         <img
-          src="/images/scale_at_speed_racing.jpg"
+          src="/images/case_consult.jpg"
           alt="Scale at Speed - Norstar High Velocity Digital Innovation"
           className="w-full h-full object-cover object-center pointer-events-auto"
         />
       </div>
 
-      {/* Mobile Responsive Racing Graphic (displays below text on smaller screens) */}
+      {/* Mobile Responsive Consulting Graphic (displays below text on smaller screens) */}
       <div
         className="lg:hidden w-full aspect-[16/10] overflow-hidden relative z-10"
         style={{
@@ -5948,7 +6069,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
         }}
       >
         <img
-          src="/images/scale_at_speed_racing.jpg"
+          src="/images/case_consult.jpg"
           alt="Scale at Speed - Norstar High Velocity Digital Innovation"
           className="w-full h-full object-cover object-center"
         />
@@ -7057,14 +7178,18 @@ function LatestThinkingSection() {
               >
                 Close
               </button>
-              <a
-                href="#contact"
-                onClick={() => setSelectedCard(null)}
-                className="px-4 py-2 bg-[#DE0826] hover:bg-[#b5061e] text-white text-xs font-bold rounded-lg cursor-pointer transition-colors shadow-xs inline-flex items-center space-x-1.5"
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCard(null)
+                  window.location.hash = '#/contact'
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                className="px-4 py-2 bg-[#DE0826] hover:bg-[#b5061e] text-white text-xs font-bold rounded-lg cursor-pointer transition-colors shadow-xs inline-flex items-center space-x-1.5 border-0"
               >
                 <span>Discuss with Specialist</span>
                 <Icon name="arrow-right" className="w-3.5 h-3.5" />
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -8396,74 +8521,74 @@ const successStories: SuccessStory[] = [
   },
   {
     id: 4,
-    slug: 'norstar-racing',
-    client: 'Norstar Racing & Autonomous Telemetry',
-    category: 'Edge AI & Real-Time MLOps',
-    title: 'Accelerating Motorsport Operations with Real-Time Predictive AI & MLOps',
-    desc: 'Sub-45ms telemetry streaming, neural battery modeling, and continuous MLOps pipelines powering international championship racing.',
-    subtitle: 'Sub-second telemetry streaming and predictive powertrain optimization for international motorsport.',
-    timeline: '8-Month Rapid Deployment',
-    location: 'Global FIA Circuits (16 Cities)',
-    scope: 'Edge Computing, Real-Time Telemetry & Predictive AI',
+    slug: 'apex-cloud-modernization',
+    client: 'Apex Global Financial & Cloud Consortium',
+    category: 'Enterprise Cloud & Core Modernization',
+    title: 'Accelerating Enterprise Multi-Cloud Modernization & Autonomous AI Operations at Scale',
+    desc: 'Zero-downtime multi-cloud migration, distributed Kubernetes architectures, and autonomous AI-driven SRE operations across 40+ global regions.',
+    subtitle: 'Zero-downtime multi-cloud migration and distributed microservices for Tier-1 financial infrastructure.',
+    timeline: '10-Month Enterprise Execution',
+    location: 'Global Financial Hubs (New York, London, Singapore, Tokyo)',
+    scope: 'Multi-Cloud Architecture, Kubernetes Mesh, Autonomous SRE & MLOps',
     challenge:
-      'In electric single-seater motorsport, race strategy is decided in fractions of a second. The team needed to ingest millions of high-frequency CAN bus telemetry metrics per lap—battery thermal dynamics, tire graining, regenerative braking recovery—and provide deterministic tactical advice to the pit wall.',
+      'Managing mission-critical core banking transactions across legacy on-premise mainframe monoliths resulted in high infrastructure overhead, deployment bottlenecks, and escalating operational vulnerability.',
     challengePoints: [
-      'High latency (>800ms) over legacy RF links caused blind spots during critical pit strategy windows.',
-      'Complex battery thermal degradation profiles required non-linear multi-variable physics modeling.',
-      'Zero room for compute failure: trackside hardware must endure extreme temperatures, RF interference, and rapid circuit tear-downs.',
+      'Legacy mainframe batch architectures caused 6-hour settlement delays during high-volume trading windows.',
+      'Disparate multi-region data silos lacked automated failover and sovereign regulatory compliance lineage.',
+      'Zero tolerance for downtime: financial clearance networks require 99.999% availability during migration.',
     ],
     solution:
-      'Northstar engineered an ultra-low latency edge compute telemetry broker deployed directly in the race garage. Powered by neural differential equations and real-time probabilistic simulations, the platform models 10,000 synthetic race scenarios every lap to recommend precise battery state-of-charge targets and overtake mode timing.',
+      'Northstar Digital architected an event-driven multi-cloud mesh powered by containerized microservices and automated AI SRE agents. The platform dynamically routes 100M+ daily financial messages with sub-millisecond settlement and automated self-healing failovers.',
     solutionPillars: [
       {
-        title: 'Sub-Millisecond Trackside Telemetry Mesh',
-        desc: 'Engineered a dual-redundant 5G-private and high-gain Wi-Fi 6E telemetry bridge between moving vehicles and pit lane edge compute, dropping latency from 800ms to under 45ms with zero packet loss.',
+        title: 'Zero-Downtime Multi-Cloud Kubernetes Mesh',
+        desc: 'Engineered sovereign dual-region Kubernetes clusters on AWS and Azure with DPDK kernel bypass networking, ensuring sub-25ms global message propagation and zero packet loss.',
       },
       {
-        title: 'Physics-Informed Neural Battery Twin',
-        desc: 'Developed hybrid physics-informed neural network (PINN) models simulating battery electrochemical kinetics and thermal dissipation, predicting pack temperature 4 laps in advance with 99.4% accuracy.',
+        title: 'Autonomous AI SRE & Anomaly Self-Healing',
+        desc: 'Deployed predictive ML observability agents that monitor 15,000 telemetry metrics per second, detecting latency spikes and triggering automated canary rollbacks before user impact.',
       },
       {
-        title: 'Autonomous Pitwall Strategy Copilot',
-        desc: 'Built an interactive engineer console that models 10,000 simulated race trajectories per lap, dynamically alerting engineers when to switch driver maps, deploy Attack Mode, and maximize regenerative capture.',
+        title: 'Sovereign Financial Security & Compliance Enclaves',
+        desc: 'Built zero-trust confidential compute enclaves with hardware-backed encryption, guaranteeing immutable audit trails compliant with SEC, FINRA, and European central bank standards.',
       },
     ],
     implementationRoadmap: [
       {
         phase: 'Phase 01',
-        title: 'Telemetry Audit & Pipeline Harmonization',
-        detail: 'Benchmarked 200+ sensor channels across dyno test rigs and wind tunnels, establishing standardized binary serialization protocols.',
+        title: 'Workload Discovery & Dependency Graphing',
+        detail: 'Mapped dependencies across 2,500 legacy microservices and data pipelines using automated discovery scanners and synthetic workload generators.',
       },
       {
         phase: 'Phase 02',
-        title: 'Edge Hardware & AI Twin Deployment',
-        detail: 'Fabricated ruggedized trackside edge server racks and containerized neural battery models tested across pre-season Valencia trials.',
+        title: 'Containerized Cloud Mesh & Private Canary Testing',
+        detail: 'Containerized core banking engines on Kubernetes with automated blue-green staging across pilot nodes in London and New York.',
       },
       {
         phase: 'Phase 03',
-        title: 'Live Championship Race Integration',
-        detail: 'Deployed real-time pitwall copilot across 16 global E-Prix rounds with instantaneous continuous learning post-session.',
+        title: 'Global Multi-Region Production Cutover',
+        detail: 'Executed live canary cutover routing 100M+ daily transactions across 40 global regions with 99.999% availability and zero customer disruption.',
       },
     ],
     metrics: [
-      { value: '+0.42s', label: 'Lap Pace Advantage', desc: 'Measured pace gain over race stints under active competition' },
-      { value: '12,000', label: 'Data Points / Sec', desc: 'Ingested and analyzed in real time per single-seater vehicle' },
-      { value: '100%', label: 'Thermal Safety', desc: 'Zero battery derating events across the entire championship season' },
-      { value: '< 45ms', label: 'Telemetry Latency', desc: 'Sub-second response loop between track sensors and pit wall' },
+      { value: '99.999%', label: 'Platform Availability', desc: 'Continuous uptime achieved during 40-region global cutover' },
+      { value: '-65%', label: 'Infrastructure TCO', desc: 'Cost reduction through autoscaling cloud-native compute' },
+      { value: '< 25ms', label: 'Settlement Latency', desc: 'Sub-second real-time clearance across global currency corridors' },
+      { value: '100M+', label: 'Daily Transactions', desc: 'Processed reliably across distributed microservices clusters' },
     ],
     keyOutcomes: [
-      'Engineered sub-50ms live telemetry pipeline between trackside edge and remote simulation factory.',
-      'Automated regenerative braking energy recovery strategies adapting dynamically to weather and safety cars.',
-      'Delivered 3 podium finishes and a championship contention through algorithmic pit-stop timing.',
-      'Streamlined post-race telemetry analysis turnaround from 6 hours to less than 15 minutes.',
+      'Migrated 2,500+ legacy banking services to sovereign multi-cloud with zero downtime.',
+      'Reduced deployment cycle time from 6 weeks to automated daily canary releases.',
+      'Saved $85M annually in legacy datacenter licensing and operational overhead.',
+      'Implemented real-time compliance lineage adhering to global central bank mandates.',
     ],
     quote:
-      "\"Racing in Formula E is an engineering war of energy management. Northstar's predictive AI platform gives our drivers and race engineers an unfair tactical edge on every lap.\"",
-    quoteAuthor: 'Team Principal & Technical Director, Norstar Racing',
-    quoteRole: 'Norstar Racing Technical Department',
-    tags: ['Motorsport Tech', 'Real-Time Telemetry', 'Edge Computing', 'Battery Optimization', 'Neural Models', 'MLOps'],
+      "\"Migrating mission-critical financial clearance engines to multi-cloud seemed daunting. Northstar delivered flawless engineering rigor, zero downtime, and unmatched execution speed.\"",
+    quoteAuthor: 'Chief Information Officer, Apex Global Financial Consortium',
+    quoteRole: 'Global Infrastructure & Enterprise Engineering',
+    tags: ['Cloud Migration', 'Enterprise Modernization', 'Kubernetes Mesh', 'FinTech AI', 'DevOps & SRE', 'Multi-Cloud'],
     isVideo: false,
-    image: '/images/ai_mlops_command.jpg',
+    image: '/images/ai_hero_neural.jpg',
   },
   {
     id: 5,
@@ -8763,11 +8888,11 @@ const pipelineData: Record<string, { label: string; detail: string }[]> = {
     { label: 'Offline Vector RAG Engine', detail: '40 years of wiring schematics in on-device SQLite vector DB' },
     { label: 'Technician Voice Copilot', detail: 'Hands-free acoustic guidance with 94% first-time fix rate' },
   ],
-  'norstar-racing': [
-    { label: '12,000 CAN Bus Points / Sec', detail: 'High-frequency telemetry streaming per single-seater car' },
-    { label: 'Trackside Garage 5G Broker', detail: 'Dual-redundant telemetry edge with sub-50ms roundtrip' },
-    { label: 'Neural ODE Battery Simulator', detail: '10,000 simulated race scenarios executed per lap' },
-    { label: 'Pitwall Tactical HUD', detail: 'Deterministic Attack Mode & energy recovery recommendations' },
+  'apex-cloud-modernization': [
+    { label: 'Workload Discovery & Inventory', detail: 'Automated dependency mapping across 2,500 legacy microservices' },
+    { label: 'Multi-Cloud Kubernetes Mesh', detail: 'Dual-region cloud clusters with DPDK high-throughput networking' },
+    { label: 'Autonomous AI SRE Guardrails', detail: 'Real-time anomaly detection with automated self-healing rollback' },
+    { label: 'GitOps Continuous Delivery', detail: 'Zero-downtime canary deployments with 99.999% platform availability' },
   ],
   'global-retail-giant': [
     { label: 'Hyperlocal Demand Signals', detail: 'Real-time POS, foot-traffic, weather & calendar covariates' },
@@ -8792,7 +8917,7 @@ function CaseStudyPage({
   const [copied, setCopied] = useState(false)
   const story =
     successStories.find((s) => s.slug === storySlug) ||
-    successStories.find((s) => s.slug === 'norstar-racing') ||
+    successStories.find((s) => s.slug === 'apex-cloud-modernization') ||
     successStories[0]
   const otherStories = successStories.filter((s) => s.id !== story.id)
 
@@ -8804,7 +8929,7 @@ function CaseStudyPage({
     }
   }
 
-  const pipeline = pipelineData[story.slug] || pipelineData['norstar-racing']
+  const pipeline = pipelineData[story.slug] || pipelineData['apex-cloud-modernization']
 
   return (
     <div className="bg-[#FAF8F5] min-h-screen text-gray-900 selection:bg-[#DE0826] selection:text-white">
@@ -9359,13 +9484,17 @@ function LimitlessTogetherSection({ onRouteChange }: LimitlessTogetherSectionPro
                 <Icon name="arrow-right" className="w-3.5 h-3.5" />
               </button>
             ) : (
-              <a
-                href="#careers"
-                className="inline-flex items-center space-x-2 bg-white text-gray-950 hover:bg-[#DE0826] hover:text-white text-xs font-bold px-7 py-3.5 rounded transition-all shadow-lg"
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.hash = '#/careers'
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                className="inline-flex items-center space-x-2 bg-white text-gray-950 hover:bg-[#DE0826] hover:text-white text-xs font-bold px-7 py-3.5 rounded transition-all shadow-lg cursor-pointer border-0"
               >
                 <span>Explore Careers</span>
                 <Icon name="arrow-right" className="w-3.5 h-3.5" />
-              </a>
+              </button>
             )}
           </div>
         </div>
@@ -9379,10 +9508,13 @@ function LimitlessTogetherSection({ onRouteChange }: LimitlessTogetherSectionPro
 // Exactly matching the screenshot!
 // -------------------------------------------------------------
 interface FooterProps {
-  onRouteChange: (route: PageRoute) => void
+  onRouteChange: (route: PageRoute, subpage?: any) => void
+  onOpenLegalModal?: (modalType: LegalModalType) => void
+  onOpenRegionModal?: () => void
+  selectedRegion?: string
 }
 
-function Footer({ onRouteChange }: FooterProps) {
+function Footer({ onRouteChange, onOpenLegalModal, onOpenRegionModal, selectedRegion = 'English (Global)' }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -9403,7 +9535,10 @@ function Footer({ onRouteChange }: FooterProps) {
           {/* Logo & Brand Column */}
           <div className="md:col-span-4">
             <button
-              onClick={() => onRouteChange('home')}
+              onClick={() => {
+                onRouteChange('home')
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
               className="flex items-center space-x-2.5 mb-4 bg-transparent border-0 p-0 cursor-pointer text-left group"
             >
               <svg
@@ -9431,38 +9566,119 @@ function Footer({ onRouteChange }: FooterProps) {
             <ul className="space-y-3 text-xs">
               <li>
                 <button
+                  type="button"
                   onClick={() => onRouteChange('about')}
                   className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
                 >
                   Our Brand
                 </button>
               </li>
-              <li><a href="#sustainability" className="hover:text-[#DE0826] transition-colors">Sustainability</a></li>
-              <li><a href="#about" className="hover:text-[#DE0826] transition-colors">Corporate Citizenship</a></li>
-              <li><a href="#investors" className="hover:text-[#DE0826] transition-colors">Investor Relations</a></li>
-              <li><a href="#contact" className="hover:text-[#DE0826] transition-colors">Contact Us</a></li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('about', 'sustainability')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Sustainability
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('about', 'citizenship')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Corporate Citizenship
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('about', 'investors')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Investor Relations
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('contact')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Contact Us
+                </button>
+              </li>
             </ul>
           </div>
 
           {/* Links Column 2 */}
           <div className="md:col-span-3">
             <ul className="space-y-3 text-xs">
-              <li><a href="#whats-new" className="hover:text-[#DE0826] transition-colors">News</a></li>
-              <li><a href="#latest-thinking" className="hover:text-[#DE0826] transition-colors">Events</a></li>
-              <li><a href="#careers" className="hover:text-[#DE0826] transition-colors">Careers</a></li>
-              <li><a href="#about" className="hover:text-[#DE0826] transition-colors">Alumni</a></li>
-              <li><a href="#sitemap" className="hover:text-[#DE0826] transition-colors">Sitemap</a></li>
-              <li><a href="#cookies" className="hover:text-[#DE0826] transition-colors">Cookie Preferences</a></li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('about', 'news')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  News
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('insights')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Events
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('careers')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Careers
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onRouteChange('careers', 'alumni')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Alumni
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onOpenLegalModal?.('sitemap')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Sitemap
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onOpenLegalModal?.('cookie-prefs')}
+                  className="hover:text-[#DE0826] transition-colors bg-transparent border-0 p-0 text-left cursor-pointer"
+                >
+                  Cookie Preferences
+                </button>
+              </li>
             </ul>
           </div>
 
           {/* Social Icons Column */}
           <div className="md:col-span-2 flex md:justify-end items-start space-x-4 text-white">
-            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm">f</a>
-            <a href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm font-bold">𝕏</a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm font-bold">in</a>
-            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm">▶</a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm">📷</a>
+            <a href="https://facebook.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm" aria-label="Facebook">f</a>
+            <a href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm font-bold" aria-label="Twitter">𝕏</a>
+            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm font-bold" aria-label="LinkedIn">in</a>
+            <a href="https://youtube.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm" aria-label="YouTube">▶</a>
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="hover:text-[#DE0826] transition-colors text-sm" aria-label="Instagram">📷</a>
           </div>
         </div>
       </div>
@@ -9474,21 +9690,50 @@ function Footer({ onRouteChange }: FooterProps) {
             © 2026 Norstar Digital Limited. All rights reserved.
           </div>
 
-          {/* Language Selector */}
-          <div className="flex items-center space-x-2 text-[11px] text-gray-400 bg-white/5 px-3 py-1 rounded border border-white/10">
+          {/* Language Selector Button */}
+          <button
+            type="button"
+            onClick={() => onOpenRegionModal?.()}
+            aria-label="Select region and language"
+            className="flex items-center space-x-2 text-[11px] text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1 rounded border border-white/10 transition-colors cursor-pointer"
+          >
             <Icon name="globe" className="w-3.5 h-3.5 text-[#DE0826]" />
-            <span>English (Global)</span>
+            <span>{selectedRegion}</span>
             <span className="text-[9px]">▼</span>
-          </div>
+          </button>
 
-          <div className="flex flex-wrap items-center gap-4 text-[11px] text-gray-500">
-            <a href="#terms" className="hover:text-gray-300">Terms of Use</a>
+          <div className="flex flex-wrap items-center gap-4 text-[11px] text-gray-400">
+            <button
+              type="button"
+              onClick={() => onOpenLegalModal?.('terms')}
+              className="hover:text-white transition-colors bg-transparent border-0 p-0 cursor-pointer"
+            >
+              Terms of Use
+            </button>
             <span>•</span>
-            <a href="#accessibility" className="hover:text-gray-300">Accessibility</a>
+            <button
+              type="button"
+              onClick={() => onOpenLegalModal?.('accessibility')}
+              className="hover:text-white transition-colors bg-transparent border-0 p-0 cursor-pointer"
+            >
+              Accessibility
+            </button>
             <span>•</span>
-            <a href="#privacy" className="hover:text-gray-300">Privacy</a>
+            <button
+              type="button"
+              onClick={() => onOpenLegalModal?.('privacy')}
+              className="hover:text-white transition-colors bg-transparent border-0 p-0 cursor-pointer"
+            >
+              Privacy
+            </button>
             <span>•</span>
-            <a href="#cookie" className="hover:text-gray-300">Cookie</a>
+            <button
+              type="button"
+              onClick={() => onOpenLegalModal?.('cookies')}
+              className="hover:text-white transition-colors bg-transparent border-0 p-0 cursor-pointer"
+            >
+              Cookie
+            </button>
           </div>
         </div>
       </div>
@@ -9496,7 +9741,7 @@ function Footer({ onRouteChange }: FooterProps) {
       {/* Floating Circular Back to Top Button */}
       <button
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-white hover:bg-[#DE0826] text-gray-800 hover:text-white flex items-center justify-center shadow-2xl transition-all duration-200 z-40 border border-gray-200"
+        className="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-white hover:bg-[#DE0826] text-gray-800 hover:text-white flex items-center justify-center shadow-2xl transition-all duration-200 z-40 border border-gray-200 cursor-pointer"
         aria-label="Back to top"
       >
         <div className="transform -rotate-90">
@@ -9515,29 +9760,29 @@ export default function App() {
     const hash = window.location.hash
     if (hash.includes('case-study')) {
       const parts = hash.split('/')
-      const slug = parts[2]?.replace(/[?#].*$/, '') || 'norstar-racing'
+      const slug = parts[2]?.replace(/[?#].*$/, '') || 'apex-cloud-modernization'
       return { route: 'case-study' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: slug }
     }
-    if (hash.includes('contact')) return { route: 'contact' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing' }
+    if (hash.includes('contact')) return { route: 'contact' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'apex-cloud-modernization' }
     if (hash.includes('careers')) {
       const parts = hash.split('/')
       const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
-      return { route: 'careers' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetCareer: item }
+      return { route: 'careers' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'apex-cloud-modernization', targetCareer: item }
     }
     if (hash.includes('insights')) {
       const parts = hash.split('/')
       const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
-      return { route: 'insights' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetInsight: item }
+      return { route: 'insights' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'apex-cloud-modernization', targetInsight: item }
     }
     if (hash.includes('industries')) {
       const parts = hash.split('/')
       const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
-      return { route: 'industries' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetIndustry: item }
+      return { route: 'industries' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'apex-cloud-modernization', targetIndustry: item }
     }
     if (hash.includes('capabilities')) {
       const parts = hash.split('/')
       const item = parts[2] ? decodeURIComponent(parts[2].replace(/[?#].*$/, '')) : undefined
-      return { route: 'capabilities' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing', targetCapability: item }
+      return { route: 'capabilities' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'apex-cloud-modernization', targetCapability: item }
     }
     if (hash.includes('about')) {
       const parts = hash.split('/')
@@ -9557,11 +9802,11 @@ export default function App() {
         'investors',
       ]
       if (validSubpages.includes(sub)) {
-        return { route: 'about' as PageRoute, subpage: sub, caseStudySlug: 'norstar-racing' }
+        return { route: 'about' as PageRoute, subpage: sub, caseStudySlug: 'apex-cloud-modernization' }
       }
-      return { route: 'about' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing' }
+      return { route: 'about' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'apex-cloud-modernization' }
     }
-    return { route: 'home' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'norstar-racing' }
+    return { route: 'home' as PageRoute, subpage: 'overview' as AboutSubpage, caseStudySlug: 'apex-cloud-modernization' }
   }
 
   const [route, setRoute] = useState<PageRoute>(() => parseHash().route)
@@ -9591,6 +9836,17 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHash)
   }, [])
 
+  // Legal & Compliance Modals State
+  const [activeLegalModal, setActiveLegalModal] = useState<LegalModalType | null>(null)
+  const [regionModalOpen, setRegionModalOpen] = useState(false)
+  const [selectedRegion, setSelectedRegion] = useState('English (Global)')
+  const [cookiePreferences, setCookiePreferences] = useState({
+    necessary: true,
+    analytics: true,
+    marketing: false,
+    functional: true,
+  })
+
   const handleOpenCaseStudy = (slug: string) => {
     setSelectedCaseStudySlug(slug)
     setRoute('case-study')
@@ -9601,7 +9857,7 @@ export default function App() {
   const handleRouteChange = (newRoute: PageRoute, subpage?: AboutSubpage, targetItem?: string) => {
     setRoute(newRoute)
     if (newRoute === 'case-study') {
-      window.location.hash = `#/case-study/${selectedCaseStudySlug || 'norstar-racing'}`
+      window.location.hash = `#/case-study/${selectedCaseStudySlug || 'apex-cloud-modernization'}`
     } else if (newRoute === 'about') {
       const targetSub = subpage || 'overview'
       setAboutSubpage(targetSub)
@@ -9653,6 +9909,8 @@ export default function App() {
         currentRoute={route}
         activeAboutSubpage={aboutSubpage}
         onRouteChange={handleRouteChange}
+        onOpenRegionModal={() => setRegionModalOpen(true)}
+        selectedRegion={selectedRegion}
       />
 
       {/* Main Content Area: Home, About Us, Capabilities, or Case Study */}
@@ -9671,7 +9929,7 @@ export default function App() {
             onNavigateToContact={() => handleRouteChange('contact')}
           />
         ) : route === 'contact' ? (
-          <ContactPage />
+          <ContactPage onOpenPrivacyModal={() => setActiveLegalModal('privacy')} />
         ) : route === 'careers' ? (
           <CareersPage
             targetCareer={targetCareer}
@@ -9726,20 +9984,46 @@ export default function App() {
             {/* 9. Success Stories (Sliding Carousel) */}
             <SuccessStoriesSection onOpenCaseStudy={handleOpenCaseStudy} />
 
-            {/* 10. Limitless Together (Culture & Careers) */}
-            <LimitlessTogetherSection onRouteChange={handleRouteChange} />
-
-            {/* 11. Expertise Across Industries (Sliding Carousel) */}
+            {/* 10. Expertise Across Industries (Sliding Carousel) */}
             <IndustriesSection onExploreMore={() => handleRouteChange('industries')} />
+
+            {/* 11. Limitless Together (Culture & Careers) */}
+            <LimitlessTogetherSection onRouteChange={handleRouteChange} />
           </>
         )}
 
         {/* Global Contact Us Section (featured in non-contact pages at footer section) */}
-        {route !== 'contact' && <ContactUsSection />}
+        {route !== 'contact' && (
+          <ContactUsSection onOpenPrivacyModal={() => setActiveLegalModal('privacy')} />
+        )}
       </main>
 
       {/* 13. Enterprise Footer */}
-      <Footer onRouteChange={handleRouteChange} />
+      <Footer
+        onRouteChange={handleRouteChange}
+        onOpenLegalModal={(modal) => setActiveLegalModal(modal)}
+        onOpenRegionModal={() => setRegionModalOpen(true)}
+        selectedRegion={selectedRegion}
+      />
+
+      {/* 14. Global Interactive Modals (Legal, Cookies, Sitemap, Region Selector) */}
+      <GlobalModals
+        activeLegalModal={activeLegalModal}
+        onCloseLegalModal={() => setActiveLegalModal(null)}
+        regionModalOpen={regionModalOpen}
+        onCloseRegionModal={() => setRegionModalOpen(false)}
+        selectedRegion={selectedRegion}
+        onSelectRegion={(reg) => setSelectedRegion(reg)}
+        cookiePrefs={cookiePreferences}
+        onSaveCookiePrefs={(prefs) => setCookiePreferences(prefs)}
+        onNavigate={(target, subpage) => {
+          if (['terms', 'privacy', 'cookies', 'cookie-prefs', 'accessibility', 'sitemap'].includes(target)) {
+            setActiveLegalModal(target as LegalModalType)
+          } else {
+            handleRouteChange(target, subpage)
+          }
+        }}
+      />
     </div>
   )
 }

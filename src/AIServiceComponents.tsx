@@ -331,9 +331,6 @@ export function AutonomousAgentsSection({ onExploreCaseStudy }: { onExploreCaseS
         {/* Header with Navigation Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 lg:mb-14">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-[#DE0826]/20 border border-[#DE0826]/40 rounded-full text-[#DE0826] text-xs font-extrabold uppercase tracking-widest mb-4">
-              <span>Autonomous Intelligence</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white font-heading">
               Enterprise Autonomous <span className="text-[#DE0826]">Agents</span>
             </h2>
@@ -528,11 +525,11 @@ export function AITechStackSection() {
       <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
         {/* Header exactly matching reference */}
         <div className="max-w-4xl">
-          <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#E5A000]">
+          <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#DE0826]">
             TECHNOLOGY STACK
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-950 mt-2 font-heading">
-            The stack behind our <span className="text-[#E5A000]">AI delivery</span>
+            The stack behind our <span className="text-[#DE0826]">AI delivery</span>
           </h2>
           <p className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed mt-3 font-normal">
             Models, frameworks, data systems, and cloud platforms we use to build and operate enterprise AI and the services we offer.

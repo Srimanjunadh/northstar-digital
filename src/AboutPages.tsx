@@ -178,22 +178,6 @@ function IsoGridPattern({ id = 'about-iso-pattern', opacity = 'opacity-45' }: { 
   )
 }
 
-// Navigation tab items configuration
-const subpageTabs: { id: AboutSubpage; label: string }[] = [
-  { id: 'overview', label: 'Corporate Overview' },
-  { id: 'leadership', label: 'Leadership' },
-  { id: 'brand', label: 'Our Brand' },
-  { id: 'sustainability', label: 'Sustainability' },
-  { id: 'recognition', label: 'Recognition' },
-  { id: 'customer-speak', label: 'Customer Speak' },
-  { id: 'partners', label: 'Partners Ecosystem' },
-  { id: 'portfolio', label: 'Portfolio Companies' },
-  { id: 'citizenship', label: 'Corporate Citizenship' },
-  { id: 'centricity', label: 'Customer Centricity' },
-  { id: 'news', label: 'News & Media' },
-  { id: 'investors', label: 'Investor Relations' },
-]
-
 export function AboutUsPage({
   activeSubpage = 'overview',
   onSelectSubpage,
@@ -204,38 +188,32 @@ export function AboutUsPage({
 
   // Filter state for recognition
   const [recognitionFilter, setRecognitionFilter] = useState<'all' | 'analyst' | 'esg' | 'workplace'>('all')
+  const [downloadToast, setDownloadToast] = useState<string | null>(null)
+
+  const handleDownloadReport = (title: string, filename: string) => {
+    const content = `Northstar Digital - ${title}\nGenerated on: ${new Date().toLocaleDateString()}\nDocument: ${filename}\nStatus: Official Verified Distribution\n\nScale at Speed™ — Co-innovating with global organizations.`
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+
+    setDownloadToast(`Downloaded: ${title}`)
+    setTimeout(() => setDownloadToast(null), 3500)
+  }
 
   return (
-    <div className="bg-white text-gray-900 min-h-screen">
-      {/* ------------------------------------------------------------- */}
-      {/* STICKY SECONDARY SUB-NAVIGATION BAR (Northstar AI Studio Inspired) */}
-      {/* ------------------------------------------------------------- */}
-      <div className="sticky top-[58px] sm:top-[64px] z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-xs">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-8">
-          <div className="flex items-center space-x-1 sm:space-x-2 overflow-x-auto no-scrollbar py-2.5">
-            {subpageTabs.map((tab) => {
-              const isActive = activeSubpage === tab.id
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    onSelectSubpage(tab.id)
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
-                  }}
-                  className={`whitespace-nowrap px-3.5 py-2 text-xs sm:text-[13px] font-bold rounded-md transition-all cursor-pointer border-0 ${
-                    isActive
-                      ? 'bg-[#DE0826] text-white shadow-xs font-extrabold'
-                      : 'bg-transparent text-gray-700 hover:text-[#DE0826] hover:bg-gray-100/70'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              )
-            })}
-          </div>
+    <div className="bg-white text-gray-900 min-h-screen relative">
+      {downloadToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#0B0F19] text-white px-5 py-3 rounded-xl shadow-2xl border border-white/20 flex items-center space-x-3 animate-fadeIn">
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-xs font-bold">{downloadToast}</span>
         </div>
-      </div>
-
+      )}
       {/* ------------------------------------------------------------- */}
       {/* 1. CORPORATE OVERVIEW VIEW */}
       {/* ------------------------------------------------------------- */}
@@ -706,8 +684,8 @@ export function AboutUsPage({
                 <div className="lg:col-span-5">
                   <div className="aspect-[16/11] rounded-2xl overflow-hidden shadow-xl border-2 border-red-100">
                     <img
-                      src="/images/home_racing.jpg"
-                      alt="Scale at Speed"
+                      src="/images/ai_hero_neural.jpg"
+                      alt="Enterprise Digital Transformation"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -1196,11 +1174,11 @@ export function AboutUsPage({
                     org: 'Apex Global Payments & FinTech',
                   },
                   {
-                    industry: 'Automotive & Mobility',
+                    industry: 'Enterprise Cloud & Digital Engineering',
                     quote:
-                      'Agent Kavacha Platform and Norstar united Italian industrial elegance with next-generation in-vehicle software architecture. The result is an EV cockpit interface that sets a new industry standard for luxury.',
-                    author: 'VP of Vehicle Software & UX',
-                    org: 'Global Premium Automotive OEM',
+                      'Norstar Digital transformed our core business infrastructure into an agile, cloud-native digital mesh. Their engineering rigor, delivery velocity, and commitment to zero downtime set a gold standard for digital consulting.',
+                    author: 'Chief Technology Officer',
+                    org: 'Global Fortune 100 Technology Group',
                   },
                   {
                     industry: 'Banking & Financial Services',
@@ -1411,9 +1389,9 @@ export function AboutUsPage({
                     name: 'Agent Kavacha Platform',
                     tagline: 'Autonomous Real-Time Anti-Fraud & Transaction Defense',
                     hq: 'FinTech & Banking AI • Sub-45ms Latency',
-                    desc: 'The world standard in automotive styling and industrial elegance. Agent Kavacha Platform combines nearly a century of hypercar craftsmanship with advanced digital cockpit ergonomics, smart architecture, and bespoke product design.',
-                    image: '/images/home_racing.jpg',
-                    capabilities: ['Luxury Automotive Styling', 'Aerodynamics & Wind Tunnel Testing', 'Smart City Architecture', 'Interior & Industrial Design'],
+                    desc: 'The global benchmark in autonomous financial crime defense and high-velocity transaction security. Agent Kavacha Platform protects Tier-1 global banks and fintech networks with sub-45ms real-time fraud mitigation, neural transaction lineage, and automated regulatory reporting.',
+                    image: '/images/ai_agent_kavacha.jpg',
+                    capabilities: ['Real-Time Transaction Defense', 'Algorithmic Anti-Money Laundering', 'Adaptive Biometric Verification', 'Zero-Downtime Payment Mesh'],
                   },
                   {
                     name: 'Agent Arogya Healthcare Suite',
@@ -1872,7 +1850,10 @@ export function AboutUsPage({
                   <p className="text-xs text-gray-600 mb-6">
                     Comprehensive review of business performance, ESG achievements, and corporate governance.
                   </p>
-                  <button className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0">
+                  <button
+                    onClick={() => handleDownloadReport('Annual Integrated Report FY 2025-2026', 'Norstar_Annual_Integrated_Report_FY26.pdf')}
+                    className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0"
+                  >
                     <span>Download PDF (4.8 MB)</span>
                     <SubIcon name="arrow-right" className="w-3 h-3" />
                   </button>
@@ -1884,7 +1865,10 @@ export function AboutUsPage({
                   <p className="text-xs text-gray-600 mb-6">
                     Management commentary, analyst Q&A session, and forward guidance summary.
                   </p>
-                  <button className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0">
+                  <button
+                    onClick={() => handleDownloadReport('Earnings Call Transcript Q1 FY27', 'Norstar_Q1_FY27_Earnings_Call_Transcript.pdf')}
+                    className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0"
+                  >
                     <span>Download Transcript (1.2 MB)</span>
                     <SubIcon name="arrow-right" className="w-3 h-3" />
                   </button>
@@ -1896,7 +1880,10 @@ export function AboutUsPage({
                   <p className="text-xs text-gray-600 mb-6">
                     Strategy roadmap, sector revenue breakdown, Agentic AI investments, and margin drivers.
                   </p>
-                  <button className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0">
+                  <button
+                    onClick={() => handleDownloadReport('Investor Presentation Strategy Roadmap', 'Norstar_Investor_Deck_FY26_27.pdf')}
+                    className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0"
+                  >
                     <span>Download Presentation (8.4 MB)</span>
                     <SubIcon name="arrow-right" className="w-3 h-3" />
                   </button>
