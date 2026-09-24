@@ -191,7 +191,7 @@ export function AboutUsPage({
   const [downloadToast, setDownloadToast] = useState<string | null>(null)
 
   const handleDownloadReport = (title: string, filename: string) => {
-    const content = `Northstar Digital - ${title}\nGenerated on: ${new Date().toLocaleDateString()}\nDocument: ${filename}\nStatus: Official Verified Distribution\n\nScale at Speed™ — Co-innovating with global organizations.`
+    const content = `TokenWave AI - ${title}\nGenerated on: ${new Date().toLocaleDateString()}\nDocument: ${filename}\nStatus: Official Verified Distribution\n\nScale at Speed™ — Co-innovating with global organizations.`
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
@@ -225,7 +225,7 @@ export function AboutUsPage({
             <div className="absolute inset-0 pointer-events-none z-0">
               <img
                 src="/images/about_hq.jpg"
-                alt="Norstar Global Headquarters Tech Campus"
+                alt="TokenWave AI Global Headquarters Tech Campus"
                 className="w-full h-full object-cover object-center"
               />
             </div>
@@ -311,7 +311,7 @@ export function AboutUsPage({
             <div className="max-w-[1440px] mx-auto px-6 md:px-12">
               <div className="text-center max-w-3xl mx-auto mb-16">
                 <span className="text-xs font-bold text-[#DE0826] uppercase tracking-widest">
-                  Our North Star
+                  Our Guiding Vision
                 </span>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-gray-950 mt-2 mb-4">
                   Purpose, Promise & Core Mission
@@ -396,7 +396,7 @@ export function AboutUsPage({
                   Our Journey in <span className="text-[#DE0826]">Enterprise AI</span>
                 </h2>
                 <p className="text-gray-600 text-sm md:text-base mt-3">
-                  Explore the pivotal milestones that shaped Norstar from an Indian telecommunications joint venture into a global digital transformation titan.
+                  Explore the pivotal milestones that shaped TokenWave AI from an Indian telecommunications joint venture into a global digital transformation titan.
                 </p>
               </div>
 
@@ -674,7 +674,7 @@ export function AboutUsPage({
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 <div className="lg:col-span-7">
                   <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-950 mb-6 leading-tight">
-                    The Northstar AI Promise: <span className="text-[#DE0826]">Governed Intelligence</span>
+                    The TokenWave AI Promise: <span className="text-[#DE0826]">Governed Intelligence</span>
                   </h1>
                   <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal mb-8 max-w-xl">
                     We believe artificial intelligence should never be an unpredictable black box. We engineer deterministic guardrails, citation-grounded retrieval, and sub-45ms execution into every enterprise system.
@@ -758,7 +758,7 @@ export function AboutUsPage({
                     Acoustic Branding
                   </span>
                   <h2 className="text-3xl md:text-5xl font-extrabold text-white mt-2 mb-6">
-                    Introducing Norstar T!ng
+                    Introducing TokenWave T!ng
                   </h2>
                   <p className="text-gray-300 text-base leading-relaxed mb-6">
                     Our new sonic identity represents the kinetic spark of human ingenuity when coupled with artificial intelligence. A distinct, memorable acoustic signature that sounds like modern acceleration.
@@ -962,7 +962,7 @@ export function AboutUsPage({
                   Global <span className="text-[#DE0826]">Recognition</span>
                 </h1>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-normal">
-                  Our breakthrough work in Retrieval-Augmented Generation (RAG), autonomous multi-agent systems, and low-latency model serving has established Northstar as the premier Applied AI benchmark.
+                  Our breakthrough work in Retrieval-Augmented Generation (RAG), autonomous multi-agent systems, and low-latency model serving has established TokenWave AI as the premier Applied AI benchmark.
                 </p>
               </div>
             </div>
@@ -1160,7 +1160,7 @@ export function AboutUsPage({
                   Enterprise CxO Perspectives on Production AI
                 </h2>
                 <p className="text-gray-600 text-sm md:text-base mt-2">
-                  Verifiable outcomes from technology leaders who trust Northstar AI in mission-critical environments.
+                  Verifiable outcomes from technology leaders who trust TokenWave AI in mission-critical environments.
                 </p>
               </div>
 
@@ -1176,21 +1176,21 @@ export function AboutUsPage({
                   {
                     industry: 'Enterprise Cloud & Digital Engineering',
                     quote:
-                      'Norstar Digital transformed our core business infrastructure into an agile, cloud-native digital mesh. Their engineering rigor, delivery velocity, and commitment to zero downtime set a gold standard for digital consulting.',
+                      'TokenWave AI transformed our core business infrastructure into an agile, cloud-native digital mesh. Their engineering rigor, delivery velocity, and commitment to zero downtime set a gold standard for digital consulting.',
                     author: 'Chief Technology Officer',
                     org: 'Global Fortune 100 Technology Group',
                   },
                   {
                     industry: 'Banking & Financial Services',
                     quote:
-                      'When migrating mission-critical payment clearance engines to modern multi-cloud, Norstar provided the flawless engineering rigor and regulatory compliance assurances our board demanded.',
+                      'When migrating mission-critical payment clearance engines to modern multi-cloud, TokenWave AI provided the flawless engineering rigor and regulatory compliance assurances our board demanded.',
                     author: 'Head of Global Technology Infrastructure',
                     org: 'Top 5 European Universal Bank',
                   },
                   {
                     industry: 'Healthcare & Life Sciences',
                     quote:
-                      'Deploying generative AI in clinical analytics requires uncompromising data privacy and precision. Norstar delivered sovereign AI pipelines that increased diagnostic review speeds by 35%.',
+                      'Deploying generative AI in clinical analytics requires uncompromising data privacy and precision. TokenWave AI delivered sovereign AI pipelines that increased diagnostic review speeds by 35%.',
                     author: 'Chief Digital Transformation Officer',
                     org: 'International Healthcare & Diagnostic Network',
                   },
@@ -1402,7 +1402,7 @@ export function AboutUsPage({
                     capabilities: ['Digital Wallets & Micro-Lending', 'Telecom VAS & Messaging Platforms', 'Customer Value Management', 'Merchant Payment Systems'],
                   },
                   {
-                    name: 'Northstar Enterprise RAG Mesh',
+                    name: 'TokenWave Enterprise RAG Mesh',
                     tagline: 'Hybrid Dense-Sparse Vector Search & Source Attribution',
                     hq: 'Knowledge & Semantic Search • < 800ms Query',
                     desc: 'Permission-aware enterprise knowledge engine combining Milvus vector search with lexical BM25 indexing. Guarantees 99.6% answer faithfulness with exact coordinate citations and zero hallucination risk.',
@@ -1410,7 +1410,7 @@ export function AboutUsPage({
                     capabilities: ['Customer Journey Strategy', 'Headless & Composable Commerce', 'Brand Creative & Visual Identity', 'Omnichannel Content Hubs'],
                   },
                   {
-                    name: 'Northstar MLOps Command Stack',
+                    name: 'TokenWave MLOps Command Stack',
                     tagline: 'Low-Latency Triton Inference Serving & Model Drift Telemetry',
                     hq: 'Production AI Infrastructure • Kubernetes & Ray',
                     desc: 'Distributed model serving fabrics on Kubernetes and Ray with automated hallucination regression testing, real-time token expenditure monitoring, and automated circuit breaker rollback controls.',
@@ -1504,7 +1504,7 @@ export function AboutUsPage({
                       Pillar 01
                     </span>
                     <h2 className="text-3xl font-extrabold text-gray-950 mt-1 mb-4">
-                      Northstar AI Innovation Foundation
+                      TokenWave AI Innovation Foundation
                     </h2>
                     <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6">
                       The corporate social responsibility arm dedicated to youth empowerment, inclusive education, and disability support. Over 150,000 young people have been trained with market-relevant skills, maintaining a verified 75%+ placement track record.
@@ -1535,13 +1535,13 @@ export function AboutUsPage({
                   </div>
                 </div>
 
-                {/* 2. Northstar AI Institute & Academy */}
+                {/* 2. TokenWave AI Institute & Academy */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center pt-10 border-t border-gray-200">
                   <div className="lg:col-span-5 order-2 lg:order-1">
                     <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border-2 border-red-100">
                       <img
                         src="/images/ind_education.jpg"
-                        alt="Northstar AI Institute & Academy"
+                        alt="TokenWave AI Institute & Academy"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -1551,7 +1551,7 @@ export function AboutUsPage({
                       Pillar 02
                     </span>
                     <h2 className="text-3xl font-extrabold text-gray-950 mt-1 mb-4">
-                      Northstar AI Institute & Academy
+                      TokenWave AI Institute & Academy
                     </h2>
                     <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-6">
                       Promoting world-class AI literacy and engineering talent through university research partnerships. Empowering future-ready leaders in deep learning, LLM safety, and responsible machine intelligence.
@@ -1727,25 +1727,25 @@ export function AboutUsPage({
                   {
                     date: 'September 2026',
                     category: 'Artificial Intelligence',
-                    title: 'Northstar AI Unveils Agent Kavacha: Real-Time Anti-Fraud Agent Scoring 120M+ Transactions in Sub-45ms',
+                    title: 'TokenWave AI Unveils Agent Kavacha: Real-Time Anti-Fraud Agent Scoring 120M+ Transactions in Sub-45ms',
                     desc: 'Protects $4.2B+ in annual transaction flow using graph neural network anomaly detection with zero checkout friction and audit-proof explainability.',
                   },
                   {
                     date: 'August 2026',
                     category: 'Industry Recognition',
-                    title: 'Northstar AI Positioned as Leader in 2026 IDC MarketScape for Enterprise RAG & Autonomous Agent Platforms',
+                    title: 'TokenWave AI Positioned as Leader in 2026 IDC MarketScape for Enterprise RAG & Autonomous Agent Platforms',
                     desc: 'Evaluated for benchmark answer faithfulness in hybrid dense-sparse retrieval, clinical EHR automation, and zero-egress VPC deployments.',
                   },
                   {
                     date: 'July 2026',
                     category: 'Financial Results',
-                    title: 'Northstar AI Expands GPU Cluster Infrastructure with NVIDIA H100 & B200 Accelerators for Sovereign Model Serving',
+                    title: 'TokenWave AI Expands GPU Cluster Infrastructure with NVIDIA H100 & B200 Accelerators for Sovereign Model Serving',
                     desc: 'Provides dedicated zero-egress GPU enclaves for healthcare, defense, and banking clients requiring on-premise foundation model fine-tuning.',
                   },
                   {
                     date: 'June 2026',
                     category: 'Strategic Alliance',
-                    title: 'Norstar Expands Hyperscaler Partnership with AWS to Launch Sovereign Generative AI Centers of Excellence',
+                    title: 'TokenWave AI Expands Hyperscaler Partnership with AWS to Launch Sovereign Generative AI Centers of Excellence',
                     desc: 'Collaborative initiative brings custom foundation model fine-tuning and secure private cloud workflows to Fortune 500 enterprises.',
                   },
                 ].map((item, idx) => (
@@ -1851,7 +1851,7 @@ export function AboutUsPage({
                     Comprehensive review of business performance, ESG achievements, and corporate governance.
                   </p>
                   <button
-                    onClick={() => handleDownloadReport('Annual Integrated Report FY 2025-2026', 'Norstar_Annual_Integrated_Report_FY26.pdf')}
+                    onClick={() => handleDownloadReport('Annual Integrated Report FY 2025-2026', 'TokenWave_Annual_Integrated_Report_FY26.pdf')}
                     className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0"
                   >
                     <span>Download PDF (4.8 MB)</span>
@@ -1866,7 +1866,7 @@ export function AboutUsPage({
                     Management commentary, analyst Q&A session, and forward guidance summary.
                   </p>
                   <button
-                    onClick={() => handleDownloadReport('Earnings Call Transcript Q1 FY27', 'Norstar_Q1_FY27_Earnings_Call_Transcript.pdf')}
+                    onClick={() => handleDownloadReport('Earnings Call Transcript Q1 FY27', 'TokenWave_Q1_FY27_Earnings_Call_Transcript.pdf')}
                     className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0"
                   >
                     <span>Download Transcript (1.2 MB)</span>
@@ -1881,7 +1881,7 @@ export function AboutUsPage({
                     Strategy roadmap, sector revenue breakdown, Agentic AI investments, and margin drivers.
                   </p>
                   <button
-                    onClick={() => handleDownloadReport('Investor Presentation Strategy Roadmap', 'Norstar_Investor_Deck_FY26_27.pdf')}
+                    onClick={() => handleDownloadReport('Investor Presentation Strategy Roadmap', 'TokenWave_Investor_Deck_FY26_27.pdf')}
                     className="text-xs font-bold text-[#DE0826] flex items-center space-x-1 hover:underline cursor-pointer bg-transparent border-0 p-0"
                   >
                     <span>Download Presentation (8.4 MB)</span>

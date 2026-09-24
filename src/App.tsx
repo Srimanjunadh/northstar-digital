@@ -134,7 +134,7 @@ function Icon({ name, className = 'w-4 h-4' }: { name: IconName; className?: str
 
 // -------------------------------------------------------------
 // ImageBox Component:
-// Signature Norstar White & Red design system with subtle corner markers,
+// Signature TokenWave AI White & Red design system with subtle corner markers,
 // crisp white surface, and red badge housing the user's uploaded temp image.
 // -------------------------------------------------------------
 interface ImageBoxProps {
@@ -236,29 +236,29 @@ const siteSearchIndex: SearchResultItem[] = [
     title: 'Careers & Job Opportunities',
     category: 'Careers',
     route: 'careers',
-    description: 'Explore rewarding careers and engineering pathways across global Applied AI and autonomous systems hubs with Northstar AI.',
+    description: 'Explore rewarding careers and engineering pathways across global Applied AI and autonomous systems hubs with TokenWave AI.',
     keywords: ['job', 'jobs', 'career', 'careers', 'hiring', 'openings', 'work', 'join', 'culture', 'vacancies', 'ai engineer', 'mlops'],
   },
   {
-    title: 'The Northstar AI Way & Culture',
+    title: 'The TokenWave AI Way & Culture',
     category: 'Careers',
     route: 'careers',
     description: 'Our culture of scientific rigor, ethical model governance, and freedom to invent next-gen autonomous systems.',
-    keywords: ['culture', 'northstar way', 'diversity', 'inclusion', 'people', 'careers', 'growth', 'open science'],
+    keywords: ['culture', 'tokenwave way', 'diversity', 'inclusion', 'people', 'careers', 'growth', 'open science'],
   },
   {
-    title: 'About Northstar AI & Leadership',
+    title: 'About TokenWave AI & Leadership',
     category: 'About Us',
     route: 'about',
     description: 'Corporate overview, Applied AI Leadership Council, enterprise pilot portfolio, and green compute initiatives.',
-    keywords: ['northstar', 'about', 'company', 'leadership', 'executives', 'brand', 'sustainability', 'green compute'],
+    keywords: ['tokenwave', 'tokenwaveai', 'about', 'company', 'leadership', 'executives', 'brand', 'sustainability', 'green compute'],
   },
   {
     title: 'Scale at Speed™ & AI Brand Promise',
     category: 'About Us',
     route: 'about',
     description: 'Our brand promise to help global enterprises scale with zero-hallucination, sub-45ms Applied AI systems.',
-    keywords: ['northstar', 'brand', 'scale at speed', 'promise', 'about', 'ai partner ecosystem'],
+    keywords: ['tokenwave', 'tokenwaveai', 'brand', 'scale at speed', 'promise', 'about', 'ai partner ecosystem'],
   },
   {
     title: 'Global Office Locations & Directory',
@@ -334,7 +334,7 @@ const siteSearchIndex: SearchResultItem[] = [
 
 // -------------------------------------------------------------
 // 1. Main Navigation Header with Full Mega-Menu System & Search
-// Matching Northstar AI Reference Design System
+// Matching TokenWave AI Reference Design System
 // -------------------------------------------------------------
 interface NavbarProps {
   currentRoute: PageRoute
@@ -460,10 +460,10 @@ function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion
                 }`}
               >
                 <span className="font-extrabold text-sm tracking-tight text-gray-950 uppercase leading-none">
-                  Nor<span className="text-[#DE0826]">star</span>
+                  Token<span className="text-[#DE0826]">Wave</span>
                 </span>
-                <span className="text-[9px] font-bold tracking-widest text-gray-400 uppercase mt-0.5 leading-none">
-                  Digital
+                <span className="text-[9px] font-bold tracking-widest text-[#DE0826] uppercase mt-0.5 leading-none">
+                  AI
                 </span>
               </div>
             </div>
@@ -837,8 +837,8 @@ function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion
                       </button>
                       <ul className="space-y-1.5 text-[13px] text-gray-700">
                         {[
-                          'Northstar AI Research Foundation',
-                          'Northstar AI Institute & Academy',
+                          'TokenWave AI Research Foundation',
+                          'TokenWave AI Institute & Academy',
                           'Individual Social Responsibility',
                         ].map((item) => (
                           <li key={item}>
@@ -1236,7 +1236,7 @@ function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion
                         </span>
                         <div>
                           <h5 className="text-xs font-bold text-white leading-snug">
-                            Product Development with Applied AI and Sustainability: Northstar AI x MIT Technology Review Report
+                            Product Development with Applied AI and Sustainability: TokenWave AI x MIT Technology Review Report
                           </h5>
                           <span className="text-[10px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
@@ -1306,7 +1306,7 @@ function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion
                         </span>
                         <div>
                           <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
-                            Northstar AI Q1 FY27 Operating Margin expands to 38.4%, up 53.3% YoY; AI pilot contracts cross $1.2B
+                            TokenWave AI Q1 FY27 Operating Margin expands to 38.4%, up 53.3% YoY; AI pilot contracts cross $1.2B
                           </h5>
                           <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
@@ -1331,7 +1331,7 @@ function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion
                         </span>
                         <div>
                           <h5 className="text-[11px] sm:text-xs font-bold text-white leading-snug line-clamp-2">
-                            Northstar AI at Global AI Summit 2026: Turning Autonomous Multi-Agent Swarms into Enterprise Co-Workers
+                            TokenWave AI at Global AI Summit 2026: Turning Autonomous Multi-Agent Swarms into Enterprise Co-Workers
                           </h5>
                           <span className="text-[9px] font-extrabold text-white tracking-wider uppercase mt-1 inline-block group-hover:underline">
                             READ MORE
@@ -1358,7 +1358,7 @@ function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion
                   {/* Links List */}
                   <div className="col-span-12 lg:col-span-9">
                     <ul className="space-y-3.5 text-[14px] font-bold text-gray-950">
-                      {['The Northstar Way', 'Diversity & Inclusion', 'Join Us'].map((item) => (
+                      {['The TokenWave Way', 'Diversity & Inclusion', 'Join Us'].map((item) => (
                         <li key={item}>
                           <button
                             onClick={() => handleNavClick('careers', undefined, item)}
@@ -1445,7 +1445,7 @@ function Navbar({ currentRoute, onRouteChange, onOpenRegionModal, selectedRegion
                       onClick={() => handleNavClick('about', 'citizenship')}
                       className="cursor-pointer hover:text-[#DE0826]"
                     >
-                      Northstar AI Research Foundation
+                      TokenWave AI Research Foundation
                     </div>
                     <div
                       onClick={() => handleNavClick('about', 'centricity')}
@@ -1973,7 +1973,7 @@ export function getCapabilityByName(query: string): CapabilityItem | null {
 
 
 // -------------------------------------------------------------
-// Industries Page Implementation (Matching Norstar Reference)
+// Industries Page Implementation (Matching TokenWave AI Reference)
 // -------------------------------------------------------------
 interface IndustryItem {
   id: string
@@ -2332,7 +2332,7 @@ export function getIndustryByName(query: string): IndustryItem | null {
 }
 
 // -------------------------------------------------------------
-// Insights Page Implementation (Northstar AI Studio Reference)
+// Insights Page Implementation (TokenWave AI Studio Reference)
 // -------------------------------------------------------------
 interface CaseStudyItem {
   id: string
@@ -2440,14 +2440,14 @@ const upcomingEventsList: EventItem[] = [
     id: 'dreamforce-sf',
     day: '15',
     monthYear: 'OCT 2026',
-    title: 'Northstar AI at Dreamforce 2026: Turning Autonomous Agents into Co-Workers',
+    title: 'TokenWave AI at Dreamforce 2026: Turning Autonomous Agents into Co-Workers',
     location: 'San Francisco, California | AI Keynote Theatre',
     avatar: '/images/event_dreamforce.jpg',
     details: 'Executive keynote exploring autonomous CRM reasoning agents, generative customer risk scoring, and enterprise human-in-the-loop workflows.',
   },
 ]
 // -------------------------------------------------------------
-// Careers Page Implementation (Northstar AI Studio Reference)
+// Careers Page Implementation (TokenWave AI Studio Reference)
 // -------------------------------------------------------------
 interface JobRole {
   id: string
@@ -2527,19 +2527,19 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Dallas Corporate Headquarters',
         address: '6000 Connection Drive, Irving, TX 75039',
         phone: '+1 (800) 246-8324',
-        email: 'usa@northstarai.com',
+        email: 'usa@tokenwaveai.com',
       },
       {
         name: 'San Jose Innovation Center',
         address: '2880 Zanker Road, Suite 203, San Jose, CA 95134',
         phone: '+1 (408) 555-0199',
-        email: 'sanjose@northstarai.com',
+        email: 'sanjose@tokenwaveai.com',
       },
       {
         name: 'New York Financial Hub',
         address: '1350 Avenue of the Americas, Floor 22, New York, NY 10019',
         phone: '+1 (212) 555-0182',
-        email: 'nyc@northstarai.com',
+        email: 'nyc@tokenwaveai.com',
       },
     ],
   },
@@ -2550,13 +2550,13 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Sydney Regional Office',
         address: 'Level 14, 100 Mount Street, North Sydney, NSW 2060',
         phone: '+61 2 8000 1234',
-        email: 'australia@northstarai.com',
+        email: 'australia@tokenwaveai.com',
       },
       {
         name: 'Melbourne Delivery Hub',
         address: 'Level 22, 500 Collins Street, Melbourne, VIC 3000',
         phone: '+61 3 9000 5678',
-        email: 'melbourne@northstarai.com',
+        email: 'melbourne@tokenwaveai.com',
       },
     ],
   },
@@ -2567,7 +2567,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Vienna Client Center',
         address: 'Am Belvedere 10, 1100 Wien, Austria',
         phone: '+43 1 234 5678',
-        email: 'vienna@northstarai.com',
+        email: 'vienna@tokenwaveai.com',
       },
     ],
   },
@@ -2578,7 +2578,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Manama Regional Hub',
         address: 'Bahrain Financial Harbour, West Tower, Manama',
         phone: '+973 1700 0000',
-        email: 'me@northstarai.com',
+        email: 'me@tokenwaveai.com',
       },
     ],
   },
@@ -2589,7 +2589,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Brussels Office',
         address: 'Avenue Louise 523, 1050 Bruxelles, Belgium',
         phone: '+32 2 555 1234',
-        email: 'belgium@northstarai.com',
+        email: 'belgium@tokenwaveai.com',
       },
     ],
   },
@@ -2600,7 +2600,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'São Paulo Tech Hub',
         address: 'Av. Paulista, 1374 - Bela Vista, São Paulo - SP',
         phone: '+55 11 3000 0000',
-        email: 'latam@northstarai.com',
+        email: 'latam@tokenwaveai.com',
       },
     ],
   },
@@ -2611,7 +2611,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Sofia Delivery Center',
         address: 'Megapark, 115G Tsarigradsko Shosse Blvd, Sofia',
         phone: '+359 2 800 0000',
-        email: 'sofia@northstarai.com',
+        email: 'sofia@tokenwaveai.com',
       },
     ],
   },
@@ -2622,7 +2622,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Toronto Innovation Hub',
         address: '200 Bay Street, Suite 2900, Toronto, ON M5J 2J2',
         phone: '+1 (416) 800-1200',
-        email: 'canada@northstarai.com',
+        email: 'canada@tokenwaveai.com',
       },
     ],
   },
@@ -2633,7 +2633,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Shanghai Client Center',
         address: 'Unit 1801, 18F, Plaza 66, Nanjing West Road, Shanghai',
         phone: '+86 21 6000 0000',
-        email: 'china@northstarai.com',
+        email: 'china@tokenwaveai.com',
       },
     ],
   },
@@ -2644,7 +2644,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Copenhagen Office',
         address: 'Tuborg Havnevej 18, 2900 Hellerup, Denmark',
         phone: '+45 39 00 00 00',
-        email: 'nordics@northstarai.com',
+        email: 'nordics@tokenwaveai.com',
       },
     ],
   },
@@ -2655,7 +2655,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Helsinki Hub',
         address: 'Keilaranta 1, 02150 Espoo, Finland',
         phone: '+358 9 800 0000',
-        email: 'nordics@northstarai.com',
+        email: 'nordics@tokenwaveai.com',
       },
     ],
   },
@@ -2666,7 +2666,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Paris Hub',
         address: 'Tour Ariane, 5 Place de la Pyramide, 92088 Paris La Défense',
         phone: '+33 1 40 00 00 00',
-        email: 'france@northstarai.com',
+        email: 'france@tokenwaveai.com',
       },
     ],
   },
@@ -2677,7 +2677,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Munich Digital Center',
         address: 'Parkstadt Schwabing, Walter-Gropius-Straße 23, 80807 München',
         phone: '+49 89 2000 0000',
-        email: 'germany@northstarai.com',
+        email: 'germany@tokenwaveai.com',
       },
     ],
   },
@@ -2688,19 +2688,19 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Pune Global Campus',
         address: 'Rajiv Gandhi Infotech Park, Phase 3, Hinjawadi, Pune 411057',
         phone: '+91 20 6601 8100',
-        email: 'india@northstarai.com',
+        email: 'india@tokenwaveai.com',
       },
       {
         name: 'Bengaluru AI & Engineering Center',
         address: 'Electronics City Phase 1, Hosur Road, Bengaluru 560100',
         phone: '+91 80 4000 2000',
-        email: 'blr@northstarai.com',
+        email: 'blr@tokenwaveai.com',
       },
       {
         name: 'Hyderabad Technology Hub',
         address: 'Infocity, Madhapur, Hyderabad 500081',
         phone: '+91 40 6636 1000',
-        email: 'hyd@northstarai.com',
+        email: 'hyd@tokenwaveai.com',
       },
     ],
   },
@@ -2711,7 +2711,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Dublin European Centre',
         address: 'Grand Canal Dock, Dublin 2, Ireland',
         phone: '+353 1 600 0000',
-        email: 'ireland@northstarai.com',
+        email: 'ireland@tokenwaveai.com',
       },
     ],
   },
@@ -2722,7 +2722,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Milan Office',
         address: 'Via Turati 29, 20121 Milano MI, Italy',
         phone: '+39 02 8000 0000',
-        email: 'italy@northstarai.com',
+        email: 'italy@tokenwaveai.com',
       },
     ],
   },
@@ -2733,7 +2733,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Tokyo Client Hub',
         address: 'Roppongi Hills Mori Tower, 6-10-1 Roppongi, Minato-ku, Tokyo',
         phone: '+81 3 5000 0000',
-        email: 'japan@northstarai.com',
+        email: 'japan@tokenwaveai.com',
       },
     ],
   },
@@ -2744,7 +2744,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Kuala Lumpur Tech Center',
         address: 'Menara Maxis, Kuala Lumpur City Centre, 50088 Kuala Lumpur',
         phone: '+60 3 2000 0000',
-        email: 'apac@northstarai.com',
+        email: 'apac@tokenwaveai.com',
       },
     ],
   },
@@ -2755,7 +2755,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Mexico City Hub',
         address: 'Paseo de la Reforma 222, Juárez, Cuauhtémoc, 06600 Ciudad de México',
         phone: '+52 55 5000 0000',
-        email: 'latam@northstarai.com',
+        email: 'latam@tokenwaveai.com',
       },
     ],
   },
@@ -2766,7 +2766,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Amsterdam Hub',
         address: 'Gustav Mahlerplein 2, 1082 MA Amsterdam',
         phone: '+31 20 800 0000',
-        email: 'benelux@northstarai.com',
+        email: 'benelux@tokenwaveai.com',
       },
     ],
   },
@@ -2777,7 +2777,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Auckland Office',
         address: 'Level 21, ANZ Centre, 23-29 Albert St, Auckland 1010',
         phone: '+64 9 900 0000',
-        email: 'anz@northstarai.com',
+        email: 'anz@tokenwaveai.com',
       },
     ],
   },
@@ -2788,7 +2788,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Oslo Delivery Hub',
         address: 'Karenslyst Allé 11, 0278 Oslo, Norway',
         phone: '+47 22 00 00 00',
-        email: 'nordics@northstarai.com',
+        email: 'nordics@tokenwaveai.com',
       },
     ],
   },
@@ -2799,7 +2799,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Manila BPO Center',
         address: 'Bonifacio Global City, Taguig, Metro Manila',
         phone: '+63 2 800 0000',
-        email: 'apac@northstarai.com',
+        email: 'apac@tokenwaveai.com',
       },
     ],
   },
@@ -2810,7 +2810,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Warsaw Delivery Center',
         address: 'Rondo Daszyńskiego 1, 00-843 Warszawa',
         phone: '+48 22 500 0000',
-        email: 'poland@northstarai.com',
+        email: 'poland@tokenwaveai.com',
       },
     ],
   },
@@ -2821,7 +2821,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Doha Business Hub',
         address: 'Tornado Tower, West Bay, Doha, Qatar',
         phone: '+974 4400 0000',
-        email: 'me@northstarai.com',
+        email: 'me@tokenwaveai.com',
       },
     ],
   },
@@ -2832,7 +2832,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Riyadh Regional Office',
         address: 'King Fahd Road, Al Olaya, Riyadh 12213',
         phone: '+966 11 400 0000',
-        email: 'ksa@northstarai.com',
+        email: 'ksa@tokenwaveai.com',
       },
     ],
   },
@@ -2843,7 +2843,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'APAC Headquarters',
         address: '1 Changi Business Park Crescent, Plaza 8, Singapore 486025',
         phone: '+65 6000 1000',
-        email: 'apac@northstarai.com',
+        email: 'apac@tokenwaveai.com',
       },
     ],
   },
@@ -2854,7 +2854,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Johannesburg Center',
         address: 'Sandton City Office Tower, 5th St, Sandhurst, Sandton',
         phone: '+27 11 700 0000',
-        email: 'africa@northstarai.com',
+        email: 'africa@tokenwaveai.com',
       },
     ],
   },
@@ -2865,7 +2865,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Madrid Office',
         address: 'Paseo de la Castellana 95, 28046 Madrid',
         phone: '+34 91 700 0000',
-        email: 'spain@northstarai.com',
+        email: 'spain@tokenwaveai.com',
       },
     ],
   },
@@ -2876,7 +2876,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Stockholm Nordic HQ',
         address: 'Mäster Samuelsgatan 42, 111 57 Stockholm',
         phone: '+46 8 500 0000',
-        email: 'nordics@northstarai.com',
+        email: 'nordics@tokenwaveai.com',
       },
     ],
   },
@@ -2887,7 +2887,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Zurich Office',
         address: 'Gotthardstrasse 26, 8002 Zürich',
         phone: '+41 44 200 0000',
-        email: 'swiss@northstarai.com',
+        email: 'swiss@tokenwaveai.com',
       },
     ],
   },
@@ -2898,7 +2898,7 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'Dubai Internet City Hub',
         address: 'Building 14, Dubai Internet City, Dubai',
         phone: '+971 4 390 0000',
-        email: 'me@northstarai.com',
+        email: 'me@tokenwaveai.com',
       },
     ],
   },
@@ -2909,13 +2909,13 @@ const globalOfficesData: OfficeLocation[] = [
         name: 'London Corporate Office',
         address: '25 Canada Square, Floor 33, Canary Wharf, London E14 5LB',
         phone: '+44 20 7000 8000',
-        email: 'uk@northstarai.com',
+        email: 'uk@tokenwaveai.com',
       },
       {
         name: 'Milton Keynes Tech Campus',
         address: 'Exchange House, 450 Midsummer Blvd, Milton Keynes MK9 2EA',
         phone: '+44 1908 555 000',
-        email: 'mk@northstarai.com',
+        email: 'mk@tokenwaveai.com',
       },
     ],
   },
@@ -2966,35 +2966,35 @@ function ContactPage({ onOpenPrivacyModal }: { onOpenPrivacyModal?: () => void }
       description:
         'Scope a rapid, production-ready Applied AI slice with defined acceptance metrics, data readiness review, and model route selection (commercial vs. self-hosted open weights).',
       enquiryType: 'Governed AI Pilot',
-      contact: 'pilots@northstarai.com | +1 (800) 246-8324',
+      contact: 'pilots@tokenwaveai.com | +1 (800) 246-8324',
     },
     {
       title: 'Enterprise RAG & Knowledge Systems',
       description:
         'Design and deploy permission-aware retrieval pipelines, hybrid dense-sparse indexing (BM25 + vector search), and citation-grounded response layers with zero data egress.',
       enquiryType: 'Enterprise RAG Systems',
-      contact: 'rag@northstarai.com',
+      contact: 'rag@tokenwaveai.com',
     },
     {
       title: 'Autonomous Agent Deployment (Kavacha / Arogya / Custom)',
       description:
         'Integrate autonomous multi-step agents into financial fraud detection, clinical EHR documentation, or mission-critical enterprise workflows with sub-45ms latency boundaries.',
       enquiryType: 'Autonomous Agents',
-      contact: 'agents@northstarai.com',
+      contact: 'agents@tokenwaveai.com',
     },
     {
       title: 'Zero-Egress Sovereign Cloud & MLOps Infrastructure',
       description:
         'Deploy private LLM inference endpoints within your AWS, Azure, GCP VPC, or on-premise GPU clusters with hardware security modules, RBAC, and real-time telemetry.',
       enquiryType: 'Sovereign AI & MLOps',
-      contact: 'infrastructure@northstarai.com',
+      contact: 'infrastructure@tokenwaveai.com',
     },
     {
       title: 'Careers & Academic AI Research Grants',
       description:
         'Explore open engineering positions in deep learning, LLM alignment, and agent workflows, or partner with our university AI research lab.',
       enquiryType: 'Careers & Research',
-      contact: 'research@northstarai.com',
+      contact: 'research@tokenwaveai.com',
     },
   ]
 return (
@@ -3062,7 +3062,7 @@ return (
             {/* Left: Office Search & Country Directory */}
             <div className="lg:col-span-5">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-6 font-heading">
-                Northstar AI Engineering Hubs
+                TokenWave AI Engineering Hubs
               </h2>
 
               {/* Search bar with magnifying glass on the right */}
@@ -3128,7 +3128,7 @@ return (
               <div className="relative rounded overflow-hidden shadow-md border border-gray-300 bg-white group">
                 <img
                   src="/images/contact_world_map.jpg"
-                  alt="Northstar AI Global Engineering Hubs"
+                  alt="TokenWave AI Global Engineering Hubs"
                   className="w-full aspect-[16/10] object-cover"
                 />
 
@@ -3167,7 +3167,7 @@ return (
 
           {/* Hiring & Recruitment Fraud Disclaimer Banner (Matching Screenshot Strip) */}
           <div className="mt-12 p-4 bg-[#E5E0D5] border border-gray-300 rounded text-[11px] text-gray-700 leading-relaxed font-normal">
-            <strong>Disclaimer:</strong> Beware of fraudulent individuals falsely claiming to recruit on behalf of Northstar AI. Northstar AI never asks for financial deposits or payments during hiring.
+            <strong>Disclaimer:</strong> Beware of fraudulent individuals falsely claiming to recruit on behalf of TokenWave AI. TokenWave AI never asks for financial deposits or payments during hiring.
           </div>
         </div>
       </section>
@@ -3242,8 +3242,8 @@ return (
                       <option value="Request for Service" className="bg-[#520018] text-white">
                         Request for Service
                       </option>
-                      <option value="Join Northstar AI" className="bg-[#520018] text-white">
-                        Join Northstar AI (Careers)
+                      <option value="Join TokenWave AI" className="bg-[#520018] text-white">
+                        Join TokenWave AI (Careers)
                       </option>
                       <option value="Vendor Registration" className="bg-[#520018] text-white">
                         Vendor Registration
@@ -3403,7 +3403,7 @@ return (
                         className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0 cursor-pointer"
                       />
                       <span>
-                        Subscribe to receive the latest updates on research, models, and applied AI systems from Northstar AI.
+                        Subscribe to receive the latest updates on research, models, and applied AI systems from TokenWave AI.
                       </span>
                     </label>
                   </div>
@@ -3436,7 +3436,7 @@ return (
               ×
             </button>
             <p>
-              Hello! Thank you for visiting our Contact Us page. How can Northstar AI assist your enterprise AI roadmap?
+              Hello! Thank you for visiting our Contact Us page. How can TokenWave AI assist your enterprise AI roadmap?
             </p>
           </div>
         )}
@@ -3508,7 +3508,7 @@ function ContactUsSection({ onOpenPrivacyModal }: { onOpenPrivacyModal?: () => v
                 <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
                   <Icon name="email" className="w-4 h-4 text-white" />
                 </div>
-                <span>solutions@norstar-digital.com</span>
+                <span>solutions@tokenwaveai.com</span>
               </div>
               <div className="flex items-center space-x-3 text-sm text-white/90">
                 <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
@@ -3570,7 +3570,7 @@ function ContactUsSection({ onOpenPrivacyModal }: { onOpenPrivacyModal?: () => v
                     className="w-full bg-[#3D0313] border-b-2 border-white/40 text-white text-sm py-3 px-2 focus:border-white focus:outline-none rounded-none cursor-pointer"
                   >
                     <option value="Request for Service" className="bg-[#3D0313] text-white">Request for Service</option>
-                    <option value="Join Norstar" className="bg-[#3D0313] text-white">Join Norstar (Careers)</option>
+                    <option value="Join TokenWave AI" className="bg-[#3D0313] text-white">Join TokenWave AI (Careers)</option>
                     <option value="Vendor Registration" className="bg-[#3D0313] text-white">Vendor Registration</option>
                     <option value="Investor Information" className="bg-[#3D0313] text-white">Investor Information</option>
                     <option value="Media & Press" className="bg-[#3D0313] text-white">Media & Press</option>
@@ -3733,7 +3733,7 @@ function ContactUsSection({ onOpenPrivacyModal }: { onOpenPrivacyModal?: () => v
                       className="mt-0.5 rounded border-white/40 text-[#DE0826] focus:ring-0"
                     />
                     <span>
-                      Subscribe to receive the latest updates on events, news and thought leadership from Norstar.
+                      Subscribe to receive the latest updates on events, news and thought leadership from TokenWave AI.
                     </span>
                   </label>
                 </div>
@@ -3820,7 +3820,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
               >
                 <img
                   src="/images/careers_hero.jpg"
-                  alt="Norstar Careers Executive Boardroom"
+                  alt="TokenWave AI Careers Executive Boardroom"
                   className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -3903,7 +3903,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
               <div className="rounded-xl overflow-hidden shadow-md aspect-[16/11] max-w-xl mx-auto lg:mx-0">
                 <img
                   src="/images/careers_alumni.jpg"
-                  alt="Reconnect with Us - Norstar Alumni"
+                  alt="Reconnect with Us - TokenWave AI Alumni"
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
@@ -3915,7 +3915,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
                 Reconnect with Us
               </h2>
               <p className="text-base sm:text-lg text-gray-700 leading-relaxed font-normal mb-8 max-w-lg">
-                Get answers, explore return opportunities, join the alumni community, subscribe to updates in the newsletter and inspire the world with your Norstar story. Be part of our alumni portal.
+                Get answers, explore return opportunities, join the alumni community, subscribe to updates in the newsletter and inspire the world with your TokenWave story. Be part of our alumni portal.
               </p>
               <button
                 onClick={() => setAlumniModalOpen(true)}
@@ -3947,7 +3947,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
               <div className="rounded-xl overflow-hidden shadow-2xl aspect-[16/9] max-w-2xl mx-auto lg:mx-0">
                 <img
                   src="/images/careers_connect.jpg"
-                  alt="Connect and Grow at Norstar"
+                  alt="Connect and Grow at TokenWave AI"
                   className="w-full h-full object-cover object-left"
                 />
               </div>
@@ -3959,7 +3959,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
                 Connect and Grow
               </h2>
               <p className="text-base sm:text-lg text-gray-200 leading-relaxed font-normal mb-8 max-w-md">
-                At Norstar, you're not just joining a company, you're joining a community. Let's be limitless together.
+                At TokenWave AI, you're not just joining a company, you're joining a community. Let's be limitless together.
               </p>
               <button
                 onClick={() => {
@@ -4068,7 +4068,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
             <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">Our Culture</div>
             <h3 className="text-2xl font-extrabold text-gray-950 mb-4 font-heading">Rise to New Heights</h3>
             <p className="text-sm text-gray-700 leading-relaxed mb-4">
-              At Norstar, our foundational Rise philosophy guides everything we do. We empower each of our 145,000+ associates through continuous upskilling, mentorship programs, and intrapreneurship labs.
+              At TokenWave AI, our foundational Rise philosophy guides everything we do. We empower each of our 145,000+ associates through continuous upskilling, mentorship programs, and intrapreneurship labs.
             </p>
             <div className="space-y-3 mb-6">
               <div className="p-3 bg-red-50 rounded-lg text-xs font-semibold text-gray-800 flex items-center space-x-2">
@@ -4104,7 +4104,7 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
             >
               <Icon name="close" className="w-5 h-5" />
             </button>
-            <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">Belonging at Norstar</div>
+            <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">Belonging at TokenWave AI</div>
             <h3 className="text-2xl font-extrabold text-gray-950 mb-4 font-heading">Intentionally Diverse, Globally Inclusive</h3>
             <p className="text-sm text-gray-700 leading-relaxed mb-4">
               We operate across 90+ countries with representation from over 100 nationalities. Our Global Inclusion Council oversees equitable pay, equal opportunity leadership tracks, and employee resource groups.
@@ -4140,9 +4140,9 @@ function CareersPage({ targetCareer, onClearTarget }: CareersPageProps) {
               <Icon name="close" className="w-5 h-5" />
             </button>
             <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">Alumni Network</div>
-            <h3 className="text-2xl font-extrabold text-gray-950 mb-4 font-heading">Welcome Back to Norstar</h3>
+            <h3 className="text-2xl font-extrabold text-gray-950 mb-4 font-heading">Welcome Back to TokenWave AI</h3>
             <p className="text-sm text-gray-700 leading-relaxed mb-4">
-              Once an associate, always part of the Norstar family. The Alumni Portal offers boomerang return pathways, executive networking, and community updates.
+              Once an associate, always part of the TokenWave AI family. The Alumni Portal offers boomerang return pathways, executive networking, and community updates.
             </p>
             <div className="p-4 bg-red-50 rounded-lg mb-6 text-xs text-gray-800 leading-relaxed">
               Join 50,000+ alumni global innovators exchanging insights and co-creating business partnerships worldwide.
@@ -4263,7 +4263,7 @@ const featuredViewsData = [
     image: '/images/insights_quantum.jpg',
     category: 'Executive Viewpoint • Quantum Computing',
     modalP1: 'While classical deep learning excels at pattern recognition across unstructured data, combinatorial optimization problems in logistics, molecule synthesis, and financial risk modeling are reaching computational limits.',
-    modalP2: 'Norstar’s Quantum AI CoE is building hybrid architectures that offload specific NP-hard algorithms to quantum processing units (QPUs) while preserving classical cloud pipelines for data ingestion and user experience.',
+    modalP2: 'TokenWave AI’s Quantum AI CoE is building hybrid architectures that offload specific NP-hard algorithms to quantum processing units (QPUs) while preserving classical cloud pipelines for data ingestion and user experience.',
   },
   {
     id: 'agentic-swarms',
@@ -4281,7 +4281,7 @@ const featuredViewsData = [
     image: '/images/cap_hero.jpg',
     category: 'Executive Viewpoint • Cloud & Governance',
     modalP1: 'Modern multinational corporations face increasing friction from divergent localized compliance regimes that penalize centralized raw-data consolidation.',
-    modalP2: 'Northstar’s sovereign cloud architecture decentralizes model evaluation and keeps sensitive customer payloads pinned strictly to their sovereign jurisdiction.',
+    modalP2: 'TokenWave AI’s sovereign cloud architecture decentralizes model evaluation and keeps sensitive customer payloads pinned strictly to their sovereign jurisdiction.',
   },
 ]
 
@@ -4346,7 +4346,7 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
         <div className="absolute inset-0 pointer-events-none z-0">
           <img
             src="/images/insights_hero.jpg"
-            alt="Norstar Digital Insights"
+            alt="TokenWave AI Digital Insights"
             className="w-full h-full object-cover object-center"
           />
         </div>
@@ -4441,10 +4441,10 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
                   onClick={() => setNewsModalOpen(true)}
                   className="text-2xl sm:text-3xl font-extrabold text-gray-950 leading-snug hover:text-[#DE0826] transition-colors cursor-pointer mb-4"
                 >
-                  Norstar and Cisco Partner to Launch Cyber Resilience Fabric to Advance Threat Detection and Digital Resilience
+                  TokenWave AI and Cisco Partner to Launch Cyber Resilience Fabric to Advance Threat Detection and Digital Resilience
                 </h2>
                 <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-6 font-normal">
-                  Norstar, a leading global provider of technology consulting and digital solutions, announced today a strategic collaboration with Cisco to deploy a unified Cyber Resilience Fabric that converges IT/OT telemetry, automated threat neutralization, and AI-first sovereign cloud defense.
+                  TokenWave AI, a leading global provider of technology consulting and digital solutions, announced today a strategic collaboration with Cisco to deploy a unified Cyber Resilience Fabric that converges IT/OT telemetry, automated threat neutralization, and AI-first sovereign cloud defense.
                 </p>
                 <button
                   onClick={() => setNewsModalOpen(true)}
@@ -4754,10 +4754,10 @@ function InsightsPage({ targetInsight, onClearTarget }: InsightsPageProps) {
             </button>
             <div className="text-xs font-bold text-[#DE0826] uppercase tracking-wider mb-2">Press Release</div>
             <h3 className="text-xl sm:text-2xl font-extrabold text-gray-950 mb-4 leading-snug">
-              Norstar and Cisco Partner to Launch Cyber Resilience Fabric to Advance Threat Detection and Digital Resilience
+              TokenWave AI and Cisco Partner to Launch Cyber Resilience Fabric to Advance Threat Detection and Digital Resilience
             </h3>
             <p className="text-sm text-gray-700 leading-relaxed mb-4">
-              Norstar, a premier provider of digital transformation and enterprise engineering, today announced a strategic partnership with Cisco to co-develop the Cyber Resilience Fabric. This platform integrates Cisco Security Cloud with Norstar’s managed detection engines to deliver autonomous anomaly isolation across hybrid enterprise networks.
+              TokenWave AI, a premier provider of digital transformation and enterprise engineering, today announced a strategic partnership with Cisco to co-develop the Cyber Resilience Fabric. This platform integrates Cisco Security Cloud with TokenWave AI’s managed detection engines to deliver autonomous anomaly isolation across hybrid enterprise networks.
             </p>
             <p className="text-sm text-gray-700 leading-relaxed mb-6">
               With enterprise attack surfaces expanding across edge IoT, cloud microservices, and remote endpoints, this alliance gives global organizations a unified operational dashboard for proactive resilience and automated compliance governance.
@@ -4948,7 +4948,7 @@ function IndustriesPage({
         <div className="absolute inset-0 pointer-events-none z-0">
           <img
             src="/images/ind_hero_mesh.jpg"
-            alt="Norstar Industries Convergence"
+            alt="TokenWave AI Industries Convergence"
             className="w-full h-full object-cover object-center"
           />
         </div>
@@ -5092,7 +5092,7 @@ function IndustriesPage({
               Cross-Industry Convergence in Action
             </h2>
             <p className="text-base text-gray-600 leading-relaxed">
-              Leading organizations no longer operate in industry silos. Norstar builds interoperable digital ecosystems where cloud meets banking, energy converges with manufacturing, and financial services embed everywhere.
+              Leading organizations no longer operate in industry silos. TokenWave AI builds interoperable digital ecosystems where cloud meets banking, energy converges with manufacturing, and financial services embed everywhere.
             </p>
           </div>
 
@@ -5471,7 +5471,7 @@ function CapabilitiesPage({ targetCapability, onClearTarget, onOpenCaseStudy, on
         <div className="absolute inset-0 pointer-events-none z-0">
           <img
             src="/images/cap_hero_mesh.jpg"
-            alt="Norstar Enterprise Capabilities Architecture"
+            alt="TokenWave AI Enterprise Capabilities Architecture"
             className="w-full h-full object-cover object-center"
           />
         </div>
@@ -5733,7 +5733,7 @@ const heroSlides: HeroSlideData[] = [
     route: 'capabilities',
   },
   {
-    title: 'Introducing Norstar T!ng',
+    title: 'Introducing TokenWave T!ng',
     subtitle:
       'Amplifying human ingenuity with sound and artificial intelligence. Experience our new sonic identity marking the next phase of enterprise transformation.',
     cta: 'KNOW MORE',
@@ -5964,7 +5964,7 @@ function HeroSection({ onRouteChange }: HeroSectionProps) {
 }
 
 // -------------------------------------------------------------
-// 4. "Scale at Speed™ with Northstar AI" Feature Section
+// 4. "Scale at Speed™ with TokenWave AI" Feature Section
 // Matching Reference Screenshot media_1789187339971.png Exactly
 // -------------------------------------------------------------
 interface BrandPromiseSectionProps {
@@ -5979,7 +5979,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern
-              id="northstar-iso-grid"
+              id="tokenwave-iso-grid"
               width="100"
               height="173.2"
               patternUnits="userSpaceOnUse"
@@ -6004,7 +6004,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
               <line x1="0" y1="86.6" x2="100" y2="144.33" stroke="#CFC8B6" strokeWidth="0.5" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#northstar-iso-grid)" />
+          <rect width="100%" height="100%" fill="url(#tokenwave-iso-grid)" />
         </svg>
       </div>
 
@@ -6018,9 +6018,9 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
               Scale at Speed<sup className="text-xl sm:text-2xl font-bold align-top ml-1">™</sup>
             </h2>
 
-            {/* Subheader: with Norstar Digital */}
+            {/* Subheader: with TokenWave AI */}
             <h3 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold text-gray-950 tracking-tight mt-1.5 sm:mt-2.5 leading-tight font-heading">
-              with Nor<span className="text-[#DE0826]">star</span> Digital
+              with Token<span className="text-[#DE0826]">Wave</span> AI
             </h3>
 
             {/* Description Text: Tailored original value proposition */}
@@ -6056,7 +6056,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
       >
         <img
           src="/images/case_consult.jpg"
-          alt="Scale at Speed - Norstar High Velocity Digital Innovation"
+          alt="Scale at Speed - TokenWave AI High Velocity Digital Innovation"
           className="w-full h-full object-cover object-center pointer-events-auto"
         />
       </div>
@@ -6070,7 +6070,7 @@ function BrandPromiseSection({ onRouteChange }: BrandPromiseSectionProps) {
       >
         <img
           src="/images/case_consult.jpg"
-          alt="Scale at Speed - Norstar High Velocity Digital Innovation"
+          alt="Scale at Speed - TokenWave AI High Velocity Digital Innovation"
           className="w-full h-full object-cover object-center"
         />
       </div>
@@ -6229,7 +6229,7 @@ function PodcastSection() {
               VIKRAM CHOUDHURY
             </div>
             <div className="text-[10.5px] text-[#2D3748] leading-tight mt-1 font-medium">
-              Chief Transformation Officer, Norstar<br />Digital
+              Chief Transformation Officer, TokenWave<br />AI
             </div>
           </div>
         </div>
@@ -6302,7 +6302,7 @@ function PodcastSection() {
                 VIKRAM CHOUDHURY
               </div>
               <div className="text-[10px] text-[#2D3748] mt-0.5 font-medium">
-                Chief Transformation Officer, Norstar Digital
+                Chief Transformation Officer, TokenWave AI
               </div>
             </div>
           </div>
@@ -6533,7 +6533,7 @@ const thinkingColumns: {
         },
       ],
       metrics: [
-        { value: '$1.4B+', label: 'Monthly Payment Volume', desc: 'Handled via Northstar-engineered A2A rails' },
+        { value: '$1.4B+', label: 'Monthly Payment Volume', desc: 'Handled via TokenWave-engineered A2A rails' },
         { value: '< 65ms', label: 'API Response Latency', desc: 'High-throughput core banking microservices' },
         { value: '99.999%', label: 'System Uptime', desc: 'Resilient multi-cloud settlement architecture' },
       ],
@@ -6659,10 +6659,10 @@ const thinkingColumns: {
       },
       subtitle: 'Deploying autonomous sensor networks and agentic predictive maintenance on offshore assets.',
       summary:
-        'A global offshore energy operator faced escalating unplanned downtime and maintenance costs across deepwater extraction platforms. Northstar Digital deployed autonomous industrial AI agents capable of monitoring thousands of SCADA telemetry feeds in real time.',
+        'A global offshore energy operator faced escalating unplanned downtime and maintenance costs across deepwater extraction platforms. TokenWave AI deployed autonomous industrial AI agents capable of monitoring thousands of SCADA telemetry feeds in real time.',
       paragraphs: [
         'Deepwater offshore platforms represent some of the most unforgiving operational environments on earth. A single unexpected compressor failure can result in millions of dollars in lost throughput per day, while severe weather frequently prevents onshore technical personnel from reaching offshore assets.',
-        'Northstar engineered an edge-deployed agentic reasoning mesh directly on the platform servers. These autonomous agents continuously evaluate high-frequency acoustic, vibration, and thermal sensor streams against physics-based digital twins, identifying mechanical fatigue 72 hours before catastrophic failures occur.',
+        'TokenWave AI engineered an edge-deployed agentic reasoning mesh directly on the platform servers. These autonomous agents continuously evaluate high-frequency acoustic, vibration, and thermal sensor streams against physics-based digital twins, identifying mechanical fatigue 72 hours before catastrophic failures occur.',
       ],
       keyHighlights: [
         {
@@ -6703,7 +6703,7 @@ const thinkingColumns: {
       readTime: '10 min read',
       date: 'October 2024',
       author: {
-        name: 'Dr. Julian Vance & Northstar Research',
+        name: 'Dr. Julian Vance & TokenWave Research',
         role: 'Enterprise Architecture Practice',
       },
       subtitle: 'The comprehensive blueprint for transitioning from software-assisted to fully autonomous enterprise operations.',
@@ -6711,7 +6711,7 @@ const thinkingColumns: {
         'The next era of organizational architecture is defined by autonomous execution loops: systems that self-heal, self-optimize, and execute strategic intent with deterministic precision and zero human latency.',
       paragraphs: [
         'Over the last two decades, enterprise IT was organized around workflow software: humans typed into systems of record (ERP, CRM, SCM), and software recorded the actions. Autonomous enterprise architecture flips this relationship: autonomous software agents execute operational tasks, and human leaders supervise strategic objectives and boundary constraints.',
-        'Drawing on comprehensive field implementations across manufacturing, logistics, and capital markets, this flagship Northstar report lays out the core architectural blueprint—covering event meshes, knowledge graphs, deterministic verification layers, and real-time capital routing protocols.',
+        'Drawing on comprehensive field implementations across manufacturing, logistics, and capital markets, this flagship TokenWave AI report lays out the core architectural blueprint—covering event meshes, knowledge graphs, deterministic verification layers, and real-time capital routing protocols.',
       ],
       keyHighlights: [
         {
@@ -7055,7 +7055,7 @@ function LatestThinkingSection() {
                 <div className="text-white/80 text-xs font-medium mb-1.5 flex items-center gap-2">
                   <span>{selectedCard.date}</span>
                   <span>•</span>
-                  <span>Northstar Strategic Insights</span>
+                  <span>TokenWave AI Strategic Insights</span>
                 </div>
                 <h2 className="text-white font-extrabold text-xl sm:text-2xl lg:text-[28px] leading-tight font-heading max-w-3xl">
                   {selectedCard.title}
@@ -7267,7 +7267,7 @@ function BigThinkersSection() {
                 Marcus Chen
               </span>
               <span className="text-xs sm:text-[13px] text-[#E06380] font-medium tracking-wide mt-0.5 leading-snug">
-                Chief Technology & AI Officer, Norstar Digital
+                Chief Technology & AI Officer, TokenWave AI
               </span>
             </div>
           </div>
@@ -7321,7 +7321,7 @@ function BigThinkersSection() {
               <div>
                 <h4 className="font-bold text-white text-sm">Marcus Chen</h4>
                 <p className="text-xs text-[#E06380]">
-                  Chief Technology & AI Officer, Norstar Digital
+                  Chief Technology & AI Officer, TokenWave AI
                 </p>
               </div>
             </div>
@@ -7360,12 +7360,12 @@ const whatsNewItems: WhatsNewItem[] = [
     id: 1,
     type: 'News',
     date: 'August 04, 2026',
-    title: 'Norstar Digital Wins Global AI Cloud Innovation Award at DTW Ignite 2026',
+    title: 'TokenWave AI Wins Global AI Cloud Innovation Award at DTW Ignite 2026',
     image: '/images/whatsnew_architectural_fins.jpg',
     subtitle: 'Recognized for pioneering autonomous hybrid cloud orchestrations and cognitive network fabrics.',
     paragraphs: [
-      'At the DTW Ignite 2026 Summit in Copenhagen, Norstar Digital was honored with the prestigious Catalyst Innovation Award for its breakthrough Autonomous Cloud Mesh architecture, engineered in collaboration with leading tier-1 telecommunications carriers.',
-      'The award acknowledges Norstar Digital’s leadership in deploying self-healing agentic workflows that reduce multi-cloud network latency by 45% while driving sub-millisecond automated workload balancing.',
+      'At the DTW Ignite 2026 Summit in Copenhagen, TokenWave AI was honored with the prestigious Catalyst Innovation Award for its breakthrough Autonomous Cloud Mesh architecture, engineered in collaboration with leading tier-1 telecommunications carriers.',
+      'The award acknowledges TokenWave AI’s leadership in deploying self-healing agentic workflows that reduce multi-cloud network latency by 45% while driving sub-millisecond automated workload balancing.',
     ],
     quote: 'This recognition highlights our sustained focus on turning enterprise cloud networks into intelligent, autonomous cognitive ecosystems.',
     quoteAuthor: 'Marcus Chen, Chief Technology & AI Officer',
@@ -7374,25 +7374,25 @@ const whatsNewItems: WhatsNewItem[] = [
     id: 2,
     type: 'News',
     date: 'July 29, 2026',
-    title: 'Norstar Digital Recognized by DWP UK as a Disability Confident Service Provider',
+    title: 'TokenWave AI Recognized by DWP UK as a Disability Confident Service Provider',
     image: '/images/whatsnew_inclusive_exec.jpg',
     subtitle: 'Securing the highest level of UK government accreditation for accessible workplaces and inclusive engineering.',
     paragraphs: [
-      'The Department for Work and Pensions (DWP) UK has formally accredited Norstar Digital as a Disability Confident Leader, recognizing its pioneering workplace policies, adaptive software engineering laboratories, and inclusive leadership development programs.',
-      'Through ergonomic physical work hubs and AI-powered assistive workstation tools, Norstar enables team members across all global centers to lead complex technological transformations without physical or sensory barriers.',
+      'The Department for Work and Pensions (DWP) UK has formally accredited TokenWave AI as a Disability Confident Leader, recognizing its pioneering workplace policies, adaptive software engineering laboratories, and inclusive leadership development programs.',
+      'Through ergonomic physical work hubs and AI-powered assistive workstation tools, TokenWave AI enables team members across all global centers to lead complex technological transformations without physical or sensory barriers.',
     ],
     quote: 'True innovation flourishes when every perspective is valued and empowered to drive transformative impact.',
-    quoteAuthor: 'Global People & Culture Council, Norstar Digital',
+    quoteAuthor: 'Global People & Culture Council, TokenWave AI',
   },
   {
     id: 3,
     type: 'Press Release',
     date: 'July 28, 2026',
-    title: 'Norstar Digital Launches Engineering Experience Centre to Turn Ideas into Impact',
+    title: 'TokenWave AI Launches Engineering Experience Centre to Turn Ideas into Impact',
     image: '/images/whatsnew_warehouse_conveyor.jpg',
     subtitle: 'State-of-the-art 50,000 sq ft facility empowers enterprises to test physical AI and autonomous sortation at scale.',
     paragraphs: [
-      'Norstar Digital today announced the formal inauguration of its flagship Autonomous Logistics Experience Centre. The facility features operational high-speed conveyor lines, autonomous mobile robots (AMRs), and computer-vision quality inspection cells.',
+      'TokenWave AI today announced the formal inauguration of its flagship Autonomous Logistics Experience Centre. The facility features operational high-speed conveyor lines, autonomous mobile robots (AMRs), and computer-vision quality inspection cells.',
       'Global retail and manufacturing enterprises can now rapidly prototype digital twin simulations and deploy real-time edge AI models to maximize supply chain throughput and prevent fulfillment bottlenecks.',
     ],
     quote: 'We are bridging the gap between algorithmic models and tangible, physical supply chain execution.',
@@ -7402,23 +7402,23 @@ const whatsNewItems: WhatsNewItem[] = [
     id: 4,
     type: 'News',
     date: 'July 15, 2026',
-    title: 'Norstar and NVIDIA Collaborate on Sovereign Enterprise LLM Computing Stacks',
+    title: 'TokenWave AI and NVIDIA Collaborate on Sovereign Enterprise LLM Computing Stacks',
     image: '/images/insights_quantum.jpg',
     subtitle: 'Turnkey private accelerated compute infrastructure for regulated financial and government institutions.',
     paragraphs: [
-      'Norstar Digital and NVIDIA have announced an expanded strategic collaboration to deploy sovereign AI infrastructure clusters that ensure complete data provenance and regulatory compliance.',
-      'The co-engineered platform integrates Norstar’s enterprise governance mesh with high-performance GPU nodes, empowering institutions to run private LLMs with absolute data isolation.',
+      'TokenWave AI and NVIDIA have announced an expanded strategic collaboration to deploy sovereign AI infrastructure clusters that ensure complete data provenance and regulatory compliance.',
+      'The co-engineered platform integrates TokenWave AI’s enterprise governance mesh with high-performance GPU nodes, empowering institutions to run private LLMs with absolute data isolation.',
     ],
   },
   {
     id: 5,
     type: 'Press Release',
     date: 'July 02, 2026',
-    title: 'Norstar Digital Achieves 100% Renewable Energy Milestone Across Global Cloud Hubs',
+    title: 'TokenWave AI Achieves 100% Renewable Energy Milestone Across Global Cloud Hubs',
     image: '/images/ind_energy.jpg',
     subtitle: 'Advancing corporate sustainability goals with carbon-neutral hyperscale compute hubs.',
     paragraphs: [
-      'Demonstrating leadership in eco-conscious technology architectures, Norstar Digital confirmed that 100% of the energy consumed across its managed datacenters now stems from certified wind, solar, and hydro generation.',
+      'Demonstrating leadership in eco-conscious technology architectures, TokenWave AI confirmed that 100% of the energy consumed across its managed datacenters now stems from certified wind, solar, and hydro generation.',
       'Algorithmic load-shifting technology also directs carbon-intensive AI model training tasks to regions with active renewable energy surpluses.',
     ],
   },
@@ -7426,11 +7426,11 @@ const whatsNewItems: WhatsNewItem[] = [
     id: 6,
     type: 'Press Release',
     date: 'June 18, 2026',
-    title: 'Norstar Launches Agentic Core Banking Modernization Suite with Tier-1 Financials',
+    title: 'TokenWave AI Launches Agentic Core Banking Modernization Suite with Tier-1 Financials',
     image: '/images/ind_banking.jpg',
     subtitle: 'Autonomous code-transformation agents accelerate mainframe migration timelines by 60%.',
     paragraphs: [
-      'Norstar Digital has unveiled its next-generation Core Modernization Framework for tier-1 financial institutions. Utilizing autonomous code-reasoning agents, the platform decompiles legacy monolithic codebases into containerized microservices.',
+      'TokenWave AI has unveiled its next-generation Core Modernization Framework for tier-1 financial institutions. Utilizing autonomous code-reasoning agents, the platform decompiles legacy monolithic codebases into containerized microservices.',
       'The suite is already running in production across two premier retail banking networks, handling over 14 million daily transactions seamlessly.',
     ],
   },
@@ -8325,7 +8325,7 @@ const successStories: SuccessStory[] = [
       'Strict banking regulatory compliance requiring sub-50ms explainability logs for audit-proof decision lineage.',
     ],
     solution:
-      'Northstar Digital deployed Agent Kavacha: an autonomous transaction defense agent combining high-throughput stream processing with graph anomaly detection, contextual risk scoring, and dynamic step-up verification without customer friction.',
+      'TokenWave AI deployed Agent Kavacha: an autonomous transaction defense agent combining high-throughput stream processing with graph anomaly detection, contextual risk scoring, and dynamic step-up verification without customer friction.',
     solutionPillars: [
       {
         title: 'Graph Neural Network Stream Scoring',
@@ -8396,7 +8396,7 @@ const successStories: SuccessStory[] = [
       'Strict HIPAA, BAA, and zero-egress data privacy mandates requiring localized processing.',
     ],
     solution:
-      'Northstar Digital architected and deployed Agent Arogya: an ambient clinical listening copilot powered by medical foundation models and bidirectional FHIR endpoints with strict clinician validation loops.',
+      'TokenWave AI architected and deployed Agent Arogya: an ambient clinical listening copilot powered by medical foundation models and bidirectional FHIR endpoints with strict clinician validation loops.',
     solutionPillars: [
       {
         title: 'Ambient Acoustic Consultation Capture',
@@ -8467,7 +8467,7 @@ const successStories: SuccessStory[] = [
       'Risk of hallucinated maintenance specifications creating severe safety and equipment damage hazards.',
     ],
     solution:
-      'Northstar Digital built an enterprise-scale Hybrid RAG Knowledge Engine combining dense vector embeddings with sparse BM25 indexing, Colbert rerankers, and strict citation grounding.',
+      'TokenWave AI built an enterprise-scale Hybrid RAG Knowledge Engine combining dense vector embeddings with sparse BM25 indexing, Colbert rerankers, and strict citation grounding.',
     solutionPillars: [
       {
         title: 'Multi-Modal Chunking & Layout Parsing',
@@ -8538,7 +8538,7 @@ const successStories: SuccessStory[] = [
       'Zero tolerance for downtime: financial clearance networks require 99.999% availability during migration.',
     ],
     solution:
-      'Northstar Digital architected an event-driven multi-cloud mesh powered by containerized microservices and automated AI SRE agents. The platform dynamically routes 100M+ daily financial messages with sub-millisecond settlement and automated self-healing failovers.',
+      'TokenWave AI architected an event-driven multi-cloud mesh powered by containerized microservices and automated AI SRE agents. The platform dynamically routes 100M+ daily financial messages with sub-millisecond settlement and automated self-healing failovers.',
     solutionPillars: [
       {
         title: 'Zero-Downtime Multi-Cloud Kubernetes Mesh',
@@ -8583,7 +8583,7 @@ const successStories: SuccessStory[] = [
       'Implemented real-time compliance lineage adhering to global central bank mandates.',
     ],
     quote:
-      "\"Migrating mission-critical financial clearance engines to multi-cloud seemed daunting. Northstar delivered flawless engineering rigor, zero downtime, and unmatched execution speed.\"",
+      "\"Migrating mission-critical financial clearance engines to multi-cloud seemed daunting. TokenWave AI delivered flawless engineering rigor, zero downtime, and unmatched execution speed.\"",
     quoteAuthor: 'Chief Information Officer, Apex Global Financial Consortium',
     quoteRole: 'Global Infrastructure & Enterprise Engineering',
     tags: ['Cloud Migration', 'Enterprise Modernization', 'Kubernetes Mesh', 'FinTech AI', 'DevOps & SRE', 'Multi-Cloud'],
@@ -8609,7 +8609,7 @@ const successStories: SuccessStory[] = [
       'Disparate legacy wiring schematics and legacy copper-fiber splice documentation across 50 regional operating units.',
     ],
     solution:
-      'Northstar Digital architected a multimodal edge AI copilot running on technician tablets. Leveraging computer vision, real-time spatial schematics, and retrieval-augmented historical repair logs, the system provides step-by-step diagnostic verification and AR-guided fiber splicing assistance even in offline basement environments.',
+      'TokenWave AI architected a multimodal edge AI copilot running on technician tablets. Leveraging computer vision, real-time spatial schematics, and retrieval-augmented historical repair logs, the system provides step-by-step diagnostic verification and AR-guided fiber splicing assistance even in offline basement environments.',
     solutionPillars: [
       {
         title: 'Edge Computer Vision Diagnostic Suite',
@@ -8654,7 +8654,7 @@ const successStories: SuccessStory[] = [
       'Accelerated junior technician onboarding curve from 9 months down to 10 weeks.',
     ],
     quote:
-      "\"The AI copilot developed with Northstar has become the single most valued tool in our field force's toolkit. It turns every technician into our top 1% veteran engineer.\"",
+      "\"The AI copilot developed with TokenWave AI has become the single most valued tool in our field force's toolkit. It turns every technician into our top 1% veteran engineer.\"",
     quoteAuthor: 'SVP, Network Field Engineering, AT&T',
     quoteRole: 'AT&T Network & Field Engineering Operations',
     tags: ['Telecommunications', 'Field Service AI', 'Computer Vision', 'Offline RAG', 'Edge Computing', 'Operational Efficiency'],
@@ -9082,7 +9082,7 @@ function CaseStudyPage({
                 {story.subtitle}
               </p>
               <p className="text-sm sm:text-base text-gray-700 leading-relaxed font-normal">
-                {story.desc} Co-innovating closely with {story.client}, Northstar Digital designed and engineered an end-to-end resilient architecture tailored to high-scale mission-critical operations, unlocking measurable ROI, dramatic latency reduction, and sustained performance gains.
+                {story.desc} Co-innovating closely with {story.client}, TokenWave AI designed and engineered an end-to-end resilient architecture tailored to high-scale mission-critical operations, unlocking measurable ROI, dramatic latency reduction, and sustained performance gains.
               </p>
             </div>
 
@@ -9179,7 +9179,7 @@ function CaseStudyPage({
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="max-w-3xl mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-950 tracking-tight font-heading mb-4">
-              Architectural Blueprint & Northstar Solution
+              Architectural Blueprint & TokenWave AI Solution
             </h2>
             <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
               {story.solution}
@@ -9467,11 +9467,11 @@ function LimitlessTogetherSection({ onRouteChange }: LimitlessTogetherSectionPro
             </h2>
 
             <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6">
-              At Northstar AI, we believe that when human ingenuity connects with autonomous intelligence and applied AI systems, possibilities become limitless.
+              At TokenWave AI, we believe that when human ingenuity connects with autonomous intelligence and applied AI systems, possibilities become limitless.
             </p>
 
             <p className="text-gray-400 text-sm leading-relaxed mb-8">
-              Join a high-velocity collective of applied AI researchers, prompt engineers, MLOps architects, and autonomous system creators pioneering cognitive enterprise automation. Discover your next career milestone with Northstar.
+              Join a high-velocity collective of applied AI researchers, prompt engineers, MLOps architects, and autonomous system creators pioneering cognitive enterprise automation. Discover your next career milestone with TokenWave AI.
             </p>
 
             {onRouteChange ? (
@@ -9549,10 +9549,10 @@ function Footer({ onRouteChange, onOpenLegalModal, onOpenRegionModal, selectedRe
               </svg>
               <div className="flex flex-col leading-none select-none">
                 <span className="font-extrabold text-base tracking-tight text-white uppercase leading-tight">
-                  Nor<span className="text-[#DE0826]">star</span>
+                  Token<span className="text-[#DE0826]">Wave</span>
                 </span>
                 <span className="text-[9px] font-bold tracking-widest text-gray-400 uppercase mt-0.5 leading-tight">
-                  Digital
+                  AI
                 </span>
               </div>
             </button>
@@ -9687,7 +9687,7 @@ function Footer({ onRouteChange, onOpenLegalModal, onOpenRegionModal, selectedRe
       <div className="border-t border-white/5 bg-[#070B14] relative z-10">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-[11px] text-gray-500">
-            © 2026 Norstar Digital Limited. All rights reserved.
+            © 2026 TokenWave AI Limited. All rights reserved.
           </div>
 
           {/* Language Selector Button */}

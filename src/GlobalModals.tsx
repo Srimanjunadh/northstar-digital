@@ -272,7 +272,7 @@ export function GlobalModals({
             </div>
 
             <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-4">
-              Northstar Digital Global Privacy Policy
+              TokenWave AI Global Privacy Policy
             </h3>
             <div className="text-xs text-gray-500 mb-6 pb-4 border-b border-gray-200">
               Effective Date: January 1, 2026 | Last Updated: March 2026
@@ -282,14 +282,14 @@ export function GlobalModals({
               <section>
                 <h4 className="font-bold text-gray-950 text-base mb-2">1. Scope and Commitment</h4>
                 <p>
-                  Northstar Digital Limited ("Northstar", "we", "our", or "us") is committed to protecting the privacy, confidentiality, and sovereign custody of all client data, partner telemetry, and individual user information entrusted to our enterprise consulting and cloud engineering platforms.
+                  TokenWave AI Limited ("TokenWave AI", "we", "our", or "us") is committed to protecting the privacy, confidentiality, and sovereign custody of all client data, partner telemetry, and individual user information entrusted to our enterprise consulting and cloud engineering platforms.
                 </p>
               </section>
 
               <section>
                 <h4 className="font-bold text-gray-950 text-base mb-2">2. Zero-Retention Enterprise AI Principles</h4>
                 <p>
-                  In delivering applied artificial intelligence, large language model integrations, and autonomous agent swarms, Northstar adheres to strict zero-data-retention standards. <strong>No client data, confidential prompts, proprietary source code, or internal database records are ever used to train or fine-tune public foundation models.</strong> All workloads execute within isolated Virtual Private Clouds (VPCs) or on-premise hardware security modules.
+                  In delivering applied artificial intelligence, large language model integrations, and autonomous agent swarms, TokenWave AI adheres to strict zero-data-retention standards. <strong>No client data, confidential prompts, proprietary source code, or internal database records are ever used to train or fine-tune public foundation models.</strong> All workloads execute within isolated Virtual Private Clouds (VPCs) or on-premise hardware security modules.
                 </p>
               </section>
 
@@ -313,7 +313,7 @@ export function GlobalModals({
               <section>
                 <h4 className="font-bold text-gray-950 text-base mb-2">5. Privacy Officer Contact</h4>
                 <p>
-                  To exercise your data privacy rights or submit an inquiry regarding data processing, contact our Global Data Protection Office at: <strong className="text-gray-950">privacy@norstardigital.com</strong>.
+                  To exercise your data privacy rights or submit an inquiry regarding data processing, contact our Global Data Protection Office at: <strong className="text-gray-950">privacy@tokenwaveai.com</strong>.
                 </p>
               </section>
             </div>
@@ -357,7 +357,7 @@ export function GlobalModals({
             </div>
 
             <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-4">
-              Northstar Digital Terms of Use
+              TokenWave AI Terms of Use
             </h3>
             <div className="text-xs text-gray-500 mb-6 pb-4 border-b border-gray-200">
               Governing Website Usage, Deliverables, and Digital Engagement
@@ -367,28 +367,28 @@ export function GlobalModals({
               <section>
                 <h4 className="font-bold text-gray-950 text-base mb-2">1. Agreement to Terms</h4>
                 <p>
-                  By accessing or navigating the Northstar Digital website, platforms, whitepapers, or interactive prototypes, you agree to comply with and be bound by these Terms of Use and all applicable laws and regulations.
+                  By accessing or navigating the TokenWave AI website, platforms, whitepapers, or interactive prototypes, you agree to comply with and be bound by these Terms of Use and all applicable laws and regulations.
                 </p>
               </section>
 
               <section>
                 <h4 className="font-bold text-gray-950 text-base mb-2">2. Intellectual Property & Deliverables</h4>
                 <p>
-                  All proprietary frameworks, software architectures, case studies, graphics, and trade dress on this website are the intellectual property of Northstar Digital. Under our enterprise client engagements, customized software artifacts, repository source code, and bespoke models transition to full client ownership as outlined in individual Statements of Work (SOWs).
+                  All proprietary frameworks, software architectures, case studies, graphics, and trade dress on this website are the intellectual property of TokenWave AI. Under our enterprise client engagements, customized software artifacts, repository source code, and bespoke models transition to full client ownership as outlined in individual Statements of Work (SOWs).
                 </p>
               </section>
 
               <section>
                 <h4 className="font-bold text-gray-950 text-base mb-2">3. Service Commitments and SLAs</h4>
                 <p>
-                  Northstar delivers enterprise cloud modernization, multi-agent frameworks, and mission-critical microservice architectures backed by contractual Service Level Agreements (up to 99.999% uptime availability for managed clusters). Website content is provided for informational and engagement purposes without implied express warranties.
+                  TokenWave AI delivers enterprise cloud modernization, multi-agent frameworks, and mission-critical microservice architectures backed by contractual Service Level Agreements (up to 99.999% uptime availability for managed clusters). Website content is provided for informational and engagement purposes without implied express warranties.
                 </p>
               </section>
 
               <section>
                 <h4 className="font-bold text-gray-950 text-base mb-2">4. Limitation of Liability</h4>
                 <p>
-                  To the maximum extent permitted by applicable law, Northstar Digital shall not be liable for any indirect, incidental, or consequential damages arising from reliance on public website materials.
+                  To the maximum extent permitted by applicable law, TokenWave AI shall not be liable for any indirect, incidental, or consequential damages arising from reliance on public website materials.
                 </p>
               </section>
 
@@ -444,7 +444,7 @@ export function GlobalModals({
 
             <div className="space-y-5 text-xs sm:text-sm text-gray-700 leading-relaxed">
               <p>
-                Northstar Digital is firmly dedicated to ensuring digital accessibility for people of all abilities. We continuously improve our user interface and apply the Web Content Accessibility Guidelines (WCAG 2.1, Level AA).
+                TokenWave AI is firmly dedicated to ensuring digital accessibility for people of all abilities. We continuously improve our user interface and apply the Web Content Accessibility Guidelines (WCAG 2.1, Level AA).
               </p>
 
               <div>
@@ -460,7 +460,7 @@ export function GlobalModals({
               <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-200">
                 <div className="font-bold text-gray-950 mb-1">Accessibility Feedback</div>
                 <p className="text-xs text-gray-600">
-                  If you encounter an accessibility barrier or need assistance with any content, please contact our Accessibility Remediation Team at <strong className="text-gray-900">accessibility@norstardigital.com</strong>.
+                  If you encounter an accessibility barrier or need assistance with any content, please contact our Accessibility Remediation Team at <strong className="text-gray-900">accessibility@tokenwaveai.com</strong>.
                 </p>
               </div>
             </div>
@@ -509,7 +509,7 @@ export function GlobalModals({
 
             <div className="space-y-5 text-xs sm:text-sm text-gray-700 leading-relaxed">
               <p>
-                This Cookie Notice explains how Northstar Digital uses cookies and similar technologies to recognize you when you visit our website, remember your preferences, and safeguard system security.
+                This Cookie Notice explains how TokenWave AI uses cookies and similar technologies to recognize you when you visit our website, remember your preferences, and safeguard system security.
               </p>
 
               <div>
@@ -751,10 +751,10 @@ export function GlobalModals({
             </div>
 
             <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-2">
-              Northstar Digital Sitemap
+              TokenWave AI Sitemap
             </h3>
             <p className="text-xs sm:text-sm text-gray-600 mb-8">
-              Quickly navigate to any capability, industry solution, research viewpoint, or corporate subpage across the Northstar Digital experience.
+              Quickly navigate to any capability, industry solution, research viewpoint, or corporate subpage across the TokenWave AI experience.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-xs sm:text-sm">
